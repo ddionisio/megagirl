@@ -1,0 +1,142 @@
+[
+	{
+		"key":"title",
+		"text":"UNKNOWN"
+	},
+	
+	{
+		"key":"newgame_confirm_title",
+		"text":"NEW GAME"
+	},
+	
+	{
+		"key":"newgame_confirm_desc",
+		"text":"This will delete the previous data, are you sure?"
+	},
+	
+	{
+		"key":"exit_to_main_title",
+		"text":"RETURN TO MAIN MENU"
+	},
+	
+	{
+		"key":"exit_confirm_title",
+		"text":"EXIT STAGE"
+	},
+	
+	{
+		"key":"exit_confirm_desc",
+		"text":"Are you sure you want to leave?"
+	},
+	
+	
+	{
+		"key":"katgirl_name",
+		"text":"CHEA GUERRERA"
+	},
+	{
+		"key":"lightninggirl_name",
+		"text":"THUNDER"
+	},
+	{
+		"key":"tankgirl_name",
+		"text":"TANKIE GIRL"
+	},
+	{
+		"key":"clonegirl_name",
+		"text":"JANE CLONEY"
+	},
+	{
+		"key":"hipgirl_name",
+		"text":"HIPSTER"
+	},
+	{
+		"key":"valleygirl_name",
+		"text":"TOTALLY CLAIR"
+	},
+	{
+		"key":"sarkee_name",
+		"text":"SARKEE"
+	},
+	
+	{
+		"key":"pickup_healthup",
+		"text":"You found a health upgrade! +2 for life!"
+	},
+	{
+		"key":"pickup_etank",
+		"text":"You found an energy sub-tank! Use it in the PAUSE menu to replenish health."
+	},
+	{
+		"key":"pickup_wtank",
+		"text":"You found a weapon sub-tank! Use it in the PAUSE menu to recharge your weapons."
+	},
+	{
+		"key":"pickup_armor",
+		"text":"You found an armor! You now take only half the damage."
+	},	
+	
+	{
+		"key":"stargazer",
+		"text":"STAR GAZER"
+	},
+	
+	{
+		"key":"hoolahoop",
+		"text":"HULA HOOP"
+	},
+	{
+		"key":"hoolahoop_desc",
+		"text":"Super fast! cool! Hold the fire button (default: X) to go fast and hit enemies that are in the way. While active, you are immune to contact damage."
+	},
+	
+	{
+		"key":"cannon",
+		"text":"RESOLVER"
+	},
+	{
+		"key":"cannon_desc",
+		"text":"The ultimate conflict resolver.  Adjust your aim by pressing UP or DOWN. The RESOLVER can also break boulders. Now go forth and rain death upon them!"
+	},
+	
+	{
+		"key":"cloner",
+		"text":"CLONE"
+	},
+	{
+		"key":"cloner_desc",
+		"text":"PLACEHOLDER Press fire button to create a clone, press fire again to detonate."
+	},
+	
+	{
+		"key":"hipster",
+		"text":"TIME WARP"
+	},
+	{
+		"key":"hipster_desc",
+		"text":"Hold fire button to slow down time around you.  Also makes you fall slower."
+	},
+	
+	{
+		"key":"lightning",
+		"text":"L. FORK"
+	},
+	{
+		"key":"lightning_desc",
+		"text":"Fry your foes and eat them with this fork.  Press the FIRE button (default: X) when the reticle is active.  Hold the FIRE button to create a chain lightning, hitting multiple foes."
+	},
+	
+	{
+		"key":"whip",
+		"text":"PULL WHIP"
+	},
+	{
+		"key":"whip_desc",
+		"text":"Punish your foes with a deadly whip.  Certain enemies are stunned when struck.  Also used for grabbing items out of reach."
+	},
+	
+	{
+		"key":"credits",
+		"text":"~RENEGADEWARE~\nDave Dionisio\n\n~NEWGROUNDS MUSIC~\n\nMain - (8-bit wonderland) by duttonsayshi\n\nStage Select by (Where's The Map) by Neon-Bard\n\nStage Selected - (Megaman 3 stage selected remix) by phoenixdk\n\nVictory - (Spirit) by duttonsayshi\n\nGame Over - (Melancholic Piano Score) by 5vedjeland\n\nBoss Battle by intero\n\nStage: Chea Guerrera - (Catface) by waterflame\n\nStage: Thunder - (Beautiful Chaos) by duttonsayshi\n\nStage: Tankie Girl - (Action-packed-happy-time-warzone) by ANTI-SPAMGUN\n\nStage: Totally Clair - (Lost My Mind) by lilkiller212\n\n"
+	}
+]
