@@ -317,8 +317,10 @@ public class Projectile : EntityBase {
 
         if(rigidbody) {
             rigidbody.detectCollisions = false;
-            rigidbody.velocity = Vector3.zero;
-            rigidbody.angularVelocity = Vector3.zero;
+            if(!rigidbody.isKinematic) {
+                rigidbody.velocity = Vector3.zero;
+                rigidbody.angularVelocity = Vector3.zero;
+            }
         }
     }
 

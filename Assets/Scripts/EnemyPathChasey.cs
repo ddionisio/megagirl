@@ -6,7 +6,13 @@ public class EnemyPathChasey : Enemy {
     public float chaseCheckLength = 10.0f;
     public LayerMask chaseCheckMask;
     public GameObject attachGO;
+    public tk2dSpriteAnimator anim;
+    public string sadClip = "sad";
+    public string attachProjType;
+    public Transform attachProjPt;
+    public GameObject attachProjChain;
     private TimeWarp mTimeWarp;
+    private Projectile mProj;
 
     protected override void StateChanged() {
         base.StateChanged();
@@ -20,11 +26,48 @@ public class EnemyPathChasey : Enemy {
             case EntityState.Normal:
                 if(animator && !animator.isPlaying)
                     animator.Play("move");
+
+                if(prevState != (int)EntityState.Stun) {
+                    if(anim)
+                        anim.Play(anim.DefaultClip);
+
+                    if(!mProj && !string.IsNullOrEmpty(attachProjType)) {
+                        mProj = Projectile.Create(projGroup, attachProjType, attachProjPt.position, Vector3.zero, null);
+                        RigidBodyMoveToTarget attacher = mProj.GetComponent<RigidBodyMoveToTarget>();
+                        if(attacher)
+                            attacher.target = attachProjPt;
+
+                        mProj.releaseCallback += OnProjRelease;
+                        
+                        if(attachProjChain)
+                            attachProjChain.SetActive(true);
+                    }
+                }
                 break;
 
             case EntityState.Dead:
                 if(attachGO)
                     attachGO.SetActive(false);
+
+                if(mProj) {
+                    mProj.releaseCallback -= OnProjRelease;
+
+                    if(mProj.isAlive) {
+                        RigidBodyMoveToTarget attacher = mProj.GetComponent<RigidBodyMoveToTarget>();
+                        if(attacher)
+                            attacher.target = null;
+
+                        if(mProj.stats)
+                            mProj.stats.curHP = 0;
+                        else
+                            mProj.state = (int)Projectile.State.Dying;
+                    }
+
+                    mProj = null;
+
+                    if(attachProjChain)
+                        attachProjChain.SetActive(false);
+                }
                 break;
                 
             case EntityState.RespawnWait:
@@ -62,6 +105,9 @@ public class EnemyPathChasey : Enemy {
         base.Awake();
 
         mTimeWarp = GetComponent<TimeWarp>();
+
+        if(attachProjChain)
+            attachProjChain.SetActive(false);
     }
 
     void FixedUpdate() {
@@ -83,5 +129,17 @@ public class EnemyPathChasey : Enemy {
                 }
                 break;
         }
+    }
+
+    void OnProjRelease(EntityBase ent) {
+        mProj.releaseCallback -= OnProjRelease;
+        mProj = null;
+        if((EntityState)state != EntityState.Dead) {
+            if(anim)
+                anim.Play(sadClip);
+        }
+        
+        if(attachProjChain)
+            attachProjChain.SetActive(false);
     }
 }

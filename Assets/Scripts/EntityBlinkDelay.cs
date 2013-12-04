@@ -4,14 +4,22 @@ using System.Collections;
 public class EntityBlinkDelay : MonoBehaviour {
     public float delay;
     public float duration = 10.0f;
+    public bool relativeToProjDecay = false;
 
     private bool mStarted;
 
     private EntityBase mEnt;
 
     void OnEnable() {
-        if(mStarted && !IsInvoking("DoBlink"))
-            Invoke("DoBlink", delay);
+        if(mStarted && !IsInvoking("DoBlink")) {
+            float d;
+            if(relativeToProjDecay)
+                d = GetComponent<Projectile>().decayDelay - duration;
+            else
+                d = delay;
+
+            Invoke("DoBlink", d);
+        }
     }
 
     void OnDisable() {
@@ -25,7 +33,7 @@ public class EntityBlinkDelay : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         mStarted = true;
-        Invoke("DoBlink", delay);
+        OnEnable();
 	}
 	
     void DoBlink() {
