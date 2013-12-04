@@ -125,9 +125,11 @@ public class EnemyCatRoller : Enemy {
 						}
 	                    else
 	                        mRock.state = (int)Projectile.State.Dying;
-
-	                    mRock = null;
 					}
+                
+                    mRock = null;
+                    mRockCtrl = null;
+                    mRockBlinkDelay = null;
                 }
 
                 if(mSensor) {
@@ -139,6 +141,8 @@ public class EnemyCatRoller : Enemy {
 
             case EntityState.RespawnWait:
                 if(mRock) {
+                    if(mRock.isAlive)
+                        mRock.Release();
                     //if((!mRock.isAlive || mRock.state != (int)Projectile.State.Dying) && !mRock.isReleased)
                        // mRock.Release();
                 

@@ -203,6 +203,7 @@ public class PlatformerSpriteController : MonoBehaviour {
         if(wallStickParticle) {
             wallStickParticle.loop = false;
             wallStickParticle.Stop();
+            wallStickParticle.Clear();
         }
     }
 

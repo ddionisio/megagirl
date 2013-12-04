@@ -10,6 +10,7 @@ public class Player : EntityBase {
     public float slideSpeedMax;
     public float slideDelay;
     public float slideHeight = 0.79f;
+    public ParticleSystem slideParticle;
     public GameObject deathGOActivate;
     public LayerMask solidMask; //use for standing up, etc.
 
@@ -572,6 +573,10 @@ public class Player : EntityBase {
                 mCtrl.moveSide = mCtrlSpr.isLeft ? -1.0f : 1.0f;
 
                 mCtrlSpr.state = PlatformerSpriteController.State.Slide;
+
+                slideParticle.loop = true;
+                if(!slideParticle.isPlaying)
+                    slideParticle.Play();
             } else {
                 //cannot set to false if we can't stand
                 if(CanStand()) {
@@ -600,6 +605,8 @@ public class Player : EntityBase {
                     Vector3 pos = transform.position;
                     pos.y += (mDefaultColliderHeight - slideHeight) * 0.5f - 0.1f;
                     transform.position = pos;
+
+                    slideParticle.loop = false;
                 } else {
                     mSliding = true;
                 }
