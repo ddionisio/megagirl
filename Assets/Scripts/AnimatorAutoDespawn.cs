@@ -33,7 +33,7 @@ public class AnimatorAutoDespawn : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if(mSpawned && mActive) {
-            if(!mAnimDat.isPlaying && !mAnimDat.isPaused)
+            if(!mAnimDat.isPlaying)
                 PoolController.ReleaseAuto(transform);
         }
     }

@@ -8,6 +8,12 @@ public class tk2dCamActivator : EntityActivator {
     public Transform targetRef; //if not null, determine visibility based on this position
     public Rect extents;
     public float checkDelay = 0.2f;
+    
+    public override bool isVisible { 
+        get {
+            return _CheckContain(); 
+        } 
+    }
 
     private tk2dCamera mCam;
 

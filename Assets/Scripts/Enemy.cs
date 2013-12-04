@@ -109,6 +109,11 @@ public class Enemy : EntityBase {
     /// </summary>
     public void ToRespawnWait() {
         state = (int)EntityState.RespawnWait;
+        //check if we are visible from respawnpoint
+        if(activator && !activator.isVisible) {
+            Restart();
+            mRespawnReady = true;
+        }
     }
 
     protected override void OnDespawned() {
@@ -251,6 +256,7 @@ public class Enemy : EntityBase {
                         visibleGO.SetActive(false);
 
                     ToRespawnWait();
+					//mRespawnReady = true;
                 }
                 break;
 

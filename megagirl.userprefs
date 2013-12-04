@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Enemy.cs">
+    <Files>
+      <File FileName="Assets\Scripts\UI\UIEnergyBar.cs" Line="158" Column="30" />
+      <File FileName="Assets\Scripts\EnemyCatRoller.cs" Line="118" Column="57" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="96" Column="5" />
+      <File FileName="Assets\Scripts\Enemy.cs" Line="332" Column="54" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

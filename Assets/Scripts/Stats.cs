@@ -101,7 +101,7 @@ public class Stats : MonoBehaviour {
         mLastDamagePos = hitPos;
         mLastDamageNorm = hitNorm;
 
-        if(!mIsInvul) {
+        if(!mIsInvul && mCurHP > 0.0f) {
             float amt = damage.amount;
 
             if(damageReduction > 0.0f) {

@@ -116,14 +116,18 @@ public class EnemyCatRoller : Enemy {
                         }
 
                         mRock.dieDelay = rollerDieDelay;
-                    }
-
-                    if(mRock.stats)
                         mRock.stats.curHP = 0;
-                    else
-                        mRock.state = (int)Projectile.State.Dying;
+                    }
+                    else if(mRock.isAlive) {
+					    if(mRock.stats) {
+							if(mRock.stats.curHP > 0)
+		                        mRock.stats.curHP = 0;
+						}
+	                    else
+	                        mRock.state = (int)Projectile.State.Dying;
 
-                    mRock = null;
+	                    mRock = null;
+					}
                 }
 
                 if(mSensor) {
@@ -134,8 +138,10 @@ public class EnemyCatRoller : Enemy {
                 break;
 
             case EntityState.RespawnWait:
-                if(mRock && !mRock.isReleased) {
-                    mRock.Release();
+                if(mRock) {
+                    //if((!mRock.isAlive || mRock.state != (int)Projectile.State.Dying) && !mRock.isReleased)
+                       // mRock.Release();
+                
                     mRock = null;
                     mRockCtrl = null;
                     mRockBlinkDelay = null;
@@ -171,36 +177,36 @@ public class EnemyCatRoller : Enemy {
 
                 if(mRock.state == (int)Projectile.State.Dying) {
                     mRock = null;
-                    state = (int)EntityState.Dead;
+                    stats.curHP = 0;
                 }
                 else {
                     if(mRockCtrl.isGrounded) {
                         if(mRockCtrl.moveSide == 0.0f)
                             mRockCtrl.moveSide = defaultMoveSide;
                     }
-                }
 
-                if(mFiring) {
-                    if(Time.fixedTime - mLastFireTime > projFireDelay) {
-                        mLastFireTime = Time.fixedTime;
-                        
-                        Vector3 pt = projPt ? projPt.position : collider.bounds.center; pt.z = 0.0f;
-                        
-                        Vector3 dir = bodySpriteCtrl.isLeft ? Vector3.left : Vector3.right;
-                        dir = Quaternion.AngleAxis(Random.Range(-projAngleRand, projAngleRand), Vector3.forward) * dir;
-                        
-                        Projectile.Create(projGroup, projType, pt, dir, null);
-                        
-                        mCurNumFire++;
-                        if(mCurNumFire == projCount) {
-                            mFiring = false;
-                            //Invoke(fireStartFunc, projStartDelay);
-                            InvokeRepeating(activeFunc, projStartDelay, projActiveCheckDelay);
-                        }
-                    }
-                }
+	                if(mFiring) {
+	                    if(Time.fixedTime - mLastFireTime > projFireDelay) {
+	                        mLastFireTime = Time.fixedTime;
+	                        
+	                        Vector3 pt = projPt ? projPt.position : collider.bounds.center; pt.z = 0.0f;
+	                        
+	                        Vector3 dir = bodySpriteCtrl.isLeft ? Vector3.left : Vector3.right;
+	                        dir = Quaternion.AngleAxis(Random.Range(-projAngleRand, projAngleRand), Vector3.forward) * dir;
+	                        
+	                        Projectile.Create(projGroup, projType, pt, dir, null);
+	                        
+	                        mCurNumFire++;
+	                        if(mCurNumFire == projCount) {
+	                            mFiring = false;
+	                            //Invoke(fireStartFunc, projStartDelay);
+	                            InvokeRepeating(activeFunc, projStartDelay, projActiveCheckDelay);
+	                        }
+	                    }
+	                }
 
-                updatePos = true;
+	                updatePos = true;
+				}
                 break;
 
             case EntityState.Stun:
