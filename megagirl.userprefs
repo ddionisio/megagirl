@@ -1,11 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ProjectileSpawner.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyPathChasey.cs">
     <Files>
       <File FileName="Assets\Scripts\UI\UIEnergyBar.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyCatRoller.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemy.cs" Line="230" Column="9" />
       <File FileName="Assets\Scripts\tk2dCamActivator.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Game\EntityActivator.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AnimatorAutoDespawn.cs" Line="1" Column="1" />
@@ -13,15 +13,21 @@
       <File FileName="Assets\Scripts\PlatformerSpriteController.cs" Line="1" Column="1" />
       <File FileName="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteAttachPoint.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyPathChasey.cs" Line="62" Column="29" />
+      <File FileName="Assets\Scripts\EnemyPathChasey.cs" Line="28" Column="45" />
       <File FileName="Assets\M8\Scripts\Game\EntityBase.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EntityState.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ProjectileSpawner.cs" Line="65" Column="35" />
-      <File FileName="Assets\Scripts\EntityBlinkDelay.cs" Line="21" Column="34" />
+      <File FileName="Assets\Scripts\ProjectileSpawner.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EntityBlinkDelay.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\tk2dExt\SpriteProperty.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyCharger.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ProjectileAnimatorData.cs" Line="29" Column="23" />
+      <File FileName="Assets\Scripts\EntityDamageBlinker.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\Projectile.cs" line="358" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

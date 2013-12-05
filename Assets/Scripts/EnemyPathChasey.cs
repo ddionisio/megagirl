@@ -24,6 +24,9 @@ public class EnemyPathChasey : Enemy {
                 break;
                 
             case EntityState.Normal:
+                if(attachGO)
+                    attachGO.SetActive(true);
+
                 if(animator && !animator.isPlaying)
                     animator.Play("move");
 
@@ -31,16 +34,21 @@ public class EnemyPathChasey : Enemy {
                     if(anim)
                         anim.Play(anim.DefaultClip);
 
-                    if(!mProj && !string.IsNullOrEmpty(attachProjType)) {
-                        mProj = Projectile.Create(projGroup, attachProjType, attachProjPt.position, Vector3.zero, null);
-                        RigidBodyMoveToTarget attacher = mProj.GetComponent<RigidBodyMoveToTarget>();
-                        if(attacher)
-                            attacher.target = attachProjPt;
+                    if(!mProj) {
+                        if(!string.IsNullOrEmpty(attachProjType)) {
+                            mProj = Projectile.Create(projGroup, attachProjType, attachProjPt.position, Vector3.zero, null);
+                            RigidBodyMoveToTarget attacher = mProj.GetComponent<RigidBodyMoveToTarget>();
+                            if(attacher)
+                                attacher.target = attachProjPt;
 
-                        mProj.releaseCallback += OnProjRelease;
-                        
-                        if(attachProjChain)
-                            attachProjChain.SetActive(true);
+                            mProj.releaseCallback += OnProjRelease;
+                            
+                            if(attachProjChain)
+                                attachProjChain.SetActive(true);
+                        }
+                    }
+                    else {
+                        mProj.gameObject.SetActive(true);
                     }
                 }
                 break;
@@ -75,19 +83,38 @@ public class EnemyPathChasey : Enemy {
         }
     }
 
-    protected override void ActivatorSleep() {
-        base.ActivatorSleep();
-
+    protected override void ActivatorWakeUp() {
         switch((EntityState)state) {
             case EntityState.Normal:
             case EntityState.Hurt:
             case EntityState.Stun:
-                if(respawnOnSleep) {
+                if(!respawnOnSleep) {
                     if(attachGO)
-                        attachGO.SetActive(false);
+                        attachGO.SetActive(true);
+                    
+                    if(mProj)
+                        mProj.gameObject.SetActive(true);
                 }
                 break;
         }
+
+        base.ActivatorWakeUp();
+    }
+
+    protected override void ActivatorSleep() {
+        switch((EntityState)state) {
+            case EntityState.Normal:
+            case EntityState.Hurt:
+            case EntityState.Stun:
+                if(attachGO)
+                    attachGO.SetActive(false);
+                
+                if(mProj)
+                    mProj.gameObject.SetActive(false);
+                break;
+        }
+
+        base.ActivatorSleep();
     }
     
     protected override void Restart() {

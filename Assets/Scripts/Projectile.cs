@@ -49,6 +49,7 @@ public class Projectile : EntityBase {
     public LayerMask explodeMask;
     public float explodeForce;
     public Vector3 explodeOfs;
+    public Transform explodeOfsTarget;
     public float explodeRadius;
     public ContactType contactType = ContactType.End;
     public ForceBounceType forceBounce = ForceBounceType.None;
@@ -166,7 +167,7 @@ public class Projectile : EntityBase {
 
         mDamage = GetComponent<Damage>();
 
-        mStats = GetComponent<Stats>();
+        mStats = GetComponentInChildren<Stats>();
         if(mStats) {
             mStats.changeHPCallback += OnHPChange;
             mStats.isInvul = true;
@@ -326,7 +327,7 @@ public class Projectile : EntityBase {
 
     void Die() {
         if(!string.IsNullOrEmpty(deathSpawnGroup) && !string.IsNullOrEmpty(deathSpawnType)) {
-            Vector2 p = transform.localToWorldMatrix.MultiplyPoint(explodeOfs);//explodeOnDeath ? transform.localToWorldMatrix.MultiplyPoint(explodeOfs) : transform.position;
+            Vector2 p = (explodeOfsTarget ? explodeOfsTarget : transform).localToWorldMatrix.MultiplyPoint(explodeOfs);//explodeOnDeath ? transform.localToWorldMatrix.MultiplyPoint(explodeOfs) : transform.position;
 
             PoolController.Spawn(deathSpawnGroup, deathSpawnType, deathSpawnType, null, p, Quaternion.identity);
         }
@@ -666,12 +667,12 @@ public class Projectile : EntityBase {
     void OnDrawGizmos() {
         if(explodeRadius > 0.0f) {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.localToWorldMatrix.MultiplyPoint(explodeOfs), explodeRadius);
+            Gizmos.DrawWireSphere((explodeOfsTarget ? explodeOfsTarget : transform).localToWorldMatrix.MultiplyPoint(explodeOfs), explodeRadius);
         }
     }
 
     private void DoExplode() {
-        Vector3 pos = transform.localToWorldMatrix.MultiplyPoint(explodeOfs);
+        Vector3 pos = (explodeOfsTarget ? explodeOfsTarget : transform).localToWorldMatrix.MultiplyPoint(explodeOfs);
         //float explodeRadiusSqr = explodeRadius * explodeRadius;
 
         //TODO: spawn fx

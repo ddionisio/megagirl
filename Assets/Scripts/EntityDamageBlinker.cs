@@ -75,7 +75,7 @@ public class EntityDamageBlinker : MonoBehaviour {
         if(mEnt)
             mEnt.setBlinkCallback += OnEntityBlink;
 
-        mStats = GetComponent<Stats>();
+        mStats = GetComponentInChildren<Stats>();
         if(mStats)
             mStats.changeHPCallback += OnStatsHPChange;
 
