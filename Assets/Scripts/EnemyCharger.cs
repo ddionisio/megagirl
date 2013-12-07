@@ -199,7 +199,7 @@ public class EnemyCharger : Enemy {
 
                 if(standby) {
                     standbyTime += Time.fixedDeltaTime;
-                    standby = standbyTime >= calmStandByDelay;
+                    standby = standbyTime < calmStandByDelay;
 
                     //proceed
                     if(!standby) {

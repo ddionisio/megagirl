@@ -167,7 +167,8 @@ public class Projectile : EntityBase {
 
         mDamage = GetComponent<Damage>();
 
-        mStats = GetComponentInChildren<Stats>();
+        Stats[] ss = GetComponentsInChildren<Stats>(true);
+        mStats = ss.Length > 0 ? ss[0] : null;
         if(mStats) {
             mStats.changeHPCallback += OnHPChange;
             mStats.isInvul = true;

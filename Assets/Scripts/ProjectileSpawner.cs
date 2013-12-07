@@ -95,7 +95,9 @@ public class ProjectileSpawner : MonoBehaviour {
 
     void OnProjRelease(EntityBase ent) {
         ent.releaseCallback -= OnProjRelease;
-        mCurCount--;
+
+        if(mCurCount > 0)
+            mCurCount--;
     }
 	
     void OnDrawGizmos() {

@@ -5,6 +5,18 @@ public class ProjectileAnimatorData : Projectile {
     public AnimatorData target;
     public string take;
 
+    private Transform mMover;
+
+    protected override void SpawnStart() {
+        base.SpawnStart();
+
+        if(!mMover) {
+            RigidBodyMoveToTarget rigidMover = stats.GetComponent<RigidBodyMoveToTarget>();
+            if(rigidMover)
+                mMover = rigidMover.target;
+        }
+    }
+
     public override void SpawnFinish() {
         AnimatorData animDat = target ? target : GetComponent<AnimatorData>();
         animDat.takeCompleteCallback += OnAnimationComplete;
@@ -17,24 +29,31 @@ public class ProjectileAnimatorData : Projectile {
         animDat.takeCompleteCallback -= OnAnimationComplete;
         animDat.Stop();
 
+        if(mMover) {
+            mMover.localPosition = Vector3.zero;
+            stats.transform.localPosition = Vector3.zero;
+        }
+
         base.Release();
     }
 
     protected override void StateChanged() {
+        Projectile.State s = (Projectile.State)state;
         AnimatorData animDat;
-        switch((Projectile.State)state) {
-            case State.Active:
+
+        base.StateChanged();
+
+        switch(s) {
+            case Projectile.State.Active:
                 animDat = target ? target : GetComponent<AnimatorData>();
                 animDat.Play(take);
                 break;
-
-            case State.Dying:
+                
+            case Projectile.State.Dying:
                 animDat = target ? target : GetComponent<AnimatorData>();
-                animDat.Pause();
+                animDat.Stop();
                 break;
         }
-
-        base.StateChanged();
     }
 
     protected override void FixedUpdate() {
