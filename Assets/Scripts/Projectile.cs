@@ -210,11 +210,13 @@ public class Projectile : EntityBase {
             else {
                 if(rigidbody != null && mDir != Vector3.zero) {
                     //set velocity
-                    if(startVelocityAddRand != 0.0f) {
-                        rigidbody.velocity = mDir * (startVelocity + Random.value * startVelocityAddRand);
-                    }
-                    else {
-                        rigidbody.velocity = mDir * startVelocity;
+                    if(!rigidbody.isKinematic) {
+                        if(startVelocityAddRand != 0.0f) {
+                            rigidbody.velocity = mDir * (startVelocity + Random.value * startVelocityAddRand);
+                        }
+                        else {
+                            rigidbody.velocity = mDir * startVelocity;
+                        }
                     }
 
                     mActiveForce = mDir * force;
