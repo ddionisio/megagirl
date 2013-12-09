@@ -402,7 +402,7 @@ public class Enemy : EntityBase {
         transform.rotation = mSpawnRot;
     }
 
-    void OnStatsHPChange(Stats stat, float delta) {
+    protected virtual void OnStatsHPChange(Stats stat, float delta) {
         if(mUseBossHP)
             HUD.instance.barBoss.current = Mathf.CeilToInt(stat.curHP);
 

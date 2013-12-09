@@ -12,6 +12,7 @@ public class Stats : MonoBehaviour {
 
     public float maxHP;
 
+    public float damageAmp = 0.0f; //general amplification
     public float damageReduction = 0.0f;
 
     public DamageMod[] damageTypeAmp;
@@ -76,6 +77,10 @@ public class Stats : MonoBehaviour {
     public bool CanDamage(Damage damage) {
         if(!mIsInvul) {
             float amt = damage.amount;
+
+            if(damageAmp > 0.0f) {
+                amt += amt * damageAmp;
+            }
             
             if(damageReduction > 0.0f) {
                 amt -= amt * damageReduction;
@@ -103,6 +108,10 @@ public class Stats : MonoBehaviour {
 
         if(!mIsInvul && mCurHP > 0.0f) {
             float amt = damage.amount;
+
+            if(damageAmp > 0.0f) {
+                amt += amt * damageAmp;
+            }
 
             if(damageReduction > 0.0f) {
                 amt -= amt * damageReduction;

@@ -5,20 +5,33 @@ public class EnemyBossCloneGirl : Enemy {
     public enum Phase {
         None,
         Move,
+        Crazy,
         Dead
     }
 
     public const string defeatClip = "defeated";
+    public const string crazyClip = "crazy";
+    public const string crazyPrepClip = "attackPrep";
 
     public TransAnimWaveOfsRand shaker;
     public int maxWallJump = 3;
+
+    public float fearCheckRadius = 5.0f;
+    public float fearCheckDist = 20.0f;
+    public LayerMask fearCheckMask;
 
     public string angryChaserType = "angryClone";
     public int angryChaserCount = 3;
     public float angryChaserLaunchDelay = 2.0f;
     public Vector3 chaserOfs;
+    public int chaserAccumCount = 9;
+
+    public Transform[] crazySpawnPts;
+    public string crazyProjType = "angryCloneStill";
+    public float crazyPrepDelay = 2.0f;
 
     private const string ChaserLaunchFunc = "DoChaserLaunch";
+    private const string CrazyRoutine = "DoCrazy";
 
     private Phase mCurPhase = Phase.None;
 
@@ -27,6 +40,10 @@ public class EnemyBossCloneGirl : Enemy {
     private Player mPlayer;
     private int mCurWallJumpCount;
     private int mCurChaserCount;
+    private int mChaserAccumCount;
+
+    private Projectile[] mCrazyProjs;
+    private bool mCrazyProjsActive;
 
     protected override void StateChanged() {
         switch((EntityState)prevState) {
@@ -66,6 +83,26 @@ public class EnemyBossCloneGirl : Enemy {
         
         //prev
         switch(mCurPhase) {
+            case Phase.Crazy:
+                StopCoroutine(CrazyRoutine);
+
+                for(int i = 0; i < mCrazyProjs.Length; i++) {
+                    if(mCrazyProjs[i]) {
+                        if(mCrazyProjs[i].isAlive) {
+                            if(mCrazyProjs[i].stats)
+                                mCrazyProjs[i].stats.curHP = 0;
+                            else
+                                mCrazyProjs[i].state = (int)Projectile.State.Dying;
+                        }
+
+                        mCrazyProjs[i] = null;
+                    }
+                }
+
+                stats.damageAmp = 0.0f;
+                mCrazyProjsActive = false;
+                break;
+
             case Phase.Move:
                 mSensor.Activate(false);
                 bodyCtrl.moveSide = 0.0f;
@@ -76,11 +113,18 @@ public class EnemyBossCloneGirl : Enemy {
 
         switch(phase) {
             case Phase.Move:
+                mChaserAccumCount = 0;
+
+                animator.Play("normal");
                 mCurWallJumpCount = 0;
                 mSensor.Activate(true);
 
                 if(!IsInvoking(ChaserLaunchFunc))
                     InvokeRepeating(ChaserLaunchFunc, 0.0f, angryChaserLaunchDelay);
+                break;
+
+            case Phase.Crazy:
+                StartCoroutine(CrazyRoutine);
                 break;
 
             case Phase.Dead:
@@ -104,12 +148,24 @@ public class EnemyBossCloneGirl : Enemy {
 
         mSensor = GetComponent<EntitySensor>();
         mSensor.updateCallback += OnSensorUpdate;
+
+        mCrazyProjs = new Projectile[crazySpawnPts.Length - 1];
     }
 
     protected override void Start() {
         base.Start();
         
         mPlayer = Player.instance;
+    }
+
+    protected override void OnStatsHPChange(Stats stat, float delta) {
+        base.OnStatsHPChange(stat, delta);
+
+        if(mCurPhase == Phase.Crazy) {
+            //detonate
+            if(mCrazyProjsActive)
+                ToPhase(Phase.Move);
+        }
     }
     
     void FixedUpdate() {
@@ -122,26 +178,17 @@ public class EnemyBossCloneGirl : Enemy {
 
                 Vector3 playerPos = mPlayer.transform.position;
                 Vector3 pos = transform.position;
-                Vector3 dpos = playerPos - pos;
+                //Vector3 dpos = playerPos - pos;
 
                 if(bodyCtrl.isGrounded) {
                     mCurWallJumpCount = 0;
 
                     //check if player is within y range
-                    Bounds playerBounds = mPlayer.collider.bounds;
-                    float playerYC = playerBounds.center.y;
-                    float playerYMin = playerBounds.min.y;
-                    float playerYMax = playerBounds.max.y;
-
-                    Bounds bounds = collider.bounds;
-                    float yMin = bounds.min.y;
-                    float yMax = bounds.max.y;
-
-                    if((playerYMin >= yMin && playerYMin <= yMax) 
-                       || (playerYMax >= yMin && playerYMax <= yMax)
-                       || (playerYC >= yMin && playerYC <= yMax)) {
+                    RaycastHit hit;
+                    if(Physics.SphereCast(collider.bounds.center, fearCheckRadius, Vector3.left, out hit, fearCheckDist, fearCheckMask)
+                       || Physics.SphereCast(collider.bounds.center, fearCheckRadius, Vector3.right, out hit, fearCheckDist, fearCheckMask)) {
                         shaker.enabled = false;
-                        bodyCtrl.moveSide = -Mathf.Sign(dpos.x);
+                        bodyCtrl.moveSide = -Mathf.Sign(hit.point.x - collider.bounds.center.x);
                     }
                     else {
                         shaker.enabled = true;
@@ -210,10 +257,78 @@ public class EnemyBossCloneGirl : Enemy {
         ent.releaseCallback -= OnChaserProjRelease;
 
         if(mCurPhase == Phase.Move) {
-            if(mCurChaserCount == 0) {
+            mChaserAccumCount++;
+            if(mChaserAccumCount == chaserAccumCount) {
+                ToPhase(Phase.Crazy);
+            }
+            else if(mCurChaserCount == 0) {
                 if(!IsInvoking(ChaserLaunchFunc))
                     InvokeRepeating(ChaserLaunchFunc, angryChaserLaunchDelay, angryChaserLaunchDelay);
             }
+        }
+    }
+
+    IEnumerator DoCrazy() {
+        WaitForFixedUpdate wait = new WaitForFixedUpdate();
+
+        //wait till we are on ground
+        while(!bodyCtrl.isGrounded) {
+            if(bodyCtrl.isWallStick) {
+                bodyCtrl.moveSide = bodySpriteCtrl.isLeft ? -1 : 1;
+            }
+            else
+                bodyCtrl.moveSide = 0.0f;
+
+            yield return wait;
+        }
+
+        bodySpriteCtrl.PlayOverrideClip(crazyPrepClip);
+
+        yield return new WaitForSeconds(crazyPrepDelay);
+
+        //warp
+        int warpInd = Random.Range(0, crazySpawnPts.Length);
+
+        transform.position = crazySpawnPts[warpInd].position;
+
+        animator.Play("crazy");
+        bodySpriteCtrl.PlayOverrideClip(crazyClip);
+        shaker.enabled = true;
+
+        //spawn projs on each pt
+        int projInd = 0;
+        for(int i = 0; i < crazySpawnPts.Length; i++) {
+            if(i != warpInd) {
+                mCrazyProjs[projInd] = Projectile.Create(projGroup, crazyProjType, crazySpawnPts[i].position, Vector3.up, null);
+                projInd++;
+            }
+        }
+
+        mCrazyProjsActive = true;
+        stats.damageAmp = 2.5f;
+
+        bool projsAlive = true;
+        while(projsAlive) {
+            yield return wait;
+
+            int numProjsDead = 0;
+            for(int i = 0; i < mCrazyProjs.Length; i++) {
+                if(!mCrazyProjs[i].spawning && !mCrazyProjs[i].isAlive)
+                    numProjsDead++;
+            }
+
+            projsAlive = numProjsDead < mCrazyProjs.Length;
+        }
+
+        ToPhase(Phase.Move);
+    }
+
+    protected override void OnDrawGizmosSelected() {
+        base.OnDrawGizmosSelected();
+
+        if(fearCheckRadius > 0.0f) {
+            Gizmos.color = Color.cyan*0.5f;
+            Gizmos.DrawWireSphere(collider.bounds.center, fearCheckRadius);
         }
     }
 }

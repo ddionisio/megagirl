@@ -60,6 +60,7 @@ public class Projectile : EntityBase {
     public Transform applyDirToUp;
     public string deathSpawnGroup;
     public string deathSpawnType;
+    public bool autoDisableCollision = true; //when not active, disable collision
 
     /*public bool oscillate;
     public float oscillateForce;
@@ -158,11 +159,11 @@ public class Projectile : EntityBase {
 
         mDefaultSpeedLimit = speedLimit;
 
-        if(rigidbody != null) {
+        if(rigidbody != null && autoDisableCollision) {
             rigidbody.detectCollisions = false;
         }
 
-        if(collider != null)
+        if(collider != null && autoDisableCollision)
             collider.enabled = false;
 
         mDamage = GetComponent<Damage>();
@@ -316,11 +317,13 @@ public class Projectile : EntityBase {
 
     void PhysicsDisable() {
         mCurVelocity = Vector3.zero;
-        if(collider)
+        if(collider && autoDisableCollision)
             collider.enabled = false;
 
         if(rigidbody) {
-            rigidbody.detectCollisions = false;
+            if(autoDisableCollision)
+                rigidbody.detectCollisions = false;
+
             if(!rigidbody.isKinematic) {
                 rigidbody.velocity = Vector3.zero;
                 rigidbody.angularVelocity = Vector3.zero;
