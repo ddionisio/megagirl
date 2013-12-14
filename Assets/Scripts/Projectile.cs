@@ -34,11 +34,12 @@ public class Projectile : EntityBase {
     [SerializeField]
     float speedLimit;
     public bool seekUseForce = false;
+    public float seekAngleLimit = 360.0f; //angle limit from startDir
     public float seekForceDelay = 0.15f;
     public float seekStartDelay = 0.0f;
     public float seekVelocity;
     public float seekVelocityCap = 5.0f;
-    public float seekAngleCap = 360.0f;
+    public float seekTurnAngleCap = 360.0f;
     public bool decayEnabled = true;
     public float decayDelay;
     public bool releaseOnDie;
@@ -61,6 +62,7 @@ public class Projectile : EntityBase {
     public string deathSpawnGroup;
     public string deathSpawnType;
     public bool autoDisableCollision = true; //when not active, disable collision
+    public int damageExpireCount = -1; //the number of damage dealt for it to die, -1 for infinite
 
     /*public bool oscillate;
     public float oscillateForce;
@@ -68,7 +70,7 @@ public class Projectile : EntityBase {
 
     private bool mSpawning = false;
     protected Vector3 mActiveForce;
-    protected Vector3 mDir = Vector3.zero;
+    protected Vector3 mInitDir = Vector3.zero;
     protected Transform mSeek = null;
     protected Vector3 mCurVelocity; //only use by simple
 
@@ -78,6 +80,7 @@ public class Projectile : EntityBase {
     protected float mMoveScale = 1.0f;
     private Stats mStats;
     private int mCurBounce = 0;
+    private int mCurDamageCount = 0;
 
     private Vector3 mSeekCurDir;
     private Vector3 mSeekCurDirVel;
@@ -88,7 +91,7 @@ public class Projectile : EntityBase {
     public static Projectile Create(string group, string typeName, Vector3 startPos, Vector3 dir, Transform seek) {
         Projectile ret = Spawn<Projectile>(group, typeName, startPos);
         if(ret != null) {
-            ret.mDir = dir;
+            ret.mInitDir = dir;
             ret.mSeek = seek;
         }
 
@@ -199,6 +202,7 @@ public class Projectile : EntityBase {
         mSpawning = false;
 
         mCurBounce = 0;
+        mCurDamageCount = 0;
 
         if(decayEnabled && decayDelay == 0) {
             OnDecayEnd();
@@ -206,21 +210,21 @@ public class Projectile : EntityBase {
         else {
             //starting direction and force
             if(simple) {
-                mCurVelocity = mDir * startVelocity;
+                mCurVelocity = mInitDir * startVelocity;
             }
             else {
-                if(rigidbody != null && mDir != Vector3.zero) {
+                if(rigidbody != null && mInitDir != Vector3.zero) {
                     //set velocity
                     if(!rigidbody.isKinematic) {
                         if(startVelocityAddRand != 0.0f) {
-                            rigidbody.velocity = mDir * (startVelocity + Random.value * startVelocityAddRand);
+                            rigidbody.velocity = mInitDir * (startVelocity + Random.value * startVelocityAddRand);
                         }
                         else {
-                            rigidbody.velocity = mDir * startVelocity;
+                            rigidbody.velocity = mInitDir * startVelocity;
                         }
                     }
 
-                    mActiveForce = mDir * force;
+                    mActiveForce = mInitDir * force;
                 }
             }
 
@@ -237,15 +241,15 @@ public class Projectile : EntityBase {
             }
                         
             if(applyDirToUp) {
-                applyDirToUp.up = mDir;
+                applyDirToUp.up = mInitDir;
                 InvokeRepeating("OnUpUpdate", 0.1f, 0.1f);
             }
         }
     }
 
     protected override void SpawnStart() {
-        if(applyDirToUp && mDir != Vector3.zero) {
-            applyDirToUp.up = mDir;
+        if(applyDirToUp && mInitDir != Vector3.zero) {
+            applyDirToUp.up = mInitDir;
         }
 
         mSpawning = true;
@@ -253,19 +257,6 @@ public class Projectile : EntityBase {
 
     public override void Release() {
         state = (int)State.Invalid;
-
-        CancelInvoke();
-        RevertSpeedLimit();
-        
-        PhysicsDisable();
-        
-        if(mStats) {
-            mStats.Reset();
-            mStats.isInvul = true;
-        }
-
-        mSpawning = false;
-
         base.Release();
     }
 
@@ -302,15 +293,20 @@ public class Projectile : EntityBase {
                 break;
 
             case State.Invalid:
-                /*CancelInvoke();
+                CancelInvoke("OnDecayEnd");
+                CancelInvoke("OnSeekStart");
+                CancelInvoke("OnUpUpdate");
+                CancelInvoke("Die");
                 RevertSpeedLimit();
-
+                
                 PhysicsDisable();
-
+                
                 if(mStats) {
                     mStats.Reset();
                     mStats.isInvul = true;
-                }*/
+                }
+                
+                mSpawning = false;
                 break;
         }
     }
@@ -361,7 +357,7 @@ public class Projectile : EntityBase {
 
     protected virtual void OnHPChange(Stats stat, float delta) {
         if(stat.curHP == 0) {
-            if(state == (int)State.Active || state == (int)State.Seek || state == (int)State.SeekForce)
+            if(isAlive)
                 state = (int)State.Dying;
         }
     }
@@ -474,7 +470,13 @@ public class Projectile : EntityBase {
 
     void ApplyDamage(GameObject go, Vector3 pos, Vector3 normal) {
         if(mDamage && !explodeOnDeath && CheckTag(go.tag)) {
-            mDamage.CallDamageTo(go, pos, normal);
+            if(mDamage.CallDamageTo(go, pos, normal)) {
+                if(damageExpireCount != -1) {
+                    mCurDamageCount++;
+                    if(mCurDamageCount == damageExpireCount)
+                        state = (int)State.Dying;
+                }
+            }
         }
     }
 
@@ -557,7 +559,7 @@ public class Projectile : EntityBase {
         }
 
         //make sure we are still active
-        if((State)state == State.Active || (State)state == State.Seek || (State)state == State.SeekForce)
+        if(isAlive)
             transform.position = transform.position + delta;
     }
 
@@ -600,11 +602,16 @@ public class Projectile : EntityBase {
                 if(rigidbody && mSeek != null) {
                     Vector3 pos = transform.position;
                     Vector3 dest = mSeek.position;
-                    Vector3 _dir = dest - pos;
+                    Vector3 _dir = dest - pos; _dir.z = 0.0f;
                     float dist = _dir.magnitude;
                     
                     if(dist > 0.0f) {
                         _dir /= dist;
+
+                        if(seekAngleLimit < 360.0f) {
+                            _dir = M8.MathUtil.DirCap(mInitDir, _dir, seekAngleLimit);
+                        }
+
                         if(seekForceDelay > 0.0f)
                             mSeekCurDir = Vector3.SmoothDamp(mSeekCurDir, _dir, ref mSeekCurDirVel, seekForceDelay, Mathf.Infinity, Time.fixedDeltaTime);
                         else
@@ -635,8 +642,8 @@ public class Projectile : EntityBase {
                             _dir /= dist;
 
                             //restrict
-                            if(seekAngleCap < 360.0f) {
-                                _dir = M8.MathUtil.DirCap(rigidbody.velocity.normalized, _dir, seekAngleCap);
+                            if(seekTurnAngleCap < 360.0f) {
+                                _dir = M8.MathUtil.DirCap(rigidbody.velocity.normalized, _dir, seekTurnAngleCap);
                             }
 
                             mCurVelocity = M8.MathUtil.Steer(rigidbody.velocity, _dir * seekVelocity, seekVelocityCap, mMoveScale);
@@ -657,8 +664,8 @@ public class Projectile : EntityBase {
                             _dir /= dist;
 
                             //restrict
-                            if(seekAngleCap < 360.0f) {
-                                _dir = M8.MathUtil.DirCap(rigidbody.velocity.normalized, _dir, seekAngleCap);
+                            if(seekTurnAngleCap < 360.0f) {
+                                _dir = M8.MathUtil.DirCap(rigidbody.velocity.normalized, _dir, seekTurnAngleCap);
                             }
 
                             Vector3 force = M8.MathUtil.Steer(rigidbody.velocity, _dir * seekVelocity, seekVelocityCap, 1.0f);

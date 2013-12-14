@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 /// <summary>
@@ -39,16 +39,16 @@ public class ProjectileArc : Projectile {
 
                     float theta = Mathf.Atan((vSqr + Mathf.Sqrt(vSqr * vSqr + grav * (grav * x * x + 2 * y * vSqr))) / (grav * x));
                     if(float.IsNaN(theta)) {
-                        mDir = new Vector3(x, y, 0);
-                        mDir.Normalize();
+                        mInitDir = new Vector3(x, y, 0);
+                        mInitDir.Normalize();
                         vel = straightVelocity;
                     }
                     else {
-                        mDir.Set(Mathf.Sign(x), 0, 0);
-                        mDir = Quaternion.AngleAxis(Mathf.Rad2Deg * theta, Vector3.forward) * mDir;
+                        mInitDir.Set(Mathf.Sign(x), 0, 0);
+                        mInitDir = Quaternion.AngleAxis(Mathf.Rad2Deg * theta, Vector3.forward) * mInitDir;
                     }
 
-                    rigidbody.velocity = mDir * vel;// .AddForce(mDir * vel, ForceMode.VelocityChange);
+                    rigidbody.velocity = mInitDir * vel;// .AddForce(mDir * vel, ForceMode.VelocityChange);
                     //Debug.Log("theta: " + (Mathf.Rad2Deg * theta));
                 }
                 else {

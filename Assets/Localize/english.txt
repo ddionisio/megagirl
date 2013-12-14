@@ -32,7 +32,7 @@
 	
 	{
 		"key":"katgirl_name",
-		"text":"CHEA GUERRERA"
+		"text":"GLORIA GUERRERA"
 	},
 	{
 		"key":"lightninggirl_name",
@@ -44,15 +44,15 @@
 	},
 	{
 		"key":"clonegirl_name",
-		"text":"JANE CLONEY"
+		"text":"TOBI"
 	},
 	{
 		"key":"hipgirl_name",
-		"text":"HIPSTER"
+		"text":"GASOLINE"
 	},
 	{
 		"key":"valleygirl_name",
-		"text":"TOTALLY CLAIR"
+		"text":"TABITHA"
 	},
 	{
 		"key":"sarkee_name",
@@ -138,5 +138,30 @@
 	{
 		"key":"credits",
 		"text":"~RENEGADEWARE~\nDave Dionisio\n\n~NEWGROUNDS MUSIC~\n\nMain - (8-bit wonderland) by duttonsayshi\n\nStage Select by (Where's The Map) by Neon-Bard\n\nStage Selected - (Megaman 3 stage selected remix) by phoenixdk\n\nVictory - (Spirit) by duttonsayshi\n\nGame Over - (Melancholic Piano Score) by 5vedjeland\n\nBoss Battle by intero\n\nStage: Chea Guerrera - (Catface) by waterflame\n\nStage: Thunder - (Beautiful Chaos) by duttonsayshi\n\nStage: Tankie Girl - (Action-packed-happy-time-warzone) by ANTI-SPAMGUN\n\nStage: Totally Clair - (Lost My Mind) by lilkiller212\n\n"
+	},
+	
+	{
+		"key":"child_0",
+		"text":"HAPPY! HAPPY!"
+	},
+	{
+		"key":"child_1",
+		"text":"JOY! JOY!"
+	},
+	{
+		"key":"child_2",
+		"text":"GOOD WEATHER!"
+	},
+	{
+		"key":"child_3",
+		"text":"WHERE'S MOMMY?"
+	},
+	{
+		"key":"guard_0",
+		"text":"NO ENTRY!"
+	},
+	{
+		"key":"bunnion_sorry",
+		"text":"SORRY, NOTHING!"
 	}
 ]

@@ -176,8 +176,8 @@ public class EnemyBossCloneGirl : Enemy {
             case Phase.Move:
                 mSensor.hFlip = bodySpriteCtrl.isLeft;
 
-                Vector3 playerPos = mPlayer.transform.position;
-                Vector3 pos = transform.position;
+                //Vector3 playerPos = mPlayer.transform.position;
+                //Vector3 pos = transform.position;
                 //Vector3 dpos = playerPos - pos;
 
                 if(bodyCtrl.isGrounded) {

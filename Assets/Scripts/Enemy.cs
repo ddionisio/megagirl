@@ -114,6 +114,8 @@ public class Enemy : EntityBase {
             Restart();
             mRespawnReady = true;
         }
+        else
+            SetPhysicsActive(false, false);
     }
 
     protected override void OnDespawned() {
@@ -229,6 +231,8 @@ public class Enemy : EntityBase {
         base.ActivatorWakeUp();
 
         if(mRespawnReady) {
+            SetPhysicsActive(true, true);
+
             //Debug.Log("respawned");
             mRespawnReady = false;
             state = (int)EntityState.Normal;
@@ -398,6 +402,9 @@ public class Enemy : EntityBase {
     }
 
     protected void RevertTransform() {
+        if(animator)
+            animator.Stop();
+
         transform.position = mSpawnPos;
         transform.rotation = mSpawnRot;
     }
