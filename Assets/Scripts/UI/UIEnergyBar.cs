@@ -76,7 +76,7 @@ public class UIEnergyBar : MonoBehaviour {
                 }
             }
             else {
-                if(!mIsAnimate && animateEndCallback != null) {
+                if(animateEndCallback != null) {
                     animateEndCallback(this);
                 }
             }

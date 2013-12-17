@@ -48,7 +48,7 @@
 	},
 	{
 		"key":"hipgirl_name",
-		"text":"GASOLINE"
+		"text":"NATALIE DANGEREUSE"
 	},
 	{
 		"key":"valleygirl_name",
@@ -154,14 +154,62 @@
 	},
 	{
 		"key":"child_3",
-		"text":"WHERE'S MOMMY?"
+		"text":"WHERE'S MOMMY!?"
 	},
 	{
 		"key":"guard_0",
-		"text":"NO ENTRY!"
+		"text":"SORRY, NO ENTRY!"
+	},
+	{
+		"key":"guard_1",
+		"text":"FIRE IS BAD, OK?"
 	},
 	{
 		"key":"bunnion_sorry",
 		"text":"SORRY, NOTHING!"
-	}
+	},
+	{
+		"key":"adult_0",
+		"text":"EMPTY. NONE."
+	},
+	{
+		"key":"adult_1",
+		"text":"NEED RUPUS."
+	},
+	{
+		"key":"adult_2",
+		"text":"HEYO. HEYO."
+	},
+	{
+		"key":"adult_3",
+		"text":"FIND RUPUS.\nHELP."
+	},
+	{
+		"key":"adult_4",
+		"text":"PUT RUPUS IN CONTAINER. CONSUME."
+	},
+	{
+		"key":"adult_5",
+		"text":"WORK. WORK."
+	},
+	{
+		"key":"adult_yay0",
+		"text":"HURRAY.\nHURRAY."
+	},
+	{
+		"key":"adult_yay1",
+		"text":"IMMACULATE.\nBEAUTIFUL."
+	},
+	{
+		"key":"adult_yay2",
+		"text":"YES.\nCONSUME."
+	},
+	{
+		"key":"adult_yay3",
+		"text":"UH.\nOH."
+	},
+	{
+		"key":"adult_sad0",
+		"text":"NO MORE.\nRUPUS :("
+	},
 ]

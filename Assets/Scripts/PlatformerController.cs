@@ -53,6 +53,8 @@ public class PlatformerController : RigidBodyController {
     public int jumpInput = InputManager.ActionInvalid;
 
     public bool startInputEnabled = false;
+    public bool jumpReleaseClearVelocity = false;
+    public float jumpReleaseClearVelocityTo = 0.0f;
 
     public event Callback landCallback;
     public event Callback jumpCallback;
@@ -91,6 +93,8 @@ public class PlatformerController : RigidBodyController {
     private float mMoveYGroundDownLastTime; //last time the down key was pressed
 
     private float mLastGroundTime; //last time we were on ground
+
+    private List<Collider> mTriggers = new List<Collider>(4); //triggers we entered
 
     public bool inputEnabled {
         get { return mInputEnabled; }
@@ -164,6 +168,8 @@ public class PlatformerController : RigidBodyController {
         get { return mMoveSideLock; }
         set { mMoveSideLock = value; }
     }
+
+    public List<Collider> triggers { get { return mTriggers; } }
 
     public override void ResetCollision() {
         base.ResetCollision();
@@ -283,6 +289,15 @@ public class PlatformerController : RigidBodyController {
 
                         if(jumpCallback != null)
                             jumpCallback(this);
+                    }
+                }
+            }
+            else {
+                if(jumpReleaseClearVelocity) {
+                    Vector3 lv = localVelocity;
+                    if(lv.y > jumpReleaseClearVelocityTo) {
+                        lv.y = jumpReleaseClearVelocityTo;
+                        localVelocity = lv;
                     }
                 }
             }

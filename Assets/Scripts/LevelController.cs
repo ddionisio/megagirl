@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class LevelController : MonoBehaviour {
+    public const string levelBitState = "levelBits";
+
     private static bool mCheckpointActive = false;
     private static Vector3 mCheckpoint;
     private static string mLevelLoaded;
@@ -32,6 +34,13 @@ public class LevelController : MonoBehaviour {
 
     public static void CheckpointReset() {
         mCheckpointActive = false;
+    }
+
+    /// <summary>
+    /// For specific level state, when exiting, call this
+    /// </summary>
+    public static void LevelStateReset() {
+        SceneState.instance.SetGlobalValue(levelBitState, 0, false);
     }
 
     public static void Complete() {

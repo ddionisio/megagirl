@@ -4,10 +4,12 @@ using System.Collections;
 public class EnemyJumpNShootSimple : Enemy {
     public string projType = projCommonType;
 
-    public float shootRangeX = 10.0f;
+    public float shootRange = 10.0f;
     public float shootCooldown = 1.0f;
     public AnimatorData shootAnim;
     public Transform shootPt;
+    public int shootCount = 3;
+    public float shootAngle = 90.0f;
 
     public float jumpRepeatDelay = 1.0f;
 
@@ -45,18 +47,18 @@ public class EnemyJumpNShootSimple : Enemy {
         bodyCtrl.landCallback += OnLanded;
     }
 
-    Transform NearestPlayer(out float nearDistX) {
-        nearDistX = Mathf.Infinity;
+    Transform NearestPlayer(out float nearDistSqr) {
+        nearDistSqr = Mathf.Infinity;
         Transform nearT = null;
 
-        float x = transform.position.x;
+        Vector3 p = collider.bounds.center;
         for(int i = 0, max = mPlayers.Length; i < max; i++) {
             if(mPlayers[i] && mPlayers[i].activeSelf) {
                 Transform t = mPlayers[i].transform;
-                float distX = Mathf.Abs(t.position.x - x);
-                if(distX < nearDistX) {
+                float distSqr = (t.position - p).sqrMagnitude;
+                if(distSqr < nearDistSqr) {
                     nearT = t;
-                    nearDistX = distX;
+                    nearDistSqr = distSqr;
                 }
             }
         }
@@ -67,8 +69,8 @@ public class EnemyJumpNShootSimple : Enemy {
     void FixedUpdate() {
         switch((EntityState)state) {
             case EntityState.Normal:
-                float distX;
-                Transform nearest = NearestPlayer(out distX);
+                float distSqr;
+                Transform nearest = NearestPlayer(out distSqr);
 
                 if(bodyCtrl.isGrounded) {
                     if(!mJump && !bodyCtrl.isJump) {
@@ -86,23 +88,29 @@ public class EnemyJumpNShootSimple : Enemy {
                 }
 
                 if(nearest) {
-                    if(distX <= shootRangeX) {
+                    if(distSqr <= shootRange*shootRange) {
                         Vector3 pos = shootPt.position; pos.z = 0.0f;
 
                         //check bounds
-                        Bounds plyrB = nearest.collider.bounds;
-                        float minY = plyrB.min.y;
-                        float maxY = plyrB.max.y;
-                        if(pos.y >= minY && pos.y <= maxY) {
+                        //Bounds plyrB = nearest.collider.bounds;
+                        //float minY = plyrB.min.y;
+                        //float maxY = plyrB.max.y;
+                        //if(pos.y >= minY && pos.y <= maxY) {
                             if(Time.fixedTime - mLastShootTime > shootCooldown) {
+                                Quaternion rot = Quaternion.AngleAxis(shootAngle/((float)(shootCount-1)), bodySpriteCtrl.isLeft ? Vector3.back : Vector3.forward);
                                 Vector3 dir = new Vector3(bodySpriteCtrl.isLeft ? -1.0f : 1.0f, 0.0f, 0.0f);
+                                dir = Quaternion.AngleAxis(shootAngle*0.5f, bodySpriteCtrl.isLeft ? Vector3.forward : Vector3.back)*dir;
 
-                                Projectile.Create(projGroup, projType, pos, dir, null);
+                                for(int i = 0; i < shootCount; i++) {
+                                    Projectile.Create(projGroup, projType, pos, dir, null);
+                                    dir = rot*dir;
+                                }
+
                                 shootAnim.Play("shoot");
 
                                 mLastShootTime = Time.fixedTime;
                             }
-                        }
+                        //}
                     }
 
                     bodySpriteCtrl.isLeft = Mathf.Sign(nearest.position.x - transform.position.x) < 0.0f;
@@ -114,5 +122,14 @@ public class EnemyJumpNShootSimple : Enemy {
     void OnLanded(PlatformerController ctrl) {
         mJump = false;
         mLastJumpTime = Time.fixedTime;
+    }
+
+    protected override void OnDrawGizmosSelected() {
+        base.OnDrawGizmosSelected();
+
+        if(shootRange > 0 && collider != null) {
+            Gizmos.color = Color.blue*0.5f;
+            Gizmos.DrawWireSphere(collider.bounds.center, shootRange);
+        }
     }
 }

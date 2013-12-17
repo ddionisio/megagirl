@@ -639,13 +639,14 @@ public class Player : EntityBase {
             }
         } else {
             LevelController.CheckpointReset();
+            LevelController.LevelStateReset();
 
             foreach(Weapon weapon in weapons) {
                 if(weapon)
                     weapon.ResetEnergySpent();
             }
 
-            if(nextScene == Scenes.gameover) {
+            if(PlayerStats.curLife < PlayerStats.defaultNumLives) {
                 PlayerStats.curLife = PlayerStats.defaultNumLives;
             }
         }

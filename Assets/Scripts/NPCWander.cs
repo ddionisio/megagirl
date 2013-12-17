@@ -50,6 +50,10 @@ public class NPCWander : Enemy {
     protected override void ActivatorWakeUp() {
         base.ActivatorWakeUp();
 
+        //TODO: hm...
+        if(!gameObject.activeInHierarchy)
+            return;
+
         switch((EntityState)state) {
             case EntityState.Normal:
                 if((minX != 0.0f || maxX != 0.0f))
