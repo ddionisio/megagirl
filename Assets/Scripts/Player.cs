@@ -393,7 +393,9 @@ public class Player : EntityBase {
             HUD.instance.barHP.current = Mathf.CeilToInt(stat.curHP);
         } else {
             //healed
-            Pause(true);
+            if(!HUD.instance.barHP.isAnimating)
+                Pause(true);
+
             HUD.instance.barHP.currentSmooth = Mathf.CeilToInt(stat.curHP);
         }
     }
@@ -407,7 +409,9 @@ public class Player : EntityBase {
             if(delta <= 0.0f) {
                 HUD.instance.barEnergy.current = Mathf.CeilToInt(weapon.currentEnergy);
             } else {
-                Pause(true);
+                if(!HUD.instance.barEnergy.isAnimating)
+                    Pause(true);
+
                 HUD.instance.barEnergy.currentSmooth = Mathf.CeilToInt(weapon.currentEnergy);
             }
         }
