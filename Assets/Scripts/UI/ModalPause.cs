@@ -73,7 +73,7 @@ public class ModalPause : UIController {
     }
 
     protected override void OnOpen() {
-
+        //LayoutLateRefresh();
     }
 
     protected override void OnClose() {
@@ -245,12 +245,14 @@ public class ModalPause : UIController {
 
     void RefreshEnergyTank() {
         Player player = Player.instance;
-        DoTankFill(energySubTankBar1Fill, energySubTankBar2Fill, mEnergySubTankBarFillW, Mathf.RoundToInt(player.stats.subTankEnergyCurrent));
+        int amt = Mathf.RoundToInt((player.stats.subTankEnergyCurrent/PlayerStats.subTankMaxValue)*((float)mEnergySubTankBarFillW));
+        DoTankFill(energySubTankBar1Fill, energySubTankBar2Fill, mEnergySubTankBarFillW, amt);
     }
 
     void RefreshWeaponTank() {
         Player player = Player.instance;
-        DoTankFill(weaponSubTankBar1Fill, weaponSubTankBar2Fill, mWeaponSubTankBarFillW, Mathf.RoundToInt(player.stats.subTankWeaponCurrent));
+        int amt = Mathf.RoundToInt((player.stats.subTankWeaponCurrent/PlayerStats.subTankMaxValue)*((float)mWeaponSubTankBarFillW));
+        DoTankFill(weaponSubTankBar1Fill, weaponSubTankBar2Fill, mWeaponSubTankBarFillW, amt);
     }
 
     void OnWeaponClick(GameObject go) {

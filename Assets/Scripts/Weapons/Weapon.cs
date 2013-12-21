@@ -98,9 +98,6 @@ public class Weapon : MonoBehaviour {
     private float mCurEnergy;
 
     public static bool IsAvailable(int index) {
-        //TODO: temp! remove later!
-        if(index == 3 || index == 4)
-            return true;
         return index == 0 ? true : SceneState.instance.CheckGlobalFlag(weaponFlagsKey, index);
         //return true;
     }

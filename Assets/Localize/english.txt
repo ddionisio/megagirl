@@ -32,7 +32,7 @@
 	
 	{
 		"key":"katgirl_name",
-		"text":"GLORIA GUERRERA"
+		"text":"CHEA GUERRERA"
 	},
 	{
 		"key":"lightninggirl_name",
@@ -48,7 +48,7 @@
 	},
 	{
 		"key":"hipgirl_name",
-		"text":"NATALIE DANGEREUSE"
+		"text":"NATACHA"
 	},
 	{
 		"key":"valleygirl_name",
@@ -158,7 +158,7 @@
 	},
 	{
 		"key":"guard_0",
-		"text":"SORRY, NO ENTRY!"
+		"text":"NO ENTRY!"
 	},
 	{
 		"key":"guard_1",
