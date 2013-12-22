@@ -70,6 +70,18 @@ public class EnemyTurret : Enemy {
         }
     }
 
+    protected override void ActivatorWakeUp() {
+        base.ActivatorWakeUp();
+
+        if(!respawnOnSleep) {
+            switch((EntityState)state) {
+                case EntityState.Normal:
+                    SetFireActive(true);
+                    break;
+            }
+        }
+    }
+
     protected override void Awake() {
         base.Awake();
 

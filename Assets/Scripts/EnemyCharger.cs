@@ -4,6 +4,7 @@ using System.Collections;
 public class EnemyCharger : Enemy {
     public Transform wpHolder;
 
+    public LayerMask angerObstructionMask;
     public float angerRadius = 10.0f;
     public float angerChargeDelay = 1.0f;
     public float angerChargeSpeed = 10.0f;
@@ -183,14 +184,21 @@ public class EnemyCharger : Enemy {
         bodyAnim.Play(bodyCalmClip);
 
         while((EntityState)state == EntityState.Normal) {
+            Vector3 pos = transform.position;
+
             //check for player
             if(isPlayerInRange()) {
-                StartCoroutine(angerRoutine);
-                break;
+                //check obstruction
+                Vector3 playerPos = Player.instance.collider.bounds.center;
+                Vector3 dir = playerPos - pos;
+                float mag = dir.magnitude;
+                if(mag == 0.0f || !Physics.Raycast(pos, dir/mag, mag, angerObstructionMask)) {
+                    StartCoroutine(angerRoutine);
+                    break;
+                }
             }
 
             //go to dest
-            Vector3 pos = transform.position;
             Vector3 toPos = mWPs[mCurWPInd];
             Vector3 dPos = toPos - pos;
             float dist = dPos.magnitude;

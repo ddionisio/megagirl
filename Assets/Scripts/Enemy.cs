@@ -237,6 +237,11 @@ public class Enemy : EntityBase {
             mRespawnReady = false;
             state = (int)EntityState.Normal;
         }
+        else {
+            if(!respawnOnSleep && animator && animator.onDisableAction == AnimatorData.DisableAction.Pause) {
+                animator.Resume();
+            }
+        }
     }
 
     protected override void ActivatorSleep() {
