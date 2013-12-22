@@ -27,7 +27,7 @@ public class WeaponHoolaHoop : Weapon {
 
             Stats.DamageMod dmgReduce = player.stats.GetDamageMod(player.stats.damageTypeReduction, Damage.Type.Contact);
             if(dmgReduce != null)
-                dmgReduce.val = 1.0f;
+                dmgReduce.val = 10.0f;
 
             hoolaAnimDat.Play("active");
 

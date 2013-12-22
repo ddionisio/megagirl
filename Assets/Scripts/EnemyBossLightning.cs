@@ -33,6 +33,7 @@ public class EnemyBossLightning : Enemy {
     public float moveStrikeStartDelay = 0.5f;
     public float moveStrikePrepDelay = 1.0f;
     public float moveLightningActiveDelay = 0.3f;
+    public float moveLightningActiveLingerDelay = 1.0f;
 
     public GameObject targetStrikeGO;
     public float targetStrikePulse = 1.0f;
@@ -359,6 +360,7 @@ public class EnemyBossLightning : Enemy {
     }
 
     IEnumerator DoMoveLightningStrike() {
+        WaitForFixedUpdate wait = new WaitForFixedUpdate();
         WaitForSeconds startWait = new WaitForSeconds(moveStrikeStartDelay);
         WaitForSeconds prepWait = new WaitForSeconds(moveStrikePrepDelay);
         WaitForSeconds lightningWait = new WaitForSeconds(moveLightningActiveDelay);
@@ -395,10 +397,8 @@ public class EnemyBossLightning : Enemy {
             bodySpriteCtrl.PlayOverrideClip(chargeClip);
 
             lightningStrike.SetActive(true);
-            yield return lightningWait;
-            lightningStrike.SetActive(false);
 
-            bodySpriteCtrl.StopOverrideClip();
+            yield return lightningWait;
 
             //balls
             Vector3 ballProjPos = fork.position; ballProjPos.z = 0;
@@ -408,6 +408,21 @@ public class EnemyBossLightning : Enemy {
 
             proj = Projectile.Create(lightningBallGroup, lightningBallType, ballProjPos, Vector3.right, null);
             proj.bounceRotateAngle = 90;
+
+            bodySpriteCtrl.StopOverrideClip();
+
+            float lastLightningActiveTime = Time.fixedTime;
+            while(Time.fixedTime - lastLightningActiveTime <= moveLightningActiveLingerDelay) {
+                lightningPos = fork.position; lightningPos.z = 0.0f;
+                lightningStrike.transform.position = lightningPos;
+                lightningStrike.transform.rotation = Quaternion.identity;
+                
+                bodyCtrl.moveSide = Mathf.Sign(mPlayer.transform.position.x - transform.position.x);
+                
+                yield return wait;
+            }
+
+            lightningStrike.SetActive(false);
 
             count++;
         } while(mCurPhase == Phase.Move);

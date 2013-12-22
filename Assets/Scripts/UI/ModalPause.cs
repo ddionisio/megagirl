@@ -43,7 +43,7 @@ public class ModalPause : UIController {
             InitWeapons();
 
             //life
-            lifeLabel.text = "x" + PlayerStats.curLife;
+            lifeLabel.text = "x" + (PlayerStats.curLife-1).ToString("D2");
 
             exit.onClick = OnExitClick;
             options.onClick = OnOptionsClick;

@@ -29,26 +29,40 @@ public class EnemyShelly : Enemy {
     private Vector3 mDirCur;
     private Vector3 mDirRotAxis;
     private float mDirAngleVel;
+
+    void InitNormal() {
+        mIsOpen = false;
+        
+        CancelInvoke(orientFunc);
+        CancelInvoke(openFunc);
+        
+        cannonAnim.Play("normal");
+        
+        shellAnimDat.Play("normal");
+        stats.isInvul = true;
+        Invoke(openFunc, openDelay);
+        
+        mDirCur = Vector3.up;
+        mDirAngle = mDirAngleDest = 0.0f;
+        mDirAngleVel = 0.0f;
+    }
         
     protected override void StateChanged() {
         base.StateChanged();
 
         switch((EntityState)state) {
             case EntityState.Normal:
-                mIsOpen = false;
+                InitNormal();
+                break;
+        }
+    }
 
-                CancelInvoke(orientFunc);
-                CancelInvoke(openFunc);
+    protected override void ActivatorWakeUp() {
+        base.ActivatorWakeUp();
 
-                cannonAnim.Play("normal");
-
-                shellAnimDat.Play("normal");
-                stats.isInvul = true;
-                Invoke(openFunc, openDelay);
-
-                mDirCur = Vector3.up;
-                mDirAngle = mDirAngleDest = 0.0f;
-                mDirAngleVel = 0.0f;
+        switch((EntityState)state) {
+            case EntityState.Normal:
+                InitNormal();
                 break;
         }
     }

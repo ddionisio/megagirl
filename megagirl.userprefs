@@ -1,20 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\M8\Scripts\Audio\MusicManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Weapons\Weapon.cs">
     <Files>
-      <File FileName="Assets\Scripts\EnemyBossHipster.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyBossCatGirl.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyPathChasey.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Transform\TransAttachTo.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Audio\MusicManager.cs" Line="82" Column="25" />
-      <File FileName="Assets\Scripts\EnemyTurretLaser.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Player.cs" Line="244" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\PlayerLock.cs" Line="12" Column="6" />
-      <File FileName="Assets\Scripts\FSMActions\PlayerMoveToPoint.cs" Line="26" Column="47" />
-      <File FileName="Assets\Scripts\Projectile.cs" Line="476" Column="61" />
-      <File FileName="Assets\Scripts\UI\HUD.cs" Line="23" Column="72" />
-      <File FileName="Assets\Scripts\UI\ModalLevelSelect.cs" Line="74" Column="35" />
-      <File FileName="Assets\Scripts\UI\UILevelSelectItem.cs" Line="44" Column="38" />
+      <File FileName="Assets\Scripts\EnemyCharger.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyTurret.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ItemPickup.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LevelController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ItemDropManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyShelly.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="102" Column="11" />
+      <File FileName="Assets\Scripts\Weapons\WeaponHoolaHoop.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Damage.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\DamageTrigger.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\WeaponStarGazer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyBossCloneProj.cs" Line="28" Column="44" />
+      <File FileName="Assets\Scripts\PlayerJumpOnDamage.cs" Line="25" Column="13" />
+      <File FileName="Assets\Scripts\FSMActions\RigidBodySetDetectCollision.cs" Line="13" Column="1" />
+      <File FileName="Assets\Scripts\ProjectileClone.cs" Line="65" Column="47" />
+      <File FileName="Assets\Scripts\EnemyBossLightning.cs" Line="316" Column="31" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

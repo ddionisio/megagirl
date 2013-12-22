@@ -10,6 +10,7 @@ public class RigidBodySetDetectCollision : FSMActionComponentBase<Rigidbody> {
     public override void OnEnter() {
         base.OnEnter();
         mComp.detectCollisions = detectCollision.Value;
+
         Finish();
     }
 

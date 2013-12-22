@@ -3,6 +3,7 @@ using System.Collections;
 
 public class LevelController : MonoBehaviour {
     public const string levelBitState = "levelBits";
+    public const string levelPickupBitState = "levelPickupBits"; //for certain items that can't be picked up until complete restart
 
     private static bool mCheckpointActive = false;
     private static Vector3 mCheckpoint;
@@ -21,6 +22,14 @@ public class LevelController : MonoBehaviour {
         return SceneState.instance.GetGlobalValue(level) == 1;
     }
 
+    /// <summary>
+    /// Determine if life up has been dropped, uses bit 30 in levelPickupBitState
+    /// </summary>
+    public static bool isLifeUpDropped {
+        get { return SceneState.instance.CheckGlobalFlag(levelPickupBitState, 30); }
+        set { SceneState.instance.SetGlobalFlag(levelPickupBitState, 30, value, false); }
+    }
+
     public static void CheckpointApplyTo(Transform target) {
         if(mCheckpointActive) {
             target.position = mCheckpoint;
@@ -37,10 +46,11 @@ public class LevelController : MonoBehaviour {
     }
 
     /// <summary>
-    /// For specific level state, when exiting, call this
+    /// For specific level state and pickups, when exiting, call this
     /// </summary>
     public static void LevelStateReset() {
         SceneState.instance.SetGlobalValue(levelBitState, 0, false);
+        SceneState.instance.SetGlobalValue(levelPickupBitState, 0, false);
     }
 
     public static void Complete() {

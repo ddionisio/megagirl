@@ -7,6 +7,8 @@ public class ItemPickup : EntityBase {
 
     public ItemType type;
     public int bit; //which bit in the flag, used by certain types
+    public bool savePickUp; //if true, sets flag in pickupBit to avoid spawning item when starting level over after death
+    public int pickupBit; //make sure not to set >= 30
     public float value; //used by certain types
     public string sound;
     public string popTextRef;
@@ -91,6 +93,10 @@ public class ItemPickup : EntityBase {
                 case ItemType.Armor:
                     player.stats.AcquireArmor();
                     break;
+            }
+
+            if(savePickUp) {
+                SceneState.instance.SetGlobalFlag(LevelController.levelPickupBitState, pickupBit, true, false);
             }
 
             if(!string.IsNullOrEmpty(sound)) {
@@ -211,6 +217,12 @@ public class ItemPickup : EntityBase {
 
             case ItemType.Armor:
                 doDisable = PlayerStats.isArmorAcquired;
+                break;
+
+            default:
+                if(savePickUp) {
+                    doDisable = SceneState.instance.CheckGlobalFlag(LevelController.levelPickupBitState, pickupBit);
+                }
                 break;
         }
 

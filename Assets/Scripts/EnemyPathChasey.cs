@@ -94,6 +94,19 @@ public class EnemyPathChasey : Enemy {
                     
                     if(mProj)
                         mProj.gameObject.SetActive(true);
+                    else {
+                        if(!string.IsNullOrEmpty(attachProjType)) {
+                            mProj = Projectile.Create(projGroup, attachProjType, attachProjPt.position, Vector3.zero, null);
+                            RigidBodyMoveToTarget attacher = mProj.GetComponent<RigidBodyMoveToTarget>();
+                            if(attacher)
+                                attacher.target = attachProjPt;
+                            
+                            mProj.releaseCallback += OnProjRelease;
+                            
+                            if(attachProjChain)
+                                attachProjChain.SetActive(true);
+                        }
+                    }
                 }
                 break;
         }

@@ -52,7 +52,15 @@ public class ItemDropManager : MonoBehaviour {
             }
 
             if(!string.IsNullOrEmpty(spawnType)) {
-                Debug.Log("dropping: " + spawnType);
+                if(spawnType == "itemLife") {
+                    if(LevelController.isLifeUpDropped)
+                        return;
+                    else
+                        LevelController.isLifeUpDropped = true;
+                }
+
+                //Debug.Log("dropping: " + spawnType);
+
                 mCtrl.Spawn(spawnType, spawnType, null, pos, Quaternion.identity);
             }
         }

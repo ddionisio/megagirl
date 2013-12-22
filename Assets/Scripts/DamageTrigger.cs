@@ -19,10 +19,10 @@ public class DamageTrigger : MonoBehaviour {
     }
 
     void OnTriggerStay(Collider col) {
-        mDmg.CallDamageTo(col.gameObject, transform.position, (col.bounds.center - transform.position).normalized);
-
-        if(damageCallback != null) {
-            damageCallback(this, col.gameObject);
+        if(mDmg.CallDamageTo(col.gameObject, transform.position, (col.bounds.center - transform.position).normalized)) {
+            if(damageCallback != null) {
+                damageCallback(this, col.gameObject);
+            }
         }
     }
 }
