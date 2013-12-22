@@ -20,7 +20,7 @@ public class HUD : MonoBehaviour {
     }
 
     public void RefreshLifeCount() {
-        lifeCountLabel.text = PlayerStats.curLife.ToString();
+        lifeCountLabel.text = (PlayerStats.curLife - 1).ToString("D2");
     }
 
     void OnDestroy() {

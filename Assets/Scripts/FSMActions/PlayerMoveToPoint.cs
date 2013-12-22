@@ -10,6 +10,10 @@ public class PlayerMoveToPoint : FsmStateAction {
 
     // Code that runs on entering the state.
     public override void OnEnter() {
+        Player player = Player.instance;
+        Transform t = target.Value.transform;
+        float deltaX = t.position.x - player.transform.position.x;
+        player.controller.moveSide = Mathf.Sign(deltaX);
     }
 
     // Code that runs every frame.
@@ -19,14 +23,13 @@ public class PlayerMoveToPoint : FsmStateAction {
 
         float deltaX = t.position.x - player.transform.position.x;
 
-        if(Mathf.Abs(deltaX) < 0.1f) {
+        player.controller.moveSideLock = true;
+
+        if(Mathf.Abs(deltaX) < 0.1f || Mathf.Sign(deltaX) != player.controller.moveSide) {
             player.controller.moveSide = 0.0f;
 
             Fsm.Event(finishEvent);
             Finish();
-        }
-        else {
-            player.controller.moveSide = Mathf.Sign(deltaX);
         }
     }
 
