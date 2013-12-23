@@ -201,7 +201,6 @@ public class PlatformerSpriteController : MonoBehaviour {
         }
 
         if(wallStickParticle) {
-            wallStickParticle.loop = false;
             wallStickParticle.Stop();
             wallStickParticle.Clear();
         }
@@ -306,12 +305,8 @@ public class PlatformerSpriteController : MonoBehaviour {
                     left = controller.localVelocity.x < 0.0f;
                 }
                 else if(controller.isWallStick) {
-                    if(wallStickParticle) {
-                        if(wallStickParticle.isStopped) {
-                            wallStickParticle.Play();
-                        }
-
-                        wallStickParticle.loop = true;
+                    if(wallStickParticle && !wallStickParticle.isPlaying) {
+                        wallStickParticle.Play();
                     }
 
                     if(anim) anim.Play(dat.wallStick);
@@ -320,8 +315,10 @@ public class PlatformerSpriteController : MonoBehaviour {
 
                 }
                 else {
-                    if(wallStickParticle)
-                        wallStickParticle.loop = false;
+                    if(wallStickParticle) {
+                        wallStickParticle.Stop();
+                        wallStickParticle.Clear();
+                    }
 
                     if(anim) {
                         if(controller.isGrounded) {

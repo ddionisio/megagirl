@@ -15,6 +15,9 @@ public class Player : EntityBase {
     public LayerMask solidMask; //use for standing up, etc.
 
     public Weapon[] weapons;
+
+    public GameObject[] armorDisplayGOs;
+
     private static Player mInstance;
     private PlayerStats mStats;
     private PlatformerController mCtrl;
@@ -288,14 +291,20 @@ public class Player : EntityBase {
     }
 
     public override void SpawnFinish() {
-        //start ai, player control, etc
-        currentWeaponIndex = 0;
-
         state = (int)EntityState.Normal;
     }
 
     protected override void SpawnStart() {
         //initialize some things
+
+        //start ai, player control, etc
+        currentWeaponIndex = 0;
+        
+        //check for armor
+        if(armorDisplayGOs != null) {
+            for(int i = 0; i < armorDisplayGOs.Length; i++)
+                armorDisplayGOs[i].SetActive(PlayerStats.isArmorAcquired);
+        }
     }
 
     protected override void Awake() {
@@ -373,6 +382,9 @@ public class Player : EntityBase {
                 mCtrl.moveSide = -1.0f;
             else if(inpX > 0.1f)
                 mCtrl.moveSide = 1.0f;
+
+            if(!slideParticle.isPlaying)
+                slideParticle.Play();
 
             if(Time.time - mSlidingLastTime >= slideDelay) {
                 SetSlide(false);
@@ -577,10 +589,6 @@ public class Player : EntityBase {
                 mCtrl.moveSide = mCtrlSpr.isLeft ? -1.0f : 1.0f;
 
                 mCtrlSpr.state = PlatformerSpriteController.State.Slide;
-
-                slideParticle.loop = true;
-                if(!slideParticle.isPlaying)
-                    slideParticle.Play();
             } else {
                 //cannot set to false if we can't stand
                 if(CanStand()) {
@@ -610,7 +618,8 @@ public class Player : EntityBase {
                     pos.y += (mDefaultColliderHeight - slideHeight) * 0.5f - 0.1f;
                     transform.position = pos;
 
-                    slideParticle.loop = false;
+                    slideParticle.Stop();
+                    slideParticle.Clear();
                 } else {
                     mSliding = true;
                 }
