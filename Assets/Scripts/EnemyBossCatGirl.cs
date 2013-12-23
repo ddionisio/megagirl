@@ -269,19 +269,18 @@ public class EnemyBossCatGirl : Enemy {
                 if(mJumpToWallWait) {
                     if(bodyCtrl.isWallStick) {
                         //strike or grenade
-                        if(mPlayer.controller.isGrounded) {
-                            if(Random.Range(0, 3) == 0)
+                        if(mPlayer.controller.isGrounded || mPlayer.collider.bounds.max.y < collider.bounds.center.y) {
+                            if(Random.Range(0, 6) == 0)
                                 ToPhase(Phase.AirStrike);
                             else
                                 ToPhase(Phase.ThrowGrenades);
                         }
-                        else
-                            ToPhase(Phase.AirStrike);
-                        /*if(Random.Range(0, 2) == 0)
-                            ToPhase(Phase.AirStrike);
-                        else
-                            ToPhase(Phase.ThrowGrenades);*/
-                        //ToPhase(Phase.ThrowGrenades);
+                        else {
+                            if(Random.Range(0, 10) == 0)
+                                ToPhase(Phase.ThrowGrenades);
+                            else
+                                ToPhase(Phase.AirStrike);
+                        }
                     }
                     else if(bodyCtrl.isGrounded && !bodyCtrl.isJump) {
                         Jump(0);

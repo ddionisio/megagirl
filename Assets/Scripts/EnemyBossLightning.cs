@@ -108,6 +108,8 @@ public class EnemyBossLightning : Enemy {
                 break;
 
             case Phase.MidAirCharge:
+                stats.damageReduction = 0.0f;
+
                 StopCoroutine(superStrikeFunc);
 
                 superStrikeChargeGO.SetActive(false);
@@ -147,6 +149,8 @@ public class EnemyBossLightning : Enemy {
                 break;
 
             case Phase.MidAirCharge:
+                stats.damageReduction = 1.0f;
+
                 StartCoroutine(superStrikeFunc);
                 break;
 

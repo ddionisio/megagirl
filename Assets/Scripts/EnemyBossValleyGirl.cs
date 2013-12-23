@@ -89,6 +89,7 @@ public class EnemyBossValleyGirl : Enemy {
                 break;
 
             case Phase.ChargeToPlayer:
+                stats.damageReduction = 0.0f;
                 StopCoroutine(chargeRoutine);
                 chargeGO.SetActive(false);
                 bodyCtrl.lockDrag = false;
@@ -104,6 +105,7 @@ public class EnemyBossValleyGirl : Enemy {
                 break;
 
             case Phase.Tornado:
+                stats.damageReduction = 0.0f;
                 StopCoroutine(tornadoRoutine);
                 tornadoAnimDat.Stop();
                 bodyCtrl.lockDrag = false;
@@ -121,6 +123,7 @@ public class EnemyBossValleyGirl : Enemy {
                 break;
 
             case Phase.ChargeToPlayer:
+                stats.damageReduction = 0.5f;
                 damageGO.SetActive(false);
 
                 StartCoroutine(chargeRoutine);
@@ -131,6 +134,7 @@ public class EnemyBossValleyGirl : Enemy {
                 break;
 
             case Phase.Tornado:
+                stats.damageReduction = 1.0f;
                 StartCoroutine(tornadoRoutine);
                 break;
 

@@ -12,6 +12,7 @@ public class ProjectileArc : Projectile {
     public float nearDistance;
 
     public float straightVelocity = 18.0f; //if theta is invalid
+    public float randXRange;
 
     protected override void StateChanged() {
         base.StateChanged();
@@ -20,6 +21,10 @@ public class ProjectileArc : Projectile {
             case State.Seek:
                 Vector3 pos = collider.bounds.center;
                 Vector3 target = mSeek.position;
+                if(randXRange > 0.0f) {
+                    target.x += Random.Range(-randXRange, randXRange);
+                }
+
                 if(target.x != pos.x) {
                     float vel = seekVelocity;
                                        
@@ -38,14 +43,20 @@ public class ProjectileArc : Projectile {
                     float vSqr = vel * vel;
 
                     float theta = Mathf.Atan((vSqr + Mathf.Sqrt(vSqr * vSqr + grav * (grav * x * x + 2 * y * vSqr))) / (grav * x));
-                    if(float.IsNaN(theta)) {
+                    float theta2 = Mathf.Atan((vSqr - Mathf.Sqrt(vSqr * vSqr + grav * (grav * x * x + 2 * y * vSqr))) / (grav * x));
+
+                    if(!float.IsNaN(theta)) {
+                        mInitDir.Set(Mathf.Sign(x), 0, 0);
+                        mInitDir = Quaternion.AngleAxis(Mathf.Rad2Deg * theta, Vector3.forward) * mInitDir;
+                    }
+                    else if(!float.IsNaN(theta2)) {
+                        mInitDir.Set(Mathf.Sign(x), 0, 0);
+                        mInitDir = Quaternion.AngleAxis(Mathf.Rad2Deg * theta2, Vector3.forward) * mInitDir;
+                    }
+                    else {
                         mInitDir = new Vector3(x, y, 0);
                         mInitDir.Normalize();
                         vel = straightVelocity;
-                    }
-                    else {
-                        mInitDir.Set(Mathf.Sign(x), 0, 0);
-                        mInitDir = Quaternion.AngleAxis(Mathf.Rad2Deg * theta, Vector3.forward) * mInitDir;
                     }
 
                     rigidbody.velocity = mInitDir * vel;// .AddForce(mDir * vel, ForceMode.VelocityChange);
