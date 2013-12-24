@@ -66,7 +66,7 @@ public class tk2dCamActivator : EntityActivator {
     void OnEnable() {
         if(mStarted && !mCheckActive) {
             mCheckActive = true;
-            InvokeRepeating("DoCheck", 0.0f, checkDelay);
+            InvokeRepeating("DoCheck", checkDelay, checkDelay);
         }
     }
 

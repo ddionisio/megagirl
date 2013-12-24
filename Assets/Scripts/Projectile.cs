@@ -190,7 +190,7 @@ public class Projectile : EntityBase {
     protected override void ActivatorSleep() {
         base.ActivatorSleep();
 
-        if(releaseOnSleep) {
+        if(!mSpawning && isAlive && releaseOnSleep) {
             activator.ForceActivate();
             Release();
         }
@@ -293,10 +293,7 @@ public class Projectile : EntityBase {
                 break;
 
             case State.Invalid:
-                CancelInvoke("OnDecayEnd");
-                CancelInvoke("OnSeekStart");
-                CancelInvoke("OnUpUpdate");
-                CancelInvoke("Die");
+                CancelInvoke();
                 RevertSpeedLimit();
                 
                 PhysicsDisable();

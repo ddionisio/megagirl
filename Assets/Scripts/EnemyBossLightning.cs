@@ -149,8 +149,6 @@ public class EnemyBossLightning : Enemy {
                 break;
 
             case Phase.MidAirCharge:
-                stats.damageReduction = 1.0f;
-
                 StartCoroutine(superStrikeFunc);
                 break;
 
@@ -163,6 +161,19 @@ public class EnemyBossLightning : Enemy {
         }
 
         mCurPhase = phase;
+    }
+
+    void DoRemoveStunImmune() {
+        stats.stunImmune = false;
+    }
+
+    protected override void OnStatsHPChange(Stats stat, float delta) {
+        base.OnStatsHPChange(stat, delta);
+
+        if((EntityState)state == EntityState.Stun) {
+            stats.stunImmune = true;
+            Invoke("DoRemoveStunImmune", 5.0f);
+        }
     }
 
     public override void SpawnFinish() {
@@ -285,6 +296,8 @@ public class EnemyBossLightning : Enemy {
             yield return waitUpdate;
         }
         Jump(0);
+
+        stats.damageReduction = 1.0f;
 
         bodyCtrl.enabled = false;
         gravityCtrl.enabled = false;
