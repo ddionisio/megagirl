@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class ModalLevelSelect : UIController {
+    public const string levelSelectBossIntroUDKey = "bossIntro";
+
     public UILevelSelectItem gitgirl;
     public UILevelSelectItem finalLevel;
 
@@ -9,7 +11,11 @@ public class ModalLevelSelect : UIController {
     public tk2dSpriteAnimator characterSpriteAnim;
     public UILabel characterSelectedNameLabel;
 
+    public AnimatorData bossAlertAnimDat;
+
     private UILevelSelectItem[] mLevelItems;
+
+    private bool mLockInput;
 
     protected override void OnActive(bool active) {
         if(active) {
@@ -37,6 +43,29 @@ public class ModalLevelSelect : UIController {
     }
 
     protected override void OnOpen() {
+        mLockInput = false;
+
+        //check if we need to play boss intro
+        bool initFinalLevelItem = true;
+
+        if(UserData.instance.GetInt(levelSelectBossIntroUDKey, 0) == 0) {
+            int completeCount = 0;
+            for(int i = 0; i < mLevelItems.Length; i++) {
+                if(mLevelItems[i] != finalLevel && mLevelItems[i] != gitgirl && mLevelItems[i].isCompleted)
+                    completeCount++;
+            }
+
+            if(completeCount == mLevelItems.Length - 2) {
+                mLockInput = true;
+                UserData.instance.SetInt(levelSelectBossIntroUDKey, 1);
+                bossAlertAnimDat.Play("go"); //animator will re-open this modal after the intro
+                initFinalLevelItem = false;
+            }
+        }
+
+        if(initFinalLevelItem) {
+            finalLevel.InitFinalLevel(mLevelItems, gitgirl);
+        }
     }
 
     protected override void OnClose() {
@@ -51,8 +80,6 @@ public class ModalLevelSelect : UIController {
                 item.Init();
             }
         }
-
-        finalLevel.InitFinalLevel(mLevelItems);
     }
 
     void OnLevelSelect(GameObject go, bool s) {
@@ -67,17 +94,23 @@ public class ModalLevelSelect : UIController {
     }
 
     void OnLevelClick(GameObject go) {
+        if(mLockInput)
+            return;
+
         for(int i = 0, max = mLevelItems.Length; i < max; i++) {
             if(mLevelItems[i].gameObject == go && mLevelItems[i] != gitgirl) {
                 UILabel label = go.GetComponentInChildren<UILabel>();
                 characterSelectedNameLabel.text = label.text;
-                mLevelItems[i].Click(characterSpriteAnim, levelSelectAnimDat, "go");
+                mLockInput = mLevelItems[i].Click(characterSpriteAnim, levelSelectAnimDat, "go");
                 break;
             }
         }
     }
 
     void OnInputOptions(InputManager.Info dat) {
+        if(mLockInput)
+            return;
+
         if(dat.state == InputManager.State.Pressed) {
             UIModalManager.instance.ModalOpen("options");
         }

@@ -11,38 +11,57 @@ public class UILevelSelectItem : MonoBehaviour {
     public UISprite portrait;
     public GameObject inactive;
 
+    public GameObject finalActiveGO;
+
     private bool mIsFinalLevel = false;
     private UIEventListener mListener;
 
     public UIEventListener listener { get { return mListener; } }
 
+    public bool isCompleted {
+        get {
+            return inactive.activeSelf;
+        }
+    }
+
     public bool isFinalUnlock {
         get {
-            return mIsFinalLevel && !inactive.activeSelf;
+            return mIsFinalLevel && finalActiveGO.activeSelf;
         }
     }
 
     public void Init() {
         mIsFinalLevel = false;
 
-        inactive.SetActive(string.IsNullOrEmpty(level) ? false : LevelController.isLevelComplete(level));
+        if(inactive) {
+            inactive.SetActive(string.IsNullOrEmpty(level) ? false : LevelController.isLevelComplete(level));
+        }
     }
 
-    public void InitFinalLevel(UILevelSelectItem[] items) {
+    public void InitFinalLevel(UILevelSelectItem[] items, UILevelSelectItem exclude) {
         mIsFinalLevel = true;
 
-        //check if all levels are completed
-        //if not, set to mystery mode
-        inactive.SetActive(true);
+        int completeCount = 0;
+        for(int i = 0; i < items.Length; i++) {
+            if(items[i] != this && items[i] != exclude && items[i].isCompleted)
+                completeCount++;
+        }
+
+        finalActiveGO.SetActive(completeCount == items.Length - 2);
     }
 
-    public void Click(tk2dSpriteAnimator animSpr, AnimatorData toPlay, string take) {
+    public bool Click(tk2dSpriteAnimator animSpr, AnimatorData toPlay, string take) {
         if(mIsFinalLevel) {
             //if unlocked, load level
+            if(finalActiveGO.activeSelf) {
+                Main.instance.sceneManager.LoadScene(Scenes.finalStages);
+                return true;
+            }
         }
         else {
             if(inactive.activeSelf) {
                 Main.instance.sceneManager.LoadScene(level);
+                return true;
             }
             else {
                 //start intro
@@ -51,11 +70,17 @@ public class UILevelSelectItem : MonoBehaviour {
                 LevelSelectCharacterControl.instance.toScene = level;
                 LevelSelectCharacterControl.instance.SetAnimWatch(toPlay);
                 toPlay.Play(take);
+                return true;
             }
         }
+
+        return false;
     }
 
     void Awake() {
         mListener = GetComponent<UIEventListener>();
+
+        if(finalActiveGO)
+            finalActiveGO.SetActive(false);
     }
 }
