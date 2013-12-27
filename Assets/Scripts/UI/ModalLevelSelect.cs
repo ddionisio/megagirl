@@ -66,6 +66,9 @@ public class ModalLevelSelect : UIController {
         if(initFinalLevelItem) {
             finalLevel.InitFinalLevel(mLevelItems, gitgirl);
         }
+
+        //reset final stages
+        LevelController.levelFinalCurrent = 0;
     }
 
     protected override void OnClose() {

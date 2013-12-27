@@ -5,9 +5,26 @@ public class LevelController : MonoBehaviour {
     public const string levelBitState = "levelBits";
     public const string levelPickupBitState = "levelPickupBits"; //for certain items that can't be picked up until complete restart
 
+    private const string levelFinalCurState = "levelFinalCur";
+
     private static bool mCheckpointActive = false;
     private static Vector3 mCheckpoint;
     private static string mLevelLoaded;
+
+    /// <summary>
+    /// Get the current level index of final stages,
+    /// this should be set back to 0 when we go back to level select
+    /// and should be changed when completing a final stage
+    /// </summary>
+    public static int levelFinalCurrent {
+        get {
+            return SceneState.instance.GetGlobalValue(levelFinalCurState, 0);
+        }
+
+        set {
+            SceneState.instance.SetGlobalValue(levelFinalCurState, value, false);
+        }
+    }
 
     /// <summary>
     /// Get the level that was loaded from stage
