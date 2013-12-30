@@ -47,7 +47,7 @@ public class ItemPickup : EntityBase {
 
                 case ItemType.Energy:
                     Weapon wpn = null;
-                    if(player.currentWeaponIndex == 0) {
+                    if(player.currentWeaponIndex == 0 || player.currentWeapon.isMaxEnergy) {
                         wpn = player.lowestEnergyWeapon;
                     }
                     else

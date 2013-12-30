@@ -43,6 +43,22 @@ public class ModalLevelSelect : UIController {
     }
 
     protected override void OnOpen() {
+#if false
+        //cheat
+        Weapon.UnlockWeapon(1);
+        Weapon.UnlockWeapon(2);
+        Weapon.UnlockWeapon(3);
+        Weapon.UnlockWeapon(4);
+        Weapon.UnlockWeapon(5);
+        Weapon.UnlockWeapon(6);
+
+        for(int i = 0; i < mLevelItems.Length; i++) {
+            if(!string.IsNullOrEmpty(mLevelItems[i].level)) {
+                SceneState.instance.SetGlobalValue(mLevelItems[i].level, 1, true);
+                mLevelItems[i].Init();
+            }
+        }
+#endif
         mLockInput = false;
 
         //check if we need to play boss intro

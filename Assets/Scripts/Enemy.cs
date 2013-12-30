@@ -5,7 +5,8 @@ public class Enemy : EntityBase {
     public const string projGroup = "projEnemy";
     public const string projCommonType = "enemyBullet";
 
-    public const float stunDelay = 1.0f;
+    public const float stunDelay = 2.0f;
+    public const float stunImmuneDelay = 3.0f;
 
     public bool respawnOnSleep = true; //for regular enemies, this will cause a restart on deactivate
 
@@ -42,6 +43,7 @@ public class Enemy : EntityBase {
     private Damage[] mDamageTriggers;
 
     private bool mUseBossHP;
+    private float mLastStunnedTime;
 
     public Stats stats { get { return mStats; } }
     public PlatformerController bodyCtrl { get { return mBodyCtrl; } }
@@ -404,6 +406,8 @@ public class Enemy : EntityBase {
             stunGO.SetActive(false);
                 
         StopCoroutine(DoRespawnWaitDelayKey);
+
+        mLastStunnedTime = 0.0f;
     }
 
     protected void RevertTransform() {
@@ -422,7 +426,7 @@ public class Enemy : EntityBase {
             state = (int)EntityState.Dead;
         }
         else if(delta < 0.0f) {
-            if(stat.lastDamageSource != null && stat.lastDamageSource.stun && !stat.stunImmune)
+            if(stat.lastDamageSource != null && stat.lastDamageSource.stun && !stat.stunImmune && Time.time - mLastStunnedTime > stunImmuneDelay)
                 state = (int)EntityState.Stun;
         }
     }
@@ -445,8 +449,10 @@ public class Enemy : EntityBase {
     }
 
     void DoStun() {
-        if(state == (int)EntityState.Stun)
+        if(state == (int)EntityState.Stun) {
+            mLastStunnedTime = Time.time;
             state = (int)EntityState.Normal;
+        }
     }
 
     void OnHPBarFilled(UIEnergyBar bar) {
