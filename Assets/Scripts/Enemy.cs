@@ -9,6 +9,7 @@ public class Enemy : EntityBase {
     public const float stunImmuneDelay = 3.0f;
 
     public bool respawnOnSleep = true; //for regular enemies, this will cause a restart on deactivate
+    public bool releaseOnSleep = false;
 
     public bool toRespawnAuto = true; //if true, wait for a delay during death to wait for respawn
     public float toRespawnDelay = 0.0f;
@@ -268,6 +269,10 @@ public class Enemy : EntityBase {
 
                     ToRespawnWait();
 					//mRespawnReady = true;
+                }
+                else if(releaseOnSleep) {
+                    activator.ForceActivate();
+                    Release();
                 }
                 break;
 

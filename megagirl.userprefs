@@ -1,17 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyJumpNShoot2.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ProjectileSpawner.cs">
     <Files>
       <File FileName="Assets\Scripts\PlatformerSpriteController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyBossLightning.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="194" Column="39" />
       <File FileName="Assets\Scripts\EntityBlinkDelay.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Game\EntityActivator.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\tk2dCamActivator.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Transform\TransAnimRotWave.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ItemPickup.cs" Line="56" Column="50" />
+      <File FileName="Assets\Scripts\ItemPickup.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\StatsGameObjectDeath.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scenes.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\ModalLevelSelect.cs" Line="1" Column="1" />
@@ -19,11 +19,21 @@
       <File FileName="Assets\Scripts\UI\ModalFinalStage.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\NGUIExt\NGUIFillAnim.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\LevelController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyJumpNShoot2.cs" Line="41" Column="37" />
+      <File FileName="Assets\Scripts\EnemyJumpNShoot2.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyFollowNShoot.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyPathChasey.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Physics\RigidBodyMoveToTarget.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyShootNGuard.cs" Line="21" Column="35" />
+      <File FileName="Assets\Scripts\Enemy.cs" Line="126" Column="1" />
+      <File FileName="Assets\Scripts\EntitySpawner.cs" Line="67" Column="25" />
+      <File FileName="Assets\Scripts\ProjectileSpawner.cs" Line="154" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\Enemy.cs" line="126" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\EntitySpawner.cs" line="109" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

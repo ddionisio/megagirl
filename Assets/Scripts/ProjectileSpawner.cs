@@ -98,12 +98,27 @@ public class ProjectileSpawner : MonoBehaviour {
         WaitForSeconds waitDelay = new WaitForSeconds(repeatDelay);
         WaitForSeconds waitRestartDelay = new WaitForSeconds(restartDelay);
 
-        mCurCount = 0;
+        //mCurCount = 0;
 
-        yield return new WaitForSeconds(startDelay);
+        //resuming from current count
+        if(mCurCount > 0) {
+            if(mCurCount >= maxCount) {
+                while(mCurCount > 0) {
+                    yield return wait;
+                }
+                
+                yield return waitRestartDelay;
+            }
+            else {
+                yield return waitDelay;
+            }
+        }
+        else {
+            yield return new WaitForSeconds(startDelay);
+        }
 
         while(true) {
-            for(int i = 0; i < maxCount; i++) {
+            for(int i = mCurCount; i < maxCount; i++) {
                 Transform seek = seekPlayer ? NearestPlayer() : null;
 
                 Vector3 pos = target.position; pos.z = 0.0f;

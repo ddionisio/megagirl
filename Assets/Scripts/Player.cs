@@ -602,7 +602,9 @@ public class Player : EntityBase {
 
                     if(clearVelocity) {
                         mCtrl.moveSide = 0.0f;
-                        rigidbody.velocity = Vector3.zero;
+
+                        if(!rigidbody.isKinematic)
+                            rigidbody.velocity = Vector3.zero;
                     } else {
                         //limit x velocity
                         Vector3 v = rigidbody.velocity;

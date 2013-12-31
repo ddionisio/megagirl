@@ -11,6 +11,7 @@ public class EnemyJumpNShoot2 : Enemy {
     public Transform shootPt;
     public int shootCount = 3;
     public float shootAngle = 90.0f;
+    public int shootMaxProj = 3;
 
     public float jumpRepeatDelay = 1.0f;
     public bool jumpTowardsPlayer = true;
@@ -22,6 +23,7 @@ public class EnemyJumpNShoot2 : Enemy {
     private bool mJump;
     private float mLastJumpTime;
     private bool mProjIsShot;
+    private int mCurProjCount;
 
     protected override void StateChanged() {
         switch((EntityState)prevState) {
@@ -99,7 +101,7 @@ public class EnemyJumpNShoot2 : Enemy {
                 }
 
                 if(nearest) {
-                    if(!mProjIsShot) {
+                    if(!mProjIsShot && mCurProjCount < shootMaxProj) {
                         if(!bodyCtrl.isGrounded && bodyCtrl.localVelocity.y <= shootVelYMax) {
                             Vector3 pos = shootPt.position; pos.z = 0.0f;
 
@@ -110,12 +112,17 @@ public class EnemyJumpNShoot2 : Enemy {
                                 dir = Quaternion.AngleAxis(shootAngle*0.5f, bodySpriteCtrl.isLeft ? Vector3.forward : Vector3.back)*dir;
                                 
                                 for(int i = 0; i < shootCount; i++) {
-                                    Projectile.Create(projGroup, projType, pos, dir, null);
+                                    mCurProjCount++;
+                                    Projectile proj = Projectile.Create(projGroup, projType, pos, dir, null);
+                                    proj.releaseCallback += OnProjRelease;
+
                                     dir = rot*dir;
                                 }
                             }
                             else {
-                                Projectile.Create(projGroup, projType, pos, dir, null);
+                                mCurProjCount++;
+                                Projectile proj = Projectile.Create(projGroup, projType, pos, dir, null);
+                                proj.releaseCallback += OnProjRelease;
                             }
 
                             if(shootAnim)
@@ -136,5 +143,12 @@ public class EnemyJumpNShoot2 : Enemy {
         mJump = false;
         mLastJumpTime = Time.fixedTime;
         mProjIsShot = false;
+    }
+
+    void OnProjRelease(EntityBase ent) {
+        ent.releaseCallback -= OnProjRelease;
+        mCurProjCount--;
+        if(mCurProjCount < 0)
+            mCurProjCount = 0;
     }
 }

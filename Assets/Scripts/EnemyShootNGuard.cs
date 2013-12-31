@@ -18,6 +18,8 @@ public class EnemyShootNGuard : Enemy {
 
     public float faceDelay = 1.0f;
 
+    public float jumpDistX = 8.0f;
+
     private const string ActiveRoutine = "DoStuff";
 
     private float mLastFaceTime;
@@ -38,6 +40,7 @@ public class EnemyShootNGuard : Enemy {
         
         switch((EntityState)state) {
             case EntityState.Normal:
+                bodyCtrl.inputEnabled = true;
                 StartCoroutine(ActiveRoutine);
                 mLastFaceTime = 0.0f;
                 break;
@@ -77,12 +80,19 @@ public class EnemyShootNGuard : Enemy {
     void FixedUpdate() {
         switch((EntityState)state) {
             case EntityState.Normal:
-                if(Time.fixedTime - mLastFaceTime > faceDelay) {
-                    float dirX;
-                    Transform nearest = NearestPlayer(out dirX);
-                    if(nearest) {
+                float dirX;
+                Transform nearest = NearestPlayer(out dirX);
+                if(nearest) {
+                    if(Time.fixedTime - mLastFaceTime > faceDelay) {
                         bodySpriteCtrl.isLeft = dirX < 0.0f;
                         mLastFaceTime = Time.fixedTime;
+                    }
+
+                    if(bodyCtrl.isGrounded && Mathf.Abs(nearest.position.x - transform.position.x) <= jumpDistX) {
+                        if(nearest.collider && nearest.collider.bounds.min.y > collider.bounds.center.y) {
+                            Jump(0.0f);
+                            Jump(1.0f);
+                        }
                     }
                 }
                 break;
@@ -90,6 +100,7 @@ public class EnemyShootNGuard : Enemy {
     }
 
     IEnumerator DoStuff() {
+        WaitForFixedUpdate wait = new WaitForFixedUpdate();
         WaitForSeconds shootReadyWait = new WaitForSeconds(shootReadyDelay);
         WaitForSeconds shootRepeatWait = new WaitForSeconds(shootRepeatDelay);
         WaitForSeconds guardWait = new WaitForSeconds(guardDelay);
@@ -102,6 +113,10 @@ public class EnemyShootNGuard : Enemy {
 
             shieldGO.SetActive(false);
             gunGO.SetActive(true);
+
+            //wait till we are on ground
+            while(!bodyCtrl.isGrounded)
+                yield return wait;
 
             yield return shootReadyWait;
 
