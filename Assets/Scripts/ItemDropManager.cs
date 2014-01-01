@@ -52,12 +52,12 @@ public class ItemDropManager : MonoBehaviour {
             }
 
             if(!string.IsNullOrEmpty(spawnType)) {
-                if(spawnType == "itemLife") {
+                /*if(spawnType == "itemLife") {
                     if(LevelController.isLifeUpDropped)
                         return;
                     else
                         LevelController.isLifeUpDropped = true;
-                }
+                }*/
 
                 //Debug.Log("dropping: " + spawnType);
 
