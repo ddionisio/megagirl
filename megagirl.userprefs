@@ -1,9 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ItemPickup.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player.cs">
     <Files>
-      <File FileName="Assets\Scripts\ItemDrop.cs" Line="25" Column="47" />
-      <File FileName="Assets\Scripts\ItemPickup.cs" Line="89" Column="25" />
+      <File FileName="Assets\Scripts\ItemDrop.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ItemPickup.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\FSMActions\PlayerMoveToPoint.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\FSMActions\PlayerLock.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="462" Column="49" />
+      <File FileName="Assets\Scripts\EnemyBossEffin.cs" Line="164" Column="17" />
+      <File FileName="Assets\Scripts\EnemyBossEffinStuff.cs" Line="15" Column="25" />
+      <File FileName="Assets\Scripts\UI\ModalFinalStage.cs" Line="49" Column="39" />
+      <File FileName="Assets\Scripts\LevelController.cs" Line="13" Column="1" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIFillAnim.cs" Line="49" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

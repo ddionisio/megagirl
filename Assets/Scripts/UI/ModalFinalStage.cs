@@ -40,7 +40,18 @@ public class ModalFinalStage : UIController {
     }
     
     protected override void OnOpen() {
-        mCurStage = LevelController.levelFinalCurrent;
+        //determine which stage
+        mCurStage = 0;
+
+        for(int i = 0; i < stages.Length - 1; i++) {
+            Item stage = stages[i];
+            if(LevelController.isLevelComplete(stage.level)) {
+                stage.pathAnim.Fill();
+                mCurStage++;
+            }
+            else
+                break;
+        }
 
         StartCoroutine(DoPlay());
     }

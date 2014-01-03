@@ -12,21 +12,6 @@ public class LevelController : MonoBehaviour {
     private static string mLevelLoaded;
 
     /// <summary>
-    /// Get the current level index of final stages,
-    /// this should be set back to 0 when we go back to level select
-    /// and should be changed when completing a final stage
-    /// </summary>
-    public static int levelFinalCurrent {
-        get {
-            return SceneState.instance.GetGlobalValue(levelFinalCurState, 0);
-        }
-
-        set {
-            SceneState.instance.SetGlobalValue(levelFinalCurState, value, false);
-        }
-    }
-
-    /// <summary>
     /// Get the level that was loaded from stage
     /// </summary>
     public static string levelLoaded {

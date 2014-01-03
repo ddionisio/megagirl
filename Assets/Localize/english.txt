@@ -48,7 +48,7 @@
 	},
 	{
 		"key":"hipgirl_name",
-		"text":"NATACHA"
+		"text":"NATACHA NICE"
 	},
 	{
 		"key":"valleygirl_name",
