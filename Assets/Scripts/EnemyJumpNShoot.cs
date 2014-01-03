@@ -10,6 +10,10 @@ public class EnemyJumpNShoot : Enemy {
     public float activateCheckDelay = 0.2f;
     public float jumpRepeatDelay = 1.0f;
 
+    public bool shootBeforeJump = true;
+    public int shootCount = 3;
+    public float shootAngle = 90.0f;
+    public int shootMaxProj = 3;
 
     public string idleClip = "idle";
     public string jumpClip = "jump";
@@ -100,13 +104,16 @@ public class EnemyJumpNShoot : Enemy {
 
     void OnAnimEnd(tk2dSpriteAnimator aAnim, tk2dSpriteAnimationClip aClip) {
         if(aClip.name == jumpReadyClip) {
-            mJumping = true;
-            Jump(5.0f);
-            anim.Play(jumpClip);
-
             Vector3 pos = collider.bounds.center; pos.z = 0;
             Vector3 targetPos = mTarget.collider.bounds.center;
             bodyCtrl.moveSide = Mathf.Sign(targetPos.x - pos.x)*0.5f;
+
+            if(shootBeforeJump)
+                Shoot();
+
+            mJumping = true;
+            Jump(5.0f);
+            anim.Play(jumpClip);
         }
         else if(aClip.name == landClip) {
             mTarget = null;
@@ -119,16 +126,33 @@ public class EnemyJumpNShoot : Enemy {
 
     void OnLanded(PlatformerController ctrl) {
         if(mJumping) {
-            Vector3 pos = collider.bounds.center; pos.z = 0;
-            Vector3 targetPos = mTarget.collider.bounds.center;
-            Projectile.Create(projGroup, projType, pos, new Vector3(Mathf.Sign(targetPos.x - pos.x), 0, 0), null);
-
+            if(!shootBeforeJump)
+                Shoot();
 
             mJumping = false;
             bodyCtrl.rigidbody.velocity = Vector3.zero;
             bodyCtrl.moveSide = 0.0f;
             Jump(0);
             anim.Play(landClip);
+        }
+    }
+
+    void Shoot() {
+        Vector3 pos = collider.bounds.center; pos.z = 0.0f;
+        
+        Vector3 dir = new Vector3(Mathf.Sign(bodyCtrl.moveSide), 0.0f, 0.0f);
+        
+        if(shootCount > 1) {
+            Quaternion rot = Quaternion.AngleAxis(shootAngle/((float)(shootCount-1)), bodyCtrl.moveSide < 0.0f ? Vector3.back : Vector3.forward);
+            dir = Quaternion.AngleAxis(shootAngle*0.5f, bodyCtrl.moveSide < 0.0f ? Vector3.forward : Vector3.back)*dir;
+            
+            for(int i = 0; i < shootCount; i++) {
+                Projectile proj = Projectile.Create(projGroup, projType, pos, dir, null);
+                dir = rot*dir;
+            }
+        }
+        else {
+            Projectile proj = Projectile.Create(projGroup, projType, pos, dir, null);
         }
     }
 

@@ -91,6 +91,7 @@ public class PlatformerSpriteController : MonoBehaviour {
 
     private int mAnimLibIndex = -1; //-1 is default
     private bool mAnimVelocitySpeedEnabled;
+    private bool mLockFacing;
 
     private tk2dBaseSprite[] mMultiSprites; //if multisprites is true
 
@@ -119,6 +120,8 @@ public class PlatformerSpriteController : MonoBehaviour {
             }
         }
     }
+
+    public bool lockFacing { get { return mLockFacing; } set { mLockFacing = value; } }
 
     public State state {
         get { return mState; }
@@ -360,7 +363,8 @@ public class PlatformerSpriteController : MonoBehaviour {
                 break;
         }
 
-        isLeft = left;
+        if(!mLockFacing)
+            isLeft = left;
     }
 
     void OnAnimationComplete(tk2dSpriteAnimator _anim, tk2dSpriteAnimationClip _clip) {

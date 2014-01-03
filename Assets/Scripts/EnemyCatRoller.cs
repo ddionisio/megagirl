@@ -20,6 +20,7 @@ public class EnemyCatRoller : Enemy {
     public float projActiveCheckDelay = 0.2f;
     public string projInactiveClip = "idle";
     public bool projInactiveInvul = true;
+    public bool projFacePlayer = true;
 
     public bool rollerDieDelayOverride = false; //override roller death delay when we die, sets it 0 while we are alive
     public float rollerDieDelay = 1.0f;
@@ -37,7 +38,7 @@ public class EnemyCatRoller : Enemy {
     private PlatformerController mRockCtrl;
     private EntityBlinkDelay mRockBlinkDelay;
 
-    private GameObject[] mPlayers;
+    private Player mPlayer;
 
     protected override void StateChanged() {
         switch((EntityState)prevState) {
@@ -88,8 +89,7 @@ public class EnemyCatRoller : Enemy {
                 }
 
                 if(!string.IsNullOrEmpty(projType)) {
-                    if(mPlayers == null)
-                        mPlayers = GameObject.FindGameObjectsWithTag("Player");
+                    mPlayer = Player.instance;
 
                     InvokeRepeating(activeFunc, 0, projActiveCheckDelay);
 
@@ -190,6 +190,11 @@ public class EnemyCatRoller : Enemy {
                     }
 
 	                if(mFiring) {
+                        if(projFacePlayer) {
+                            bodySpriteCtrl.lockFacing = true;
+                            bodySpriteCtrl.isLeft = Mathf.Sign(mPlayer.transform.position.x - transform.position.x) < 0.0f;
+                        }
+
 	                    if(Time.fixedTime - mLastFireTime > projFireDelay) {
 	                        mLastFireTime = Time.fixedTime;
 	                        
@@ -202,6 +207,7 @@ public class EnemyCatRoller : Enemy {
 	                        
 	                        mCurNumFire++;
 	                        if(mCurNumFire == projCount) {
+                                bodySpriteCtrl.lockFacing = false;
 	                            mFiring = false;
 	                            //Invoke(fireStartFunc, projStartDelay);
 	                            InvokeRepeating(activeFunc, projStartDelay, projActiveCheckDelay);
@@ -248,21 +254,11 @@ public class EnemyCatRoller : Enemy {
     }
 
     void FireActiveCheck() {
-        Transform mTarget = null;
+        Transform mTarget = mPlayer.transform;
         Vector3 pos = transform.position;
-        float nearestSqr = Mathf.Infinity;
-        for(int i = 0, max = mPlayers.Length; i < max; i++) {
-            if(mPlayers[i].activeSelf) {
-                Vector3 dpos = mPlayers[i].transform.position - pos;
-                float distSqr = dpos.sqrMagnitude;
-                if(distSqr < nearestSqr) {
-                    nearestSqr = distSqr;
-                    mTarget = mPlayers[i].transform;
-                }
-            }
-        }
-        
-        if(mTarget != null && nearestSqr < projActiveRange*projActiveRange) {
+        float nearestSqr = (mTarget.position - pos).sqrMagnitude;
+
+        if(nearestSqr < projActiveRange*projActiveRange) {
             Blink(0);
             if(projInactiveInvul) stats.isInvul = false;
             bodySpriteCtrl.StopOverrideClip();
