@@ -7,6 +7,8 @@ using System.Collections;
 public class ProjectileSpawner : MonoBehaviour {
     public Transform target;
 
+    public float angleOfs;
+
     public string projGroup = Enemy.projGroup;
     public string projType;
     public int maxCount;
@@ -118,12 +120,15 @@ public class ProjectileSpawner : MonoBehaviour {
         }
 
         while(true) {
+            Vector3 up = target.up;
+            up = Quaternion.AngleAxis(angleOfs, Vector3.forward) * up;
+
             for(int i = mCurCount; i < maxCount; i++) {
                 Transform seek = seekPlayer ? NearestPlayer() : null;
 
                 Vector3 pos = target.position; pos.z = 0.0f;
 
-                Vector3 dir = target.up;
+                Vector3 dir = up;
 
                 bool doIt = seek && seekActiveAngleLimit < 360.0f ? Vector3.Angle(dir, seek.position - pos) <= seekActiveAngleLimit  : true;
 
@@ -169,6 +174,6 @@ public class ProjectileSpawner : MonoBehaviour {
     void OnDrawGizmos() {
         Color clr = Color.green; clr *= 0.5f;
         Transform t = target ? target : transform;
-        M8.DebugUtil.DrawArrow(t.position, t.up, clr);
+        M8.DebugUtil.DrawArrow(t.position, Quaternion.AngleAxis(angleOfs, Vector3.forward)*t.up, clr);
     }
 }
