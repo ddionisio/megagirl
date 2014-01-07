@@ -51,6 +51,10 @@ public class Enemy : EntityBase {
     public GravityController gravityCtrl { get { return mGravCtrl; } }
     public PlatformerSpriteController bodySpriteCtrl { get { return mBodySpriteCtrl; } }
 
+    public override void Activate() {
+        base.Activate();
+    }
+
     //for use with animator
     public void FireAt(string proj, string childGO, int fdir, bool forceDecay, float decay) {
         GameObject go = M8.Util.FindGameObjectByNameRecursive(gameObject, childGO);
