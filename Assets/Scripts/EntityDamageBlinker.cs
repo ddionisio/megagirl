@@ -11,6 +11,8 @@ public class EntityDamageBlinker : MonoBehaviour {
     public string modProperty = "_Mod";
     public bool invulOnBlink = false;
 
+    public Renderer[] targets; //manually select targets
+
     private const string blinkEndFunc = "DoBlinkEnd";
 
     private Renderer[] mRenderers;
@@ -51,7 +53,7 @@ public class EntityDamageBlinker : MonoBehaviour {
     }
 
     void Awake() {
-        Renderer[] renders = GetComponentsInChildren<Renderer>(true);
+        Renderer[] renders = targets == null || targets.Length == 0 ? GetComponentsInChildren<Renderer>(true) : targets;
         if(renders.Length > 0) {
             List<Renderer> validRenders = new List<Renderer>(renders.Length);
             foreach(Renderer r in renders) {

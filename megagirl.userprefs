@@ -1,6 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Enemy.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyBossJuses.cs">
     <Files>
       <File FileName="Assets\Scripts\ItemDrop.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ItemPickup.cs" Line="1" Column="1" />
@@ -12,13 +12,7 @@
       <File FileName="Assets\Scripts\UI\ModalFinalStage.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\LevelController.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\NGUIExt\NGUIFillAnim.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyJumpNShoot.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyJumpNShoot2.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyCatRoller.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Game\GODeactivateDelay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="55" Column="25" />
-      <File FileName="Assets\Scripts\SpriteFacePlayer.cs" Line="39" Column="10" />
-      <File FileName="Assets\M8\Scripts\Game\EntityBase.cs" Line="220" Column="6" />
+      <File FileName="Assets\Scripts\EnemyBossJuses.cs" Line="319" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
