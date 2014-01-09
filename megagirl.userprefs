@@ -1,18 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyBossJuses.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\M8\Scripts\NGUIExt\NGUIModalInputBindDialog.cs">
     <Files>
-      <File FileName="Assets\Scripts\ItemDrop.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ItemPickup.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\PlayerMoveToPoint.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\PlayerLock.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\UI\UIModalInputBindDialog.cs" Line="53" Column="41" />
+      <File FileName="Assets\M8\Scripts\Input\InputManager.cs" Line="61" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyBossEffin.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyBossEffinStuff.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalFinalStage.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LevelController.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIFillAnim.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyBossJuses.cs" Line="319" Column="35" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUILayoutAnchor.cs" Line="6" Column="43" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIModalInputBindItem.cs" Line="6" Column="5" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIModalCharacterDialog.cs" Line="4" Column="51" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIModalInputBindDialog.cs" Line="191" Column="9" />
+      <File FileName="Assets\Scripts\InputAction.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\ModalOptions.cs" Line="35" Column="6" />
+      <File FileName="Assets\M8\Scripts\UI\UIModalConfirm.cs" Line="6" Column="34" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class ModalOptions : UIController {
+    public UIEventListener input;
     public UIEventListener music;
     public UIEventListener sound;
     public UIEventListener exitToMainMenu;
@@ -16,6 +17,7 @@ public class ModalOptions : UIController {
 
     protected override void OnActive(bool active) {
         if(active) {
+            input.onClick = OnInputClick;
             music.onClick = OnMusicClick;
             sound.onClick = OnSoundClick;
 
@@ -23,6 +25,7 @@ public class ModalOptions : UIController {
                 exitToMainMenu.onClick = OnExitToMainMenuClick;
         }
         else {
+            input.onClick = null;
             music.onClick = null;
             sound.onClick = null;
 
@@ -36,6 +39,10 @@ public class ModalOptions : UIController {
     }
 
     protected override void OnClose() {
+    }
+
+    void OnInputClick(GameObject go) {
+        UIModalManager.instance.ModalOpen("inputBind");
     }
 
     void OnSoundClick(GameObject go) {
