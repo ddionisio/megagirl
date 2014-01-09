@@ -5,6 +5,7 @@ public class EnemyBossJuses : Enemy {
     public enum Phase {
         None,
         Normal,
+        Panic,
         Dead
     }
 
@@ -79,10 +80,17 @@ public class EnemyBossJuses : Enemy {
     }
 
     public const string normalRoutine = "DoNormal";
+    public const string panicRoutine = "DoPanic";
 
     public const string takeDefeat = "defeat";
+    public const string takePanicStart = "panicStart";
 
     public TurretDat[] turrets;
+
+    public SpriteAnimPeriodicPlay[] eyes;
+    public tk2dSpriteAnimator mouth;
+
+    public GameObject platformCollHolder;
 
     public float followDelay = 1.0f;
     public float followSpeedMax = 8.0f;
@@ -94,13 +102,33 @@ public class EnemyBossJuses : Enemy {
 
     public float turretActiveDelay = 0.5f;
 
+    public float turretDeathDamage = 4.0f;
+
+    public GameObject panicActiveGO;
+    public float panicMoveDelay = 1.0f;
+    public float panicSpeedMax = 10.0f;
+    public float panicDistance = 8.0f;
+    public AnimatorData panicMoverAnimDat;
+    public Transform panicMover;
+
+    public string panicProjType;
+    public int panicProjMaxCount;
+    public float panicProjStartDelay = 1.0f;
+    public Transform panicProjPtsHolder;
+
     private Phase mCurPhase = Phase.None;
     
     private AnimatorData mAnimDat;
     private Player mPlayer;
-    private Vector3 mFollowVel = Vector3.zero;
+    private Vector3 mCurMoveVel = Vector3.zero;
     private int[] mTurretInds;
     private int mTurretAliveCount;
+
+    private bool mPanicMoveActive;
+
+    private int mPanicCurProjPtInd;
+    private Projectile[] mPanicCurProjs;
+    private Transform[] mPanicProjPts;
 
     protected override void StateChanged() {
         switch((EntityState)prevState) {
@@ -121,6 +149,10 @@ public class EnemyBossJuses : Enemy {
                 
                 ToPhase(Phase.Dead);
                 break;
+
+            case EntityState.Invalid:
+                ToPhase(Phase.None);
+                break;
         }
     }
 
@@ -134,6 +166,14 @@ public class EnemyBossJuses : Enemy {
         switch(mCurPhase) {
             case Phase.Normal:
                 StopCoroutine(normalRoutine);
+
+                stats.damageReduction = 0.0f;
+                break;
+
+            case Phase.Panic:
+                StopCoroutine(panicRoutine);
+
+                panicActiveGO.SetActive(false);
                 break;
 
             case Phase.Dead:
@@ -142,7 +182,17 @@ public class EnemyBossJuses : Enemy {
 
         switch(phase) {
             case Phase.Normal:
+                mCurMoveVel = Vector3.zero;
+
+                stats.damageReduction = 100.0f;
+
                 StartCoroutine(normalRoutine);
+                break;
+
+            case Phase.Panic:
+                mCurMoveVel = Vector3.zero;
+
+                StartCoroutine(panicRoutine);
                 break;
 
             case Phase.Dead:
@@ -166,6 +216,16 @@ public class EnemyBossJuses : Enemy {
             mTurretInds[i] = i;
 
         mTurretAliveCount = turrets.Length;
+
+        panicActiveGO.SetActive(false);
+
+        mPanicCurProjs = new Projectile[panicProjMaxCount];
+
+        mPanicProjPts = new Transform[panicProjPtsHolder.childCount];
+        for(int i = 0; i < mPanicProjPts.Length; i++) {
+            mPanicProjPts[i] = panicProjPtsHolder.GetChild(i);
+        }
+        M8.ArrayUtil.Shuffle(mPanicProjPts);
     }
 
     protected override void Start() {
@@ -180,18 +240,26 @@ public class EnemyBossJuses : Enemy {
         if(mCurPhase == Phase.None)
             return;
 
+        Vector3 playerPos;
+
         switch(mCurPhase) {
             case Phase.Normal:
                 for(int i = 0, max = turrets.Length; i < max; i++) {
                     turrets[i].TurretUpdate();
                 }
 
-                Vector3 playerPos = Player.instance.transform.position;
+                playerPos = Player.instance.transform.position;
                 Vector3 followDestPos = new Vector3(
                     Mathf.Clamp(playerPos.x, followRange.min.x, followRange.max.x),
                     Mathf.Clamp(playerPos.y, followRange.min.y, followRange.max.y));
 
-                rigidbody.MovePosition(Vector3.SmoothDamp(rigidbody.position, followDestPos, ref mFollowVel, followDelay, followSpeedMax, Time.deltaTime));
+                rigidbody.MovePosition(Vector3.SmoothDamp(rigidbody.position, followDestPos, ref mCurMoveVel, followDelay, followSpeedMax, Time.deltaTime));
+                break;
+
+            case Phase.Panic:
+                if(mPanicMoveActive) {
+                    rigidbody.MovePosition(Vector3.SmoothDamp(rigidbody.position, panicMover.position, ref mCurMoveVel, panicMoveDelay, panicSpeedMax, Time.deltaTime));
+                }
                 break;
         }
     }
@@ -206,17 +274,41 @@ public class EnemyBossJuses : Enemy {
         int curTurretRefInd = 0;
 
         while(mTurretAliveCount > 0) {
-            //turret strike
-            yield return waitTurretStart;
+            //rotate
+            yield return waitRotStart;
+            
+            Quaternion rot = rotateTarget.rotation;
+            float curTime = 0;
+            while(curTime < rotateDelay) {
+                curTime = Mathf.Clamp(curTime + Time.fixedDeltaTime, 0.0f, rotateDelay);
+                float t = Holoville.HOTween.Core.Easing.Sine.EaseInOut(curTime, 0.0f, 1.0f, rotateDelay, 0, 0);
+                
+                rotateTarget.rotation = rot*Quaternion.Euler(0, 0, 90*t);
+                
+                yield return wait;
+            }
 
-            TurretDat turret = null;
-            for(int i = curTurretRefInd; i < mTurretInds.Length; i++) {
-                if(!turrets[mTurretInds[i]].isDead) {
-                    turret = turrets[mTurretInds[i]];
-                    curTurretRefInd = i;
-                    break;
+            //set turret
+            TurretDat turret = turrets[mTurretInds[curTurretRefInd]];
+            if(turret.isDead) {
+                for(int i = 0; i < mTurretInds.Length; i++) {
+                    if(!turrets[mTurretInds[i]].isDead) {
+                        turret = turrets[mTurretInds[i]];
+                        curTurretRefInd = mTurretInds.Length;
+                        break;
+                    }
                 }
             }
+
+            //advance to next turret
+            curTurretRefInd++;
+            if(curTurretRefInd >= mTurretInds.Length) {
+                curTurretRefInd = 0;
+                M8.ArrayUtil.Shuffle(mTurretInds);
+            }
+
+            //turret strike
+            yield return waitTurretStart;
 
             /////////////////////////////
             while(true) {
@@ -273,7 +365,7 @@ public class EnemyBossJuses : Enemy {
                     if(turret.projFireTakeFire) {
                         turret.projFireAnimDat.Play("fire");
                         
-                        while(turret.projFireAnimDat.isPlaying)
+                        while(!turret.isDead && turret.projFireAnimDat.isPlaying)
                             yield return wait;
                     }
                     
@@ -302,40 +394,83 @@ public class EnemyBossJuses : Enemy {
             if(turret.isDead) {
                 turret.Dead();
                 mTurretAliveCount--;
+
+                stats.curHP -= turretDeathDamage;
             }
             ///////////////
-
-            //rotate
-            yield return waitRotStart;
-
-            Quaternion rot = rotateTarget.rotation;
-            float curTime = 0;
-            while(curTime < rotateDelay) {
-                curTime = Mathf.Clamp(curTime + Time.fixedDeltaTime, 0.0f, rotateDelay);
-                float t = Holoville.HOTween.Core.Easing.Sine.EaseInOut(curTime, 0.0f, 1.0f, rotateDelay, 0, 0);
-
-                rotateTarget.rotation = rot*Quaternion.Euler(0, 0, 90*t);
-
-                yield return wait;
-            }
-
-            //advance to next turret
-            curTurretRefInd++;
-            if(curTurretRefInd == mTurretInds.Length) {
-                curTurretRefInd = 0;
-                M8.ArrayUtil.Shuffle(mTurretInds);
-            }
         }
 
         //panic
+        ToPhase(Phase.Panic);
+    }
 
-        /*public Transform rotateTarget;
-    public float rotateStartDelay = 0.5f;
-    public float rotateDelay = 1.5f;
+    IEnumerator DoPanic() {
+        WaitForFixedUpdate wait = new WaitForFixedUpdate();
 
-    public float turretActiveDelay = 0.5f;*/
+        platformCollHolder.SetActive(false);
 
-        yield return wait;
+        mPanicMoveActive = false; //wait for animation to complete
+
+        //start
+        panicActiveGO.SetActive(true);
+
+        foreach(SpriteAnimPeriodicPlay eye in eyes)
+            eye.SetDefaultClip("panic");
+
+        mouth.Play("panic");
+
+        Blink(100.0f);
+
+        mAnimDat.Play(takePanicStart);
+
+        while(mAnimDat.isPlaying)
+            yield return wait;
+
+        Blink(0.0f);
+
+        mPanicMoveActive = true;
+        panicMoverAnimDat.Play("start");
+
+        //shoot some stuff
+        WaitForSeconds waitShoot = new WaitForSeconds(panicProjStartDelay);
+
+        mPanicCurProjPtInd = 0;
+
+        Transform seek = Player.instance.transform;
+
+        while(mCurPhase == Phase.Panic) {
+            yield return waitShoot;
+
+            bool doShuffle = false;
+
+            for(int i = 0; i < panicProjMaxCount; i++) {
+                Vector3 pos = mPanicProjPts[mPanicCurProjPtInd].position; pos.z = 0;
+
+                mPanicCurProjs[i] = Projectile.Create(projGroup, panicProjType, pos, mPanicProjPts[mPanicCurProjPtInd].up, seek);
+
+                mPanicCurProjPtInd++;
+                if(mPanicCurProjPtInd == mPanicProjPts.Length) {
+                    mPanicCurProjPtInd = 0;
+                    doShuffle = true;
+                }
+            }
+
+            if(doShuffle)
+                M8.ArrayUtil.Shuffle(mPanicProjPts);
+
+            int projFinishCount = 0;
+            while(projFinishCount < mPanicCurProjs.Length) {
+                projFinishCount = 0;
+                for(int i = 0; i < panicProjMaxCount; i++) {
+                    if(mPanicCurProjs[i] == null || mPanicCurProjs[i].isReleased) {
+                        projFinishCount++;
+                        mPanicCurProjs[i] = null;
+                    }
+                }
+
+                yield return wait;
+            }
+        }
     }
 
     protected override void OnDrawGizmosSelected() {

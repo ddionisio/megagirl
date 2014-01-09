@@ -323,8 +323,6 @@ public class Enemy : EntityBase {
 
         mBodySpriteCtrl = GetComponent<PlatformerSpriteController>();
 
-        mDamageTriggers = GetComponentsInChildren<Damage>(true);
-
         if(!FSM)
             autoSpawnFinish = true;
 
@@ -378,6 +376,9 @@ public class Enemy : EntityBase {
 
         if(mBodyCtrl)
             mBodyCtrl.enabled = aActive;
+
+        if(mDamageTriggers == null || mDamageTriggers.Length == 0)
+            mDamageTriggers = GetComponentsInChildren<Damage>(true);
 
         for(int i = 0, max = mDamageTriggers.Length; i < max; i++)
             mDamageTriggers[i].gameObject.SetActive(aActive);

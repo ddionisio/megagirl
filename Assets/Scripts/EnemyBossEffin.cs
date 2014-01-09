@@ -316,8 +316,6 @@ public class EnemyBossEffin : Enemy {
 
         yield return new WaitForSeconds(followPathEndDelay);
 
-        int lastWPInd = mCurWPInd;
-
         mCurWPInd++;
         if(mCurWPInd == mWPDests.Length) {
             mCurWPInd = 0;
