@@ -29,6 +29,23 @@
 		"text":"Are you sure you want to leave?"
 	},
 	
+	{
+		"key":"menu_back",
+		"text":"[{0}] : BACK",
+		"param":["input_7"]
+	},
+	
+	{
+		"key":"level_select_instruction",
+		"text":"[{0}]: SELECT  [{1}]: OPTIONS",
+		"param":["input_6", "input_7"]
+	},
+	
+	{
+		"key":"key_bind_instruction",
+		"text":"[{0}, {1}]: EDIT KEY",
+		"param":["input_2", "input_6"]
+	},
 	
 	{
 		"key":"katgirl_name",

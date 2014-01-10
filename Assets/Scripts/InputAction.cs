@@ -6,9 +6,7 @@ public struct InputAction {
     public const int Fire = 3;
     public const int PowerPrev = 4;
     public const int PowerNext = 5;
-    public const int MenuX = 6;
-    public const int MenuY = 7;
-    public const int MenuAccept = 8;
-    public const int MenuEscape = 9;
-    public const int _count = 10;
+    public const int MenuAccept = 6;
+    public const int MenuEscape = 7;
+    public const int _count = 8;
 }

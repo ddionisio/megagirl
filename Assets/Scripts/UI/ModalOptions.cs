@@ -36,6 +36,7 @@ public class ModalOptions : UIController {
 
     protected override void OnOpen() {
         RefreshLabels();
+        NGUILayoutBase.RefreshNow(transform);
     }
 
     protected override void OnClose() {
