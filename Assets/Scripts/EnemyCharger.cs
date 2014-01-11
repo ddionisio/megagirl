@@ -104,7 +104,7 @@ public class EnemyCharger : Enemy {
     }
 
     bool isPlayerInRange() {
-        mLastPlayerPos = Player.instance.transform.position;
+        mLastPlayerPos = Player.instance.collider.bounds.center;
 
         mLastPlayerDir = mLastPlayerPos - transform.position; mLastPlayerDir.z = 0;
         float dist = mLastPlayerDir.magnitude;

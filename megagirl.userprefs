@@ -1,13 +1,23 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\InputAction.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyCharger.cs">
     <Files>
-      <File FileName="Assets\M8\Shaders\ProBuilder\UnlitVertexColorBackMoveWave.shader" Line="44" Column="16" />
-      <File FileName="Assets\M8\Shaders\ProBuilder\UnlitVertexColorTextureMod.shader" Line="21" Column="18" />
+      <File FileName="Assets\M8\Shaders\ProBuilder\UnlitVertexColorBackMoveWave.shader" Line="1" Column="1" />
+      <File FileName="Assets\M8\Shaders\ProBuilder\UnlitVertexColorTextureMod.shader" Line="1" Column="1" />
       <File FileName="Assets\M8\Shaders\ProBuilder\UnlitVertexColorTransparencyScroll3.shader" Line="1" Column="1" />
-      <File FileName="Assets\M8ImageEffects\Shaders\Wave.shader" Line="22" Column="9" />
-      <File FileName="Assets\M8\Shaders\ProBuilder\UnlitVertexColorTextureTransparency.shader" Line="9" Column="38" />
+      <File FileName="Assets\M8ImageEffects\Shaders\Wave.shader" Line="1" Column="1" />
+      <File FileName="Assets\M8\Shaders\ProBuilder\UnlitVertexColorTextureTransparency.shader" Line="1" Column="1" />
       <File FileName="Assets\Scripts\InputAction.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Input\InputManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Core\GameLocalize.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\ModalOptions.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIGameLocalize.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Core\Main.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIModalInputBindDialog.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\UI\UIModalInputBindDialog.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Physics\ForceField.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyMoveAndShoot.cs" Line="31" Column="42" />
+      <File FileName="Assets\Scripts\EnemyCharger.cs" Line="120" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
