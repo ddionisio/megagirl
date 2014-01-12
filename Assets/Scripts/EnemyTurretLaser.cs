@@ -82,6 +82,14 @@ public class EnemyTurretLaser : Enemy {
         }
     }
 
+    protected override void ActivatorWakeUp() {
+        base.ActivatorWakeUp();
+
+        if(!respawnOnSleep) {
+            StateChanged();
+        }
+    }
+
     protected override void Awake() {
         base.Awake();
 
