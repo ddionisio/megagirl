@@ -1,6 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\M8\Scripts\NGUIExt\NGUIModalInputBindDialog.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ProjectileOnContactSpawn.cs">
     <Files>
       <File FileName="Assets\M8\Shaders\ProBuilder\UnlitVertexColorBackMoveWave.shader" Line="1" Column="1" />
       <File FileName="Assets\M8\Shaders\ProBuilder\UnlitVertexColorTextureMod.shader" Line="1" Column="1" />
@@ -8,27 +8,30 @@
       <File FileName="Assets\M8ImageEffects\Shaders\Wave.shader" Line="1" Column="1" />
       <File FileName="Assets\M8\Shaders\ProBuilder\UnlitVertexColorTextureTransparency.shader" Line="1" Column="1" />
       <File FileName="Assets\Scripts\InputAction.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Input\InputManager.cs" Line="93" Column="23" />
+      <File FileName="Assets\M8\Scripts\Input\InputManager.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Core\GameLocalize.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\ModalOptions.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\NGUIExt\NGUIGameLocalize.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Core\Main.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIModalInputBindDialog.cs" Line="54" Column="50" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIModalInputBindDialog.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\UI\UIModalInputBindDialog.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Physics\ForceField.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyMoveAndShoot.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyCharger.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyTurretLaser.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ItemPickup.cs" Line="201" Column="41" />
+      <File FileName="Assets\Scripts\ItemPickup.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PlatformerOverrideSettingTrigger.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PlatformerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Physics\RigidBodyController.cs" Line="565" Column="19" />
-      <File FileName="Assets\Scripts\UI\UIPlayerInfo.cs" Line="49" Column="1" />
-      <File FileName="Assets\Scripts\PlayerStats.cs" Line="202" Column="10" />
-      <File FileName="Assets\Scripts\UI\ModalLevelSelect.cs" Line="130" Column="47" />
-      <File FileName="Assets\Scripts\UI\UILevelSelectItem.cs" Line="82" Column="29" />
-      <File FileName="Assets\M8\Scripts\NGUIExt\NGUILayoutBase.cs" Line="33" Column="9" />
+      <File FileName="Assets\M8\Scripts\Physics\RigidBodyController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\UIPlayerInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerStats.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\ModalLevelSelect.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\UILevelSelectItem.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUILayoutBase.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="62" Column="38" />
+      <File FileName="Assets\Scripts\ProjectileClone.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ProjectileOnContactSpawn.cs" Line="30" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

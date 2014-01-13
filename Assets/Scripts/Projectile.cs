@@ -59,6 +59,7 @@ public class Projectile : EntityBase {
     public float bounceSurfaceOfs; //displace projectile slightly off surface based on normal
     public bool explodeOnDeath;
     public Transform applyDirToUp;
+    public LayerMask EndByContactMask; //if not 0, use death contact mask to determine if we die based on layer
     public string deathSpawnGroup;
     public string deathSpawnType;
     public bool autoDisableCollision = true; //when not active, disable collision
@@ -481,6 +482,10 @@ public class Projectile : EntityBase {
         foreach(ContactPoint cp in collision.contacts) {
             ApplyContact(cp.otherCollider.gameObject, cp.point, cp.normal);
             ApplyDamage(cp.otherCollider.gameObject, cp.point, cp.normal);
+
+            if(contactType != ContactType.End && EndByContactMask.value != 0 && isAlive && ((1<<cp.otherCollider.gameObject.layer) & EndByContactMask) != 0) {
+                state = (int)State.Dying;
+            }
         }
     }
 
