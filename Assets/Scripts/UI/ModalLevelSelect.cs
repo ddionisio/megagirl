@@ -13,13 +13,20 @@ public class ModalLevelSelect : UIController {
 
     public AnimatorData bossAlertAnimDat;
 
+    public GameObject infoActiveGO;
+
     private UILevelSelectItem[] mLevelItems;
+    private GameObject mCurInfoSubActiveGO;
 
     private bool mLockInput;
 
     protected override void OnActive(bool active) {
         if(active) {
-            UICamera.selectedObject = finalLevel.isFinalUnlock ? finalLevel.gameObject : gitgirl.gameObject;
+            UILevelSelectItem levelSelected = finalLevel.isFinalUnlock ? finalLevel : gitgirl;
+            UICamera.selectedObject = levelSelected.gameObject;
+
+            mCurInfoSubActiveGO = levelSelected.infoSubActiveGO ? levelSelected.infoSubActiveGO : gitgirl.infoSubActiveGO;
+            mCurInfoSubActiveGO.SetActive(true);
 
             foreach(UILevelSelectItem item in mLevelItems) {
                 if(item.gameObject.activeSelf) {
@@ -28,7 +35,10 @@ public class ModalLevelSelect : UIController {
                 }
             }
 
-            Main.instance.input.AddButtonCall(0, InputAction.MenuEscape, OnInputOptions);
+            if(Main.instance && Main.instance.input) {
+                Main.instance.input.AddButtonCall(0, InputAction.MenuEscape, OnInputOptions);
+                Main.instance.input.AddButtonCall(0, InputAction.Fire, OnInputInfo);
+            }
         }
         else {
             foreach(UILevelSelectItem item in mLevelItems) {
@@ -38,11 +48,16 @@ public class ModalLevelSelect : UIController {
                 }
             }
 
-            Main.instance.input.RemoveButtonCall(0, InputAction.MenuEscape, OnInputOptions);
+            if(Main.instance && Main.instance.input) {
+                Main.instance.input.RemoveButtonCall(0, InputAction.MenuEscape, OnInputOptions);
+                Main.instance.input.RemoveButtonCall(0, InputAction.Fire, OnInputInfo);
+            }
         }
     }
 
     protected override void OnOpen() {
+        infoActiveGO.SetActive(false);
+
 #if false
         //cheat
         Weapon.UnlockWeapon(1);
@@ -85,6 +100,12 @@ public class ModalLevelSelect : UIController {
     }
 
     protected override void OnClose() {
+        if(mCurInfoSubActiveGO) {
+            mCurInfoSubActiveGO.SetActive(false);
+            mCurInfoSubActiveGO = null;
+        }
+
+        infoActiveGO.SetActive(false);
     }
 
     void Awake() {
@@ -96,6 +117,8 @@ public class ModalLevelSelect : UIController {
                 item.Init();
             }
         }
+
+        infoActiveGO.SetActive(false);
     }
 
     void OnLevelSelect(GameObject go, bool s) {
@@ -103,6 +126,17 @@ public class ModalLevelSelect : UIController {
             for(int i = 0, max = mLevelItems.Length; i < max; i++) {
                 if(mLevelItems[i].gameObject == go) {
                     gitgirl.portrait.spriteName = mLevelItems[i].gitGirlPortraitRef;
+
+                    mLevelItems[i].Selected();
+
+                    //infoSubActiveGO
+                    if(mLevelItems[i].infoSubActiveGO && mLevelItems[i].infoSubActiveGO != mCurInfoSubActiveGO) {
+                        if(mCurInfoSubActiveGO)
+                            mCurInfoSubActiveGO.SetActive(false);
+
+                        mCurInfoSubActiveGO = mLevelItems[i].infoSubActiveGO;
+                        mCurInfoSubActiveGO.SetActive(true);
+                    }
                     break;
                 }
             }
@@ -129,6 +163,15 @@ public class ModalLevelSelect : UIController {
 
         if(dat.state == InputManager.State.Pressed) {
             UIModalManager.instance.ModalOpen("options");
+        }
+    }
+
+    void OnInputInfo(InputManager.Info dat) {
+        if(mLockInput)
+            return;
+
+        if(dat.state == InputManager.State.Pressed) {
+            infoActiveGO.SetActive(!infoActiveGO.activeSelf);
         }
     }
 }

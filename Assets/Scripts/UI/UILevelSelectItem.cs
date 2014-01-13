@@ -13,6 +13,8 @@ public class UILevelSelectItem : MonoBehaviour {
 
     public GameObject finalActiveGO;
 
+    public GameObject infoSubActiveGO;
+
     private bool mIsFinalLevel = false;
     private UIEventListener mListener;
 
@@ -75,6 +77,9 @@ public class UILevelSelectItem : MonoBehaviour {
         }
 
         return false;
+    }
+
+    public void Selected() {
     }
 
     void Awake() {

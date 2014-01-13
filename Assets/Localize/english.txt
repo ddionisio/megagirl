@@ -31,14 +31,14 @@
 	
 	{
 		"key":"menu_back",
-		"text":"[{0}] : BACK",
+		"text":"[808080][{0}][-] BACK",
 		"param":["input_7"]
 	},
 	
 	{
 		"key":"level_select_instruction",
-		"text":"[{0}]: SELECT  [{1}]: OPTIONS",
-		"param":["input_6", "input_7"]
+		"text":"ACCEPT [808080][{0}, {3}][-]    INFO [808080][{1}][-]    OPTIONS [808080][{2}][-]",
+		"param":["input_6", "input_3", "input_7", "input_2"]
 	},
 	
 	{
