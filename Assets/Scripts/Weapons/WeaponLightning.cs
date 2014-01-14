@@ -19,18 +19,31 @@ public class WeaponLightning : Weapon {
     private float mDefaultDmgAmt;
     private Collider[] mStruckCols;
     private int mStrikeActives;
+    private Vector3 mReticleCurVel;
+
+    public override bool canFire {
+        get { return Player.instance.stats.energyShieldIsActive || base.canFire; }
+    }
 
     protected override Projectile CreateProjectile(int chargeInd, Transform seek) {
-        if(mStrikeActives == 0) {
-            PerformStrike(null, spawnPoint, chargeInd);
-            if(mStrikeActives > 0) {
-                if(fireActiveAnimDat) {
-                    fireActiveAnimDat.Play("fire");
-                }
+        PlayerStats pstat = Player.instance.stats;
+        if(pstat.energyShieldIsActive) {
+            if(mStrikeActives == 0) {
+                PerformStrike(null, spawnPoint, pstat.energyShieldActivePointCount - 1);
+                if(mStrikeActives > 0) {
+                    if(fireActiveAnimDat) {
+                        fireActiveAnimDat.Play("fire");
+                    }
 
-                currentEnergy -= charges[chargeInd].energyCost;
+                    pstat.EnergyShieldSetActive(false);
+                }
             }
         }
+        else {
+            pstat.EnergyShieldSetActive(true);
+            currentEnergy -= charges[chargeInd].energyCost;
+        }
+
         return null;
     }
 
@@ -48,6 +61,8 @@ public class WeaponLightning : Weapon {
 
         if(reticle)
             reticle.SetActive(false);
+
+        mReticleCurVel = Vector3.zero;
 
         base.OnDisable();
     }
@@ -154,7 +169,7 @@ public class WeaponLightning : Weapon {
 
             reticle.SetActive(false);
         }
-        else {
+        else if(Player.instance.stats.energyShieldIsActive) {
             //set reticle to nearest damageable target
             Collider reticleTarget = null;
             Collider[] cols = Physics.OverlapSphere(spawnPoint, radius, masks);
@@ -179,9 +194,15 @@ public class WeaponLightning : Weapon {
             }
 
             if(reticleTarget) {
-                reticle.SetActive(true);
-                Vector3 pos = reticleTarget.bounds.center; pos.z = 0;
-                reticle.transform.position = pos;
+                if(reticle.activeSelf) {
+                    Vector3 pos = reticleTarget.bounds.center; pos.z = 0;
+                    reticle.transform.position = Vector3.SmoothDamp(reticle.transform.position, pos, 
+                                                                    ref mReticleCurVel, 0.15f, Mathf.Infinity, Time.deltaTime);
+                }
+                else {
+                    reticle.SetActive(true);
+                    reticle.transform.position = Player.instance.collider.bounds.center;
+                }
             }
             else
                 reticle.SetActive(false);

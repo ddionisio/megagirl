@@ -27,12 +27,12 @@ public class Stats : MonoBehaviour {
 
     public event ChangeCallback changeHPCallback;
 
+    protected Damage mLastDamage;
+    protected Vector3 mLastDamagePos;
+    protected Vector3 mLastDamageNorm;
+
     private float mCurHP;
     private bool mIsInvul;
-
-    private Damage mLastDamage;
-    private Vector3 mLastDamagePos;
-    private Vector3 mLastDamageNorm;
 
     public float curHP {
         get { return mCurHP; }
@@ -101,31 +101,37 @@ public class Stats : MonoBehaviour {
         return false;
     }
 
-    public bool ApplyDamage(Damage damage, Vector3 hitPos, Vector3 hitNorm) {
+    protected float CalculateDamageAmount(Damage damage) {
+        float amt = damage.amount;
+        
+        if(damageAmp > 0.0f) {
+            amt += amt * damageAmp;
+        }
+        
+        if(damageReduction > 0.0f) {
+            amt -= amt * damageReduction;
+        }
+        
+        DamageMod damageAmpByType = GetDamageMod(damageTypeAmp, damage.type);
+        if(damageAmpByType != null) {
+            amt += damage.amount * damageAmpByType.val;
+        }
+        else {
+            DamageMod damageReduceByType = GetDamageMod(damageTypeReduction, damage.type);
+            if(damageReduceByType != null)
+                amt -= amt * damageReduceByType.val;
+        }
+
+        return amt;
+    }
+
+    public virtual bool ApplyDamage(Damage damage, Vector3 hitPos, Vector3 hitNorm) {
         mLastDamage = damage;
         mLastDamagePos = hitPos;
         mLastDamageNorm = hitNorm;
 
         if(!mIsInvul && mCurHP > 0.0f) {
-            float amt = damage.amount;
-
-            if(damageAmp > 0.0f) {
-                amt += amt * damageAmp;
-            }
-
-            if(damageReduction > 0.0f) {
-                amt -= amt * damageReduction;
-            }
-
-            DamageMod damageAmpByType = GetDamageMod(damageTypeAmp, damage.type);
-            if(damageAmpByType != null) {
-                amt += damage.amount * damageAmpByType.val;
-            }
-            else {
-                DamageMod damageReduceByType = GetDamageMod(damageTypeReduction, damage.type);
-                if(damageReduceByType != null)
-                    amt -= amt * damageReduceByType.val;
-            }
+            float amt = CalculateDamageAmount(damage);
 
             if(amt > 0.0f) {
                 if(curHP - amt <= 0.0f && itemDropIndex >= 0) {

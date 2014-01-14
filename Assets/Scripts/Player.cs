@@ -195,6 +195,8 @@ public class Player : EntityBase {
 
             case EntityState.Dead:
                 {
+                    stats.EnergyShieldSetActive(false);
+
                     if(mCurWeaponInd >= 0)
                         weapons[mCurWeaponInd].FireStop();
 
@@ -230,6 +232,8 @@ public class Player : EntityBase {
                 break;
 
             case EntityState.Victory:
+                stats.EnergyShieldSetActive(false);
+
                 currentWeaponIndex = -1;
                 LockControls();
                 mCtrlSpr.PlayOverrideClip("victory");

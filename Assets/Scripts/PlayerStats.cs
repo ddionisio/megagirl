@@ -27,6 +27,10 @@ public class PlayerStats : Stats {
 
     public const string itemFlagsKey = "playerItems"; //for sub tanks, armor, etc.
 
+    public GameObject energyShield;
+    public GameObject[] energyShieldPts;
+    public float energyShieldMaxHP = 9.0f;
+
     public event ChangeCallback changeMaxHPCallback;
 
     private float mDefaultMaxHP;
@@ -36,6 +40,8 @@ public class PlayerStats : Stats {
 
     private float mSubTankWeaponCur;
     private float mSubTankWeaponMax;
+
+    private float mEnergyShieldCurHP;
 
     public static bool isGameExists {
         get {
@@ -114,6 +120,17 @@ public class PlayerStats : Stats {
         }
     }
 
+    public bool energyShieldIsActive {
+        get { return energyShield.gameObject.activeSelf; }
+    }
+
+    public int energyShieldActivePointCount {
+        get {
+            float c = (float)energyShieldPts.Length;
+            return Mathf.CeilToInt(c*(mEnergyShieldCurHP/energyShieldMaxHP));
+        }
+    }
+
     public void AcquireSubTankEnergy1() {
         if(!isSubTankEnergy1Acquired) {
             SceneState.instance.SetGlobalFlag(itemFlagsKey, stateSubTankEnergy1, true, true);
@@ -152,6 +169,72 @@ public class PlayerStats : Stats {
         SceneState.instance.SetGlobalValueFloat(subTankWeaponFillKey, mSubTankWeaponCur, true);
     }
 
+    public void EnergyShieldSetActive(bool aActive) {
+        energyShield.SetActive(aActive);
+
+        if(aActive) {
+            for(int i = 0; i < energyShieldPts.Length; i++)
+                energyShieldPts[i].SetActive(true);
+
+            mEnergyShieldCurHP = energyShieldMaxHP;
+        }
+        else {
+            mEnergyShieldCurHP = 0.0f;
+        }
+    }
+
+    public override bool ApplyDamage(Damage damage, Vector3 hitPos, Vector3 hitNorm) {
+
+        mLastDamage = damage;
+        mLastDamagePos = hitPos;
+        mLastDamageNorm = hitNorm;
+        
+        if(!isInvul && curHP > 0.0f) {
+            float amt = CalculateDamageAmount(damage);
+
+            //determine if energy
+            if(energyShieldIsActive) {
+                float shieldDmgAmt = 0;
+
+                switch(damage.type) {
+                    case Damage.Type.Energy:
+                        shieldDmgAmt = amt;
+                        amt = 0.0f;
+                        break;
+
+                    case Damage.Type.Explosion:
+                        amt *= 0.5f;
+                        shieldDmgAmt = amt;
+                        break;
+                }
+
+                if(shieldDmgAmt > 0.0f) {
+                    mEnergyShieldCurHP = Mathf.Clamp(mEnergyShieldCurHP - shieldDmgAmt, 0.0f, energyShieldMaxHP);
+
+                    if(mEnergyShieldCurHP <= 0.0f) {
+                        energyShield.SetActive(false);
+                    }
+                    else {
+                        int numActive = energyShieldActivePointCount;
+                        for(int i = 0; i < numActive; i++) {
+                            energyShieldPts[i].SetActive(true);
+                        }
+                        for(int i = numActive; i < energyShieldPts.Length; i++) {
+                            energyShieldPts[i].SetActive(false);
+                        }
+                    }
+                }
+            }
+
+            if(amt > 0.0f) {
+                curHP -= amt;
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
     protected override void OnDestroy() {
         if(SceneState.instance) {
             SceneState.instance.onValueChange -= OnSceneStateValue;
@@ -186,6 +269,8 @@ public class PlayerStats : Stats {
 
         if(isArmorAcquired)
             damageReduction = 0.5f;
+
+        energyShield.SetActive(false);
 
         base.Awake();
     }
