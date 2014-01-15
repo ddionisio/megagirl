@@ -31,3 +31,4 @@ Plugins/Android.meta
 /Common/*.png.meta
 /Common/UI/*.png.meta
 /Common/Fonts/*.png.meta
+/*.apk
