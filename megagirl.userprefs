@@ -1,16 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\M8\Scripts\Core\OUYAController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlatformerSpriteController.cs">
     <Files>
-      <File FileName="Assets\M8\Scripts\Input\InputManagerOuya.cs" Line="19" Column="68" />
+      <File FileName="Assets\M8\Scripts\Input\InputManagerOuya.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Input\InputKeyMap.cs" Line="1" Column="1" />
       <File FileName="Assets\Plugins\OuyaSDK.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Input\InputManager.cs" Line="487" Column="40" />
-      <File FileName="Assets\Scripts\Player.cs" Line="130" Column="41" />
-      <File FileName="Assets\M8\Scripts\Core\OUYAController.cs" Line="18" Column="19" />
-      <File FileName="Assets\Plugins\OuyaExampleCommon.cs" Line="74" Column="5" />
-      <File FileName="Assets\M8\Scripts\Core\Main.cs" Line="84" Column="94" />
+      <File FileName="Assets\M8\Scripts\Input\InputManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Core\OUYAController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Plugins\OuyaExampleCommon.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Core\Main.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Core\SceneManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\ModalOptions.cs" Line="95" Column="10" />
+      <File FileName="Assets\Scripts\PlatformerSpriteController.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

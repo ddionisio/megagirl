@@ -17,7 +17,14 @@ public class ModalOptions : UIController {
 
     protected override void OnActive(bool active) {
         if(active) {
-            input.onClick = OnInputClick;
+            if(input) {
+                input.onClick = OnInputClick;
+                UICamera.selectedObject = input.gameObject;
+            }
+            else {
+                UICamera.selectedObject = music.gameObject;
+            }
+
             music.onClick = OnMusicClick;
             sound.onClick = OnSoundClick;
 
@@ -25,7 +32,10 @@ public class ModalOptions : UIController {
                 exitToMainMenu.onClick = OnExitToMainMenuClick;
         }
         else {
-            input.onClick = null;
+            if(input) {
+                input.onClick = null;
+            }
+
             music.onClick = null;
             sound.onClick = null;
 
@@ -69,5 +79,20 @@ public class ModalOptions : UIController {
                 Main.instance.sceneManager.LoadScene(Scenes.main);
                            });
 
+    }
+
+    void Awake() {
+#if OUYA
+        if(input) {
+            input.gameObject.SetActive(false);
+            input = null;
+
+            UIButtonKeys musicBtnKeys = music.GetComponent<UIButtonKeys>();
+            UIButtonKeys lastItmBtnKeys = exitToMainMenu ? exitToMainMenu.GetComponent<UIButtonKeys>() : sound.GetComponent<UIButtonKeys>();
+
+            musicBtnKeys.selectOnUp = lastItmBtnKeys;
+            lastItmBtnKeys.selectOnDown = musicBtnKeys;
+        }
+#endif
     }
 }
