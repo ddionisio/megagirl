@@ -61,7 +61,7 @@
 	},
 	{
 		"key":"clonegirl_name",
-		"text":"TOBI"
+		"text":"MOLLY"
 	},
 	{
 		"key":"hipgirl_name",

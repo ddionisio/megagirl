@@ -1,5 +1,5 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlatformerSpriteController.cs">
     <Files>
       <File FileName="Assets\M8\Scripts\Input\InputManagerOuya.cs" Line="1" Column="1" />
@@ -11,8 +11,8 @@
       <File FileName="Assets\Plugins\OuyaExampleCommon.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Core\Main.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Core\SceneManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalOptions.cs" Line="95" Column="10" />
-      <File FileName="Assets\Scripts\PlatformerSpriteController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\ModalOptions.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlatformerSpriteController.cs" Line="292" Column="52" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
