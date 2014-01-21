@@ -1,18 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlatformerSpriteController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CameraField.cs">
     <Files>
-      <File FileName="Assets\M8\Scripts\Input\InputManagerOuya.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Input\InputKeyMap.cs" Line="1" Column="1" />
-      <File FileName="Assets\Plugins\OuyaSDK.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Input\InputManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Core\OUYAController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Plugins\OuyaExampleCommon.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Core\Main.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Core\SceneManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalOptions.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlatformerSpriteController.cs" Line="292" Column="52" />
+      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="101" Column="9" />
+      <File FileName="Assets\Scripts\PlayerStats.cs" Line="13" Column="42" />
+      <File FileName="Assets\Scripts\CameraField.cs" Line="38" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

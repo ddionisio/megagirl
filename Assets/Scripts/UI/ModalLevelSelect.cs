@@ -9,7 +9,7 @@ public class ModalLevelSelect : UIController {
 
     public AnimatorData levelSelectAnimDat;
     public tk2dSpriteAnimator characterSpriteAnim;
-    public UILabel characterSelectedNameLabel;
+    public NGUILabelTypewrite characterSelectedNameLabel;
 
     public AnimatorData bossAlertAnimDat;
 

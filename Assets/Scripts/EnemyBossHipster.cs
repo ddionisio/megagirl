@@ -44,6 +44,7 @@ public class EnemyBossHipster : Enemy {
     public float jumpDropYVel = 6.0f;
     public float jumpMinHeight = 3.0f;
     public float jumpDropDelay = 0.2f;
+    public float jumpMoveScale = 1.5f;
 
     public const string armIdleClip = "gun";
     public const string armFireClip = "gunFire";
@@ -70,6 +71,7 @@ public class EnemyBossHipster : Enemy {
     private bool mFiring;
     private float mLastFireTime;
     private float mLastTimeWarpEndTime;
+    private Phase mForceNextPhase = Phase.None;
 
     protected override void StateChanged() {
         switch((EntityState)prevState) {
@@ -132,6 +134,7 @@ public class EnemyBossHipster : Enemy {
                 break;
 
             case Phase.Jump:
+                bodyCtrl.moveScale = 1.0f;
                 bodyCtrl.gravityController.enabled = true;
                 StopCoroutine(jumpRoutine);
                 break;
@@ -179,7 +182,7 @@ public class EnemyBossHipster : Enemy {
 
         switch(mCurPhase) {
             case Phase.Move:
-                DoNextPhase();
+                //DoNextPhase();
                 //ToPhase(Phase.Idle);
                 break;
         }
@@ -272,7 +275,9 @@ public class EnemyBossHipster : Enemy {
         bodyCtrl.rigidbody.velocity = Vector3.zero;
         bodyCtrl.gravityController.enabled = false;
 
-        bodyCtrl.moveSide = bodySpriteCtrl.isLeft ? -1.0f : 1.0f;
+        bodyCtrl.moveScale = jumpMoveScale;
+
+        bodyCtrl.moveSide = bodySpriteCtrl.isLeft ? -1 : 1;
 
         yield return new WaitForSeconds(jumpDropDelay);
 
@@ -435,21 +440,28 @@ public class EnemyBossHipster : Enemy {
             ToPhase(Phase.Cast);
         }
         else {
-            //random shit
-            int r = Random.Range(0, 6);
-            switch(r) {
-                case 0:
-                case 1:
-                case 2:
-                    ToPhase(Phase.Move);
-                    break;
-                case 3:
-                case 4:
-                    ToPhase(Phase.Jump);
-                    break;
-                case 5:
-                    ToPhase(Phase.SprayNPray);
-                    break;
+            if(mForceNextPhase != Phase.None) {
+                Phase p = mForceNextPhase;
+                mForceNextPhase = Phase.None;
+                ToPhase(p);
+            }
+            else {
+                //random shit
+                int r = Random.Range(0, 6);
+                switch(r) {
+                    case 0:
+                    case 1:
+                    case 2:
+                        ToPhase(Phase.Move);
+                        break;
+                    case 3:
+                    case 4:
+                        ToPhase(Phase.SprayNPray);
+                        break;
+                    case 5:
+                        ToPhase(Phase.Jump);
+                        break;
+                }
             }
         }
     }
@@ -481,6 +493,7 @@ public class EnemyBossHipster : Enemy {
                     timeWarp.gameObject.SetActive(true);
                     timeWarp.Play(timeWarpStartTake);
 
+                    mForceNextPhase = Phase.Jump;
                     ToPhase(Phase.SprayNPray);
                 }
                 break;

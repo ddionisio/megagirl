@@ -21,9 +21,13 @@ public class WeaponLightning : Weapon {
     private int mStrikeActives;
     private Vector3 mReticleCurVel;
 
-    public override bool canFire {
-        get { return Player.instance.stats.energyShieldIsActive || base.canFire; }
+    public override bool hasEnergy {
+        get { return Player.instance.stats.energyShieldIsActive || base.hasEnergy; }
     }
+
+    /*public override bool canFire {
+        get { return Player.instance.stats.energyShieldIsActive || base.canFire; }
+    }*/
 
     protected override Projectile CreateProjectile(int chargeInd, Transform seek) {
         PlayerStats pstat = Player.instance.stats;

@@ -10,7 +10,7 @@ public class PlayerStats : Stats {
     public const int hpModCount = 8;
     public const float hpMod = 2;
 
-    public const int defaultNumLives = 3;
+    public const int defaultNumLives = 4;
 
     public const string subTankEnergyFillKey = "etank";
     public const string subTankWeaponFillKey = "wtank";

@@ -129,11 +129,13 @@ public class Player : EntityBase {
                         input.AddButtonCall(0, InputAction.PowerNext, OnInputPowerNext);
                         input.AddButtonCall(0, InputAction.PowerPrev, OnInputPowerPrev);
                         input.AddButtonCall(0, InputAction.Jump, OnInputJump);
+                        input.AddButtonCall(0, InputAction.Slide, OnInputSlide);
                     } else {
                         input.RemoveButtonCall(0, InputAction.Fire, OnInputFire);
                         input.RemoveButtonCall(0, InputAction.PowerNext, OnInputPowerNext);
                         input.RemoveButtonCall(0, InputAction.PowerPrev, OnInputPowerPrev);
                         input.RemoveButtonCall(0, InputAction.Jump, OnInputJump);
+                        input.RemoveButtonCall(0, InputAction.Slide, OnInputSlide);
                     }
                 }
 
@@ -476,8 +478,14 @@ public class Player : EntityBase {
     void OnInputFire(InputManager.Info dat) {
         if(dat.state == InputManager.State.Pressed) {
             if(currentWeapon) {
-                if(currentWeapon.allowSlide || !mSliding)
-                    currentWeapon.FireStart();
+                if(currentWeapon.allowSlide || !mSliding) {
+                    if(currentWeapon.hasEnergy) {
+                        currentWeapon.FireStart();
+                    }
+                    else {
+                        HUD.instance.barEnergy.Flash(true);
+                    }
+                }
             }
         } else if(dat.state == InputManager.State.Released) {
             if(currentWeapon) {
@@ -536,6 +544,16 @@ public class Player : EntityBase {
             }
         } else if(dat.state == InputManager.State.Released) {
             mCtrl.Jump(false);
+        }
+    }
+
+    void OnInputSlide(InputManager.Info dat) {
+        if(dat.state == InputManager.State.Pressed) {
+            if(!mSliding) {
+                Weapon curWpn = weapons[mCurWeaponInd];
+                if((!curWpn.isFireActive || curWpn.allowSlide) && mCtrl.isGrounded)
+                    SetSlide(true);
+            }
         }
     }
 

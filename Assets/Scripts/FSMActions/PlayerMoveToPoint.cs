@@ -27,7 +27,7 @@ public class PlayerMoveToPoint : FsmStateAction {
 
         player.controller.moveSideLock = true;
 
-        if(Mathf.Abs(deltaX) < 0.1f || Mathf.Sign(deltaX) != player.controller.moveSide) {
+        if(Mathf.Abs(deltaX) < 0.1f){// || Mathf.Sign(deltaX) != player.controller.moveSide) {
             player.controller.moveSide = 0.0f;
 
             if(checkYDrop.Value) {
@@ -37,6 +37,9 @@ public class PlayerMoveToPoint : FsmStateAction {
 
             Fsm.Event(finishEvent);
             Finish();
+        }
+        else {
+            player.controller.moveSide = Mathf.Sign(deltaX);
         }
     }
 

@@ -19,9 +19,9 @@ public class WeaponCloner : Weapon {
         }
     }
 
-    public override bool canFire {
+    public override bool hasEnergy {
         get {
-            return base.canFire || mLastClone != null;
+            return mLastClone != null || base.hasEnergy;
         }
     }
 

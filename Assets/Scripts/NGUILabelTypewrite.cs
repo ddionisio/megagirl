@@ -7,6 +7,7 @@ public class NGUILabelTypewrite : MonoBehaviour {
     public UILabel target;
     public float startDelay;
     public float delay;
+    public bool delayNormalized;
     public bool playOnEnable;
     public string text;
 
@@ -63,10 +64,24 @@ public class NGUILabelTypewrite : MonoBehaviour {
         mEnded = false;
         mActive = true;
         target.text = "";
-        YieldInstruction wait; if(delay <= 0.0f) wait = new WaitForFixedUpdate(); else wait = new WaitForSeconds(delay);
+
+        YieldInstruction wait;
+        if(delay <= 0.0f) {
+            wait = new WaitForFixedUpdate();
+        }
+        else {
+            if(delayNormalized) {
+                wait = new WaitForSeconds(delay/((float)text.Length));
+            }
+            else {
+                wait = new WaitForSeconds(delay);
+            }
+        }
+
         StringBuilder textBuffer = new StringBuilder(text.Length);
 
-        yield return new WaitForSeconds(startDelay);
+        if(startDelay > 0)
+            yield return new WaitForSeconds(startDelay);
 
         for(int i = 0; i < text.Length; i++) {
             textBuffer.Append(text[i]);

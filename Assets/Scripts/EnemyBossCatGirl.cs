@@ -25,7 +25,7 @@ public class EnemyBossCatGirl : Enemy {
     public Damage contactDamage;
 
     public float jumpToWallDelay = 4.0f;
-    public Transform jumpToWallWP;
+    public Transform[] jumpToWallWPs;
 
     public Transform airStrikeAttach;
     public float airStrikeOfs = 1f; //offset distance based on player direction
@@ -53,6 +53,7 @@ public class EnemyBossCatGirl : Enemy {
     private float mLastJumpToWallTime;
     private bool mJumpToWallWait;
     private int mProjCounter;
+    private int mJumpToWallInd = 0;
 
     protected override void StateChanged() {
         switch((EntityState)prevState) {
@@ -94,6 +95,10 @@ public class EnemyBossCatGirl : Enemy {
         switch(mCurPhase) {
             case Phase.JumpToWall:
                 mLastJumpToWallTime = Time.fixedTime;
+
+                mJumpToWallInd++;
+                if(mJumpToWallInd >= jumpToWallWPs.Length)
+                    mJumpToWallInd = 0;
                 break;
 
             case Phase.AirStrike:
@@ -288,19 +293,17 @@ public class EnemyBossCatGirl : Enemy {
                     }
                 }
                 else {
-                    Vector3 wp = jumpToWallWP.position;
+                    Vector3 wp = jumpToWallWPs[mJumpToWallInd].position;
                     float wpDeltaX = wp.x - pos.x;
                     float wpDistX = Mathf.Abs(wpDeltaX);
                     float wpDirX = Mathf.Sign(wpDeltaX);
 
                     if(bodyCtrl.isGrounded) {
+                        bodyCtrl.moveSide = wpDirX;
+
                         if(wpDistX <= 0.2f) {
-                            bodyCtrl.moveSide = 1.0f;
                             Jump(2.0f);
                             mJumpToWallWait = true;
-                        }
-                        else {
-                            bodyCtrl.moveSide = wpDirX;
                         }
                     }
                     else if(bodyCtrl.isWallStick) {

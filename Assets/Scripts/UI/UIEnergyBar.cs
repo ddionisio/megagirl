@@ -20,6 +20,11 @@ public class UIEnergyBar : MonoBehaviour {
 
     public float smoothSpeed = 10.0f; //for when smoothing
 
+    public Color flashColor = Color.red;
+    public float flashRepeatDelay = 0.15f;
+    public float flashDelay = 1.0f;
+    public UIWidget[] flashWidgets;
+
     public event GenericCallback animateEndCallback;
 
     private int mCurMaxBar = 1;
@@ -30,6 +35,9 @@ public class UIEnergyBar : MonoBehaviour {
     private float mEndT;
     private float mDirT;
     private float mLastAnimTime;
+    private bool mFlashed;
+
+    private const string flashRoutine = "DoFlash";
 
     public int max {
         get { return mCurMaxBar; }
@@ -89,6 +97,8 @@ public class UIEnergyBar : MonoBehaviour {
         if(icon) {
             icon.spriteName = atlasRef;
             icon.MakePixelPerfect();
+
+            Flash(false);
         }
     }
 
@@ -111,9 +121,25 @@ public class UIEnergyBar : MonoBehaviour {
         }
     }
 
+    public void Flash(bool on) {
+        StopCoroutine(flashRoutine);
+
+        if(on)
+            StartCoroutine(flashRoutine);
+        else {
+            if(mFlashed) {
+                for(int i = 0; i < flashWidgets.Length; i++)
+                    flashWidgets[i].color = Color.white;
+                mFlashed = false;
+            }
+        }
+    }
+
     void OnDisable() {
         mCurT = (float)mCurNumBar;
         mIsAnimate = false;
+
+        Flash(false);
     }
 
     void OnDestroy() {
@@ -160,6 +186,37 @@ public class UIEnergyBar : MonoBehaviour {
 					bar.height = Mathf.RoundToInt(h);
                 }
             }
+        }
+    }
+
+    IEnumerator DoFlash() {
+        WaitForFixedUpdate wait = new WaitForFixedUpdate();
+
+        float lastTime = Time.fixedTime;
+        float lastRepeatTime = 0;
+
+        while(Time.fixedTime - lastTime <= flashDelay) {
+            if(Time.fixedTime - lastRepeatTime > flashRepeatDelay) {
+                if(mFlashed) {
+                    for(int i = 0; i < flashWidgets.Length; i++)
+                        flashWidgets[i].color = Color.white;
+                }
+                else {
+                    for(int i = 0; i < flashWidgets.Length; i++)
+                        flashWidgets[i].color = flashColor;
+                }
+
+                mFlashed = !mFlashed;
+                lastRepeatTime = Time.fixedTime;
+            }
+
+            yield return wait;
+        }
+
+        if(mFlashed) {
+            for(int i = 0; i < flashWidgets.Length; i++)
+                flashWidgets[i].color = Color.white;
+            mFlashed = false;
         }
     }
 }

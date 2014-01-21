@@ -30,6 +30,8 @@ public class EnemyBossCloneGirl : Enemy {
     public string crazyProjType = "angryCloneStill";
     public float crazyPrepDelay = 2.0f;
 
+    public float moveWaitDelay = 0.3f;
+
     private const string ChaserLaunchFunc = "DoChaserLaunch";
     private const string CrazyRoutine = "DoCrazy";
 
@@ -44,6 +46,8 @@ public class EnemyBossCloneGirl : Enemy {
 
     private Projectile[] mCrazyProjs;
     private bool mCrazyProjsActive;
+
+    private float mLastMoveTime;
 
     protected override void StateChanged() {
         switch((EntityState)prevState) {
@@ -187,8 +191,12 @@ public class EnemyBossCloneGirl : Enemy {
                     RaycastHit hit;
                     if(Physics.SphereCast(collider.bounds.center, fearCheckRadius, Vector3.left, out hit, fearCheckDist, fearCheckMask)
                        || Physics.SphereCast(collider.bounds.center, fearCheckRadius, Vector3.right, out hit, fearCheckDist, fearCheckMask)) {
-                        shaker.enabled = false;
-                        bodyCtrl.moveSide = -Mathf.Sign(hit.point.x - collider.bounds.center.x);
+                        if(Time.fixedTime - mLastMoveTime > moveWaitDelay) {
+                            mLastMoveTime = Time.fixedTime;
+
+                            shaker.enabled = false;
+                            bodyCtrl.moveSide = -Mathf.Sign(hit.point.x - collider.bounds.center.x);
+                        }
                     }
                     else {
                         shaker.enabled = true;

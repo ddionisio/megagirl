@@ -8,5 +8,6 @@ public struct InputAction {
     public const int PowerNext = 5;
     public const int MenuAccept = 6;
     public const int MenuEscape = 7;
-    public const int _count = 8;
+    public const int Slide = 8;
+    public const int _count = 9;
 }

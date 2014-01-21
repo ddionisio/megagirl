@@ -146,8 +146,12 @@ public class Weapon : MonoBehaviour {
         get { return energyType == EnergyType.Unlimited || mCurEnergy >= weaponEnergyDefaultMax; }
     }
 
+    public virtual bool hasEnergy {
+        get { return energyType == EnergyType.Unlimited || (mCurEnergy > 0.0f && (charges.Length == 0 || mCurEnergy >= charges[mCurChargeLevel].energyCost)); }
+    }
+
     public virtual bool canFire {
-        get { return (projMax == 0 || mCurProjCount < projMax) && (energyType == EnergyType.Unlimited || (mCurEnergy > 0.0f && (charges.Length == 0 || mCurEnergy >= charges[mCurChargeLevel].energyCost))); }
+        get { return (projMax == 0 || mCurProjCount < projMax) && hasEnergy; }
     }
 
     public bool isFireActive {
