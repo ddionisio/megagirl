@@ -25,6 +25,12 @@ public class Projectile : EntityBase {
         ReflectDirXOnly
     }
 
+    public struct HitInfo {
+        public Collider col;
+        public Vector3 normal;
+        public Vector3 point;
+    }
+
     public bool simple; //don't use rigidbody, make sure you have a sphere collider and set it to trigger
     public LayerMask simpleLayerMask;
     public string[] hitTags;
@@ -82,6 +88,7 @@ public class Projectile : EntityBase {
     private Stats mStats;
     private int mCurBounce = 0;
     private int mCurDamageCount = 0;
+    private HitInfo mLastHit;
 
     private Vector3 mSeekCurDir;
     private Vector3 mSeekCurDirVel;
@@ -147,6 +154,8 @@ public class Projectile : EntityBase {
     }
 
     public Stats stats { get { return mStats; } }
+
+    public HitInfo lastHit { get { return mLastHit; } }
 
     public void SetSpeedLimit(float limit) {
         speedLimit = limit;
@@ -480,6 +489,10 @@ public class Projectile : EntityBase {
 
     void OnCollisionEnter(Collision collision) {
         foreach(ContactPoint cp in collision.contacts) {
+            mLastHit.col = cp.otherCollider;
+            mLastHit.normal = cp.normal;
+            mLastHit.point = cp.point;
+
             ApplyContact(cp.otherCollider.gameObject, cp.point, cp.normal);
             ApplyDamage(cp.otherCollider.gameObject, cp.point, cp.normal);
 
@@ -542,6 +555,10 @@ public class Projectile : EntityBase {
             //check if hit something
             RaycastHit hit;
             if(Physics.SphereCast(pos, mSphereColl.radius, dir, out hit, d, simpleLayerMask)) {
+                mLastHit.col = hit.collider;
+                mLastHit.normal = hit.normal;
+                mLastHit.point = hit.point;
+
                 transform.position = hit.point + hit.normal * mSphereColl.radius;
                 ApplyContact(hit.collider.gameObject, hit.point, hit.normal);
                 ApplyDamage(hit.collider.gameObject, hit.point, hit.normal);

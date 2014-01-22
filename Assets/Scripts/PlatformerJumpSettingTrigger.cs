@@ -8,6 +8,9 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
         public float jumpDelay;
     }
 
+    public string spawnGrp;
+    public string spawnType;
+
     public const int maxCols = 8;
 
     public Info info;
@@ -92,6 +95,11 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
         if(ctrl && M8.ArrayUtil.Contains(tags, col.tag)) {
             if(mCurColCount < maxCols) {
                 mCtrls[mCurColCount].Apply(collider, info, ctrl);
+
+                if(mCurColCount == 0 && !string.IsNullOrEmpty(spawnGrp) && !string.IsNullOrEmpty(spawnType)) {
+                    PoolController.Spawn(spawnGrp, spawnType, spawnType, null, col.transform.position, Quaternion.identity);
+                }
+
                 mCurColCount++;
             }
             else {
@@ -122,6 +130,10 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
                 
                 if(mCurColCount > 1) {
                     mCtrls[i] = mCtrls[mCurColCount - 1];
+                }
+
+                if(mCurColCount == 1 && !string.IsNullOrEmpty(spawnGrp) && !string.IsNullOrEmpty(spawnType)) {
+                    PoolController.Spawn(spawnGrp, spawnType, spawnType, null, col.transform.position, Quaternion.identity);
                 }
                 
                 mCurColCount--;
