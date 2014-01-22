@@ -12,6 +12,7 @@ public class EnemyBossCloneGirl : Enemy {
     public const string defeatClip = "defeated";
     public const string crazyClip = "crazy";
     public const string crazyPrepClip = "attackPrep";
+    public const string castClip = "cast";
 
     public TransAnimWaveOfsRand shaker;
     public int maxWallJump = 3;
@@ -32,6 +33,11 @@ public class EnemyBossCloneGirl : Enemy {
 
     public float moveWaitDelay = 0.3f;
 
+    public ParticleSystem castParticle;
+    public float castWaitDelay; //while standing still, wait for this
+    public string castProjSeekType;
+    public int castProjCount = 2;
+
     private const string ChaserLaunchFunc = "DoChaserLaunch";
     private const string CrazyRoutine = "DoCrazy";
 
@@ -43,11 +49,14 @@ public class EnemyBossCloneGirl : Enemy {
     private int mCurWallJumpCount;
     private int mCurChaserCount;
     private int mChaserAccumCount;
+    private int mCurCastProjCount;
 
     private Projectile[] mCrazyProjs;
     private bool mCrazyProjsActive;
 
     private float mLastMoveTime;
+
+    private float mLastMoveSide;
 
     protected override void StateChanged() {
         switch((EntityState)prevState) {
@@ -117,6 +126,8 @@ public class EnemyBossCloneGirl : Enemy {
 
         switch(phase) {
             case Phase.Move:
+                mLastMoveTime = Time.fixedTime;
+
                 mChaserAccumCount = 0;
 
                 animator.Play("normal");
@@ -149,6 +160,7 @@ public class EnemyBossCloneGirl : Enemy {
         
         bodyCtrl.landCallback += OnLanded;
         bodySpriteCtrl.flipCallback += OnBodySpriteChangeFace;
+        bodySpriteCtrl.clipFinishCallback += OnBodySpriteAnimEnd;
 
         mSensor = GetComponent<EntitySensor>();
         mSensor.updateCallback += OnSensorUpdate;
@@ -184,23 +196,36 @@ public class EnemyBossCloneGirl : Enemy {
                 //Vector3 pos = transform.position;
                 //Vector3 dpos = playerPos - pos;
 
+                if(bodySpriteCtrl.overrideClip != null)
+                    return;
+
                 if(bodyCtrl.isGrounded) {
                     mCurWallJumpCount = 0;
 
-                    //check if player is within y range
-                    RaycastHit hit;
-                    if(Physics.SphereCast(collider.bounds.center, fearCheckRadius, Vector3.left, out hit, fearCheckDist, fearCheckMask)
-                       || Physics.SphereCast(collider.bounds.center, fearCheckRadius, Vector3.right, out hit, fearCheckDist, fearCheckMask)) {
-                        if(Time.fixedTime - mLastMoveTime > moveWaitDelay) {
-                            mLastMoveTime = Time.fixedTime;
-
-                            shaker.enabled = false;
-                            bodyCtrl.moveSide = -Mathf.Sign(hit.point.x - collider.bounds.center.x);
-                        }
+                    if(mCurCastProjCount == 0 && bodyCtrl.moveSide == 0.0f && Time.fixedTime - mLastMoveTime > castWaitDelay) {
+                        CancelInvoke(ChaserLaunchFunc);
+                        bodySpriteCtrl.PlayOverrideClip(castClip);
+                        castParticle.Play();
                     }
                     else {
-                        shaker.enabled = true;
-                        bodyCtrl.moveSide = 0.0f;
+                        //check if player is within y range
+                        RaycastHit hit;
+                        if(Physics.SphereCast(collider.bounds.center, fearCheckRadius, Vector3.left, out hit, fearCheckDist, fearCheckMask)
+                           || Physics.SphereCast(collider.bounds.center, fearCheckRadius, Vector3.right, out hit, fearCheckDist, fearCheckMask)) {
+                            if(Time.fixedTime - mLastMoveTime > moveWaitDelay) {
+                                mLastMoveTime = Time.fixedTime;
+
+                                shaker.enabled = false;
+                                mLastMoveSide = bodyCtrl.moveSide = -Mathf.Sign(hit.point.x - collider.bounds.center.x);
+                            }
+                        }
+                        else {
+                            if(bodyCtrl.moveSide != 0.0f)
+                                mLastMoveTime = Time.fixedTime;
+
+                            shaker.enabled = true;
+                            bodyCtrl.moveSide = 0.0f;
+                        }
                     }
                 }
                 else {
@@ -215,6 +240,10 @@ public class EnemyBossCloneGirl : Enemy {
                             bodyCtrl.moveSide = -bodyCtrl.moveSide;
                         }
                     }
+                    else if(bodyCtrl.moveSide == 0.0f)
+                        bodyCtrl.moveSide = mLastMoveSide;
+
+                    mLastMoveTime = Time.fixedTime;
                 }
                 break;
 
@@ -233,6 +262,9 @@ public class EnemyBossCloneGirl : Enemy {
                     if(Mathf.Abs(90.0f - nAngle) <= 5.0f) {
                         Jump(0);
                         Jump(2.0f);
+
+                        if(bodyCtrl.moveSide == 0.0f)
+                            bodyCtrl.moveSide = mLastMoveSide;
                     }
                 }
                 break;
@@ -245,6 +277,23 @@ public class EnemyBossCloneGirl : Enemy {
     }
 
     void OnBodySpriteChangeFace(PlatformerSpriteController ctrl) {
+    }
+
+    void OnBodySpriteAnimEnd(PlatformerSpriteController ctrl, tk2dSpriteAnimationClip clip) {
+        if(clip.name == castClip) {
+            Vector3 pos = collider.bounds.center; pos.z = 0.0f;
+            Quaternion rot = Quaternion.AngleAxis(360.0f/((float)castProjCount), Vector3.forward);
+            Vector3 dir = Quaternion.AngleAxis(360.0f*Random.value, Vector3.forward)*Vector3.up;
+
+            for(int i = 0; i < castProjCount; i++) {
+                //NOTE: assumes seeker proj
+                Projectile proj = Projectile.Create(projGroup, castProjSeekType, pos, dir, Player.instance.transform);
+                proj.releaseCallback += OnCastProjRelease;
+                dir = rot*dir;
+            }
+
+            mCurCastProjCount = castProjCount;
+        }
     }
 
     void DoChaserLaunch() {
@@ -269,10 +318,24 @@ public class EnemyBossCloneGirl : Enemy {
             if(mChaserAccumCount == chaserAccumCount) {
                 ToPhase(Phase.Crazy);
             }
-            else if(mCurChaserCount == 0) {
+            else if(mCurChaserCount == 0 && mCurCastProjCount == 0) {
                 if(!IsInvoking(ChaserLaunchFunc))
                     InvokeRepeating(ChaserLaunchFunc, angryChaserLaunchDelay, angryChaserLaunchDelay);
             }
+        }
+    }
+
+    void OnCastProjRelease(EntityBase ent) {
+        if(mCurCastProjCount > 0)
+            mCurCastProjCount--;
+
+        ent.releaseCallback -= OnCastProjRelease;
+
+        if(mCurCastProjCount == 0 && mCurPhase == Phase.Move) {
+            mLastMoveTime = Time.fixedTime;
+
+            if(!IsInvoking(ChaserLaunchFunc))
+                InvokeRepeating(ChaserLaunchFunc, angryChaserLaunchDelay, angryChaserLaunchDelay);
         }
     }
 
