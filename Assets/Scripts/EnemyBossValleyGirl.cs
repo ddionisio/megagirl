@@ -24,6 +24,7 @@ public class EnemyBossValleyGirl : Enemy {
     public GameObject chargeGO;
     public float chargeTurnDelay;
     public float chargeDuration;
+    public float chargeMoveScale = 1.0f;
 
     public string laserProjType;
     public Transform[] laserPts;
@@ -89,10 +90,10 @@ public class EnemyBossValleyGirl : Enemy {
                 break;
 
             case Phase.ChargeToPlayer:
-                stats.damageReduction = 0.0f;
                 StopCoroutine(chargeRoutine);
                 chargeGO.SetActive(false);
                 bodyCtrl.lockDrag = false;
+                bodyCtrl.moveScale = 1.0f;
 
                 damageGO.SetActive(true);
                 break;
@@ -123,7 +124,7 @@ public class EnemyBossValleyGirl : Enemy {
                 break;
 
             case Phase.ChargeToPlayer:
-                stats.damageReduction = 0.5f;
+                bodyCtrl.moveScale = chargeMoveScale;
                 damageGO.SetActive(false);
 
                 StartCoroutine(chargeRoutine);
@@ -134,7 +135,6 @@ public class EnemyBossValleyGirl : Enemy {
                 break;
 
             case Phase.Tornado:
-                stats.damageReduction = 1.0f;
                 StartCoroutine(tornadoRoutine);
                 break;
 
@@ -210,6 +210,8 @@ public class EnemyBossValleyGirl : Enemy {
         
         while(MoveTowardsX(destX))
             yield return wait;
+
+        stats.damageReduction = 1.0f;
 
         tornadoAnimDat.Play("active");
 
@@ -319,13 +321,16 @@ public class EnemyBossValleyGirl : Enemy {
         mPhaseCounter++;
         switch(mPhaseCounter) {
             case 1:
-                mNextPhase = Phase.ShootLasers;
+                mNextPhase = Phase.ChargeToPlayer;
                 break;
             case 2:
+                mNextPhase = Phase.ShootLasers;
+                break;
+            case 3:
                 //rand
                 mNextPhase = Random.Range(0, 2) == 0 ? Phase.ChargeToPlayer : Phase.ShootLasers;
                 break;
-            case 3:
+            case 4:
                 //special
                 mPhaseCounter = 0;
                 mNextPhase = Phase.Tornado;
