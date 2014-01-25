@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class EnemyBossTankieGirl : Enemy {
@@ -20,6 +20,7 @@ public class EnemyBossTankieGirl : Enemy {
 
     public const string moveFireRoutine = "DoMoveFire";
     public const string seekerFireRoutine = "DoSeekerFire";
+    public const string cannonFireRoutine = "DoCannonFire";
 
     public EnemyBossTank tank;
 
@@ -37,13 +38,22 @@ public class EnemyBossTankieGirl : Enemy {
     public int seekerCount = 2;
     public float seekerFireDelay = 0.5f;
 
+    public string cannonProjType;
+    public Transform[] cannonFirePts;
+    public float cannonMoveScale = 0.35f;
+    public ParticleSystem cannonParticleReady;
+
     public Transform[] movePts;
 
+    public Phase[] phasePattern;
+
     private Phase mCurPhase = Phase.None;
-    private Phase mNextPhase = Phase.FireSeeker;
+    private int mCurPhasePatternInd = 0;
     private Player mPlayer;
 
     private int mCurMovePtInd;
+
+    private RigidBodyMoveToTarget mMoveToTarget;
 
     public void ShootMissile() {
         Vector3 pt = seekerPt.position; pt.z = 0.0f;
@@ -75,7 +85,7 @@ public class EnemyBossTankieGirl : Enemy {
             case EntityState.Dead:
                 ToPhase(Phase.Dead);
                 if(tank.stats.curHP > 0) {
-                    tank.stats.curHP = 0;
+                    tank.state = (int)EntityState.Dead;
                 }
                 break;
                 
@@ -103,6 +113,10 @@ public class EnemyBossTankieGirl : Enemy {
                 StopCoroutine(seekerFireRoutine);
                 seekerAnimDat.Play("default");
                 break;
+
+            case Phase.FireCannon:
+                StopCoroutine(cannonFireRoutine);
+                break;
         }
 
         switch(phase) {
@@ -123,11 +137,14 @@ public class EnemyBossTankieGirl : Enemy {
                 StartCoroutine(seekerFireRoutine);
                 break;
 
+            case Phase.FireCannon:
+                StartCoroutine(cannonFireRoutine);
+                break;
+
             case Phase.MoveNoTank:
                 bodySpriteCtrl.StopOverrideClip();
 
-                RigidBodyMoveToTarget mover = GetComponent<RigidBodyMoveToTarget>();
-                mover.enabled = false;
+                mMoveToTarget.enabled = false;
 
                 bodyCtrl.rigidbody.isKinematic = false;
                 bodyCtrl.enabled = true;
@@ -144,6 +161,8 @@ public class EnemyBossTankieGirl : Enemy {
                 break;
 
             case Phase.Dead:
+                mMoveToTarget.enabled = false;
+
                 bodyCtrl.rigidbody.isKinematic = false;
                 bodyCtrl.enabled = true;
                 gravityCtrl.enabled = true;
@@ -163,6 +182,8 @@ public class EnemyBossTankieGirl : Enemy {
 
     protected override void Awake() {
         base.Awake();
+
+        mMoveToTarget = GetComponent<RigidBodyMoveToTarget>();
 
         tank.setStateCallback += OnTankStateChanged;
 
@@ -204,7 +225,7 @@ public class EnemyBossTankieGirl : Enemy {
     void OnTankStateChanged(EntityBase ent) {
         switch((EntityState)ent.state) {
             case EntityState.Dead:
-                if((EntityState)state != EntityState.Dead) {
+                if((EntityState)state != EntityState.Dead && mCurPhase != Phase.Dead) {
                     ToPhase(Phase.MoveNoTank);
                 }
                 break;
@@ -229,8 +250,13 @@ public class EnemyBossTankieGirl : Enemy {
     }
 
     void SetToNextPhase() {
-        ToPhase(mNextPhase);
-        //mNextPhase = Phase.FireCannon;
+        //Phase nextPhase = Phase.FireCannon;
+        Phase nextPhase = phasePattern[mCurPhasePatternInd];
+        mCurPhasePatternInd++;
+        if(mCurPhasePatternInd == phasePattern.Length)
+            mCurPhasePatternInd = 0;
+
+        ToPhase(nextPhase);
     }
 
     IEnumerator DoMoveFire() {
@@ -266,7 +292,7 @@ public class EnemyBossTankieGirl : Enemy {
         } while(seekerAnimDat.isPlaying);
 
         //move to a far spot away from player
-        Vector3 playerPos = mPlayer.collider.bounds.center;
+        /*Vector3 playerPos = mPlayer.collider.bounds.center;
         
         float farthestX = 0;
         float farthestDistSq = 0;
@@ -284,7 +310,7 @@ public class EnemyBossTankieGirl : Enemy {
             if(tank.bodyCtrl.moveSide == 0.0f || Mathf.Abs(tank.bodyCtrl.rigidbody.velocity.x) > 2.0f)
                 tank.bodyCtrl.moveSide = Mathf.Sign(farthestX - collider.bounds.center.x);
             yield return waitUpdate;
-        }
+        }*/
 
         tank.bodyCtrl.moveSide = 0.0f;
         tank.bodyCtrl.rigidbody.velocity = Vector3.zero;
@@ -310,7 +336,53 @@ public class EnemyBossTankieGirl : Enemy {
             yield return waitUpdate;
         } while(seekerAnimDat.isPlaying);
 
-        if(mCurPhase == Phase.FireSeeker)
-            ToPhase(Phase.Move);
+        ToPhase(Phase.Move);
+    }
+
+    IEnumerator DoCannonFire() {
+        SpriteHFlipRigidbodyVelX tankSpriteFlip = tank.GetComponent<SpriteHFlipRigidbodyVelX>();
+        
+        WaitForFixedUpdate waitUpdate = new WaitForFixedUpdate();
+        WaitForSeconds waitFireDelay = new WaitForSeconds(seekerFireDelay);
+
+        tank.bodyCtrl.moveSide = 0.0f;
+        tank.bodyCtrl.rigidbody.velocity = Vector3.zero;
+
+        //face player
+        float sign = Mathf.Sign(mPlayer.collider.bounds.center.x - collider.bounds.center.x);
+        tankSpriteFlip.SetFlip(sign < 0.0f);
+        bodySpriteCtrl.isLeft = sign < 0.0f;
+
+        //play particle ready and wait
+        cannonParticleReady.Play();
+        while(cannonParticleReady.isPlaying || !tank.bodyCtrl.isGrounded) {
+            sign = Mathf.Sign(mPlayer.collider.bounds.center.x - collider.bounds.center.x);
+            tankSpriteFlip.SetFlip(sign < 0.0f);
+            bodySpriteCtrl.isLeft = sign < 0.0f;
+
+            yield return waitUpdate;
+        }
+
+        //jump
+        tank.bodyCtrl.moveSide = sign*cannonMoveScale;
+        tank.Jump(1.0f);
+
+        //check if we start dropping, then fire
+        while(tank.bodyCtrl.isGrounded || tank.bodyCtrl.isJump || tank.bodyCtrl.localVelocity.y < 0.0f)
+            yield return waitUpdate;
+
+        //fire
+        for(int i = 0; i < cannonFirePts.Length; i++) {
+            Vector3 pt = cannonFirePts[i].position; pt.z = 0.0f;
+            Projectile.Create(projGroup, cannonProjType, pt, cannonFirePts[i].up, null);
+        }
+
+        //wait till we land
+        while(!tank.bodyCtrl.isGrounded)
+            yield return waitUpdate;
+
+        tank.Jump(0.0f);
+
+        ToPhase(Phase.Move);
     }
 }
