@@ -29,6 +29,20 @@ public class EnemyShelly : Enemy {
     private Vector3 mDirCur;
     private Vector3 mDirRotAxis;
     private float mDirAngleVel;
+    private bool mIsClosed;
+
+    void SetClosedState(bool closed) {
+        if(mIsClosed != closed) {
+            mIsClosed = closed;
+
+            if(mIsClosed) {
+                stats.AddDamageReduce(1.0f);
+            }
+            else {
+                stats.AddDamageReduce(-1.0f);
+            }
+        }
+    }
 
     void InitNormal() {
         mIsOpen = false;
@@ -39,7 +53,9 @@ public class EnemyShelly : Enemy {
         cannonAnim.Play("normal");
         
         shellAnimDat.Play("normal");
-        stats.isInvul = true;
+
+        SetClosedState(true);
+
         Invoke(openFunc, openDelay);
         
         mDirCur = Vector3.up;
@@ -53,6 +69,11 @@ public class EnemyShelly : Enemy {
         switch((EntityState)state) {
             case EntityState.Normal:
                 InitNormal();
+                break;
+
+            case EntityState.Dead:
+            case EntityState.Invalid:
+                SetClosedState(false);
                 break;
         }
     }
@@ -101,7 +122,7 @@ public class EnemyShelly : Enemy {
             if(mCurShotCount == projCount) {
                 Blink(0);
                 mIsOpen = false;
-                stats.isInvul = true;
+                SetClosedState(true);
                 shellAnimDat.Play("close");
             }
             else {
@@ -152,7 +173,7 @@ public class EnemyShelly : Enemy {
         }
         else if(take.name == "open") {
             mIsOpen = true;
-            stats.isInvul = false;
+            SetClosedState(false);
 
             mLastShotTime = Time.time;
             mCurShotCount = 0;

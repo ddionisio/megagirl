@@ -312,6 +312,15 @@ public class EnemyBossLightning : Enemy {
         superStrikeHolderGO.transform.position = pos;
         superStrikeHolderGO.transform.eulerAngles = new Vector3(0,0,45);
 
+        //balls
+        Vector3 ballProjPos = fork.position; ballProjPos.z = 0;
+        
+        Projectile proj = Projectile.Create(lightningBallGroup, lightningBallType, ballProjPos, Vector3.left, null);
+        proj.bounceRotateAngle = -90;
+        
+        proj = Projectile.Create(lightningBallGroup, lightningBallType, ballProjPos, Vector3.right, null);
+        proj.bounceRotateAngle = -90;
+
         //prep
         superStrikeTargetGO.SetActive(true);
         yield return new WaitForSeconds(superStrikeReadyDelay);

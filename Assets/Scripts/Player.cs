@@ -524,9 +524,9 @@ public class Player : EntityBase {
 
     void OnInputJump(InputManager.Info dat) {
         if(dat.state == InputManager.State.Pressed) {
-            if(!mSliding) {
-                InputManager input = Main.instance.input;
+            InputManager input = Main.instance.input;
 
+            if(!mSliding) {
                 if(input.GetAxis(0, InputAction.MoveY) < -0.1f && mCtrl.isGrounded) {
                     Weapon curWpn = weapons[mCurWeaponInd];
                     if(!curWpn.isFireActive || curWpn.allowSlide)
@@ -536,10 +536,12 @@ public class Player : EntityBase {
                     mCtrl.Jump(true);
                 }
             } else {
-                //if we can stop sliding, then jump
-                SetSlide(false, false);
-                if(!mSliding) {
-                    mCtrl.Jump(true);
+                if(input.GetAxis(0, InputAction.MoveY) >= 0.0f) {
+                    //if we can stop sliding, then jump
+                    SetSlide(false, false);
+                    if(!mSliding) {
+                        mCtrl.Jump(true);
+                    }
                 }
             }
         } else if(dat.state == InputManager.State.Released) {
@@ -625,8 +627,10 @@ public class Player : EntityBase {
                     if(clearVelocity) {
                         mCtrl.moveSide = 0.0f;
 
-                        if(!rigidbody.isKinematic)
-                            rigidbody.velocity = Vector3.zero;
+                        if(!rigidbody.isKinematic) {
+                            Vector3 v = rigidbody.velocity; v.x = 0.0f; v.z = 0.0f;
+                            rigidbody.velocity = v;
+                        }
                     } else {
                         //limit x velocity
                         Vector3 v = rigidbody.velocity;

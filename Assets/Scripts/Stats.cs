@@ -63,6 +63,12 @@ public class Stats : MonoBehaviour {
     /// </summary>
     public Vector3 lastDamageNormal { get { return mLastDamageNorm; } }
 
+    public void AddDamageReduce(float amt) {
+        for(int i = 0; i < damageTypeReduction.Length; i++) {
+            damageTypeReduction[i].val += amt;
+        }
+    }
+
     public DamageMod GetDamageMod(DamageMod[] dat, Damage.Type type) {
         if(dat != null) {
             for(int i = 0, max = dat.Length; i < max; i++) {
