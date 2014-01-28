@@ -1,8 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyBossLightning.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\M8\Scripts\tk2dExt\SpritePropertyMulti.cs">
     <Files>
-      <File FileName="Assets\Scripts\EnemyBossLightning.cs" Line="44" Column="49" />
+      <File FileName="Assets\M8\Scripts\tk2dExt\SpritePropertyMulti.cs" Line="59" Column="49" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
