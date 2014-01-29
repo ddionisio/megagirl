@@ -22,7 +22,8 @@ public class Projectile : EntityBase {
         None,
         ContactNormal,
         ReflectDir,
-        ReflectDirXOnly
+        ReflectDirXOnly,
+        ContactNormalXOnly,
     }
 
     public struct HitInfo {
@@ -63,6 +64,7 @@ public class Projectile : EntityBase {
     public int maxBounce = -1;
     public float bounceRotateAngle;
     public float bounceSurfaceOfs; //displace projectile slightly off surface based on normal
+    public bool bounceRigidbodyApplyVelocity = true;
     public bool explodeOnDeath;
     public Transform applyDirToUp;
     public LayerMask EndByContactMask; //if not 0, use death contact mask to determine if we die based on layer
@@ -405,7 +407,8 @@ public class Projectile : EntityBase {
 
                             Vector3 reflVel = Vector3.Reflect(rigidbody.velocity, normal);
 
-                            rigidbody.velocity = reflVel;
+                            if(bounceRigidbodyApplyVelocity)
+                                rigidbody.velocity = reflVel;
 
                             //TODO: this is only for 2D
                             switch(forceBounce) {
@@ -422,9 +425,25 @@ public class Projectile : EntityBase {
                                     break;
 
                                 case ForceBounceType.ReflectDirXOnly:
-                                    mActiveForce.Set(Mathf.Sign(reflVel.x), 0.0f, 0.0f);
-                                    mActiveForce *= force;
+                                    if(Mathf.Abs(reflVel.x) > float.Epsilon) {
+                                        mActiveForce.Set(Mathf.Sign(reflVel.x), 0.0f, 0.0f);
+                                        mActiveForce *= force;
+                                    }
                                     break;
+
+                                case ForceBounceType.ContactNormalXOnly:
+                                    if(Mathf.Abs(normal.x) > float.Epsilon) {
+                                        mActiveForce.Set(normal.x, 0.0f, 0.0f);
+                                        mActiveForce.Normalize();
+                                        mActiveForce *= force;
+                                    }
+                                    break;
+                            }
+
+                            if(bounceSurfaceOfs != 0.0f) {
+                                Vector3 p = transform.position;
+                                p += normal*bounceSurfaceOfs;
+                                rigidbody.MovePosition(p);
                             }
                         }
 

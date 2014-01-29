@@ -119,7 +119,6 @@ public class EnemyBossJuses : Enemy {
     private Phase mCurPhase = Phase.None;
     
     private AnimatorData mAnimDat;
-    private Player mPlayer;
     private Vector3 mCurMoveVel = Vector3.zero;
     private int[] mTurretInds;
     private int mTurretAliveCount;
