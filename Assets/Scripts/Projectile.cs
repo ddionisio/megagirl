@@ -297,8 +297,8 @@ public class Projectile : EntityBase {
                     if(dieBlink)
                         Blink(dieDelay);
 
-                    if(!IsInvoking("Die"))
-                        Invoke("Die", dieDelay);
+                    CancelInvoke("Die");
+                    Invoke("Die", dieDelay);
                 }
                 else
                     Die();

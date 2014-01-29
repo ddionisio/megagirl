@@ -1,13 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Projectile.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyCatRoller.cs">
     <Files>
-      <File FileName="Assets\Scripts\EnemyBossBunnyShip.cs" Line="261" Column="99" />
-      <File FileName="Assets\M8\Scripts\tk2dExt\SlicedSpriteSizePulse.cs" Line="47" Column="36" />
+      <File FileName="Assets\Scripts\EnemyBossBunnyShip.cs" Line="256" Column="39" />
+      <File FileName="Assets\M8\Scripts\tk2dExt\SlicedSpriteSizePulse.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\tk2dExt\SpriteSizePulse.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="30" Column="85" />
-      <File FileName="Assets\Scripts\EnemyTurretLaser.cs" Line="42" Column="27" />
-      <File FileName="Assets\Scripts\Projectile.cs" Line="410" Column="62" />
+      <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyTurretLaser.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="111" Column="5" />
+      <File FileName="Assets\Scripts\EnemyCatRoller.cs" Line="118" Column="48" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

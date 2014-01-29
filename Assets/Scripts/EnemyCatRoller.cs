@@ -105,7 +105,7 @@ public class EnemyCatRoller : Enemy {
                 break;
 
             case EntityState.Dead:
-                if(mRock && mRock.isAlive) {
+                if(mRock) {
                     if(rollerDieDelayOverride) {
                         if(mRockBlinkDelay) {
                             mRockBlinkDelay.delay = rollerDieDelay - rollerDieBlinkDelay;
@@ -116,16 +116,9 @@ public class EnemyCatRoller : Enemy {
                         }
 
                         mRock.dieDelay = rollerDieDelay;
-                        mRock.stats.curHP = 0;
                     }
-                    else if(mRock.isAlive) {
-					    if(mRock.stats) {
-							if(mRock.stats.curHP > 0)
-		                        mRock.stats.curHP = 0;
-						}
-	                    else
-	                        mRock.state = (int)Projectile.State.Dying;
-					}
+
+                    mRock.state = (int)Projectile.State.Dying;
                 
                     mRock = null;
                     mRockCtrl = null;
