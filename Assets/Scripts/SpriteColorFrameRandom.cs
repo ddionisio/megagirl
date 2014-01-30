@@ -70,7 +70,7 @@ public class SpriteColorFrameRandom : MonoBehaviour {
 
         float t = 0.0f;
         float curDelay = delay + Random.value * delayRandOfs;
-        Color curEndColor = endColors[Random.Range(0, endColors.Length)];
+        Color curEndColor = endColors.Length > 0 ? endColors[Random.Range(0, endColors.Length)] : startColor;
 
         if(anim != null)
             anim.Play();
@@ -89,7 +89,8 @@ public class SpriteColorFrameRandom : MonoBehaviour {
                 t = 0.0f;
                 curDelay = delay + Random.value * delayRandOfs;
 
-                curEndColor = endColors[Random.Range(0, endColors.Length)];
+                if(endColors.Length > 0)
+                    curEndColor = endColors[Random.Range(0, endColors.Length)];
 
                 float pdelay = pauseDelay + Random.value * pauseDelayRandOfs;
                 if(pdelay > 0.0f)
@@ -97,7 +98,9 @@ public class SpriteColorFrameRandom : MonoBehaviour {
             }
             else {
                 float s = Mathf.Sin(Mathf.PI * (t / delay));
-                spr.color = Color.Lerp(startColor, curEndColor, squared ? s * s : s);
+
+                if(endColors.Length > 0)
+                    spr.color = Color.Lerp(startColor, curEndColor, squared ? s * s : s);
             }
 
             yield return mDoUpdate;
