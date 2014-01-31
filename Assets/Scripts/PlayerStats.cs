@@ -14,6 +14,7 @@ public class PlayerStats : Stats {
 
     public const string subTankEnergyFillKey = "etank";
     public const string subTankWeaponFillKey = "wtank";
+    public const string hpKey = "chp";
 
     public const float subTankMaxValue = 32.0f; //max value of each tank
 
@@ -30,6 +31,8 @@ public class PlayerStats : Stats {
     public GameObject energyShield;
     public GameObject[] energyShieldPts;
     public float energyShieldMaxHP = 9.0f;
+
+    public bool hpPersist;
 
     public event ChangeCallback changeMaxHPCallback;
 
@@ -167,6 +170,13 @@ public class PlayerStats : Stats {
     public void SaveStates() {
         SceneState.instance.SetGlobalValueFloat(subTankEnergyFillKey, mSubTankEnergyCur, true);
         SceneState.instance.SetGlobalValueFloat(subTankWeaponFillKey, mSubTankWeaponCur, true);
+
+        if(hpPersist) {
+            if(mCurHP > 0)
+                SceneState.instance.SetGlobalValueFloat(hpKey, mCurHP, false);
+            else
+                SceneState.instance.DeleteGlobalValue(hpKey, false);
+        }
     }
 
     public void EnergyShieldSetActive(bool aActive) {
@@ -273,6 +283,10 @@ public class PlayerStats : Stats {
         energyShield.SetActive(false);
 
         base.Awake();
+
+        if(hpPersist) {
+            mCurHP = SceneState.instance.GetGlobalValueFloat(hpKey, maxHP);
+        }
     }
 
     void ApplyHPMod() {

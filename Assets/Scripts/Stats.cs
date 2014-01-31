@@ -31,7 +31,7 @@ public class Stats : MonoBehaviour {
     protected Vector3 mLastDamagePos;
     protected Vector3 mLastDamageNorm;
 
-    private float mCurHP;
+    protected float mCurHP;
     private bool mIsInvul;
 
     public float curHP {

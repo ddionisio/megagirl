@@ -18,6 +18,8 @@ public class Player : EntityBase {
 
     public GameObject[] armorDisplayGOs;
 
+    public bool saveLevelComplete = true;
+
     private static Player mInstance;
     private PlayerStats mStats;
     private PlatformerController mCtrl;
@@ -34,6 +36,8 @@ public class Player : EntityBase {
     private bool mHurtActive;
     private int mCurWeaponInd = -1;
     private int mPauseCounter;
+
+    private PlayMakerFSM mFireFSM;
 
     public static Player instance { get { return mInstance; } }
 
@@ -240,7 +244,8 @@ public class Player : EntityBase {
                 LockControls();
                 mCtrlSpr.PlayOverrideClip("victory");
 
-                LevelController.Complete();
+                if(saveLevelComplete)
+                    LevelController.Complete();
                 break;
 
             case EntityState.Invalid:
@@ -379,6 +384,21 @@ public class Player : EntityBase {
         HUD.instance.RefreshLifeCount();
     }
 
+    void OnTriggerEnter(Collider col) {
+        if(col.CompareTag("FireTrigger")) {
+            PlayMakerFSM fsm = col.GetComponent<PlayMakerFSM>();
+            if(fsm) {
+                mFireFSM = fsm;
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider col) {
+        if(mFireFSM && col == mFireFSM.collider) {
+            mFireFSM = null;
+        }
+    }
+
     void Update() {
         if(mSliding) {
             InputManager input = Main.instance.input;
@@ -477,7 +497,13 @@ public class Player : EntityBase {
 
     void OnInputFire(InputManager.Info dat) {
         if(dat.state == InputManager.State.Pressed) {
-            if(currentWeapon) {
+            if(mFireFSM) {
+                if(currentWeapon)
+                    currentWeapon.FireStop();
+
+                mFireFSM.SendEvent(EntityEvent.Interact);
+            }
+            else if(currentWeapon) {
                 if(currentWeapon.allowSlide || !mSliding) {
                     if(currentWeapon.hasEnergy) {
                         currentWeapon.FireStart();
@@ -488,7 +514,7 @@ public class Player : EntityBase {
                 }
             }
         } else if(dat.state == InputManager.State.Released) {
-            if(currentWeapon) {
+            if(!mFireFSM && currentWeapon) {
                 currentWeapon.FireStop();
             }
         }
@@ -690,6 +716,8 @@ public class Player : EntityBase {
             if(PlayerStats.curLife < PlayerStats.defaultNumLives) {
                 PlayerStats.curLife = PlayerStats.defaultNumLives;
             }
+
+            SceneState.instance.DeleteGlobalValue(PlayerStats.hpKey, false);
         }
     }
 
