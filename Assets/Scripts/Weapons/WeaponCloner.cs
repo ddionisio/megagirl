@@ -4,8 +4,6 @@ using System.Collections;
 public class WeaponCloner : Weapon {
     public Vector3 spawnOfs = new Vector3(0, 0.1f, 0);
 
-    private Projectile mLastClone;
-
     public override Vector3 spawnPoint {
         get {
             Vector3 pt = Player.instance.transform.localToWorldMatrix.MultiplyPoint(spawnOfs);
@@ -19,53 +17,25 @@ public class WeaponCloner : Weapon {
         }
     }
 
-    public override bool hasEnergy {
-        get {
-            return mLastClone != null || base.hasEnergy;
-        }
-    }
-
     protected override void OnEnable() {
         base.OnEnable();
 
-        if(mStarted) {
-            activeGO.SetActive(mLastClone != null);
+        if(mStarted && activeGO) {
+            activeGO.SetActive(mCurProjCount > 0);
         }
-    }
-
-    protected override void OnProjRelease(EntityBase ent) {
-        if(mLastClone == ent) {
-            mLastClone = null;
-            activeGO.SetActive(false);
-        }
-
-        base.OnProjRelease(ent);
     }
 
     protected override Projectile CreateProjectile(int chargeInd, Transform seek) {
-        if(chargeInd == 0) {
-            if(mLastClone) {
-                //detonate
-                if(mLastClone.state == (int)Projectile.State.Active || mLastClone.state == (int)Projectile.State.Seek) {
-                    if(mLastClone.stats)
-                        mLastClone.stats.curHP = 0;
-                    else
-                        mLastClone.state = (int)Projectile.State.Dying;
+        Projectile proj = base.CreateProjectile(chargeInd, seek);
 
-                    mLastClone = null;
-                    activeGO.SetActive(false);
-                }
-                return null;
-            }
-            else {
-                mLastClone = base.CreateProjectile(chargeInd, seek);
+        activeGO.SetActive(mCurProjCount > 0);
 
-                activeGO.SetActive(mLastClone != null);
+        return proj;
+    }
 
-                return mLastClone;
-            }
-        }
+    protected override void OnProjRelease(EntityBase ent) {
+        base.OnProjRelease(ent);
 
-        return base.CreateProjectile(chargeInd, seek);
+        activeGO.SetActive(mCurProjCount > 0);
     }
 }

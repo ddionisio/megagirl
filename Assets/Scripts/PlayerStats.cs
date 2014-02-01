@@ -12,6 +12,8 @@ public class PlayerStats : Stats {
 
     public const int defaultNumLives = 4;
 
+    public const float armorRating = 0.3f;
+
     public const string subTankEnergyFillKey = "etank";
     public const string subTankWeaponFillKey = "wtank";
     public const string hpKey = "chp";
@@ -164,7 +166,7 @@ public class PlayerStats : Stats {
 
     public void AcquireArmor() {
         SceneState.instance.SetGlobalFlag(itemFlagsKey, stateArmor, true, true);
-        damageReduction = 0.5f;
+        damageReduction = armorRating;
     }
 
     public void SaveStates() {
@@ -278,7 +280,7 @@ public class PlayerStats : Stats {
             mSubTankWeaponMax += subTankMaxValue;
 
         if(isArmorAcquired)
-            damageReduction = 0.5f;
+            damageReduction = armorRating;
 
         energyShield.SetActive(false);
 

@@ -13,6 +13,9 @@ public class ItemPickup : EntityBase {
     public string sound;
     public string popTextRef;
 
+    //if not empty, use this instead
+    public string[] dialogTextRefs;
+
     public LayerMask dropLayerMask; //which layers the drop will stop when hit
     public float dropSpeed;
 
@@ -21,6 +24,9 @@ public class ItemPickup : EntityBase {
     private bool mSpawned;
 
     private SpriteColorBlink[] mBlinkers;
+
+    private bool mPicked;
+    private int mCurDialogTextInd;
 
     /// <summary>
     /// Force pickup
@@ -92,6 +98,7 @@ public class ItemPickup : EntityBase {
 
                 case ItemType.Armor:
                     player.stats.AcquireArmor();
+                    player.RefreshArmor();
                     break;
             }
 
@@ -106,17 +113,42 @@ public class ItemPickup : EntityBase {
             if(collider)
                 collider.enabled = false;
 
-            if(!string.IsNullOrEmpty(popTextRef))
-                HUD.instance.PopUpMessage(GameLocalize.GetText(popTextRef));
+            if(dialogTextRefs != null && dialogTextRefs.Length > 0) {
+                mCurDialogTextInd = 0;
+                UIModalCharacterDialog dlg = UIModalCharacterDialog.Open(true, UIModalCharacterDialog.defaultModalRef, 
+                                                                         dialogTextRefs[mCurDialogTextInd], HUD.gitgirlNameRef, HUD.gitgirlPortraitRef, null);
+                dlg.actionCallback += OnDialogAction;
 
+            }
+            else {
+                if(!string.IsNullOrEmpty(popTextRef))
+                    HUD.instance.PopUpMessage(GameLocalize.GetText(popTextRef));
+
+                Release();
+            }
+        }
+    }
+
+    void OnDialogAction(UIModalCharacterDialog dlg, int choiceInd) {
+        mCurDialogTextInd++;
+        if(mCurDialogTextInd == dialogTextRefs.Length) {
             Release();
+            dlg.actionCallback -= OnDialogAction;
+            UIModalManager.instance.ModalCloseTop(); //assume dialog is top
+        }
+        else {
+            dlg.Apply(true, dialogTextRefs[mCurDialogTextInd], HUD.gitgirlNameRef, HUD.gitgirlPortraitRef, null);
         }
     }
 
     void OnTriggerEnter(Collider col) {
-        Player player = col.GetComponent<Player>();
-        if(player)
-            PickUp(player);
+        if(!mPicked) {
+            Player player = col.GetComponent<Player>();
+            if(player)
+                PickUp(player);
+
+            mPicked = true;
+        }
     }
 
     protected override void ActivatorSleep() {
@@ -146,6 +178,7 @@ public class ItemPickup : EntityBase {
     protected override void OnSpawned() {
         activator.deactivateOnStart = false;
         mSpawned = true;
+        mPicked = false;
 
         base.OnSpawned();
     }

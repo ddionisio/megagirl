@@ -75,23 +75,50 @@
 		"key":"sarkee_name",
 		"text":"NIL"
 	},
+	{
+		"key":"gitgirl_name",
+		"text":"[FF0000]GITGIRL[-]"
+	},
 	
 	{
 		"key":"pickup_healthup",
 		"text":"You found a health upgrade! +2 for life!"
 	},
+	
 	{
-		"key":"pickup_etank",
-		"text":"You found an energy sub-tank! Use it in the PAUSE menu to replenish health."
+		"key":"pickup_etank0",
+		"text":"You got a health tank."
 	},
 	{
-		"key":"pickup_wtank",
-		"text":"You found a weapon sub-tank! Use it in the PAUSE menu to recharge your weapons."
+		"key":"pickup_etank1",
+		"text":"The health tank fills up if you pick any life orbs while your health is full."
 	},
 	{
-		"key":"pickup_armor",
-		"text":"You found an armor! You now take only half the damage."
-	},	
+		"key":"pickup_etank2",
+		"text":"Use it in the PAUSE menu to replenish your health."
+	},
+	
+	{
+		"key":"pickup_wtank0",
+		"text":"You got a weapon tank."
+	},
+	{
+		"key":"pickup_wtank1",
+		"text":"The weapon tank fills up if you pick any weapon orbs while you use STAR GAZER or if your current weapon's energy is full."
+	},
+	{
+		"key":"pickup_wtank2",
+		"text":"Use it in the PAUSE menu to recharge all of your weapons."
+	},
+	
+	{
+		"key":"pickup_armor0",
+		"text":"You got an armor."
+	},
+	{
+		"key":"pickup_armor1",
+		"text":"All damage are now reduced by 30%!"
+	},
 	
 	{
 		"key":"stargazer",

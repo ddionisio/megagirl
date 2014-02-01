@@ -305,17 +305,20 @@ public class Player : EntityBase {
         state = (int)EntityState.Normal;
     }
 
+    public void RefreshArmor() {
+        if(armorDisplayGOs != null) {
+            for(int i = 0; i < armorDisplayGOs.Length; i++)
+                armorDisplayGOs[i].SetActive(PlayerStats.isArmorAcquired);
+        }
+    }
+
     protected override void SpawnStart() {
         //initialize some things
 
         //start ai, player control, etc
         currentWeaponIndex = 0;
         
-        //check for armor
-        if(armorDisplayGOs != null) {
-            for(int i = 0; i < armorDisplayGOs.Length; i++)
-                armorDisplayGOs[i].SetActive(PlayerStats.isArmorAcquired);
-        }
+        RefreshArmor();
     }
 
     protected override void Awake() {
@@ -587,7 +590,7 @@ public class Player : EntityBase {
 
     void OnInputPause(InputManager.Info dat) {
         if(dat.state == InputManager.State.Pressed) {
-            if(!UIModalManager.instance.ModalIsInStack("pause")) {
+            if(UIModalManager.instance.activeCount == 0 && !UIModalManager.instance.ModalIsInStack("pause")) {
                 UIModalManager.instance.ModalOpen("pause");
             }
         }

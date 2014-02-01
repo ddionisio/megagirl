@@ -2,6 +2,9 @@
 using System.Collections;
 
 public class HUD : MonoBehaviour {
+    public const string gitgirlNameRef = "gitgirl_name";
+    public const string gitgirlPortraitRef = "dialog_portrait_gitgirl";
+
     public UIEnergyBar barHP;
     public UIEnergyBar barEnergy;
     public UIEnergyBar barBoss;
