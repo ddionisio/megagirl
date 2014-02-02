@@ -17,6 +17,7 @@ public class EnemyBossTankieGirl : Enemy {
 
     public const string moveToPlayerFunc = "MoveToPlayer";
     public const string nextPhaseFunc = "SetToNextPhase";
+    public const string panicShootFunc = "PanicShoot";
 
     public const string moveFireRoutine = "DoMoveFire";
     public const string seekerFireRoutine = "DoSeekerFire";
@@ -47,6 +48,10 @@ public class EnemyBossTankieGirl : Enemy {
 
     public Phase[] phasePattern;
 
+    public Transform panicShootPt;
+    public float panicJumpDelay = 2.5f;
+    public float panicFireDelay = 1.0f;
+
     private Phase mCurPhase = Phase.None;
     private int mCurPhasePatternInd = 0;
     private Player mPlayer;
@@ -54,6 +59,8 @@ public class EnemyBossTankieGirl : Enemy {
     private int mCurMovePtInd;
 
     private RigidBodyMoveToTarget mMoveToTarget;
+
+    private float mPanicLastJumpTime;
 
     public void ShootMissile() {
         Vector3 pt = seekerPt.position; pt.z = 0.0f;
@@ -109,6 +116,10 @@ public class EnemyBossTankieGirl : Enemy {
                 tank.bodyCtrl.moveSide = 0.0f;
                 break;
 
+            case Phase.MoveNoTank:
+                CancelInvoke(panicShootFunc);
+                break;
+
             case Phase.FireSeeker:
                 StopCoroutine(seekerFireRoutine);
                 seekerAnimDat.Play("default");
@@ -148,6 +159,7 @@ public class EnemyBossTankieGirl : Enemy {
 
                 bodyCtrl.rigidbody.isKinematic = false;
                 bodyCtrl.enabled = true;
+                bodyCtrl.inputEnabled = true;
                 gravityCtrl.enabled = true;
                 bodySpriteCtrl.controller = bodyCtrl;
 
@@ -158,6 +170,10 @@ public class EnemyBossTankieGirl : Enemy {
                 bodySpriteCtrl.RefreshClips();
 
                 mCurMovePtInd = 0;
+
+                mPanicLastJumpTime = 0.0f;
+
+                InvokeRepeating(panicShootFunc, panicFireDelay, panicFireDelay);
                 break;
 
             case Phase.Dead:
@@ -213,6 +229,13 @@ public class EnemyBossTankieGirl : Enemy {
                 }
                 else
                     bodyCtrl.moveSide = Mathf.Sign(dX);
+
+                if(bodyCtrl.isGrounded && Time.time - mPanicLastJumpTime >= panicJumpDelay) {
+                    Jump(0);
+                    Jump(1);
+
+                    mPanicLastJumpTime = Time.time;
+                }
                 break;
 
             case Phase.Dead:
@@ -259,14 +282,20 @@ public class EnemyBossTankieGirl : Enemy {
         ToPhase(nextPhase);
     }
 
+    void PanicShoot() {
+        Vector3 dir = bodySpriteCtrl.isLeft ? Vector3.left : Vector3.right;
+        Vector3 pos = panicShootPt.position; pos.z = 0.0f;
+        Projectile.Create(projGroup, moveFireProjType, pos, dir, null);
+    }
+
     IEnumerator DoMoveFire() {
         WaitForFixedUpdate waitUpdate = new WaitForFixedUpdate();
         WaitForSeconds waitDelay = new WaitForSeconds(moveFireDelay);
 
         do {
             //wait till we face player
-            while(Mathf.Sign(mPlayer.collider.bounds.center.x - collider.bounds.center.x) != Mathf.Sign(tank.bodyCtrl.localVelocity.x))
-                yield return waitUpdate;
+            //while(Mathf.Sign(mPlayer.collider.bounds.center.x - collider.bounds.center.x) != Mathf.Sign(tank.bodyCtrl.localVelocity.x))
+                //yield return waitUpdate;
 
             //fire
             for(int i = 0; i < moveFirePts.Length; i++) {
@@ -292,7 +321,7 @@ public class EnemyBossTankieGirl : Enemy {
         } while(seekerAnimDat.isPlaying);
 
         //move to a far spot away from player
-        /*Vector3 playerPos = mPlayer.collider.bounds.center;
+        Vector3 playerPos = mPlayer.collider.bounds.center;
         
         float farthestX = 0;
         float farthestDistSq = 0;
@@ -310,7 +339,7 @@ public class EnemyBossTankieGirl : Enemy {
             if(tank.bodyCtrl.moveSide == 0.0f || Mathf.Abs(tank.bodyCtrl.rigidbody.velocity.x) > 2.0f)
                 tank.bodyCtrl.moveSide = Mathf.Sign(farthestX - collider.bounds.center.x);
             yield return waitUpdate;
-        }*/
+        }
 
         tank.bodyCtrl.moveSide = 0.0f;
         tank.bodyCtrl.rigidbody.velocity = Vector3.zero;
