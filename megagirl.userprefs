@@ -1,6 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyBossTankieGirl.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\TK2DROOT\tk2d\Shaders\LitPremulVertexColor.shader">
     <Files>
       <File FileName="Assets\Scripts\EnemyBossBunnyShip.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\tk2dExt\SlicedSpriteSizePulse.cs" Line="1" Column="1" />
@@ -31,6 +31,7 @@
       <File FileName="Assets\M8\Scripts\NGUIExt\NGUIColorBlink.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyBossTank.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyBossTankieGirl.cs" Line="233" Column="94" />
+      <File FileName="Assets\TK2DROOT\tk2d\Shaders\LitPremulVertexColor.shader" Line="17" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
