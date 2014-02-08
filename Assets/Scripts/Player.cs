@@ -19,6 +19,7 @@ public class Player : EntityBase {
     public GameObject[] armorDisplayGOs;
 
     public bool saveLevelComplete = true;
+    public bool preserveEnergySpent = false; //when moving to next level
 
     private static Player mInstance;
     private PlayerStats mStats;
@@ -711,9 +712,11 @@ public class Player : EntityBase {
             LevelController.CheckpointReset();
             LevelController.LevelStateReset();
 
-            foreach(Weapon weapon in weapons) {
-                if(weapon)
-                    weapon.ResetEnergySpent();
+            if(!preserveEnergySpent || nextScene == Scenes.gameover) {
+                foreach(Weapon weapon in weapons) {
+                    if(weapon)
+                        weapon.ResetEnergySpent();
+                }
             }
 
             if(PlayerStats.curLife < PlayerStats.defaultNumLives) {

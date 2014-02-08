@@ -97,6 +97,9 @@ public class ModalLevelSelect : UIController {
         if(initFinalLevelItem) {
             finalLevel.InitFinalLevel(mLevelItems, gitgirl);
         }
+
+        //reset some data
+        Weapon.ResetWeaponEnergies();
     }
 
     protected override void OnClose() {

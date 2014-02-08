@@ -820,11 +820,15 @@
             Restarts this Tweener/Sequence from the beginning (loops and tween delay included).
             </summary>
         </member>
-        <member name="M:Holoville.HOTween.IHOTweenComponent.Reverse">
+        <member name="M:Holoville.HOTween.IHOTweenComponent.Reverse(System.Boolean)">
             <summary>
             Reverses this Tweener/Sequence,
             animating it backwards from its current position.
             </summary>
+            <param name="p_forcePlay">
+            If TRUE, the tween will also start playing in case it was paused,
+            otherwise it will maintain its current play/pause state (default).
+            </param>
         </member>
         <member name="M:Holoville.HOTween.IHOTweenComponent.Complete">
             <summary>
@@ -1287,11 +1291,15 @@
             Restarts this Tweener/Sequence from the beginning (loops and tween delay included).
             </summary>
         </member>
-        <member name="M:Holoville.HOTween.Core.ABSTweenComponent.Reverse">
+        <member name="M:Holoville.HOTween.Core.ABSTweenComponent.Reverse(System.Boolean)">
             <summary>
             Reverses this Tweener/Sequence,
             animating it backwards from its curren position.
             </summary>
+            <param name="p_forcePlay">
+            If TRUE, the tween will also start playing in case it was paused,
+            otherwise it will maintain its current play/pause state (default).
+            </param>
         </member>
         <member name="M:Holoville.HOTween.Core.ABSTweenComponent.Complete">
             <summary>
@@ -5192,7 +5200,7 @@
             The total number of restarted Tweeners/Sequences.
             </returns>
         </member>
-        <member name="M:Holoville.HOTween.HOTween.Reverse(System.Object)">
+        <member name="M:Holoville.HOTween.HOTween.Reverse(System.Object,System.Boolean)">
             <summary>
             Reverses all the tweens for the given target,
             animating them from their current value back to the starting one,
@@ -5201,11 +5209,15 @@
             <param name="p_target">
             The target whose tweens to reverse.
             </param>
+            <param name="p_forcePlay">
+            If TRUE, the tween will also start playing in case it was paused,
+            otherwise it will maintain its current play/pause state (default).
+            </param>
             <returns>
             The total number of reversed Tweeners.
             </returns>
         </member>
-        <member name="M:Holoville.HOTween.HOTween.Reverse(System.String)">
+        <member name="M:Holoville.HOTween.HOTween.Reverse(System.String,System.Boolean)">
             <summary>
             Reverses all the Tweeners/Sequences with the given ID,
             animating them from their current value back to the starting one,
@@ -5214,11 +5226,15 @@
             <param name="p_id">
             The ID of the Tweeners/Sequences to reverse.
             </param>
+            <param name="p_forcePlay">
+            If TRUE, the tween will also start playing in case it was paused,
+            otherwise it will maintain its current play/pause state (default).
+            </param>
             <returns>
             The total number of reversed Tweeners/Sequences.
             </returns>
         </member>
-        <member name="M:Holoville.HOTween.HOTween.Reverse(System.Int32)">
+        <member name="M:Holoville.HOTween.HOTween.Reverse(System.Int32,System.Boolean)">
             <summary>
             Reverses all the Tweeners/Sequences with the given intId,
             animating them from their current value back to the starting one,
@@ -5227,11 +5243,15 @@
             <param name="p_intId">
             The intId of the Tweeners/Sequences to reverse.
             </param>
+            <param name="p_forcePlay">
+            If TRUE, the tween will also start playing in case it was paused,
+            otherwise it will maintain its current play/pause state (default).
+            </param>
             <returns>
             The total number of reversed Tweeners/Sequences.
             </returns>
         </member>
-        <member name="M:Holoville.HOTween.HOTween.Reverse(Holoville.HOTween.Tweener)">
+        <member name="M:Holoville.HOTween.HOTween.Reverse(Holoville.HOTween.Tweener,System.Boolean)">
             <summary>
             Reverses the given Tweener,
             animating it from its current value back to the starting one,
@@ -5240,27 +5260,39 @@
             <param name="p_tweener">
             The Tweener to reverse.
             </param>
+            <param name="p_forcePlay">
+            If TRUE, the tween will also start playing in case it was paused,
+            otherwise it will maintain its current play/pause state (default).
+            </param>
             <returns>
             The total number of reversed Tweeners (1 if the Tweener existed, otherwise 0).
             </returns>
         </member>
-        <member name="M:Holoville.HOTween.HOTween.Reverse(Holoville.HOTween.Sequence)">
+        <member name="M:Holoville.HOTween.HOTween.Reverse(Holoville.HOTween.Sequence,System.Boolean)">
             <summary>
             Reverses the given Sequence, and returns the total number of reversed ones (1 if the Sequence existed, otherwise 0).
             </summary>
             <param name="p_sequence">
             The Sequence to reverse.
             </param>
+            <param name="p_forcePlay">
+            If TRUE, the tween will also start playing in case it was paused,
+            otherwise it will maintain its current play/pause state (default).
+            </param>
             <returns>
             The total number of reversed Sequences (1 if the Sequence existed, otherwise 0).
             </returns>
         </member>
-        <member name="M:Holoville.HOTween.HOTween.Reverse">
+        <member name="M:Holoville.HOTween.HOTween.Reverse(System.Boolean)">
             <summary>
             Reverses all Tweeners/Sequences,
             animating them from their current value back to the starting one,
             and returns the total number of reversed Tweeners/Sequences.
             </summary>
+            <param name="p_forcePlay">
+            If TRUE, the tween will also start playing in case it was paused,
+            otherwise it will maintain its current play/pause state (default).
+            </param>
             <returns>
             The total number of reversed Tweeners/Sequences.
             </returns>
@@ -6275,6 +6307,107 @@
             <returns>
             The eased value.
             </returns>
+        </member>
+        <member name="T:Holoville.HOTween.Plugins.Core.PlugColor32">
+            <summary>
+            Default plugin for the tweening of Color32 objects.
+            </summary>
+        </member>
+        <member name="M:Holoville.HOTween.Plugins.Core.PlugColor32.#ctor(UnityEngine.Color32)">
+            <summary>
+            Creates a new instance of this plugin using the main ease type.
+            </summary>
+            <param name="p_endVal">
+            The <see cref="T:UnityEngine.Color32"/> value to tween to.
+            </param>
+        </member>
+        <member name="M:Holoville.HOTween.Plugins.Core.PlugColor32.#ctor(UnityEngine.Color32,Holoville.HOTween.EaseType)">
+            <summary>
+            Creates a new instance of this plugin.
+            </summary>
+            <param name="p_endVal">
+            The <see cref="T:UnityEngine.Color32"/> value to tween to.
+            </param>
+            <param name="p_easeType">
+            The <see cref="T:Holoville.HOTween.EaseType"/> to use.
+            </param>
+        </member>
+        <member name="M:Holoville.HOTween.Plugins.Core.PlugColor32.#ctor(UnityEngine.Color32,System.Boolean)">
+            <summary>
+            Creates a new instance of this plugin using the main ease type.
+            </summary>
+            <param name="p_endVal">
+            The <see cref="T:UnityEngine.Color32"/> value to tween to.
+            </param>
+            <param name="p_isRelative">
+            If <c>true</c>, the given end value is considered relative instead than absolute.
+            </param>
+        </member>
+        <member name="M:Holoville.HOTween.Plugins.Core.PlugColor32.#ctor(UnityEngine.Color32,Holoville.HOTween.EaseType,System.Boolean)">
+            <summary>
+            Creates a new instance of this plugin.
+            </summary>
+            <param name="p_endVal">
+            The <see cref="T:UnityEngine.Color32"/> value to tween to.
+            </param>
+            <param name="p_easeType">
+            The <see cref="T:Holoville.HOTween.EaseType"/> to use.
+            </param>
+            <param name="p_isRelative">
+            If <c>true</c>, the given end value is considered relative instead than absolute.
+            </param>
+        </member>
+        <member name="M:Holoville.HOTween.Plugins.Core.PlugColor32.#ctor(UnityEngine.Color32,UnityEngine.AnimationCurve,System.Boolean)">
+            <summary>
+            Creates a new instance of this plugin.
+            </summary>
+            <param name="p_endVal">
+            The <see cref="T:UnityEngine.Color32"/> value to tween to.
+            </param>
+            <param name="p_easeAnimCurve">
+            The <see cref="T:UnityEngine.AnimationCurve"/> to use for easing.
+            </param>
+            <param name="p_isRelative">
+            If <c>true</c>, the given end value is considered relative instead than absolute.
+            </param>
+        </member>
+        <member name="M:Holoville.HOTween.Plugins.Core.PlugColor32.GetSpeedBasedDuration(System.Single)">
+            <summary>
+            Returns the speed-based duration based on the given speed x second.
+            </summary>
+        </member>
+        <member name="M:Holoville.HOTween.Plugins.Core.PlugColor32.SetChangeVal">
+            <summary>
+            Sets the typed changeVal based on the current startVal and endVal.
+            </summary>
+        </member>
+        <member name="M:Holoville.HOTween.Plugins.Core.PlugColor32.SetIncremental(System.Int32)">
+            <summary>
+            Sets the correct values in case of Incremental loop type.
+            </summary>
+            <param name="p_diffIncr">
+            The difference from the previous loop increment.
+            </param>
+        </member>
+        <member name="M:Holoville.HOTween.Plugins.Core.PlugColor32.DoUpdate(System.Single)">
+            <summary>
+            Updates the tween.
+            </summary>
+            <param name="p_totElapsed">
+            The total elapsed time since startup.
+            </param>
+        </member>
+        <member name="P:Holoville.HOTween.Plugins.Core.PlugColor32.startVal">
+            <summary>
+            Gets the untyped start value,
+            sets both the untyped and the typed start value.
+            </summary>
+        </member>
+        <member name="P:Holoville.HOTween.Plugins.Core.PlugColor32.endVal">
+            <summary>
+            Gets the untyped end value,
+            sets both the untyped and the typed end value.
+            </summary>
         </member>
         <member name="T:Holoville.HOTween.Core.TweenWarning">
             <summary>

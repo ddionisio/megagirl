@@ -113,6 +113,10 @@ public class Weapon : MonoBehaviour {
         return weaponEnergyPrefix + ((int)type);
     }
 
+    public static void ResetWeaponEnergies() {
+        SceneState.instance.DeleteValuesByNameContain(weaponEnergyPrefix);
+    }
+
     public string iconSpriteRef { get { return _iconSpriteRef; } }
     public string gitGirlSpriteRef { get { return _gitGirlSpriteRef; } }
     public string labelTextRef { get { return _labelTextRef; } }
