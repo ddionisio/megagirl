@@ -26,7 +26,7 @@ public class WeaponCannon : Weapon {
         return ret;
     }
 
-    void Update() {
+    /*void Update() {
         if(Player.instance.inputEnabled) {
             float axisY = Main.instance.input.GetAxis(0, InputAction.MoveY);
 
@@ -44,5 +44,5 @@ public class WeaponCannon : Weapon {
                 ctrlSpr.anim.Sprite.FlipX = ctrlSpr.isLeft;
             }
         }
-    }
+    }*/
 }

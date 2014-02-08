@@ -1,9 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyBossDotLifePrim.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlatformerGravityController.cs">
     <Files>
-      <File FileName="Assets\Scripts\EnemyBossDotLifePrim.cs" Line="165" Column="57" />
+      <File FileName="Assets\Scripts\EnemyBossDotLifePrim.cs" Line="270" Column="55" />
       <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\WeaponCannon.cs" Line="44" Column="22" />
+      <File FileName="Assets\Scripts\ProjectileSpawnOnDeath.cs" Line="29" Column="17" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="528" Column="61" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlatformerController.cs" Line="90" Column="38" />
+      <File FileName="Assets\Scripts\PlatformerGravityController.cs" Line="4" Column="51" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

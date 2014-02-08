@@ -374,7 +374,8 @@ public class Projectile : EntityBase {
     protected virtual void ApplyContact(GameObject go, Vector3 pos, Vector3 normal) {
         switch(contactType) {
             case ContactType.End:
-                state = (int)State.Dying;
+                if(isAlive)
+                    state = (int)State.Dying;
                 break;
 
             case ContactType.Stop:
