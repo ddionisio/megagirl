@@ -39,6 +39,7 @@ public class PlatformerController : RigidBodyController {
     public float wallStickUpDelay = 0.2f; //how long to move up the wall once you stick
     public float wallStickUpForce = 60f; //slightly move up the wall
     public float wallStickForce = 40f; //move towards the wall
+    public float wallStickDownEaseDelay = 0.0f; //if not zero, ease into speed cap from 0
     public float wallStickDownSpeedCap = 5.0f; //reduce speed upon sticking to wall if going downward, 'friction'
     public LayerMask wallStickInvalidMask; //layer masks that do not allow wall stick
 
@@ -341,6 +342,13 @@ public class PlatformerController : RigidBodyController {
         return ret;
     }
 
+    float WallStickCurrentDownCap() {
+        if(wallStickDownEaseDelay <= 0.0f || Time.fixedTime - mWallStickLastTime >= wallStickDownEaseDelay)
+            return wallStickDownSpeedCap;
+
+        return Holoville.HOTween.Core.Easing.Sine.EaseIn(Time.fixedTime - mWallStickLastTime, 0.0f, wallStickDownSpeedCap, wallStickDownEaseDelay, 0, 0);
+    }
+
     protected override void RefreshCollInfo() {
         //plank check, see if we need to ignore it
         if(plankLayer != 0) {
@@ -432,15 +440,19 @@ public class PlatformerController : RigidBodyController {
                             newVel.x = 0.0f;
 
                             //reduce downward speed
-                            if(newVel.y < -wallStickDownSpeedCap)
-                                newVel.y = -wallStickDownSpeedCap;
+
+                            //Debug.Log("la");
+
+                            float yCap = WallStickCurrentDownCap();
+                            if(newVel.y < -yCap) newVel.y = -yCap;
 
                             rigidbody.velocity = dirHolder.rotation * newVel;
 
-                            mWallStickLastTime = Time.fixedTime;
-
                             mWallStickWaitInput = true;
                         }
+
+                        if(!lastWallStick)
+                            mWallStickLastTime = Time.fixedTime;
 
                         mWallStickLastInputTime = Time.fixedTime;
                     }
@@ -471,8 +483,8 @@ public class PlatformerController : RigidBodyController {
                         newVel.x = 0.0f;
 
                         //reduce downward speed
-                        if(newVel.y < -wallStickDownSpeedCap)
-                            newVel.y = -wallStickDownSpeedCap;
+                        float yCap = WallStickCurrentDownCap();
+                        if(newVel.y < -yCap) newVel.y = -yCap;
 
                         rigidbody.velocity = dirHolder.rotation * newVel;
                     }
@@ -638,9 +650,10 @@ public class PlatformerController : RigidBodyController {
         //stick to wall
         if(mWallSticking) {
             //reduce speed falling down
-            if(localVelocity.y < -wallStickDownSpeedCap) {
+            float yCap = WallStickCurrentDownCap();
+            if(localVelocity.y < -yCap) {
                 //ComputeLocalVelocity();
-                Vector3 newVel = new Vector3(localVelocity.x, -wallStickDownSpeedCap, localVelocity.z);
+                Vector3 newVel = new Vector3(localVelocity.x, -yCap, localVelocity.z);
                 body.velocity = dirHolder.rotation * newVel;
             }
             //boost up
