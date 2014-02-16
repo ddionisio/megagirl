@@ -21,6 +21,9 @@ public class EnemyBossDotLifePrim : Enemy {
 
     public GameObject nextBossGO; //assume it's disabled
 
+    public GameObject shieldGO;
+    public GameObject armGO;
+
     public Transform eye;
 
     public Transform eyeAttachPt;
@@ -410,6 +413,9 @@ public class EnemyBossDotLifePrim : Enemy {
 
         //deactivate self, go to next boss
         gameObject.SetActive(false);
+        shieldGO.SetActive(false);
+        armGO.SetActive(false);
+
         nextBossGO.SetActive(true);
     }
 }

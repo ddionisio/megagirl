@@ -167,6 +167,11 @@ public class Enemy : EntityBase {
 
         switch((EntityState)state) {
             case EntityState.Dead:
+                if(mUseBossHP) {
+                    mUseBossHP = false;
+                    HUD.instance.barBoss.animateEndCallback -= OnHPBarFilled;
+                }
+
                 if(weaponIndexUnlock != -1) {
                     //save weapon info for victory screen
                     Player player = Player.instance;
@@ -345,7 +350,7 @@ public class Enemy : EntityBase {
         //initialize variables from other sources (for communicating with managers, etc.)
     }
 
-    void SetPhysicsActive(bool aActive, bool excludeCollision) {
+    protected void SetPhysicsActive(bool aActive, bool excludeCollision) {
         if(rigidbody) {
             if(!mSpawnRigidBodyKinematic) {
                 rigidbody.isKinematic = !aActive;
