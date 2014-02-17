@@ -39,12 +39,21 @@ public class EnemyBossNil : Enemy {
     public Vector2 missilePlayerAheadMin;
     public Vector2 missilePlayerAhead;
 
+    public GameObject groundCastActiveGO;
+    public AnimatorData groundCastSpell;
+    public float groundCastStartDelay = 0.5f;
+
     public const string moveRoutine = "DoMove";
     public const string idleRoutine = "DoIdle";
     public const string missileRoutine = "DoMissile";
+    public const string groundCastRoutine = "DoGroundCast";
+
+    public const string clipCast = "cast";
 
     public const string takeWarpOut = "warpout";
     public const string takeWarpIn = "warpin";
+
+    public const string takeGroundCast = "go";
 
     private AnimatorData mAnimDat;
     private Player mPlayer;
@@ -98,6 +107,13 @@ public class EnemyBossNil : Enemy {
                 StopCoroutine(idleRoutine);
                 break;
 
+            case Phase.CastGround:
+                bodySpriteCtrl.StopOverrideClip();
+                groundCastSpell.gameObject.SetActive(false);
+                groundCastActiveGO.SetActive(false);
+                StopCoroutine(groundCastRoutine);
+                break;
+
             case Phase.CastMissile:
                 for(int i = 0; i < mMissiles.Length; i++) {
                     if(mMissiles[i]) {
@@ -127,6 +143,10 @@ public class EnemyBossNil : Enemy {
         switch(phase) {
             case Phase.Idle:
                 StartCoroutine(idleRoutine);
+                break;
+
+            case Phase.CastGround:
+                StartCoroutine(groundCastRoutine);
                 break;
 
             case Phase.CastMissile:
@@ -163,6 +183,9 @@ public class EnemyBossNil : Enemy {
         M8.ArrayUtil.Shuffle(teleports);
 
         mMissiles = new ProjectileTweenTo[missilePts.Length];
+
+        groundCastSpell.gameObject.SetActive(false);
+        groundCastActiveGO.SetActive(false);
     }
 
     void Update() {
@@ -171,11 +194,14 @@ public class EnemyBossNil : Enemy {
 
         switch(mCurPhase) {
             case Phase.Idle:
-                //face player
-                playerPos = mPlayer.transform.position;
-                pos = transform.position;
-                s = Mathf.Sign(playerPos.x - pos.x);
-                bodySpriteCtrl.isLeft = s < 0.0f;
+            case Phase.CastGround:
+                if(bodyCtrl.isGrounded) {
+                    //face player
+                    playerPos = mPlayer.transform.position;
+                    pos = transform.position;
+                    s = Mathf.Sign(playerPos.x - pos.x);
+                    bodySpriteCtrl.isLeft = s < 0.0f;
+                }
                 break;
 
             case Phase.Move:
@@ -214,6 +240,33 @@ public class EnemyBossNil : Enemy {
 
         //next phase
         NextPhasePattern();
+    }
+
+    IEnumerator DoGroundCast() {
+        bodyCtrl.moveSide = 0.0f;
+
+        WaitForFixedUpdate wait = new WaitForFixedUpdate();
+        
+        while(!bodyCtrl.isGrounded)
+            yield return wait;
+
+        groundCastActiveGO.SetActive(true);
+
+        bodySpriteCtrl.PlayOverrideClip(clipCast);
+
+        yield return new WaitForSeconds(groundCastStartDelay);
+
+        //set to player's x loc.
+        Vector3 groundCastPos = groundCastSpell.transform.position;
+        groundCastPos.x = mPlayer.transform.position.x;
+        groundCastSpell.transform.position = groundCastPos;
+
+        groundCastSpell.gameObject.SetActive(true);
+        groundCastSpell.Play(takeGroundCast);
+        while(groundCastSpell.isPlaying)
+            yield return wait;
+
+        ToPhase(Phase.Idle);
     }
 
     IEnumerator DoMissile() {
