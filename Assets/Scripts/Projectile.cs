@@ -565,6 +565,19 @@ public class Projectile : EntityBase {
         }
     }
 
+    protected void SimpleCheckContain() {
+        Vector3 pos = mSphereColl.bounds.center;
+        Collider[] cols = Physics.OverlapSphere(pos, mSphereColl.radius, simpleLayerMask);
+        for(int i = 0, max = cols.Length; i < max; i++) {
+            Collider col = cols[i];
+            if(CheckTag(col.tag)) {
+                Vector3 dir = (col.bounds.center - pos).normalized;
+                ApplyContact(col.gameObject, pos, dir);
+                ApplyDamage(col.gameObject, pos, dir);
+            }
+        }
+    }
+
     protected void DoSimpleMove(Vector3 delta) {
         float d = delta.magnitude;
 
@@ -585,15 +598,7 @@ public class Projectile : EntityBase {
             }
             else {
                 //try contain
-                Collider[] cols = Physics.OverlapSphere(pos, mSphereColl.radius, simpleLayerMask);
-                for(int i = 0, max = cols.Length; i < max; i++) {
-                    Collider col = cols[i];
-                    if(CheckTag(col.tag)) {
-                        dir = (col.bounds.center - pos).normalized;
-                        ApplyContact(col.gameObject, pos, dir);
-                        ApplyDamage(col.gameObject, pos, dir);
-                    }
-                }
+                SimpleCheckContain();
             }
         }
 
