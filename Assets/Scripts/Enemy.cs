@@ -350,6 +350,14 @@ public class Enemy : EntityBase {
         //initialize variables from other sources (for communicating with managers, etc.)
     }
 
+    protected void SetDamageTriggerActive(bool aActive) {
+        if(mDamageTriggers == null || mDamageTriggers.Length == 0)
+            mDamageTriggers = GetComponentsInChildren<Damage>(true);
+        
+        for(int i = 0, max = mDamageTriggers.Length; i < max; i++)
+            mDamageTriggers[i].gameObject.SetActive(aActive);
+    }
+
     protected void SetPhysicsActive(bool aActive, bool excludeCollision) {
         if(rigidbody) {
             if(!mSpawnRigidBodyKinematic) {
@@ -382,11 +390,7 @@ public class Enemy : EntityBase {
         if(mBodyCtrl)
             mBodyCtrl.enabled = aActive;
 
-        if(mDamageTriggers == null || mDamageTriggers.Length == 0)
-            mDamageTriggers = GetComponentsInChildren<Damage>(true);
-
-        for(int i = 0, max = mDamageTriggers.Length; i < max; i++)
-            mDamageTriggers[i].gameObject.SetActive(aActive);
+        SetDamageTriggerActive(aActive);
     }
 
     /// <summary>

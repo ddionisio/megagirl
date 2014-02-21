@@ -1,19 +1,26 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyBossNil.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Weapons\Weapon.cs">
     <Files>
       <File FileName="Assets\Scripts\EnemyBossDotLifePrim.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyBossNil.cs" Line="262" Column="60" />
+      <File FileName="Assets\Scripts\EnemyBossNil.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\FSMActions\EnemyBossEnableHP.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PlatformerSpriteController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ProjectileTweenTo.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EntityState.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Physics\RigidBodyMoveToTarget.cs" Line="1" Column="1" />
+      <File FileName="Assets\PlayMaker\Actions\DestroyComponent.cs" Line="46" Column="5" />
+      <File FileName="Assets\M8PlayMaker\GameObject\GetGameObjectWithComponent.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\WeaponStarGazer.cs" Line="4" Column="34" />
+      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="405" Column="70" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\EntitySpawner.cs" line="109" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\PlatformerSpriteController.cs" line="325" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

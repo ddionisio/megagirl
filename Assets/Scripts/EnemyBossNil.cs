@@ -25,6 +25,7 @@ public class EnemyBossNil : Enemy {
     public float moveJumpDelay = 0.5f;
     public float[] moveJumpSeconds;
     public string moveJumpProj;
+    //public float moveJumpPause = 0.2f;
     public int moveJumpProjCount = 3;
     public float moveJumpProjAngleRng = 80.0f;
     public float moveEndDelay = 1.0f;
@@ -47,8 +48,10 @@ public class EnemyBossNil : Enemy {
     public const string idleRoutine = "DoIdle";
     public const string missileRoutine = "DoMissile";
     public const string groundCastRoutine = "DoGroundCast";
+    public const string deadRoutine = "DoDead";
 
     public const string clipCast = "cast";
+    public const string clipDead = "cry";
 
     public const string takeWarpOut = "warpout";
     public const string takeWarpIn = "warpin";
@@ -100,6 +103,10 @@ public class EnemyBossNil : Enemy {
             return;
         
         //Debug.Log("phase: " + phase);
+
+        bodySpriteCtrl.StopOverrideClip();
+        bodySpriteCtrl.lockFacing = false;
+        bodySpriteCtrl.RefreshFacing();
         
         //prev
         switch(mCurPhase) {
@@ -108,7 +115,6 @@ public class EnemyBossNil : Enemy {
                 break;
 
             case Phase.CastGround:
-                bodySpriteCtrl.StopOverrideClip();
                 groundCastSpell.gameObject.SetActive(false);
                 groundCastActiveGO.SetActive(false);
                 StopCoroutine(groundCastRoutine);
@@ -137,15 +143,18 @@ public class EnemyBossNil : Enemy {
                 break;
                 
             case Phase.Dead:
+                StopCoroutine(deadRoutine);
                 break;
         }
         
         switch(phase) {
             case Phase.Idle:
+                bodySpriteCtrl.lockFacing = true;
                 StartCoroutine(idleRoutine);
                 break;
 
             case Phase.CastGround:
+                bodySpriteCtrl.lockFacing = true;
                 StartCoroutine(groundCastRoutine);
                 break;
 
@@ -158,6 +167,7 @@ public class EnemyBossNil : Enemy {
                 break;
                 
             case Phase.Dead:
+                StartCoroutine(deadRoutine);
                 break;
         }
         
@@ -188,30 +198,37 @@ public class EnemyBossNil : Enemy {
         groundCastActiveGO.SetActive(false);
     }
 
-    void Update() {
-        float s;
+    void FacePlayer() {
         Vector3 playerPos, pos;
+        float s;
+        playerPos = mPlayer.transform.position;
+        pos = transform.position;
+        s = Mathf.Sign(playerPos.x - pos.x);
+        bodySpriteCtrl.isLeft = s < 0.0f;
+    }
 
+    void Update() {
         switch(mCurPhase) {
             case Phase.Idle:
             case Phase.CastGround:
                 if(bodyCtrl.isGrounded) {
                     //face player
-                    playerPos = mPlayer.transform.position;
-                    pos = transform.position;
-                    s = Mathf.Sign(playerPos.x - pos.x);
-                    bodySpriteCtrl.isLeft = s < 0.0f;
+                    FacePlayer();
                 }
                 break;
 
             case Phase.Move:
                 if(mMoveTowardsPlayer) {
                     if(bodyCtrl.isGrounded) {
-                        //face player
+                        float s;
+                        Vector3 playerPos, pos;
+
+                        //face player, move
                         playerPos = mPlayer.transform.position;
                         pos = transform.position;
                         s = Mathf.Sign(playerPos.x - pos.x);
                         if(s != bodyCtrl.moveSide && Time.time - mLastMoveTurnTime > moveTurnDelay) {
+                            bodySpriteCtrl.isLeft = s < 0.0f;
                             bodyCtrl.moveSide = s;
                             mLastMoveTurnTime = Time.time;
                         }
@@ -228,13 +245,36 @@ public class EnemyBossNil : Enemy {
             mCurPhasePattern = 0;
     }
 
+    IEnumerator DoDead() {
+        mPlayer.currentWeaponIndex = 0;
+
+        HUD.instance.barBoss.gameObject.SetActive(false);
+
+        bodyCtrl.moveSide = 0.0f;
+        SetDamageTriggerActive(false);
+
+        WaitForFixedUpdate wait = new WaitForFixedUpdate();
+
+        do {
+            yield return wait;
+        } while(!bodyCtrl.isGrounded);
+
+        SetPhysicsActive(false, false);
+
+        bodySpriteCtrl.isLeft = true;
+        bodySpriteCtrl.PlayOverrideClip(clipDead);
+
+        state = (int)EntityState.Final;
+    }
+
     IEnumerator DoIdle() {
         bodyCtrl.moveSide = 0.0f;
 
         WaitForFixedUpdate wait = new WaitForFixedUpdate();
         
-        while(!bodyCtrl.isGrounded)
+        do {
             yield return wait;
+        } while(!bodyCtrl.isGrounded);
 
         yield return new WaitForSeconds(idleDelay);
 
@@ -247,8 +287,9 @@ public class EnemyBossNil : Enemy {
 
         WaitForFixedUpdate wait = new WaitForFixedUpdate();
         
-        while(!bodyCtrl.isGrounded)
+        do {
             yield return wait;
+        } while(!bodyCtrl.isGrounded);
 
         groundCastActiveGO.SetActive(true);
 
@@ -272,8 +313,11 @@ public class EnemyBossNil : Enemy {
     IEnumerator DoMissile() {
         WaitForFixedUpdate wait = new WaitForFixedUpdate();
 
-        while(!bodyCtrl.isGrounded)
+        do {
             yield return wait;
+        } while(!bodyCtrl.isGrounded);
+
+        FacePlayer();
 
         //jump
         Jump(0.3f);
@@ -383,15 +427,18 @@ public class EnemyBossNil : Enemy {
     IEnumerator DoMove() {
         WaitForFixedUpdate wait = new WaitForFixedUpdate();
 
-        while(!bodyCtrl.isGrounded)
+        do {
             yield return wait;
+        } while(!bodyCtrl.isGrounded);
 
+        bodySpriteCtrl.RefreshFacing();
         mMoveTowardsPlayer = true;
         mLastMoveTurnTime = 0;
 
         yield return new WaitForSeconds(moveJumpStartDelay);
 
         WaitForSeconds jumpDelay = new WaitForSeconds(moveJumpDelay);
+        //WaitForSeconds landDelay = new WaitForSeconds(moveJumpPause);
 
         //jump and stuff
         for(int i = 0; i < moveJumpSeconds.Length; i++) {

@@ -105,15 +105,7 @@ public class PlatformerSpriteController : MonoBehaviour {
             if(mIsLeft != value) {
                 mIsLeft = value;
 
-                bool flip = mIsLeft ? leftFlip : !leftFlip;
-
-                if(multiSprites) {
-                    for(int i = 0; i < mMultiSprites.Length; i++)
-                        mMultiSprites[i].FlipX = flip;
-                }
-
-                if(anim)
-                    anim.Sprite.FlipX = flip;
+                RefreshFacing();
 
                 if(flipCallback != null)
                     flipCallback(this);
@@ -186,6 +178,18 @@ public class PlatformerSpriteController : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void RefreshFacing() {
+        bool flip = mIsLeft ? leftFlip : !leftFlip;
+        
+        if(multiSprites) {
+            for(int i = 0; i < mMultiSprites.Length; i++)
+                mMultiSprites[i].FlipX = flip;
+        }
+        
+        if(anim)
+            anim.Sprite.FlipX = flip;
     }
 
     public void ResetAnimation() {

@@ -12,5 +12,8 @@ public enum EntityState {
 
     // specific for player
     Lock,
-    Victory
+    Victory,
+
+    // special cases
+    Final //once the final boss is defeated and the anus is prepared.
 }
