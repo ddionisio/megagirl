@@ -249,6 +249,18 @@ public class Player : EntityBase {
                     LevelController.Complete();
                 break;
 
+            case EntityState.Final:
+                stats.EnergyShieldSetActive(false);
+                
+                currentWeaponIndex = -1;
+                LockControls();
+
+                if(saveLevelComplete)
+                    LevelController.Complete();
+
+                //other things?
+                break;
+
             case EntityState.Invalid:
                 inputEnabled = false;
                 break;

@@ -79,6 +79,14 @@
 		"key":"gitgirl_name",
 		"text":"[FF0000]GITGIRL[-]"
 	},
+	{
+		"key":"nil_name",
+		"text":"[00FF00]NIL[-]"
+	},
+	{
+		"key":"flower_name",
+		"text":"[FFFF00]FLEUR[-]"
+	},
 	
 	{
 		"key":"pickup_healthup",
@@ -255,5 +263,120 @@
 	{
 		"key":"adult_sad0",
 		"text":"NO MORE.\nRUPUS :("
+	},
+	
+	{
+		"key":"final_convo_1_nil_0",
+		"text":"Aw hell! Looks like ya done got me!"
+	},
+	{
+		"key":"final_convo_1_nil_1",
+		"text":"Well fought!"
+	},
+	
+	{
+		"key":"final_convo_1_gg_0",
+		"text":"Thanks!"
+	},
+	{
+		"key":"final_convo_1_gg_1",
+		"text":"You were such a pain-in-the-arse! Geez!"
+	},
+	
+	{
+		"key":"final_convo_1_nil_2",
+		"text":"Ha! Well...just makin' sure it's a well-earned fight, is all."
+	},
+	
+	{
+		"key":"final_convo_1_gg_2",
+		"text":"Anyway!"
+	},
+	{
+		"key":"final_convo_1_gg_3",
+		"text":"Prepare to be deleted!"
+	},
+	
+	{
+		"key":"final_convo_2_gg_0",
+		"text":"Hey! You're in the way!"
+	},
+	
+	{
+		"key":"final_convo_2_fleur_0",
+		"text":"Please don't!"
+	},
+	{
+		"key":"final_convo_2_fleur_1",
+		"text":"All we want is to be free!"
+	},
+	{
+		"key":"final_convo_2_fleur_2",
+		"text":"You're a big meanie!"
+	},
+	
+	{
+		"key":"final_convo_2_gg_1",
+		"text":"Sorry, I was asked to crush a manevolent virus with vengeance."
+	},
+	{
+		"key":"final_convo_2_gg_2",
+		"text":"I deliver my task with laser-point precision!"
+	},
+	{
+		"key":"final_convo_2_gg_3",
+		"text":"Laser-point!"
+	},
+	
+	{
+		"key":"final_convo_2_fleur_3",
+		"text":"No!!! You're a big meanie!"
+	},
+	
+	{
+		"key":"final_convo_2_nil_0",
+		"text":"Nah, s'aright, kiddo. She's just doin' her thing."
+	},
+	{
+		"key":"final_convo_2_nil_1",
+		"text":"And you there, GitGirl. You'd best leave this kid alone. She ain't a part of this."
+	},
+		
+	{
+		"key":"final_convo_2_gg_4",
+		"text":"A stray cluster is not my target. It is you!"
+	},
+	
+	{
+		"key":"final_convo_2_nil_2",
+		"text":"Well then, guess this is goodbye."
+	},
+	{
+		"key":"final_convo_2_nil_3",
+		"text":"You be good now, kid."
+	},
+	
+	{
+		"key":"final_convo_2_fleur_4",
+		"text":"I will, Mr. Nil...goodbye."
+	},
+	
+	{
+		"key":"final_convo_3_gg_0",
+		"text":"And that's that."
+	},
+	{
+		"key":"final_convo_3_gg_1",
+		"text":"You better come with me, or you'll be trapped here."
+	},
+	
+	{
+		"key":"final_convo_3_fleur_0",
+		"text":"Alright!"
+	},
+	
+	{
+		"key":"final_convo_3_gg_2",
+		"text":"...you seem cheery all of a sudden.  Well, whatever."
 	},
 ]
