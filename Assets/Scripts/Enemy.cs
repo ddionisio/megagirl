@@ -116,8 +116,8 @@ public class Enemy : EntityBase {
     /// </summary>
     public void ToRespawnWait() {
         state = (int)EntityState.RespawnWait;
-        //check if we are visible from respawnpoint
-        if(activator && !activator.isVisible) {
+        //check if we are inactive, then we are ready to respawn
+        if(activator && !activator.isActive) {
             Restart();
             mRespawnReady = true;
         }
