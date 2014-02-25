@@ -21,6 +21,10 @@ public class Player : EntityBase {
     public bool saveLevelComplete = true;
     public bool preserveEnergySpent = false; //when moving to next level
 
+    public SoundPlayer sfxWallJump;
+    public SoundPlayer sfxLanded;
+    public SoundPlayer sfxSlide;
+
     private static Player mInstance;
     private PlayerStats mStats;
     private PlatformerController mCtrl;
@@ -349,6 +353,7 @@ public class Player : EntityBase {
         mCtrl.moveInputX = InputAction.MoveX;
         mCtrl.moveInputY = InputAction.MoveY;
         mCtrl.collisionEnterCallback += OnRigidbodyCollisionEnter;
+        mCtrl.landCallback += OnLand;
 
         mDefaultCtrlMoveMaxSpeed = mCtrl.moveMaxSpeed;
         mDefaultCtrlMoveForce = mCtrl.moveForce;
@@ -576,6 +581,11 @@ public class Player : EntityBase {
 
                 } else {
                     mCtrl.Jump(true);
+                    if(mCtrl.isJumpWall) {
+                        Vector2 p = mCtrlSpr.wallStickParticle.transform.position;
+                        PoolController.Spawn("fxp", "wallSpark", "wallSpark", null, p);
+                        sfxWallJump.Play();
+                    }
                 }
             } else {
                 if(input.GetAxis(0, InputAction.MoveY) >= 0.0f) {
@@ -632,7 +642,9 @@ public class Player : EntityBase {
             mPauseCounter--;
             if(mPauseCounter == 0) {
                 Main.instance.sceneManager.Resume();
-                inputEnabled = true;
+
+                if(state != (int)EntityState.Invalid)
+                    inputEnabled = true;
 
                 Main.instance.input.AddButtonCall(0, InputAction.MenuEscape, OnInputPause);
             }
@@ -655,6 +667,8 @@ public class Player : EntityBase {
                 mCtrl.moveSide = mCtrlSpr.isLeft ? -1.0f : 1.0f;
 
                 mCtrlSpr.state = PlatformerSpriteController.State.Slide;
+
+                sfxSlide.Play();
             } else {
                 //cannot set to false if we can't stand
                 if(CanStand()) {
@@ -684,9 +698,9 @@ public class Player : EntityBase {
 
                     mCtrlSpr.state = PlatformerSpriteController.State.None;
 
-                    Vector3 pos = transform.position;
-                    pos.y += (mDefaultColliderHeight - slideHeight) * 0.5f - 0.1f;
-                    transform.position = pos;
+                    //Vector3 pos = transform.position;
+                    //pos.y += (mDefaultColliderHeight - slideHeight) * 0.5f - 0.1f;
+                    //transform.position = pos;
 
                     slideParticle.Stop();
                     slideParticle.Clear();
@@ -759,6 +773,14 @@ public class Player : EntityBase {
                     dmg.CallDamageTo(gameObject, col.contacts[0].point, col.contacts[0].normal);
                 }
             }
+        }
+    }
+
+    void OnLand(PlatformerController ctrl) {
+        if(state != (int)EntityState.Invalid) {
+            Vector2 p = transform.position;
+            PoolController.Spawn("fxp", "landdust", "landdust", null, p);
+            sfxLanded.Play();
         }
     }
 }

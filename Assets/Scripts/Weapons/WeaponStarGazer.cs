@@ -57,6 +57,8 @@ public class WeaponStarGazer : Weapon {
                 if(mLastLargeStar) {
                     mCurProjCount++;
                     mLastLargeStar.releaseCallback += OnProjRelease;
+
+                    PlaySfx(chargeInd);
                 }
             }
 

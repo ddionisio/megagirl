@@ -30,6 +30,11 @@ public class Weapon : MonoBehaviour {
         public string projType;
         public ParticleSystem particles;
 
+        public SoundPlayer sfx;
+
+        public bool chargeSfxOn;
+        public float chargeSfxPitch;
+
         public void Enable(bool enable) {
             if(particles) {
                 if(enable) {
@@ -79,6 +84,8 @@ public class Weapon : MonoBehaviour {
 
     //first charge is the regular fire
     public ChargeInfo[] charges;
+
+    public SoundPlayer chargeSfx;
 
     public event ChangeValueCallback energyChangeCallback;
 
@@ -211,6 +218,9 @@ public class Weapon : MonoBehaviour {
 
     public virtual void FireStop() {
         mFireActive = false;
+
+        if(chargeSfx && chargeSfx.isPlaying)
+            chargeSfx.Stop();
     }
 
     public virtual void FireCancel() {
@@ -218,6 +228,9 @@ public class Weapon : MonoBehaviour {
             mFireActive = false;
             mFireCancel = true;
         }
+
+        if(chargeSfx && chargeSfx.isPlaying)
+            chargeSfx.Stop();
     }
 
     public void ResetCharge() {
@@ -226,6 +239,15 @@ public class Weapon : MonoBehaviour {
 
         mCurChargeLevel = 0;
         mCurTime = 0;
+
+        if(chargeSfx && chargeSfx.isPlaying)
+            chargeSfx.Stop();
+    }
+
+    protected void PlaySfx(int chargeInd) {
+        SoundPlayer s = charges[chargeInd].sfx;
+        if(s)// && !s.isPlaying)
+            s.Play();
     }
 
     protected virtual Projectile CreateProjectile(int chargeInd, Transform seek) {
@@ -240,6 +262,8 @@ public class Weapon : MonoBehaviour {
 
                 //spend energy
                 currentEnergy -= charges[chargeInd].energyCost;
+
+                PlaySfx(chargeInd);
             }
         }
 
@@ -358,6 +382,14 @@ public class Weapon : MonoBehaviour {
                                 if(anim && mClips[(int)AnimState.charge] != null) {
                                     anim.Play(mClips[(int)AnimState.charge]);
                                 }
+                            }
+
+                            //charge sound
+                            if(chargeSfx && charges[mCurChargeLevel].chargeSfxOn) {
+                                chargeSfx.audio.pitch = charges[mCurChargeLevel].chargeSfxPitch;
+
+                                if(!chargeSfx.isPlaying)
+                                    chargeSfx.Play();
                             }
                         }
                     }
