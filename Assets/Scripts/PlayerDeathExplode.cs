@@ -8,6 +8,7 @@ public class PlayerDeathExplode : MonoBehaviour {
 
     private Transform[] mStuffs;
     private bool mStarted;
+    private SoundPlayer mSound;
 
     void Awake() {
         mStuffs = new Transform[count];
@@ -23,11 +24,16 @@ public class PlayerDeathExplode : MonoBehaviour {
             mStuffs[i].parent = transform;
             rot += rotStep;
         }
+
+        mSound = GetComponent<SoundPlayer>();
     }
 
     // Use this for initialization
     void Start() {
         mStarted = true;
+
+        if(mSound)
+            mSound.Play();
     }
 
     // Update is called once per frame

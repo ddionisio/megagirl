@@ -73,6 +73,8 @@ public class Projectile : EntityBase {
     public bool autoDisableCollision = true; //when not active, disable collision
     public int damageExpireCount = -1; //the number of damage dealt for it to die, -1 for infinite
 
+    public SoundPlayer contactSfx;
+
     /*public bool oscillate;
     public float oscillateForce;
     public float oscillateDelay;*/
@@ -373,6 +375,11 @@ public class Projectile : EntityBase {
 
     protected virtual void ApplyContact(GameObject go, Vector3 pos, Vector3 normal) {
         switch(contactType) {
+            case ContactType.None:
+                if(contactSfx)
+                    contactSfx.Play();
+                break;
+
             case ContactType.End:
                 if(isAlive)
                     state = (int)State.Dying;
@@ -453,6 +460,9 @@ public class Projectile : EntityBase {
 
                     if(maxBounce > 0)
                         mCurBounce++;
+
+                    if(contactSfx)
+                        contactSfx.Play();
                 }
                 break;
 
@@ -485,6 +495,9 @@ public class Projectile : EntityBase {
 
                     if(maxBounce > 0)
                         mCurBounce++;
+
+                    if(contactSfx)
+                        contactSfx.Play();
                 }
                 break;
         }
@@ -609,13 +622,6 @@ public class Projectile : EntityBase {
 
     void DoSimple() {
         Vector3 curV = mCurVelocity * mMoveScale;
-
-        if(speedLimit > 0) {
-            float spdSqr = curV.sqrMagnitude;
-            if(spdSqr > speedLimit * speedLimit) {
-                curV = (curV / Mathf.Sqrt(spdSqr)) * speedLimit;
-            }
-        }
 
         Vector3 delta = curV * Time.fixedDeltaTime;
         DoSimpleMove(delta);

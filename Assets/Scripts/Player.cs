@@ -24,6 +24,7 @@ public class Player : EntityBase {
     public SoundPlayer sfxWallJump;
     public SoundPlayer sfxLanded;
     public SoundPlayer sfxSlide;
+    public SoundPlayer sfxHurt;
 
     private static Player mInstance;
     private PlayerStats mStats;
@@ -202,6 +203,8 @@ public class Player : EntityBase {
 
                     StartCoroutine(DoHurtForce(mStats.lastDamageNormal));
                 }
+
+                sfxHurt.Play();
                 break;
 
             case EntityState.Dead:

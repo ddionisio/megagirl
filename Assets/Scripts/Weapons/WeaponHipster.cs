@@ -13,6 +13,8 @@ public class WeaponHipster : Weapon {
             mFireActive = true;
 
             fireGO.SetActive(true);
+
+            chargeSfx.Play();
         }
     }
 
@@ -21,6 +23,8 @@ public class WeaponHipster : Weapon {
             mFireActive = false;
 
             fireGO.SetActive(false);
+
+            chargeSfx.Stop();
         }
     }
 

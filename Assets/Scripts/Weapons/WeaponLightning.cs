@@ -12,6 +12,9 @@ public class WeaponLightning : Weapon {
 
     public LayerMask masks;
 
+    public SoundPlayer targetSfx;
+    public SoundPlayer fireSfx;
+
     private GameObject[] mStrikes;
     private tk2dTiledSprite[][] mStrikeTileSprites;
 
@@ -40,12 +43,16 @@ public class WeaponLightning : Weapon {
                     }
 
                     pstat.EnergyShieldSetActive(false);
+
+                    fireSfx.Play();
                 }
             }
         }
         else {
             pstat.EnergyShieldSetActive(true);
             currentEnergy -= charges[chargeInd].energyCost;
+
+            chargeSfx.Play();
         }
 
         return null;
@@ -206,6 +213,8 @@ public class WeaponLightning : Weapon {
                 else {
                     reticle.SetActive(true);
                     reticle.transform.position = Player.instance.collider.bounds.center;
+
+                    targetSfx.Play();
                 }
             }
             else

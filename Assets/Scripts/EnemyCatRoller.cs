@@ -172,7 +172,7 @@ public class EnemyCatRoller : Enemy {
                 if(mSensor && mRockCtrl)
                     mSensor.hFlip = mRockCtrl.moveSide < 0.0f;
 
-                if(mRock.state == (int)Projectile.State.Dying) {
+                if(mRock == null || mRock.state == (int)Projectile.State.Dying) {
                     mRock = null;
                     stats.curHP = 0;
                 }

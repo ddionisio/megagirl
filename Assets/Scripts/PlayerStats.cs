@@ -36,6 +36,8 @@ public class PlayerStats : Stats {
 
     public bool hpPersist;
 
+    public SoundPlayer energyShieldHitSfx;
+
     public event ChangeCallback changeMaxHPCallback;
 
     private float mDefaultMaxHP;
@@ -235,6 +237,8 @@ public class PlayerStats : Stats {
                             energyShieldPts[i].SetActive(false);
                         }
                     }
+
+                    energyShieldHitSfx.Play();
                 }
             }
 

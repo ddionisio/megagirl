@@ -5,10 +5,14 @@ public class PlayerJumpOnDamage : MonoBehaviour {
     public float minVelY = 4.0f;
     public float gravityNormal = 18.0f; //the gravity the velocity is based on
 
+    private SoundPlayer mSound;
+
 	// Use this for initialization
 	void Awake() {
 	    DamageTrigger dt = GetComponent<DamageTrigger>();
         dt.damageCallback += OnDamage;
+
+        mSound = GetComponent<SoundPlayer>();
 	}
 
     void OnDamage(DamageTrigger trigger, GameObject victim) {
@@ -30,5 +34,8 @@ public class PlayerJumpOnDamage : MonoBehaviour {
             lv.y = minVelY;
             player.controller.localVelocity = lv;
         }
+
+        if(mSound)
+            mSound.Play();
     }
 }

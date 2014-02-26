@@ -13,10 +13,10 @@ public class WeaponHoolaHoop : Weapon {
     private float mDefaultAirForce;
 
     public override void FireStart() {
-        if(canFire && !mFireActive) {
-            mFireActive = true;
+        Player player = Player.instance;
 
-            Player player = Player.instance;
+        if(canFire && player.state != (int)EntityState.Hurt && !mFireActive) {
+            mFireActive = true;
 
             player.controllerSprite.PlayOverrideClip(clip);
             player.controllerSprite.useVelocitySpeed = true;
@@ -32,6 +32,9 @@ public class WeaponHoolaHoop : Weapon {
             hoolaAnimDat.Play("active");
 
             damageGO.SetActive(true);
+
+            if(!chargeSfx.isPlaying)
+                chargeSfx.Play();
         }
     }
 

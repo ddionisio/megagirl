@@ -20,8 +20,8 @@ public class WeaponWhip : Weapon {
     private bool mActActive;
 
     protected override Projectile CreateProjectile(int chargeInd, Transform seek) {
-        if(chargeInd == 0)
-            currentEnergy -= charges[chargeInd].energyCost;
+        currentEnergy -= charges[chargeInd].energyCost;
+        chargeSfx.Play();
 
         return null;
     }
