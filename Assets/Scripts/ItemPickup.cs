@@ -19,6 +19,8 @@ public class ItemPickup : EntityBase {
     public LayerMask dropLayerMask; //which layers the drop will stop when hit
     public float dropSpeed;
 
+    public string sfxId;
+
     private bool mDropActive;
     private float mRadius;
     private bool mSpawned;
@@ -45,9 +47,11 @@ public class ItemPickup : EntityBase {
                         player.stats.curHP += val;
                     }
                     else {
+                        float curTankAmt = player.stats.subTankEnergyCurrent;
                         player.stats.subTankEnergyCurrent += val;
 
-                        //TODO: play special sound?
+                        if(curTankAmt < player.stats.subTankEnergyCurrent)
+                            SoundPlayerGlobal.instance.Play(sfxId);
                     }
                     break;
 
@@ -65,21 +69,28 @@ public class ItemPickup : EntityBase {
                         }
 
                         wpn.currentEnergy += val;
+
+                        if(wpn != player.currentWeapon)
+                            SoundPlayerGlobal.instance.Play(sfxId);
                     }
                     else {
+                        float curTankAmt = player.stats.subTankWeaponCurrent;
                         player.stats.subTankWeaponCurrent += val;
 
-                        //TODO: play special sound?
+                        if(curTankAmt < player.stats.subTankWeaponCurrent)
+                            SoundPlayerGlobal.instance.Play(sfxId);
                     }
                     break;
 
                 case ItemType.Life:
                     PlayerStats.curLife++;
                     HUD.instance.RefreshLifeCount();
+                    SoundPlayerGlobal.instance.Play(sfxId);
                     break;
 
                 case ItemType.HealthUpgrade:
                     PlayerStats.AddHPMod(bit);
+                    SoundPlayerGlobal.instance.Play(sfxId);
                     break;
 
                 case ItemType.EnergyTank:
@@ -87,6 +98,8 @@ public class ItemPickup : EntityBase {
                         player.stats.AcquireSubTankEnergy1();
                     else
                         player.stats.AcquireSubTankEnergy2();
+
+                    SoundPlayerGlobal.instance.Play(sfxId);
                     break;
 
                 case ItemType.WeaponTank:
@@ -94,11 +107,15 @@ public class ItemPickup : EntityBase {
                         player.stats.AcquireSubTankWeapon1();
                     else
                         player.stats.AcquireSubTankWeapon2();
+
+                    SoundPlayerGlobal.instance.Play(sfxId);
                     break;
 
                 case ItemType.Armor:
                     player.stats.AcquireArmor();
                     player.RefreshArmor();
+
+                    SoundPlayerGlobal.instance.Play(sfxId);
                     break;
             }
 

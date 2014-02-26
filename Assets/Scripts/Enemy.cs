@@ -29,6 +29,9 @@ public class Enemy : EntityBase {
 
     public int weaponIndexUnlock = -1; //for bosses, acquire this weapon upon defeat
 
+    public const string soundHurt = "enemyHit";
+    public const string soundStun = "stun";
+
     private Stats mStats;
     private bool mRespawnReady;
 
@@ -216,6 +219,8 @@ public class Enemy : EntityBase {
                 SetPhysicsActive(false, true);
 
                 Invoke("DoStun", stunDelay);
+
+                SoundPlayerGlobal.instance.Play(soundStun);
                 break;
 
             case EntityState.RespawnWait:
@@ -447,6 +452,8 @@ public class Enemy : EntityBase {
         else if(delta < 0.0f) {
             if(stat.lastDamageSource != null && stat.lastDamageSource.stun && !stat.stunImmune && Time.time - mLastStunnedTime > stunImmuneDelay)
                 state = (int)EntityState.Stun;
+            else
+                SoundPlayerGlobal.instance.Play(soundHurt);
         }
     }
 
