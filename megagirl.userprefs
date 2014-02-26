@@ -1,30 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Weapons\Weapon.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\ModalPause.cs">
     <Files>
-      <File FileName="Assets\Scripts\EnemyBossDotLifePrim.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyBossNil.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\EnemyBossEnableHP.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="119" Column="65" />
-      <File FileName="Assets\Scripts\PlatformerSpriteController.cs" Line="318" Column="21" />
-      <File FileName="Assets\Scripts\ProjectileTweenTo.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EntityState.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Physics\RigidBodyMoveToTarget.cs" Line="1" Column="1" />
-      <File FileName="Assets\PlayMaker\Actions\DestroyComponent.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8PlayMaker\GameObject\GetGameObjectWithComponent.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Weapons\WeaponStarGazer.cs" Line="61" Column="40" />
-      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="108" Column="9" />
-      <File FileName="Assets\M8PlayMaker\UI\UIModalOpenCharacterDialogMulti.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8PlayMaker\Editor\UIModalOpenCharacterDialogMultiEditor.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Player.cs" Line="782" Column="31" />
-      <File FileName="Assets\Scripts\PlayerStats.cs" Line="37" Column="26" />
-      <File FileName="Assets\M8\Scripts\Audio\SoundPlayerMulti.cs" Line="154" Column="43" />
-      <File FileName="Assets\M8\Scripts\Audio\SoundPlayer.cs" Line="32" Column="26" />
-      <File FileName="Assets\Scripts\PlayerDeathExplode.cs" Line="24" Column="28" />
-      <File FileName="Assets\Scripts\ParticleController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ParticleSpawn.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Game\PoolController.cs" Line="275" Column="17" />
+      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\WeaponHoolaHoop.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerJumpOnDamage.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="465" Column="43" />
+      <File FileName="Assets\Scripts\EnemyCatRoller.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\WeaponHipster.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\WeaponLightning.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerStats.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\WeaponWhip.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\UIEnergyBar.cs" Line="185" Column="17" />
+      <File FileName="Assets\Scripts\UI\ModalPause.cs" Line="30" Column="92" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

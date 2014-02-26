@@ -27,6 +27,8 @@ public class ModalPause : UIController {
     public UIEventListener exit;
     public UIEventListener options;
 
+    public SoundPlayer fillSfx; //sound when filling hp or weapon, make sure to set as loop
+
     private UIEnergyBar[] mWeapons;
 
     private int mInputLockCounter;
@@ -304,6 +306,8 @@ public class ModalPause : UIController {
             }
 
             mInputLockCounter++;
+            fillSfx.Play();
+
             hpBar.currentSmooth = Mathf.CeilToInt(stats.curHP);
 
             RefreshEnergyTank();
@@ -352,6 +356,9 @@ public class ModalPause : UIController {
                     player.stats.subTankWeaponCurrent -= amtNeeded;
                 }
 
+                if(mInputLockCounter > 0)
+                    fillSfx.Play();
+
                 RefreshWeaponTank();
             }
         }
@@ -387,5 +394,7 @@ public class ModalPause : UIController {
 
     void OnEnergyAnimStop(UIEnergyBar bar) {
         mInputLockCounter--;
+        if(mInputLockCounter <= 0)
+            fillSfx.Stop();
     }
 }

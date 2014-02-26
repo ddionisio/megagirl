@@ -25,6 +25,8 @@ public class UIEnergyBar : MonoBehaviour {
     public float flashDelay = 1.0f;
     public UIWidget[] flashWidgets;
 
+    public SoundPlayer fillSfx; //during smoothing, the repeating sound to play when increasing
+
     public event GenericCallback animateEndCallback;
 
     private int mCurMaxBar = 1;
@@ -62,6 +64,9 @@ public class UIEnergyBar : MonoBehaviour {
 
                 mIsAnimate = false;
 
+                if(fillSfx)
+                    fillSfx.Stop();
+
                 RefreshBars();
             }
         }
@@ -81,6 +86,9 @@ public class UIEnergyBar : MonoBehaviour {
                 if(!mIsAnimate) {
                     mIsAnimate = true;
                     mLastAnimTime = Time.realtimeSinceStartup;
+
+                    if(mDirT > 0.0f && fillSfx)
+                        fillSfx.Play();
                 }
             }
             else {
@@ -139,6 +147,9 @@ public class UIEnergyBar : MonoBehaviour {
         mCurT = (float)mCurNumBar;
         mIsAnimate = false;
 
+        if(fillSfx)
+            fillSfx.Stop();
+
         Flash(false);
     }
 
@@ -171,6 +182,9 @@ public class UIEnergyBar : MonoBehaviour {
                 RefreshBars();
 
                 mIsAnimate = false;
+
+                if(fillSfx)
+                    fillSfx.Stop();
 
                 if(animateEndCallback != null)
                     animateEndCallback(this);
