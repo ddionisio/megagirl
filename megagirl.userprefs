@@ -1,24 +1,27 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\ModalPause.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Enemy.cs">
     <Files>
       <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Weapons\WeaponHoolaHoop.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PlayerJumpOnDamage.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Projectile.cs" Line="465" Column="43" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyCatRoller.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Weapons\WeaponHipster.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Weapons\WeaponLightning.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerStats.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Weapons\WeaponWhip.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\UIEnergyBar.cs" Line="185" Column="17" />
+      <File FileName="Assets\Scripts\UI\UIEnergyBar.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\ModalPause.cs" Line="30" Column="92" />
+      <File FileName="Assets\Scripts\ItemPickup.cs" Line="165" Column="32" />
+      <File FileName="Assets\Scripts\PlatformerSpriteController.cs" Line="325" Column="1" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUILayoutAnchor.cs" Line="6" Column="40" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUILayoutBase.cs" Line="16" Column="35" />
+      <File FileName="Assets\Scripts\Enemy.cs" Line="223" Column="60" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\EntitySpawner.cs" line="109" />
-      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\PlatformerSpriteController.cs" line="325" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -40,6 +40,8 @@ public class EnemyTurret : Enemy {
     public int startTurret = 0;
     public float shootDelay = 0.5f;
 
+    public SoundPlayer shootSfx;
+
     private const string mInvokeFunc = "DoFire";
 
     private int mCurTurret;
@@ -127,6 +129,8 @@ public class EnemyTurret : Enemy {
                 turretAnim.Play(barrels[mCurTurret].fireClip);
 
                 barrels[mCurTurret].FireBullets(spawnPoints);
+
+                shootSfx.Play();
             }
             else
                 SetFireActive(false);

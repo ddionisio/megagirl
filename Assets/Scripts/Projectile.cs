@@ -32,6 +32,8 @@ public class Projectile : EntityBase {
         public Vector3 point;
     }
 
+    public const string soundHurt = "enemyHit";
+
     public bool simple; //don't use rigidbody, make sure you have a sphere collider and set it to trigger
     public LayerMask simpleLayerMask;
     public string[] hitTags;
@@ -371,6 +373,9 @@ public class Projectile : EntityBase {
             if(isAlive)
                 state = (int)State.Dying;
         }
+        else if(delta < 0.0f) {
+            SoundPlayerGlobal.instance.Play(soundHurt);
+        }
     }
 
     protected virtual void ApplyContact(GameObject go, Vector3 pos, Vector3 normal) {
@@ -461,7 +466,7 @@ public class Projectile : EntityBase {
                     if(maxBounce > 0)
                         mCurBounce++;
 
-                    if(contactSfx)
+                    if(gameObject.activeSelf && contactSfx)
                         contactSfx.Play();
                 }
                 break;

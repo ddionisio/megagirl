@@ -42,6 +42,9 @@ public class EnemyBossCatGirl : Enemy {
     public Transform projAttach;
     public int projMax = 2;
 
+    public SoundPlayer whipSfx;
+    public SoundPlayer bladeSfx;
+
     private Phase mCurPhase = Phase.None;
 
     private Player mPlayer;
@@ -127,6 +130,9 @@ public class EnemyBossCatGirl : Enemy {
                 mAttackActive = false; //wait for frame trigger to activate
 
                 bodySpriteCtrl.PlayOverrideClip(attackWhipClip);
+
+                if(!whipSfx.isPlaying)
+                    whipSfx.Play();
                 break;
 
             case Phase.Jump:
@@ -139,6 +145,9 @@ public class EnemyBossCatGirl : Enemy {
                 mAttackActive = false;
                 bodyCtrl.moveSide = 0;
                 bodySpriteCtrl.PlayOverrideClip(attackStrikeClipPrep);
+
+                if(!bladeSfx.isPlaying)
+                    bladeSfx.Play();
                 break;
 
             case Phase.JumpToWall:
@@ -394,13 +403,18 @@ public class EnemyBossCatGirl : Enemy {
     }
 
     void OnLanded(PlatformerController ctrl) {
-        switch(mCurPhase) {
-            case Phase.Jump:
-            case Phase.AirStrike:
-            case Phase.ThrowGrenades:
-                Jump(0);
-                ToPhase(Phase.Move);
-                break;
+        if(mCurPhase != Phase.None) {
+            switch(mCurPhase) {
+                case Phase.Jump:
+                case Phase.AirStrike:
+                case Phase.ThrowGrenades:
+                    Jump(0);
+                    ToPhase(Phase.Move);
+                    break;
+            }
+
+            Vector2 p = transform.position;
+            PoolController.Spawn("fxp", "landdust", "landdust", null, p);
         }
     }
 }
