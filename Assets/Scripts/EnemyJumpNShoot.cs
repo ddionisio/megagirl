@@ -35,7 +35,7 @@ public class EnemyJumpNShoot : Enemy {
 
                 Blink(0);
                 anim.Play(idleClip);
-                stats.isInvul = true;
+                stats.damageReduction = 1.0f;
 
                 mTarget = null;
                 break;
@@ -50,7 +50,7 @@ public class EnemyJumpNShoot : Enemy {
 
                 bodyCtrl.inputEnabled = true;
                 anim.Play(idleClip);
-                stats.isInvul = true;
+                stats.damageReduction = 1.0f;
                 InvokeRepeating("DoActiveCheck", 0, activateCheckDelay);
                 break;
         }
@@ -98,7 +98,7 @@ public class EnemyJumpNShoot : Enemy {
         if(mTarget != null && nearestSqr < activateRange*activateRange) {
             CancelInvoke("DoActiveCheck");
             anim.Play(jumpReadyClip);
-            stats.isInvul = false;
+            stats.damageReduction = 0.0f;
         }
     }
 
@@ -118,7 +118,7 @@ public class EnemyJumpNShoot : Enemy {
         else if(aClip.name == landClip) {
             mTarget = null;
             Blink(0);
-            stats.isInvul = true;
+            stats.damageReduction = 1.0f;
             anim.Play(idleClip);
             InvokeRepeating("DoActiveCheck", jumpRepeatDelay, activateCheckDelay);
         }

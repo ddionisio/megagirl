@@ -11,6 +11,8 @@ public class EnemyMoveAndShoot : Enemy {
 
     public bool ignoreFallDetect = true;
 
+    public SoundPlayer shootSfx;
+
     private const string fireStartFunc = "FireStart";
 
     private EntitySensor mSensor;
@@ -84,6 +86,9 @@ public class EnemyMoveAndShoot : Enemy {
                         dir = Quaternion.AngleAxis(Random.Range(-projAngleRand, projAngleRand), Vector3.forward) * dir;
 
                         Projectile.Create(projGroup, projType, pt, dir, null);
+
+                        if(shootSfx)
+                            shootSfx.Play();
 
                         mCurNumFire++;
                         if(mCurNumFire == projCount) {

@@ -149,6 +149,14 @@ public class Stats : MonoBehaviour {
 
                 return true;
             }
+            else {
+                if(!string.IsNullOrEmpty(damage.noDamageSfx))
+                    SoundPlayerGlobal.instance.Play(damage.noDamageSfx);
+
+                if(!string.IsNullOrEmpty(damage.noDamageSpawnGroup) && !string.IsNullOrEmpty(damage.noDamageSpawnType)) {
+                    PoolController.Spawn(damage.noDamageSpawnGroup, damage.noDamageSpawnType, null, null, new Vector2(hitPos.x, hitPos.y));
+                }
+            }
         }
 
         return false;

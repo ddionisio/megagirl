@@ -19,6 +19,10 @@ public class Damage : MonoBehaviour {
     public Type type = Type.Energy;
     public bool stun = false;
 
+    public string noDamageSpawnGroup;
+    public string noDamageSpawnType;
+    public string noDamageSfx;
+
     public bool CallDamageTo(Stats stat, Vector3 hitPos, Vector3 hitNorm) {
         return stat.ApplyDamage(this, hitPos, hitNorm);
     }

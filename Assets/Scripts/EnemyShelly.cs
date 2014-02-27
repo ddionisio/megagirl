@@ -17,6 +17,9 @@ public class EnemyShelly : Enemy {
     public int projCount;
     public float projDelay;
 
+    public SoundPlayer activeSfx;
+    public SoundPlayer shootSfx;
+
     private const string openFunc = "Open";
     private const string orientFunc = "OrientCannon";
 
@@ -99,6 +102,9 @@ public class EnemyShelly : Enemy {
     }
 
     void Open() {
+        if(activeSfx.gameObject.activeSelf)
+            activeSfx.Play();
+
         shellAnimDat.Play("open");
     }
 
@@ -133,6 +139,8 @@ public class EnemyShelly : Enemy {
                     Vector3 pos = cannonSpawnPt.position; pos.z = 0;
                     Projectile.Create(projGroup, projType, pos, dir, null);
                     mCurShotCount++;
+
+                    shootSfx.Play();
                 }
             }
         }
