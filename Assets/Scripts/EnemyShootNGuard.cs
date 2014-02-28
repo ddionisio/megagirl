@@ -20,6 +20,8 @@ public class EnemyShootNGuard : Enemy {
 
     public float jumpDistX = 8.0f;
 
+    public SoundPlayer shootSfx;
+
     private const string ActiveRoutine = "DoStuff";
 
     private float mLastFaceTime;
@@ -54,6 +56,8 @@ public class EnemyShootNGuard : Enemy {
 
         shieldGO.SetActive(true);
         gunGO.SetActive(false);
+
+        bodyCtrl.landCallback += OnLanded;
     }
 
     Transform NearestPlayer(out float dirX) {
@@ -99,6 +103,11 @@ public class EnemyShootNGuard : Enemy {
         }
     }
 
+    void OnLanded(PlatformerController ctrl) {
+        Vector2 p = transform.position;
+        PoolController.Spawn("fxp", "landdust", "landdust", null, p);
+    }
+
     IEnumerator DoStuff() {
         WaitForFixedUpdate wait = new WaitForFixedUpdate();
         WaitForSeconds shootReadyWait = new WaitForSeconds(shootReadyDelay);
@@ -127,6 +136,9 @@ public class EnemyShootNGuard : Enemy {
                 shootAnim.Play("shoot");
 
                 Projectile.Create(projGroup, projType, pos, dir, null);
+
+                if(shootSfx)
+                    shootSfx.Play();
 
                 yield return shootRepeatWait;
             }

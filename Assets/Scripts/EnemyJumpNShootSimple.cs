@@ -13,6 +13,7 @@ public class EnemyJumpNShootSimple : Enemy {
 
     public float jumpRepeatDelay = 1.0f;
 
+    public SoundPlayer shootSfx;
 
     private GameObject[] mPlayers;
     private bool mJump;
@@ -108,6 +109,9 @@ public class EnemyJumpNShootSimple : Enemy {
 
                                 shootAnim.Play("shoot");
 
+                                if(shootSfx)
+                                    shootSfx.Play();
+
                                 mLastShootTime = Time.fixedTime;
                             }
                         //}
@@ -122,6 +126,9 @@ public class EnemyJumpNShootSimple : Enemy {
     void OnLanded(PlatformerController ctrl) {
         mJump = false;
         mLastJumpTime = Time.fixedTime;
+
+        Vector2 p = transform.position;
+        PoolController.Spawn("fxp", "landdust", "landdust", null, p);
     }
 
     protected override void OnDrawGizmosSelected() {

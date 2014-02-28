@@ -46,6 +46,10 @@ public class EnemyBossHipster : Enemy {
     public float jumpDropDelay = 0.2f;
     public float jumpMoveScale = 1.5f;
 
+    public SoundPlayer gunSfx;
+    public SoundPlayer dashSfx;
+    public SoundPlayer spellSfx;
+
     public const string armIdleClip = "gun";
     public const string armFireClip = "gunFire";
 
@@ -279,6 +283,8 @@ public class EnemyBossHipster : Enemy {
 
         bodyCtrl.moveSide = bodySpriteCtrl.isLeft ? -1 : 1;
 
+        dashSfx.Play();
+
         yield return new WaitForSeconds(jumpDropDelay);
 
         while(bodyCtrl.collisionFlags == CollisionFlags.None) {
@@ -346,6 +352,8 @@ public class EnemyBossHipster : Enemy {
             
             gunFireSpark.Play();
 
+            gunSfx.Play();
+
             while(mFiring)
                 yield return wait;
 
@@ -395,6 +403,8 @@ public class EnemyBossHipster : Enemy {
 
         dust.Play();
 
+        dashSfx.Play();
+
         while(farSignX == bodyCtrl.moveSide) {
             pos = collider.bounds.center;
             farSignX = Mathf.Sign(farX - pos.x);
@@ -424,6 +434,8 @@ public class EnemyBossHipster : Enemy {
                         gunArmAnim.Play(armFireClip);
 
                         gunFireSpark.Play();
+
+                        gunSfx.Play();
                     }
                 }
             }
@@ -492,6 +504,8 @@ public class EnemyBossHipster : Enemy {
                     timeWarp.transform.position = nearestPt;
                     timeWarp.gameObject.SetActive(true);
                     timeWarp.Play(timeWarpStartTake);
+
+                    spellSfx.Play();
 
                     mForceNextPhase = Phase.Jump;
                     ToPhase(Phase.SprayNPray);
