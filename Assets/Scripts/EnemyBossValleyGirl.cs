@@ -35,6 +35,10 @@ public class EnemyBossValleyGirl : Enemy {
 
     public Transform[] moveRandomWPs; //use for randomly moving in X
 
+    public SoundPlayer twirlSfx;
+    public SoundPlayer tornadoSfx;
+    public SoundPlayer laserSfx;
+
     private const string tornadoRoutine = "DoTornado";
     private const string chargeRoutine = "DoCharge";
     private const string shootLasersRoutine = "DoLazors";
@@ -222,6 +226,8 @@ public class EnemyBossValleyGirl : Enemy {
         bodyCtrl.lockDrag = true;
         bodyCtrl.rigidbody.drag = 0;
 
+        tornadoSfx.Play();
+
         while(curTime < tornadoDuration) {
             Vector3 tornadoPos = tornadoAnimDat.transform.position;
             Vector3 pos = transform.position;
@@ -248,6 +254,8 @@ public class EnemyBossValleyGirl : Enemy {
 
         bodyCtrl.lockDrag = true;
         bodyCtrl.rigidbody.drag = 0.0f;
+
+        twirlSfx.Play();
 
         while(curTime < chargeDuration) {
             if(Time.fixedTime - lastTurnTime > chargeTurnDelay) {
@@ -308,6 +316,8 @@ public class EnemyBossValleyGirl : Enemy {
                 dir = Quaternion.AngleAxis(Random.Range(-laserAngleRand, laserAngleRand), Vector3.forward)*dir;
                 Projectile.Create(projGroup, laserProjType, pos, dir, null);
             }
+
+            laserSfx.Play();
 
             yield return waitLaser;
         }

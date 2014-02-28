@@ -12,6 +12,7 @@ public class EnemyTurretLaser : Enemy {
     public bool alwaysActive; //if false, activate if player is detected
 
     public Transform dest;
+    public float destZ = -1.5f;
 
     public Transform point;
     public GameObject pointActive;
@@ -29,6 +30,8 @@ public class EnemyTurretLaser : Enemy {
     public LayerMask colMask;
 
     public float deactivateDelay = 2.0f;
+
+    public SoundPlayer activateSfx;
 
     private const string scanRoutine = "DoScan";
     private const string followRoutine = "DoFollow";
@@ -73,10 +76,14 @@ public class EnemyTurretLaser : Enemy {
                 if(alwaysActive) {
                     pointScan.SetActive(false);
                     pointActive.SetActive(true);
+
+                    dest.gameObject.SetActive(true);
                 }
                 else {
                     pointScan.SetActive(true);
                     pointActive.SetActive(false);
+
+                    dest.gameObject.SetActive(false);
                 }
                 break;
         }
@@ -114,7 +121,8 @@ public class EnemyTurretLaser : Enemy {
 
                 if(Physics.Raycast(point.position, point.up, out hit, dist, colMask)) {
                     dist = hit.distance;
-                    dest.position = hit.point;
+                    Vector3 dp = hit.point; dp.z = destZ;
+                    dest.position = dp;
 
                     //do damage
                     if(hit.collider.CompareTag("Player")) {
@@ -124,6 +132,11 @@ public class EnemyTurretLaser : Enemy {
                         else {
                             pointScan.SetActive(false);
                             pointActive.SetActive(true);
+
+                            dest.gameObject.SetActive(true);
+
+                            if(activateSfx)
+                                activateSfx.Play();
                         }
 
                         mLastActiveTime = Time.time;
@@ -132,12 +145,16 @@ public class EnemyTurretLaser : Enemy {
                 }
                 else {
                     dest.position = point.position;
+                    Vector3 dp = point.position; dp.z = destZ;
+                    dest.position = dp;
                 }
 
                 if(!alwaysActive && !playerHit && mActive && Time.time - mLastActiveTime > deactivateDelay) {
                     pointScan.SetActive(true);
                     pointActive.SetActive(false);
                     mActive = false;
+
+                    dest.gameObject.SetActive(false);
                 }
 
                 const float scaleConv = 4.0f/24.0f;

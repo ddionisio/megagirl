@@ -14,6 +14,8 @@ public class EnemyFollowNShoot : Enemy {
     public float fireDelay;
     public string fireProjType;
 
+    public SoundPlayer fireSfx;
+
     private string fireRoutine = "DoFire";
 
     private Vector3 mCurFollowLocalPt; //relative to player's
@@ -85,6 +87,9 @@ public class EnemyFollowNShoot : Enemy {
             proj.applyDirToUp.up = dir;
 
             mFiring = false;
+
+            if(fireSfx)
+                fireSfx.Play();
 
             FollowChangePoint();
         }
