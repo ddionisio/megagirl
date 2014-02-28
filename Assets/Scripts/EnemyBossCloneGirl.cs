@@ -38,6 +38,10 @@ public class EnemyBossCloneGirl : Enemy {
     public string castProjSeekType;
     public int castProjCount = 2;
 
+    public SoundPlayer crazySfx;
+    public SoundPlayer cloneSfx;
+    public SoundPlayer sunnySpawnSfx;
+
     private const string ChaserLaunchFunc = "DoChaserLaunch";
     private const string CrazyRoutine = "DoCrazy";
 
@@ -292,6 +296,8 @@ public class EnemyBossCloneGirl : Enemy {
                 dir = rot*dir;
             }
 
+            sunnySpawnSfx.Play();
+
             mCurCastProjCount = castProjCount;
         }
     }
@@ -299,6 +305,8 @@ public class EnemyBossCloneGirl : Enemy {
     void DoChaserLaunch() {
         Projectile proj = Projectile.Create(projGroup, angryChaserType, transform.position + chaserOfs, Vector3.up, null);
         proj.releaseCallback += OnChaserProjRelease;
+
+        cloneSfx.Play();
 
         mCurChaserCount++;
         if(mCurChaserCount == angryChaserCount) {
@@ -354,6 +362,8 @@ public class EnemyBossCloneGirl : Enemy {
         }
 
         bodySpriteCtrl.PlayOverrideClip(crazyPrepClip);
+
+        crazySfx.Play();
 
         yield return new WaitForSeconds(crazyPrepDelay);
 

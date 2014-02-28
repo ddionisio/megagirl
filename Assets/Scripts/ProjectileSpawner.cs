@@ -26,6 +26,8 @@ public class ProjectileSpawner : MonoBehaviour {
 
     public bool projSpriteVflip; //flip vertical based on dirX
 
+    public SoundPlayer spawnSfx;
+
     private int mCurCount;
     private bool mStarted;
 
@@ -149,6 +151,9 @@ public class ProjectileSpawner : MonoBehaviour {
 
                         if(fireParticle)
                             fireParticle.Play();
+
+                        if(spawnSfx)
+                            spawnSfx.Play();
                     }
                 }
 

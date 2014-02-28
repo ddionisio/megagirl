@@ -9,6 +9,7 @@ public class EnemyCharger : Enemy {
     public float angerChargeDelay = 1.0f;
     public float angerChargeSpeed = 10.0f;
     public float angerEndDelay = 1.0f; //after this delay, check to see if player is still in vicinity.
+    public float angerOffshot = 1.5f; //offset towards player
     public ParticleSystem angerParticles;
 
     public float calmForce = 10.0f;
@@ -23,6 +24,8 @@ public class EnemyCharger : Enemy {
     public tk2dSpriteAnimator bodyAnim;
     public string bodyCalmClip = "calm";
     public string bodyAngerClip = "hatred";
+
+    public SoundPlayer hatredSfx;
 
     private const string angerRoutine = "DoAnger";
     private const string calmRoutine = "DoCalm";
@@ -128,13 +131,16 @@ public class EnemyCharger : Enemy {
         wingsAnimDat.animScale = wingsAngerAnimScale;
         bodyAnim.Play(bodyAngerClip);
 
+        if(hatredSfx && !hatredSfx.isPlaying)
+            hatredSfx.Play();
+
         //wait a bit
         yield return new WaitForSeconds(angerChargeDelay);
 
         bool angry = true;
         while(angry && (EntityState)state == EntityState.Normal) {
             Vector3 sPos = transform.position;
-            Vector3 ePos = mLastPlayerPos;
+            Vector3 ePos = mLastPlayerPos + mLastPlayerDir*angerOffshot;
 
             float curTime = 0.0f;
 

@@ -76,6 +76,7 @@ public class Projectile : EntityBase {
     public int damageExpireCount = -1; //the number of damage dealt for it to die, -1 for infinite
 
     public SoundPlayer contactSfx;
+    public SoundPlayer dyingSfx;
 
     /*public bool oscillate;
     public float oscillateForce;
@@ -306,6 +307,9 @@ public class Projectile : EntityBase {
                 }
                 else
                     Die();
+
+                if(dyingSfx && !dyingSfx.isPlaying)
+                    dyingSfx.Play();
                 break;
 
             case State.Invalid:
