@@ -52,6 +52,10 @@ public class EnemyBossTankieGirl : Enemy {
     public float panicJumpDelay = 2.5f;
     public float panicFireDelay = 1.0f;
 
+    public SoundPlayer shootSfx;
+    public SoundPlayer rocketSfx;
+    public SoundPlayer cannonSfx;
+
     private Phase mCurPhase = Phase.None;
     private int mCurPhasePatternInd = 0;
     private Player mPlayer;
@@ -71,6 +75,8 @@ public class EnemyBossTankieGirl : Enemy {
             proj.stats.itemDropIndex = -1;
             tk2dBaseSprite spr = proj.GetComponentInChildren<tk2dBaseSprite>();
             spr.FlipY = bodySpriteCtrl.anim.Sprite.FlipX;
+
+            rocketSfx.Play();
         }
     }
 
@@ -286,6 +292,8 @@ public class EnemyBossTankieGirl : Enemy {
         Vector3 dir = bodySpriteCtrl.isLeft ? Vector3.left : Vector3.right;
         Vector3 pos = panicShootPt.position; pos.z = 0.0f;
         Projectile.Create(projGroup, moveFireProjType, pos, dir, null);
+
+        shootSfx.Play();
     }
 
     IEnumerator DoMoveFire() {
@@ -303,6 +311,8 @@ public class EnemyBossTankieGirl : Enemy {
                 Vector3 pos = moveFirePts[i].position; pos.z = 0.0f;
                 Projectile.Create(projGroup, moveFireProjType, pos, dir, null);
             }
+
+            shootSfx.Play();
 
             yield return waitDelay;
         } while(mCurPhase == Phase.Move);
@@ -405,6 +415,8 @@ public class EnemyBossTankieGirl : Enemy {
             Vector3 pt = cannonFirePts[i].position; pt.z = 0.0f;
             Projectile.Create(projGroup, cannonProjType, pt, cannonFirePts[i].up, null);
         }
+
+        cannonSfx.Play();
 
         //wait till we land
         while(!tank.bodyCtrl.isGrounded)

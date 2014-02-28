@@ -21,6 +21,7 @@ public class EnemyCatRoller : Enemy {
     public string projInactiveClip = "idle";
     public bool projInactiveInvul = true;
     public bool projFacePlayer = true;
+    public SoundPlayer projSfx;
 
     public bool rollerDieDelayOverride = false; //override roller death delay when we die, sets it 0 while we are alive
     public float rollerDieDelay = 1.0f;
@@ -48,7 +49,7 @@ public class EnemyCatRoller : Enemy {
                 mFiring = false;
 
                 Blink(0);
-                if(projInactiveInvul) stats.isInvul = false;
+                if(projInactiveInvul) stats.damageReduction = 1.0f;
                 bodySpriteCtrl.StopOverrideClip();
                 break;
         }
@@ -93,7 +94,7 @@ public class EnemyCatRoller : Enemy {
 
                     InvokeRepeating(activeFunc, 0, projActiveCheckDelay);
 
-                    if(projInactiveInvul) stats.isInvul = true;
+                    if(projInactiveInvul) stats.damageReduction = 1.0f;
                     if(!string.IsNullOrEmpty(projInactiveClip))
                         bodySpriteCtrl.PlayOverrideClip(projInactiveClip);
                 }
@@ -197,6 +198,9 @@ public class EnemyCatRoller : Enemy {
 	                        dir = Quaternion.AngleAxis(Random.Range(-projAngleRand, projAngleRand), Vector3.forward) * dir;
 	                        
 	                        Projectile.Create(projGroup, projType, pt, dir, null);
+
+                            if(projSfx)
+                                projSfx.Play();
 	                        
 	                        mCurNumFire++;
 	                        if(mCurNumFire == projCount) {
@@ -253,14 +257,14 @@ public class EnemyCatRoller : Enemy {
 
         if(nearestSqr < projActiveRange*projActiveRange) {
             Blink(0);
-            if(projInactiveInvul) stats.isInvul = false;
+            if(projInactiveInvul) stats.damageReduction = 0.0f;
             bodySpriteCtrl.StopOverrideClip();
 
             CancelInvoke(activeFunc);
             FireStart();
         }
         else {
-            if(projInactiveInvul) stats.isInvul = true;
+            if(projInactiveInvul) stats.damageReduction = 1.0f;
             if(!string.IsNullOrEmpty(projInactiveClip) && (bodySpriteCtrl.overrideClip == null || bodySpriteCtrl.overrideClip.name != projInactiveClip))
                 bodySpriteCtrl.PlayOverrideClip(projInactiveClip);
         }

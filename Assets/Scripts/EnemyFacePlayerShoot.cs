@@ -14,6 +14,8 @@ public class EnemyFacePlayerShoot : Enemy {
     public string projType;
     public Transform projPt;
 
+    public SoundPlayer fireSfx;
+
     private GameObject[] mPlayers;
     private tk2dBaseSprite[] mSprites;
     private Transform mTarget;
@@ -24,6 +26,9 @@ public class EnemyFacePlayerShoot : Enemy {
         if(proj) {
             tk2dBaseSprite spr = proj.GetComponentInChildren<tk2dBaseSprite>();
             spr.FlipY = mSprites[0].FlipX;
+
+            if(fireSfx)
+                fireSfx.Play();
         }
     }
 

@@ -33,6 +33,7 @@ public class PlatformerSpriteController : MonoBehaviour {
     //public string climbClip = "climb";
 
     public bool multiSprites;
+    public bool multiSpriteInactives = true;
 
     public float minSpeed = 0.5f;//used if useVelocitySpeed=true 
     public float framePerMeter = 0.1f; //used if useVelocitySpeed=true 
@@ -269,7 +270,7 @@ public class PlatformerSpriteController : MonoBehaviour {
         }
 
         if(multiSprites) {
-            mMultiSprites = GetComponentsInChildren<tk2dBaseSprite>(true);
+            mMultiSprites = GetComponentsInChildren<tk2dBaseSprite>(multiSpriteInactives);
             for(int i = 0; i < mMultiSprites.Length; i++)
                 mMultiSprites[i].FlipX = mIsLeft ? leftFlip : !leftFlip;
         }

@@ -20,6 +20,8 @@ public class EnemyJumpNShoot : Enemy {
     public string landClip = "land"; //make sure it is in Once loop
     public string jumpReadyClip = "jumpReady"; //make sure it is in once loop
 
+    public SoundPlayer shootSfx;
+
     private Transform mTarget;
     private bool mJumping;
     private GameObject[] mPlayers;
@@ -154,6 +156,9 @@ public class EnemyJumpNShoot : Enemy {
         else {
             Projectile proj = Projectile.Create(projGroup, projType, pos, dir, null);
         }
+
+        if(shootSfx)
+            shootSfx.Play();
     }
 
     protected override void OnDrawGizmosSelected() {
