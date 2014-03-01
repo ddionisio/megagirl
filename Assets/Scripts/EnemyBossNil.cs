@@ -44,6 +44,13 @@ public class EnemyBossNil : Enemy {
     public AnimatorData groundCastSpell;
     public float groundCastStartDelay = 0.5f;
 
+    public SoundPlayer shootSfx;
+    public SoundPlayer seekerSfx;
+    public SoundPlayer teleInSfx;
+    public SoundPlayer teleOutSfx;
+    public SoundPlayer groundCastSfx;
+    public SoundPlayer deathSfx;
+
     public const string moveRoutine = "DoMove";
     public const string idleRoutine = "DoIdle";
     public const string missileRoutine = "DoMissile";
@@ -196,6 +203,8 @@ public class EnemyBossNil : Enemy {
 
         groundCastSpell.gameObject.SetActive(false);
         groundCastActiveGO.SetActive(false);
+
+        bodyCtrl.landCallback += OnLand;
     }
 
     void FacePlayer() {
@@ -238,6 +247,13 @@ public class EnemyBossNil : Enemy {
         }
     }
 
+    void OnLand(PlatformerController ctrl) {
+        if(state != (int)EntityState.Invalid) {
+            Vector2 p = transform.position;
+            PoolController.Spawn("fxp", "landdust", "landdust", null, p);
+        }
+    }
+
     void NextPhasePattern() {
         ToPhase(phasePattern[mCurPhasePattern]);
         mCurPhasePattern++;
@@ -246,6 +262,8 @@ public class EnemyBossNil : Enemy {
     }
 
     IEnumerator DoDead() {
+        deathSfx.Play();
+
         mPlayer.currentWeaponIndex = 0;
 
         HUD.instance.barBoss.gameObject.SetActive(false);
@@ -297,6 +315,8 @@ public class EnemyBossNil : Enemy {
 
         yield return new WaitForSeconds(groundCastStartDelay);
 
+        groundCastSfx.Play();
+
         //set to player's x loc.
         Vector3 groundCastPos = groundCastSpell.transform.position;
         groundCastPos.x = mPlayer.transform.position.x;
@@ -330,11 +350,15 @@ public class EnemyBossNil : Enemy {
         SetPhysicsActive(false, false);
 
         //warp-out
+        teleOutSfx.Play();
+
         mAnimDat.Play(takeWarpOut);
         while(mAnimDat.isPlaying)
             yield return wait;
 
         //launch
+        seekerSfx.Play();
+
         Vector3 missilePt = collider.bounds.center; missilePt.z = 0;
 
         for(int i = 0; i < mMissiles.Length; i++) {
@@ -379,6 +403,7 @@ public class EnemyBossNil : Enemy {
             toPos.z = 0.0f;
 
             mMissiles[i].Move(toPos, missileMoveSpeed);
+            seekerSfx.Play();
             yield return missileMoveWait;
         }
         
@@ -401,6 +426,7 @@ public class EnemyBossNil : Enemy {
         //move missiles to new pos.
         for(int i = 0; i < mMissiles.Length; i++) {
             mMissiles[i].Move(missilePts[i].position, missileMoveSpeed);
+            seekerSfx.Play();
             yield return missileMoveWait;
         }
 
@@ -417,6 +443,8 @@ public class EnemyBossNil : Enemy {
         //
 
         //warp-in
+        teleInSfx.Play();
+
         mAnimDat.Play(takeWarpIn);
         while(mAnimDat.isPlaying)
             yield return wait;
@@ -466,6 +494,8 @@ public class EnemyBossNil : Enemy {
                 Projectile.Create(projGroup, moveJumpProj, projPos, dir, null);
                 dir = rot*dir;
             }
+
+            shootSfx.Play();
             //
 
             //wait till we are landed

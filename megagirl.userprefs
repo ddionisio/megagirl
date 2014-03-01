@@ -1,21 +1,36 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyBossHipster.cs">
     <Files>
       <File FileName="Assets\Scripts\EnemyBossValleyGirl.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ProjectileSpawner.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyCharger.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="388" Column="45" />
       <File FileName="Assets\Scripts\EnemyBossCloneGirl.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyJumpNShootSimple.cs" Line="132" Column="6" />
-      <File FileName="Assets\Scripts\EnemyShootNGuard.cs" Line="60" Column="43" />
-      <File FileName="Assets\Scripts\Player.cs" Line="784" Column="44" />
-      <File FileName="Assets\Scripts\EnemyBossHipster.cs" Line="508" Column="37" />
+      <File FileName="Assets\Scripts\EnemyJumpNShootSimple.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyShootNGuard.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="212" Column="61" />
+      <File FileName="Assets\Scripts\EnemyBossHipster.cs" Line="252" Column="20" />
+      <File FileName="Assets\Scripts\EnemyJumpNShoot2.cs" Line="134" Column="49" />
+      <File FileName="Assets\Scripts\EnemyBossEffin.cs" Line="348" Column="51" />
+      <File FileName="Assets\Scripts\PlatformerController.cs" Line="5" Column="46" />
+      <File FileName="Assets\M8\Scripts\Physics\RigidBodyController.cs" Line="278" Column="38" />
+      <File FileName="Assets\Scripts\EnemyTurretLaser.cs" Line="139" Column="52" />
+      <File FileName="Assets\Scripts\EnemyBossJuses.cs" Line="470" Column="34" />
+      <File FileName="Assets\Scripts\EnemyFacePlayerShoot.cs" Line="30" Column="24" />
+      <File FileName="Assets\Scripts\EnemyBossBunnyShip.cs" Line="219" Column="52" />
+      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="125" Column="1" />
+      <File FileName="Assets\Scripts\UI\ModalLevelSelect.cs" Line="103" Column="1" />
+      <File FileName="Assets\M8\Scripts\Core\SceneState.cs" Line="86" Column="9" />
+      <File FileName="Assets\M8\Scripts\Core\UserData.cs" Line="142" Column="1" />
+      <File FileName="Assets\M8\Scripts\UI\UIController.cs" Line="62" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\EntitySpawner.cs" line="109" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\M8\Scripts\Core\UserData.cs" line="135" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\M8\Scripts\Core\SceneState.cs" line="484" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

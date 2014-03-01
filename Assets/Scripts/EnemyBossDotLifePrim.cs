@@ -23,6 +23,7 @@ public class EnemyBossDotLifePrim : Enemy {
 
     public GameObject shieldGO;
     public GameObject armGO;
+    public GameObject damageGO;
 
     public Transform eye;
 
@@ -60,6 +61,10 @@ public class EnemyBossDotLifePrim : Enemy {
     public float deathShakePeriod = 0.12f;
     public float deathFallStartDelay = 2.0f;
     public float deathFallAccel = 0.25f;
+
+    public SoundPlayer shootSfx;
+    public SoundPlayer chargeAttackSfx;
+    public SoundPlayer deathSfx;
 
     private AnimatorData mAnimDat;
     private Player mPlayer;
@@ -232,6 +237,8 @@ public class EnemyBossDotLifePrim : Enemy {
         curT = 0;
         delay = (chargeDest - chargePos).magnitude/chargeSpeed;
 
+        chargeAttackSfx.Play();
+
         while(true) {
             curT += Time.fixedDeltaTime; 
             if(curT >= delay) {
@@ -258,6 +265,8 @@ public class EnemyBossDotLifePrim : Enemy {
 
         //drop towards player
         mAnimDat.Play(takeDropAttack);
+
+        chargeAttackSfx.Play();
 
         curT = 0;
         delay = dropDelay;
@@ -365,6 +374,8 @@ public class EnemyBossDotLifePrim : Enemy {
             Projectile proj = Projectile.Create(projGroup, moveProjType, projPos, projDir, null);
             ProjectileSpawnOnDeath projDeath = proj.GetComponent<ProjectileSpawnOnDeath>();
             projDeath.seek = mPlayer.transform;
+
+            shootSfx.Play();
         }
 
         EvalNextPhase();
@@ -376,6 +387,8 @@ public class EnemyBossDotLifePrim : Enemy {
         mEyeLock = false;
 
         Holoville.HOTween.Tweener[] shakeTweens;
+
+        deathSfx.Play();
 
         //shake
         shakeTweens = new Holoville.HOTween.Tweener[deathGOs.Length];
@@ -415,6 +428,7 @@ public class EnemyBossDotLifePrim : Enemy {
         gameObject.SetActive(false);
         shieldGO.SetActive(false);
         armGO.SetActive(false);
+        damageGO.SetActive(false);
 
         nextBossGO.SetActive(true);
     }

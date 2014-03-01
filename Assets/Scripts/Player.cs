@@ -245,11 +245,16 @@ public class Player : EntityBase {
 
             case EntityState.Lock:
                 UIModalManager.instance.ModalCloseAll();
+                if(currentWeapon)
+                    currentWeapon.FireStop();
+
                 LockControls();
                 break;
 
             case EntityState.Victory:
                 UIModalManager.instance.ModalCloseAll();
+                if(currentWeapon)
+                    currentWeapon.FireStop();
 
                 stats.EnergyShieldSetActive(false);
 
@@ -263,6 +268,8 @@ public class Player : EntityBase {
 
             case EntityState.Final:
                 UIModalManager.instance.ModalCloseAll();
+                if(currentWeapon)
+                    currentWeapon.FireStop();
 
                 stats.EnergyShieldSetActive(false);
                 

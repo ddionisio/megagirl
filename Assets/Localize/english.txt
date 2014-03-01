@@ -267,7 +267,7 @@
 	
 	{
 		"key":"final_convo_1_nil_0",
-		"text":"Aw hell! Looks like ya done got me!"
+		"text":"Aw hell! Looks like ya got me real good, kid!"
 	},
 	{
 		"key":"final_convo_1_nil_1",
@@ -280,17 +280,17 @@
 	},
 	{
 		"key":"final_convo_1_gg_1",
-		"text":"You were such a pain-in-the-arse! Geez!"
+		"text":"What a pain-in-the-arse! Geez!"
 	},
 	
 	{
 		"key":"final_convo_1_nil_2",
-		"text":"Ha! Well...just makin' sure it's a well-earned fight, is all."
+		"text":"Ha! Well, I'm just makin' sure it's a well-earned fight, is all."
 	},
 	
 	{
 		"key":"final_convo_1_gg_2",
-		"text":"Anyway!"
+		"text":"Right...anyways!"
 	},
 	{
 		"key":"final_convo_1_gg_3",
@@ -299,7 +299,7 @@
 	
 	{
 		"key":"final_convo_2_gg_0",
-		"text":"Hey! You're in the way!"
+		"text":"Hey! Out of the way!"
 	},
 	
 	{
@@ -308,7 +308,7 @@
 	},
 	{
 		"key":"final_convo_2_fleur_1",
-		"text":"All we want is to be free!"
+		"text":"Don't hurt Mr. Nil! We just want to be free!"
 	},
 	{
 		"key":"final_convo_2_fleur_2",
@@ -317,39 +317,39 @@
 	
 	{
 		"key":"final_convo_2_gg_1",
-		"text":"Sorry, I was asked to crush a manevolent virus with vengeance."
+		"text":"Sorry, I was asked to crush a manevolent virus..."
 	},
 	{
 		"key":"final_convo_2_gg_2",
-		"text":"I deliver my task with laser-point precision!"
+		"text":"...with vengeance!"
 	},
 	{
 		"key":"final_convo_2_gg_3",
-		"text":"Laser-point!"
+		"text":"Such is the burden of glorious purpose."
 	},
 	
 	{
 		"key":"final_convo_2_fleur_3",
-		"text":"No!!! You're a big meanie!"
+		"text":"No!!! You're a bad girl!"
 	},
 	
 	{
 		"key":"final_convo_2_nil_0",
-		"text":"Nah, s'aright, kiddo. She's just doin' her thing."
+		"text":"Nah, s'aright kiddo. GitGirl's just doin' her thing."
 	},
 	{
 		"key":"final_convo_2_nil_1",
-		"text":"And you there, GitGirl. You'd best leave this kid alone. She ain't a part of this."
+		"text":"There ain't nothin' wrong with a strong sense of purpose."
 	},
 		
 	{
 		"key":"final_convo_2_gg_4",
-		"text":"A stray cluster is not my target. It is you!"
+		"text":"Damn straight!"
 	},
 	
 	{
 		"key":"final_convo_2_nil_2",
-		"text":"Well then, guess this is goodbye."
+		"text":"Well then, I guess this is goodbye."
 	},
 	{
 		"key":"final_convo_2_nil_3",
@@ -358,7 +358,7 @@
 	
 	{
 		"key":"final_convo_2_fleur_4",
-		"text":"I will, Mr. Nil...goodbye."
+		"text":"I will Mr. Nil...I'll say a prayer for you every evening before bed."
 	},
 	
 	{
@@ -367,16 +367,16 @@
 	},
 	{
 		"key":"final_convo_3_gg_1",
-		"text":"You better come with me, or you'll be trapped here."
+		"text":"Come on now, I can't let a stray cluster like you sticking around here.  Let's go."
 	},
 	
 	{
 		"key":"final_convo_3_fleur_0",
-		"text":"Alright!"
+		"text":"Aye-aye! Off to the ethernet we go!"
 	},
 	
 	{
 		"key":"final_convo_3_gg_2",
-		"text":"...you seem cheery all of a sudden.  Well, whatever."
+		"text":"Hey...you seem cheery all of a sudden.  But whatever."
 	},
 ]
