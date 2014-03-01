@@ -18,6 +18,8 @@ public class EnemyJumpNShoot2 : Enemy {
 
     public float shootVelYMax = -0.1f; //the y velocity criteria when shooting, must be in air
 
+    public SoundPlayer shootSfx;
+
     private GameObject[] mPlayers;
 
     private bool mJump;
@@ -127,6 +129,9 @@ public class EnemyJumpNShoot2 : Enemy {
 
                             if(shootAnim)
                                 shootAnim.Play("shoot");
+
+                            if(shootSfx)
+                                shootSfx.Play();
 
                             mProjIsShot = true;
                         }

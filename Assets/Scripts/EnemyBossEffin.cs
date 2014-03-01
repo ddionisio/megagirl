@@ -44,6 +44,9 @@ public class EnemyBossEffin : Enemy {
     public float attackProjDelay = 1.0f;
     public float attackProjCooldown = 1.0f;
 
+    public SoundPlayer shootSfx;
+    public SoundPlayer magicSfx;
+
     public const string clipNormal = "normal";
     public const string clipAttack = "attack";
     public const string clipDefeat = "defeat";
@@ -166,6 +169,7 @@ public class EnemyBossEffin : Enemy {
             case Phase.StuffExpand:
             case Phase.StuffExpandStart:
                 stuffActiveGO.SetActive(true);
+                magicSfx.Play();
                 StartCoroutine(stuffRoutine);
                 break;
                 
@@ -234,6 +238,8 @@ public class EnemyBossEffin : Enemy {
             dir.Normalize();
 
             Projectile.Create(projGroup, attackProjType, pos, dir, null);
+
+            shootSfx.Play();
 
             anim.Play(clipNormal);
         }
