@@ -40,6 +40,8 @@ public class EnemyBossJuses : Enemy {
         public GameObject activeGO;
         public GameObject deathDeactiveGO; //deactivate upon death
 
+        public SoundPlayer fireSfx;
+
         private bool mFiring;
 
         public bool isDead {
@@ -115,6 +117,10 @@ public class EnemyBossJuses : Enemy {
     public int panicProjMaxCount;
     public float panicProjStartDelay = 1.0f;
     public Transform panicProjPtsHolder;
+
+    public SoundPlayer eyeOpenSfx;
+    public SoundPlayer explodeSfx;
+    public SoundPlayer seekerFireSfx;
 
     private Phase mCurPhase = Phase.None;
     
@@ -315,6 +321,8 @@ public class EnemyBossJuses : Enemy {
                 
                 turret.eyeAnim.Play("open");
                 turret.entity.stats.damageReduction = 0.0f;
+
+                eyeOpenSfx.Play();
                 
                 if(turret.projFireTakeOpen) {
                     turret.projFireAnimDat.Play("open");
@@ -358,6 +366,9 @@ public class EnemyBossJuses : Enemy {
                             Projectile.Create(projGroup, turret.projType, pos, dir, seek);
                         }
                     }
+
+                    if(turret.fireSfx)
+                        turret.fireSfx.Play();
                     
                     turret.isFiring = true;
                     
@@ -422,6 +433,8 @@ public class EnemyBossJuses : Enemy {
 
         mAnimDat.Play(takePanicStart);
 
+        explodeSfx.Play();
+
         while(mAnimDat.isPlaying)
             yield return wait;
 
@@ -453,6 +466,8 @@ public class EnemyBossJuses : Enemy {
                     doShuffle = true;
                 }
             }
+
+            seekerFireSfx.Play();
 
             if(doShuffle)
                 M8.ArrayUtil.Shuffle(mPanicProjPts);
