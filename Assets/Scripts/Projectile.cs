@@ -385,7 +385,7 @@ public class Projectile : EntityBase {
     protected virtual void ApplyContact(GameObject go, Vector3 pos, Vector3 normal) {
         switch(contactType) {
             case ContactType.None:
-                if(contactSfx)
+                if(gameObject.activeSelf && contactSfx)
                     contactSfx.Play();
                 break;
 

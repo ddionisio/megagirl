@@ -42,6 +42,8 @@ public class EnemyBossBunnyShip : Enemy {
     public float laserPointDeactiveDelay;
     public LayerMask laserPointColMask;
     public float laserPointDuration;
+    public Transform laserPointDest;
+    public float laserPointDestZOfs = -1.5f;
 
     public string fireProjType;
     public Transform firePt;
@@ -75,6 +77,10 @@ public class EnemyBossBunnyShip : Enemy {
     public float bombEndDelay = 0.5f;
     public float bombLaunchAngle = 45.0f;
 
+    public SoundPlayer fireSfx;
+    public SoundPlayer laserSfx;
+    public SoundPlayer cannonSfx;
+
     public Phase[] pattern;
 
     private AnimatorData mAnimDat;
@@ -95,6 +101,11 @@ public class EnemyBossBunnyShip : Enemy {
     private int mCurPattern;
 
     public void LaserActive(bool a) {
+        if(!mLaserActive && a) {
+            laserSfx.Play();
+            laserPointDest.gameObject.SetActive(true);
+        }
+
         mLaserActive = a;
         mLaserActiveTime = Time.fixedTime;
     }
@@ -141,6 +152,7 @@ public class EnemyBossBunnyShip : Enemy {
                 mEyeFollowLocked = false;
                 laserActiveGO.SetActive(false);
                 laserPoint.gameObject.SetActive(false);
+                laserPointDest.gameObject.SetActive(false);
 
                 StopCoroutine(lazorsRoutine);
                 break;
@@ -204,6 +216,7 @@ public class EnemyBossBunnyShip : Enemy {
         mLaserPointSprites = laserPoint.GetComponentsInChildren<tk2dBaseSprite>(true);
 
         laserPoint.gameObject.SetActive(false);
+        laserPointDest.gameObject.SetActive(false);
     }
 
     void FixedUpdate() {
@@ -289,6 +302,8 @@ public class EnemyBossBunnyShip : Enemy {
                 mBombCurCount++;
 
                 lastBombTime = Time.fixedTime;
+
+                cannonSfx.Play();
             }
 
             if(curTime == delay)
@@ -335,7 +350,7 @@ public class EnemyBossBunnyShip : Enemy {
 
             if(Physics.Raycast(laserPoint.position, laserPoint.up, out hit, dist, laserPointColMask)) {
                 dist = hit.distance;
-                //dest.position = hit.point;
+                laserPointDest.position = new Vector3(hit.point.x, hit.point.y, laserPointDestZOfs);
                 
                 //do damage
                 if(hit.collider.CompareTag("Player")) {
@@ -352,12 +367,13 @@ public class EnemyBossBunnyShip : Enemy {
                 }
             }
             else {
-                //dest.position = point.position;
+                laserPointDest.position = new Vector3(laserPoint.position.x, laserPoint.position.y, laserPointDestZOfs);
             }
 
             if(mLaserActive && Time.fixedTime - mLaserActiveTime > laserPointDeactiveDelay) {
                 laserPointScan.SetActive(true);
                 laserPointActive.SetActive(false);
+                laserPointDest.gameObject.SetActive(false);
                 mLaserActive = false;
                 mEyeFollowLocked = false;
             }
@@ -385,6 +401,8 @@ public class EnemyBossBunnyShip : Enemy {
                 Vector3 firePos = firePt.position; firePos.z = 0.0f;
                 Projectile.Create(projGroup, fireProjType, firePos, fireDir, null);
                 lastFireTime = Time.fixedTime;
+
+                fireSfx.Play();
             }
 
             return true;

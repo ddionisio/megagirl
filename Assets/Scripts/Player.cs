@@ -209,6 +209,8 @@ public class Player : EntityBase {
 
             case EntityState.Dead:
                 {
+                    UIModalManager.instance.ModalCloseAll();
+
                     stats.EnergyShieldSetActive(false);
 
                     if(mCurWeaponInd >= 0)
@@ -242,10 +244,13 @@ public class Player : EntityBase {
                 break;
 
             case EntityState.Lock:
+                UIModalManager.instance.ModalCloseAll();
                 LockControls();
                 break;
 
             case EntityState.Victory:
+                UIModalManager.instance.ModalCloseAll();
+
                 stats.EnergyShieldSetActive(false);
 
                 currentWeaponIndex = -1;
@@ -257,6 +262,8 @@ public class Player : EntityBase {
                 break;
 
             case EntityState.Final:
+                UIModalManager.instance.ModalCloseAll();
+
                 stats.EnergyShieldSetActive(false);
                 
                 currentWeaponIndex = -1;
@@ -616,8 +623,10 @@ public class Player : EntityBase {
 
     void OnInputPause(InputManager.Info dat) {
         if(dat.state == InputManager.State.Pressed) {
-            if(UIModalManager.instance.activeCount == 0 && !UIModalManager.instance.ModalIsInStack("pause")) {
-                UIModalManager.instance.ModalOpen("pause");
+            if(state != (int)EntityState.Dead && state != (int)EntityState.Victory && state != (int)EntityState.Final) {
+                if(UIModalManager.instance.activeCount == 0 && !UIModalManager.instance.ModalIsInStack("pause")) {
+                    UIModalManager.instance.ModalOpen("pause");
+                }
             }
         }
     }
@@ -745,6 +754,12 @@ public class Player : EntityBase {
                 foreach(Weapon weapon in weapons) {
                     if(weapon)
                         weapon.ResetEnergySpent();
+                }
+            }
+            else {
+                foreach(Weapon weapon in weapons) {
+                    if(weapon)
+                        weapon.SaveEnergySpent();
                 }
             }
 

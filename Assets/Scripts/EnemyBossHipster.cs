@@ -255,6 +255,7 @@ public class EnemyBossHipster : Enemy {
     public float jumpDropYVel = 6.0f;
     jumpAttackClip
          */
+        yield return new WaitForSeconds(0.1f); //wait a small bit
 
         //check if our velocity y is at min or player is in range
         while(true) {
@@ -269,7 +270,13 @@ public class EnemyBossHipster : Enemy {
                     break;
             }
 
-            yield return wait;
+            if(bodyCtrl.isGrounded) { //something went wrong
+                ToPhase(Phase.Idle);
+                yield break;
+            }
+            else {
+                yield return wait;
+            }
         }
 
         //kick until we are somewhere near player X or we hit something
