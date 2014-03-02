@@ -11,9 +11,15 @@ public class ModalOptions : UIController {
     public UILabel musicLabel;
     public UILabel soundLabel;
 
-    void RefreshLabels() {
-        musicLabel.text = string.Format("MUSIC: {0}", Main.instance.userSettings.musicVolume > 0.0f ? "ON" : "OFF");
-        soundLabel.text = string.Format("SOUND: {0}", Main.instance.userSettings.soundVolume > 0.0f ? "ON" : "OFF");
+    public SoundPlayer soundChangeSfx;
+
+    private UISlider mMusicSlider;
+    private UISlider mSoundSlider;
+
+    void RefreshInfo() {
+        UserSettings s = Main.instance.userSettings;
+        mMusicSlider.value = s.musicVolume;
+        mSoundSlider.value = s.soundVolume;
     }
 
     protected override void OnActive(bool active) {
@@ -34,6 +40,11 @@ public class ModalOptions : UIController {
 
             if(exitToMainMenu)
                 exitToMainMenu.onClick = OnExitToMainMenuClick;
+
+            RefreshInfo();
+
+            EventDelegate.Set(mMusicSlider.onChange, OnMusicValueChange);
+            EventDelegate.Set(mSoundSlider.onChange, OnSoundValueChange);
         }
         else {
             if(input)
@@ -47,11 +58,13 @@ public class ModalOptions : UIController {
 
             if(exitToMainMenu)
                 exitToMainMenu.onClick = null;
+
+            EventDelegate.Remove(mMusicSlider.onChange, OnMusicValueChange);
+            EventDelegate.Remove(mSoundSlider.onChange, OnSoundValueChange);
         }
     }
 
     protected override void OnOpen() {
-        RefreshLabels();
         NGUILayoutBase.RefreshNow(transform);
     }
 
@@ -67,19 +80,37 @@ public class ModalOptions : UIController {
     }
 
     void OnSoundClick(GameObject go) {
-        Main.instance.userSettings.soundVolume = Main.instance.userSettings.soundVolume > 0.0f ? 0.0f : 1.0f;
+        UserSettings s = Main.instance.userSettings;
+        s.soundVolume = s.soundVolume > 0.0f ? 0.0f : 1.0f;
+        s.Save();
 
-        Main.instance.userSettings.Save();
+        mSoundSlider.value = s.soundVolume;
 
-        RefreshLabels();
+        if(s.soundVolume > 0.0f)
+            soundChangeSfx.Play();
     }
 
     void OnMusicClick(GameObject go) {
-        Main.instance.userSettings.musicVolume = Main.instance.userSettings.musicVolume > 0.0f ? 0.0f : 1.0f;
+        UserSettings s = Main.instance.userSettings;
+        s.musicVolume = s.musicVolume > 0.0f ? 0.0f : 1.0f;
+        s.Save();
 
-        Main.instance.userSettings.Save();
+        mMusicSlider.value = s.musicVolume;
+    }
 
-        RefreshLabels();
+    void OnMusicValueChange() {
+        UserSettings s = Main.instance.userSettings;
+        s.musicVolume = mMusicSlider.value;
+        s.Save();
+    }
+
+    void OnSoundValueChange() {
+        UserSettings s = Main.instance.userSettings;
+        s.soundVolume = mSoundSlider.value;
+        s.Save();
+
+        if(s.soundVolume > 0.0f)
+            soundChangeSfx.Play();
     }
 
     void OnExitToMainMenuClick(GameObject go) {
@@ -107,5 +138,8 @@ public class ModalOptions : UIController {
 
         NGUILayoutBase.RefreshNow(transform);
 #endif
+
+        mMusicSlider = music.GetComponent<UISlider>();
+        mSoundSlider = sound.GetComponent<UISlider>();
     }
 }

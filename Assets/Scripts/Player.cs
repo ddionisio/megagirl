@@ -282,6 +282,17 @@ public class Player : EntityBase {
                 //other things?
                 break;
 
+            case EntityState.Exit:
+                UIModalManager.instance.ModalCloseAll();
+                if(currentWeapon)
+                    currentWeapon.FireStop();
+
+                stats.EnergyShieldSetActive(false);
+
+                currentWeaponIndex = -1;
+                LockControls();
+                break;
+
             case EntityState.Invalid:
                 inputEnabled = false;
                 break;
@@ -304,7 +315,7 @@ public class Player : EntityBase {
 
         mCtrl.moveSideLock = true;
         mCtrl.moveSide = 0.0f;
-        mCtrl.ResetCollision();
+        //mCtrl.ResetCollision();
     }
 
     protected override void SetBlink(bool blink) {

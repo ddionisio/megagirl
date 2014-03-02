@@ -15,5 +15,6 @@ public enum EntityState {
     Victory,
 
     // special cases
-    Final //once the final boss is defeated and the anus is prepared.
+    Final, //once the final boss is defeated.
+    Exit //exit the level
 }
