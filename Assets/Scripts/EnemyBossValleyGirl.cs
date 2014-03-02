@@ -25,6 +25,8 @@ public class EnemyBossValleyGirl : Enemy {
     public float chargeTurnDelay;
     public float chargeDuration;
     public float chargeMoveScale = 1.0f;
+    public float chargeJumpDelay = 0.2f;
+    public float chargeJumpStopDelay = 0.1f;
 
     public string laserProjType;
     public Transform[] laserPts;
@@ -245,6 +247,7 @@ public class EnemyBossValleyGirl : Enemy {
 
     IEnumerator DoCharge() {
         WaitForFixedUpdate wait = new WaitForFixedUpdate();
+        WaitForSeconds waitJump = new WaitForSeconds(chargeJumpDelay);
 
         chargeGO.SetActive(true);
 
@@ -268,12 +271,14 @@ public class EnemyBossValleyGirl : Enemy {
             Vector3 pos = transform.position;
             if(bodyCtrl.isGrounded) {
                 if(playerPos.y > pos.y) {
+                    yield return waitJump;
+
                     lastJumpTime = Time.fixedTime;
                     Jump(2.0f);
                 }
             }
             else {
-                if(playerPos.y < pos.y && Time.fixedTime - lastJumpTime > 0.15f)
+                if(playerPos.y < pos.y && Time.fixedTime - lastJumpTime > chargeJumpStopDelay)
                     Jump(0);
             }
 

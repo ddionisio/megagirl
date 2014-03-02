@@ -385,7 +385,7 @@ public class Projectile : EntityBase {
     protected virtual void ApplyContact(GameObject go, Vector3 pos, Vector3 normal) {
         switch(contactType) {
             case ContactType.None:
-                if(gameObject.activeSelf && contactSfx)
+                if(contactSfx.gameObject.activeInHierarchy && contactSfx)
                     contactSfx.Play();
                 break;
 
@@ -470,7 +470,7 @@ public class Projectile : EntityBase {
                     if(maxBounce > 0)
                         mCurBounce++;
 
-                    if(gameObject.activeSelf && contactSfx)
+                    if(contactSfx.gameObject.activeInHierarchy && contactSfx)
                         contactSfx.Play();
                 }
                 break;
@@ -505,7 +505,7 @@ public class Projectile : EntityBase {
                     if(maxBounce > 0)
                         mCurBounce++;
 
-                    if(contactSfx)
+                    if(contactSfx.gameObject.activeInHierarchy && contactSfx)
                         contactSfx.Play();
                 }
                 break;

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ModalOptions : UIController {
     public UIEventListener input;
+    public UIEventListener graphics;
     public UIEventListener music;
     public UIEventListener sound;
     public UIEventListener exitToMainMenu;
@@ -25,6 +26,9 @@ public class ModalOptions : UIController {
                 UICamera.selectedObject = music.gameObject;
             }
 
+            if(graphics)
+                graphics.onClick = OnGraphicsClick;
+
             music.onClick = OnMusicClick;
             sound.onClick = OnSoundClick;
 
@@ -32,9 +36,11 @@ public class ModalOptions : UIController {
                 exitToMainMenu.onClick = OnExitToMainMenuClick;
         }
         else {
-            if(input) {
+            if(input)
                 input.onClick = null;
-            }
+
+            if(graphics)
+                graphics.onClick = null;
 
             music.onClick = null;
             sound.onClick = null;
@@ -54,6 +60,10 @@ public class ModalOptions : UIController {
 
     void OnInputClick(GameObject go) {
         UIModalManager.instance.ModalOpen("inputBind");
+    }
+
+    void OnGraphicsClick(GameObject go) {
+        UIModalManager.instance.ModalOpen("graphics");
     }
 
     void OnSoundClick(GameObject go) {
@@ -83,16 +93,19 @@ public class ModalOptions : UIController {
 
     void Awake() {
 #if OUYA
-        if(input) {
-            input.gameObject.SetActive(false);
-            input = null;
+        input.gameObject.SetActive(false);
+        input = null;
 
-            UIButtonKeys musicBtnKeys = music.GetComponent<UIButtonKeys>();
-            UIButtonKeys lastItmBtnKeys = exitToMainMenu ? exitToMainMenu.GetComponent<UIButtonKeys>() : sound.GetComponent<UIButtonKeys>();
+        graphics.gameObject.SetActive(false);
+        graphics = null;
+        
+        UIButtonKeys musicBtnKeys = music.GetComponent<UIButtonKeys>();
+        UIButtonKeys lastItmBtnKeys = exitToMainMenu ? exitToMainMenu.GetComponent<UIButtonKeys>() : sound.GetComponent<UIButtonKeys>();
+        
+        musicBtnKeys.selectOnUp = lastItmBtnKeys;
+        lastItmBtnKeys.selectOnDown = musicBtnKeys;
 
-            musicBtnKeys.selectOnUp = lastItmBtnKeys;
-            lastItmBtnKeys.selectOnDown = musicBtnKeys;
-        }
+        NGUILayoutBase.RefreshNow(transform);
 #endif
     }
 }
