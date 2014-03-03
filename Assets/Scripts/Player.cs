@@ -177,6 +177,8 @@ public class Player : EntityBase {
                 mStats.isInvul = false;
 
                 mCtrl.moveSideLock = false;
+
+                LevelController.instance.TimeResume();
                 break;
         }
 
@@ -316,6 +318,8 @@ public class Player : EntityBase {
         mCtrl.moveSideLock = true;
         mCtrl.moveSide = 0.0f;
         //mCtrl.ResetCollision();
+
+        LevelController.instance.TimePause();
     }
 
     protected override void SetBlink(bool blink) {
@@ -348,6 +352,8 @@ public class Player : EntityBase {
 
     public override void SpawnFinish() {
         state = (int)EntityState.Normal;
+
+        LevelController.instance.TimeStart();
     }
 
     public void RefreshArmor() {
@@ -667,6 +673,8 @@ public class Player : EntityBase {
                 inputEnabled = false;
 
                 Main.instance.input.RemoveButtonCall(0, InputAction.MenuEscape, OnInputPause);
+
+                LevelController.instance.TimePause();
             }
         } else {
             mPauseCounter--;
@@ -677,6 +685,8 @@ public class Player : EntityBase {
                     inputEnabled = true;
 
                 Main.instance.input.AddButtonCall(0, InputAction.MenuEscape, OnInputPause);
+
+                LevelController.instance.TimeResume();
             }
         }
     }

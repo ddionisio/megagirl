@@ -1,29 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\FSMActions\PlayerExit.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LevelController.cs">
     <Files>
-      <File FileName="Assets\Scripts\EnemyBossDotLifePrim.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyBossNil.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Player.cs" Line="289" Column="1" />
-      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerStats.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\UI\UIModalInputBindDialog.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Core\UserSettings.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Core\Main.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Core\SceneManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIModalGraphicsDialog.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\UI\UIController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalOptions.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyBossValleyGirl.cs" Line="1" Column="1" />
-      <File FileName="Assets\NGUI\Scripts\Interaction\UISlider.cs" Line="1" Column="1" />
-      <File FileName="Assets\NGUI\Scripts\Interaction\UIProgressBar.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8PlayMaker\Core\SceneGetLevelName.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8PlayMaker\Core\SceneValueGet.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EntityState.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\PlayerExit.cs" Line="15" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\PlayerVictory.cs" Line="15" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="677" Column="54" />
+      <File FileName="Assets\Scripts\LevelController.cs" Line="94" Column="87" />
+      <File FileName="Assets\Scripts\FSMActions\LevelTimeSave.cs" Line="30" Column="1" />
+      <File FileName="Assets\Scripts\FSMActions\PlayerLock.cs" Line="16" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
