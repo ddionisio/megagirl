@@ -1,17 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LevelController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\ModalSaveSlots.cs">
     <Files>
-      <File FileName="Assets\Scripts\Player.cs" Line="677" Column="54" />
-      <File FileName="Assets\Scripts\LevelController.cs" Line="94" Column="87" />
-      <File FileName="Assets\Scripts\FSMActions\LevelTimeSave.cs" Line="30" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\PlayerLock.cs" Line="16" Column="1" />
+      <File FileName="Assets\Scripts\UI\ModalSaveSlots.cs" Line="32" Column="32" />
+      <File FileName="Assets\Scripts\UI\UISlotInfo.cs" Line="59" Column="14" />
+      <File FileName="Assets\M8\Scripts\UI\UIController.cs" Line="17" Column="6" />
+      <File FileName="Assets\M8\Scripts\UI\UIModalManager.cs" Line="215" Column="39" />
+      <File FileName="Assets\Scripts\SlotInfo.cs" Line="164" Column="30" />
+      <File FileName="Assets\M8\Scripts\Core\UserSlotData.cs" Line="84" Column="5" />
+      <File FileName="Assets\M8\Scripts\UI\UIModalConfirm.cs" Line="34" Column="28" />
+      <File FileName="Assets\Scripts\UI\ModalStart.cs" Line="34" Column="6" />
+      <File FileName="Assets\Scripts\UI\ModalNewGame.cs" Line="25" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\EntitySpawner.cs" line="109" />
-      <Breakpoint file="C:\Lab\megagirl\Assets\M8\Scripts\Core\UserData.cs" line="135" />
       <Breakpoint file="C:\Lab\megagirl\Assets\M8\Scripts\Core\SceneState.cs" line="484" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

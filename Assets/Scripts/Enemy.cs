@@ -181,7 +181,7 @@ public class Enemy : EntityBase {
                     ModalVictory.sWeaponIconRef = player.weapons[weaponIndexUnlock].iconSpriteRef;
                     ModalVictory.sWeaponTitleRef = player.weapons[weaponIndexUnlock].labelTextRef;
 
-                    Weapon.UnlockWeapon(weaponIndexUnlock);
+                    SlotInfo.WeaponUnlock(weaponIndexUnlock);
                 }
 
                 if(disablePhysicsOnDeath)

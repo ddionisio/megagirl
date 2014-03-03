@@ -10,29 +10,22 @@ public class UIPlayerInfo : MonoBehaviour {
     private bool mStarted;
 
     void OnEnable() {
-        armorEnableLabel.text = PlayerStats.isArmorAcquired ? "ENABLED" : "DISABLED";
+        armorEnableLabel.text = SlotInfo.isArmorAcquired ? "ENABLED" : "DISABLED";
 
         //get hp mod counts
-        int numHPMod = 0;
-        int hpModFlags = SceneState.instance.GetGlobalValue(PlayerStats.hpModFlagsKey);
-        for(int i = 0, check = 1; i < PlayerStats.hpModCount; i++, check <<= 1) {
-            if((hpModFlags & check) != 0)
-                numHPMod++;
-        }
-
-        heartsFoundLabel.text = string.Format("{0}/{1}", numHPMod, PlayerStats.hpModCount);
+        heartsFoundLabel.text = string.Format("{0}/{1}", SlotInfo.heartCount, SlotInfo.hpModMaxCount);
 
         //get sub energy counts
         int subECount = 0;
-        if(PlayerStats.isSubTankEnergy1Acquired) subECount++;
-        if(PlayerStats.isSubTankEnergy2Acquired) subECount++;
+        if(SlotInfo.isSubTankEnergy1Acquired) subECount++;
+        if(SlotInfo.isSubTankEnergy2Acquired) subECount++;
 
         subEnergyTanksFoundLabel.text = string.Format("{0}/{1}", subECount, 2);
 
         //get sub weapon counts
         int subWCount = 0;
-        if(PlayerStats.isSubTankWeapon1Acquired) subWCount++;
-        if(PlayerStats.isSubTankWeapon2Acquired) subWCount++;
+        if(SlotInfo.isSubTankWeapon1Acquired) subWCount++;
+        if(SlotInfo.isSubTankWeapon2Acquired) subWCount++;
         
         subWeaponTanksFoundLabel.text = string.Format("{0}/{1}", subWCount, 2);
     }

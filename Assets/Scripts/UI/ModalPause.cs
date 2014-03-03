@@ -109,8 +109,8 @@ public class ModalPause : UIController {
         UIButtonKeys optionsBtnKeys = options.GetComponent<UIButtonKeys>();
 
         mNumEnergyTank = 0;
-        if(PlayerStats.isSubTankEnergy1Acquired) mNumEnergyTank++;
-        if(PlayerStats.isSubTankEnergy2Acquired) mNumEnergyTank++;
+        if(SlotInfo.isSubTankEnergy1Acquired) mNumEnergyTank++;
+        if(SlotInfo.isSubTankEnergy2Acquired) mNumEnergyTank++;
 
         if(mNumEnergyTank > 0) {
             energySubTank.onClick = OnEnergySubTankClick;
@@ -125,8 +125,8 @@ public class ModalPause : UIController {
         }
 
         mNumWeaponTank = 0;
-        if(PlayerStats.isSubTankWeapon1Acquired) mNumWeaponTank++;
-        if(PlayerStats.isSubTankWeapon2Acquired) mNumWeaponTank++;
+        if(SlotInfo.isSubTankWeapon1Acquired) mNumWeaponTank++;
+        if(SlotInfo.isSubTankWeapon2Acquired) mNumWeaponTank++;
 
         if(mNumWeaponTank > 0) {
             weaponSubTank.onClick = OnWeaponSubTankClick;
@@ -162,9 +162,9 @@ public class ModalPause : UIController {
         UIButtonKeys lastWeaponButtonKeys = null;
         UIButtonKeys rightButtonKeys = null;
 
-        if(PlayerStats.isSubTankEnergy1Acquired || PlayerStats.isSubTankEnergy2Acquired)
+        if(SlotInfo.isSubTankEnergy1Acquired || SlotInfo.isSubTankEnergy2Acquired)
             rightButtonKeys = energySubTank.GetComponent<UIButtonKeys>();
-        else if(PlayerStats.isSubTankWeapon1Acquired || PlayerStats.isSubTankWeapon2Acquired)
+        else if(SlotInfo.isSubTankWeapon1Acquired || SlotInfo.isSubTankWeapon2Acquired)
             rightButtonKeys = weaponSubTank.GetComponent<UIButtonKeys>();
         else
             rightButtonKeys = exit.GetComponent<UIButtonKeys>();
@@ -175,7 +175,7 @@ public class ModalPause : UIController {
 
             UIEventListener eventListener = wpnUI.GetComponent<UIEventListener>();
 
-            if(Weapon.IsAvailable(i) && wpn) {
+            if(SlotInfo.WeaponIsUnlock(i) && wpn) {
                 wpnUI.gameObject.SetActive(true);
                 wpnUI.label.text = wpn.labelText;
                 wpnUI.SetIconSprite(wpn.iconSpriteRef);

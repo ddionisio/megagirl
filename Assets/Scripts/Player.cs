@@ -50,7 +50,7 @@ public class Player : EntityBase {
     public int currentWeaponIndex {
         get { return mCurWeaponInd; }
         set {
-            if(mCurWeaponInd != value && (value == -1 || (Weapon.IsAvailable(value) && weapons[value] != null))) {
+            if(mCurWeaponInd != value && (value == -1 || (SlotInfo.WeaponIsUnlock(value) && weapons[value] != null))) {
                 int prevWeaponInd = mCurWeaponInd;
                 mCurWeaponInd = value;
 
@@ -359,7 +359,7 @@ public class Player : EntityBase {
     public void RefreshArmor() {
         if(armorDisplayGOs != null) {
             for(int i = 0; i < armorDisplayGOs.Length; i++)
-                armorDisplayGOs[i].SetActive(PlayerStats.isArmorAcquired);
+                armorDisplayGOs[i].SetActive(SlotInfo.isArmorAcquired);
         }
     }
 
@@ -581,7 +581,7 @@ public class Player : EntityBase {
                 if(toWeaponInd >= weapons.Length)
                     toWeaponInd = 0;
 
-                if(weapons[toWeaponInd] && Weapon.IsAvailable(toWeaponInd)) {
+                if(weapons[toWeaponInd] && SlotInfo.WeaponIsUnlock(toWeaponInd)) {
                     currentWeaponIndex = toWeaponInd;
                     break;
                 }
@@ -595,7 +595,7 @@ public class Player : EntityBase {
                 if(toWeaponInd < 0)
                     toWeaponInd = weapons.Length - 1;
 
-                if(weapons[toWeaponInd] && Weapon.IsAvailable(toWeaponInd)) {
+                if(weapons[toWeaponInd] && SlotInfo.WeaponIsUnlock(toWeaponInd)) {
                     currentWeaponIndex = toWeaponInd;
                     break;
                 }

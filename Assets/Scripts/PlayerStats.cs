@@ -6,8 +6,6 @@ using System.Collections;
 /// </summary>
 public class PlayerStats : Stats {
     public const string gameExistKey = "s";
-    public const string hpModFlagsKey = "playerHPMod";
-    public const int hpModCount = 8;
     public const float hpMod = 2;
 
     public const int defaultNumLives = 4;
@@ -20,15 +18,7 @@ public class PlayerStats : Stats {
 
     public const float subTankMaxValue = 32.0f; //max value of each tank
 
-    public const int stateSubTankEnergy1 = 1;
-    public const int stateSubTankEnergy2 = 2;
-    public const int stateSubTankWeapon1 = 3;
-    public const int stateSubTankWeapon2 = 4;
-    public const int stateArmor = 5;
-
     public const string lifeCountKey = "playerLife";
-
-    public const string itemFlagsKey = "playerItems"; //for sub tanks, armor, etc.
 
     public GameObject energyShield;
     public GameObject[] energyShieldPts;
@@ -50,16 +40,6 @@ public class PlayerStats : Stats {
 
     private float mEnergyShieldCurHP;
 
-    public static bool isGameExists {
-        get {
-            return SceneState.instance.GetGlobalValue(gameExistKey) == 1;
-        }
-
-        set {
-            SceneState.instance.SetGlobalValue(gameExistKey, value ? 1 : 0, true);
-        }
-    }
-
     public static int curLife {
         get {
             return SceneState.instance.GetGlobalValue(lifeCountKey, defaultNumLives);
@@ -68,45 +48,6 @@ public class PlayerStats : Stats {
         set {
             SceneState.instance.SetGlobalValue(lifeCountKey, Mathf.Clamp(value, 0, 99), false);
         }
-    }
-
-    public static bool isArmorAcquired {
-        get {
-            return SceneState.instance.CheckGlobalFlag(itemFlagsKey, stateArmor);
-        }
-    }
-
-    public static bool isSubTankEnergy1Acquired {
-        get {
-            return SceneState.instance.CheckGlobalFlag(itemFlagsKey, stateSubTankEnergy1);
-        }
-    }
-
-    public static bool isSubTankEnergy2Acquired {
-        get {
-            return SceneState.instance.CheckGlobalFlag(itemFlagsKey, stateSubTankEnergy2);
-        }
-    }
-
-    public static bool isSubTankWeapon1Acquired {
-        get {
-            return SceneState.instance.CheckGlobalFlag(itemFlagsKey, stateSubTankWeapon1);
-        }
-    }
-
-    public static bool isSubTankWeapon2Acquired {
-        get {
-            return SceneState.instance.CheckGlobalFlag(itemFlagsKey, stateSubTankWeapon2);
-        }
-    }
-
-
-    public static void AddHPMod(int bit) {
-        SceneState.instance.SetGlobalFlag(hpModFlagsKey, bit, true, true);
-    }
-
-    public static bool IsHPModAcquired(int bit) {
-        return SceneState.instance.CheckGlobalFlag(hpModFlagsKey, bit);
     }
 
     public float subTankEnergyCurrent {
@@ -139,36 +80,51 @@ public class PlayerStats : Stats {
     }
 
     public void AcquireSubTankEnergy1() {
-        if(!isSubTankEnergy1Acquired) {
-            SceneState.instance.SetGlobalFlag(itemFlagsKey, stateSubTankEnergy1, true, true);
+        if(!SlotInfo.isSubTankEnergy1Acquired) {
             mSubTankEnergyMax += subTankMaxValue;
+
+            int d = SlotInfo.GetItemsFlags();
+            d |= 1<<SlotInfo.stateSubTankEnergy1;
+            SlotInfo.SetItemsFlags(d);
         }
     }
 
     public void AcquireSubTankEnergy2() {
-        if(!isSubTankEnergy2Acquired) {
-            SceneState.instance.SetGlobalFlag(itemFlagsKey, stateSubTankEnergy2, true, true);
+        if(!SlotInfo.isSubTankEnergy2Acquired) {
             mSubTankEnergyMax += subTankMaxValue;
+
+            int d = SlotInfo.GetItemsFlags();
+            d |= 1<<SlotInfo.stateSubTankEnergy2;
+            SlotInfo.SetItemsFlags(d);
         }
     }
 
     public void AcquireSubTankWeapon1() {
-        if(!isSubTankWeapon1Acquired) {
-            SceneState.instance.SetGlobalFlag(itemFlagsKey, stateSubTankWeapon1, true, true);
+        if(!SlotInfo.isSubTankWeapon1Acquired) {
             mSubTankWeaponMax += subTankMaxValue;
+
+            int d = SlotInfo.GetItemsFlags();
+            d |= 1<<SlotInfo.stateSubTankWeapon1;
+            SlotInfo.SetItemsFlags(d);
         }
     }
 
     public void AcquireSubTankWeapon2() {
-        if(!isSubTankWeapon2Acquired) {
-            SceneState.instance.SetGlobalFlag(itemFlagsKey, stateSubTankWeapon2, true, true);
+        if(!SlotInfo.isSubTankWeapon2Acquired) {
             mSubTankWeaponMax += subTankMaxValue;
+
+            int d = SlotInfo.GetItemsFlags();
+            d |= 1<<SlotInfo.stateSubTankWeapon2;
+            SlotInfo.SetItemsFlags(d);
         }
     }
 
     public void AcquireArmor() {
-        SceneState.instance.SetGlobalFlag(itemFlagsKey, stateArmor, true, true);
         damageReduction = armorRating;
+
+        int d = SlotInfo.GetItemsFlags();
+        d |= 1<<SlotInfo.stateArmor;
+        SlotInfo.SetItemsFlags(d);
     }
 
     public void SaveStates() {
@@ -194,6 +150,28 @@ public class PlayerStats : Stats {
         }
         else {
             mEnergyShieldCurHP = 0.0f;
+        }
+    }
+
+    public void RefreshHPMod() {
+        int numMod = SlotInfo.heartCount;
+
+        float newMaxHP = mDefaultMaxHP + numMod * hpMod;
+        
+        if(maxHP != newMaxHP) {
+            float prevMaxHP = maxHP;
+            
+            maxHP = newMaxHP;
+            
+            float delta = maxHP - prevMaxHP;
+            
+            if(changeMaxHPCallback != null) {
+                changeMaxHPCallback(this, delta);
+            }
+            
+            if(delta > 0) {
+                curHP += delta;
+            }
         }
     }
 
@@ -252,10 +230,6 @@ public class PlayerStats : Stats {
     }
 
     protected override void OnDestroy() {
-        if(SceneState.instance) {
-            SceneState.instance.onValueChange -= OnSceneStateValue;
-        }
-
         changeMaxHPCallback = null;
 
         base.OnDestroy();
@@ -264,26 +238,24 @@ public class PlayerStats : Stats {
     protected override void Awake() {
         mDefaultMaxHP = maxHP;
 
-        SceneState.instance.onValueChange += OnSceneStateValue;
-
-        ApplyHPMod();
+        RefreshHPMod();
 
         mSubTankEnergyCur = SceneState.instance.GetGlobalValueFloat(subTankEnergyFillKey);
         mSubTankWeaponCur = SceneState.instance.GetGlobalValueFloat(subTankWeaponFillKey);
 
         mSubTankEnergyMax = 0.0f;
-        if(isSubTankEnergy1Acquired)
+        if(SlotInfo.isSubTankEnergy1Acquired)
             mSubTankEnergyMax += subTankMaxValue;
-        if(isSubTankEnergy2Acquired)
+        if(SlotInfo.isSubTankEnergy2Acquired)
             mSubTankEnergyMax += subTankMaxValue;
 
         mSubTankWeaponMax = 0.0f;
-        if(isSubTankWeapon1Acquired)
+        if(SlotInfo.isSubTankWeapon1Acquired)
             mSubTankWeaponMax += subTankMaxValue;
-        if(isSubTankWeapon2Acquired)
+        if(SlotInfo.isSubTankWeapon2Acquired)
             mSubTankWeaponMax += subTankMaxValue;
 
-        if(isArmorAcquired)
+        if(SlotInfo.isArmorAcquired)
             damageReduction = armorRating;
 
         energyShield.SetActive(false);
@@ -292,42 +264,6 @@ public class PlayerStats : Stats {
 
         if(hpPersist) {
             mCurHP = SceneState.instance.GetGlobalValueFloat(hpKey, maxHP);
-        }
-    }
-
-    void ApplyHPMod() {
-        //change max hp for any upgrade
-        int numMod = 0;
-
-        //get hp mod flags
-        int hpModFlags = SceneState.instance.GetGlobalValue(hpModFlagsKey);
-        for(int i = 0, check = 1; i < hpModCount; i++, check <<= 1) {
-            if((hpModFlags & check) != 0)
-                numMod++;
-        }
-
-        float newMaxHP = mDefaultMaxHP + numMod * hpMod;
-
-        if(maxHP != newMaxHP) {
-            float prevMaxHP = maxHP;
-
-            maxHP = newMaxHP;
-
-            float delta = maxHP - prevMaxHP;
-
-            if(changeMaxHPCallback != null) {
-                changeMaxHPCallback(this, delta);
-            }
-
-            if(delta > 0) {
-                curHP += delta;
-            }
-        }
-    }
-
-    void OnSceneStateValue(bool isGlobal, string name, SceneState.StateValue val) {
-        if(isGlobal && name == hpModFlagsKey) {
-            ApplyHPMod();
         }
     }
 }

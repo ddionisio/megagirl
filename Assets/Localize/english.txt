@@ -5,6 +5,26 @@
 	},
 	
 	{
+		"key":"delete_confirm_title",
+		"text":"DELETE GAME"
+	},
+	
+	{
+		"key":"delete_confirm_desc",
+		"text":"This will delete the selected game, are you sure?"
+	},
+	
+	{
+		"key":"gameNormal",
+		"text":"Play the game normally."
+	},
+	
+	{
+		"key":"gameHardcore",
+		"text":"If you lose all your lives, it's over. No retry. Enemies do not drop life-up. Exiting a level is prohibited if it's not completed."
+	},
+	
+	{
 		"key":"newgame_confirm_title",
 		"text":"NEW GAME"
 	},

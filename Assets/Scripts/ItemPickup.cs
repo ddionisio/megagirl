@@ -89,7 +89,8 @@ public class ItemPickup : EntityBase {
                     break;
 
                 case ItemType.HealthUpgrade:
-                    PlayerStats.AddHPMod(bit);
+                    SlotInfo.AddHPMod(bit);
+                    Player.instance.stats.RefreshHPMod();
                     SoundPlayerGlobal.instance.Play(sfxId);
                     break;
 
@@ -248,25 +249,25 @@ public class ItemPickup : EntityBase {
 
         switch(type) {
             case ItemType.HealthUpgrade:
-                doDisable = PlayerStats.IsHPModAcquired(bit);
+                doDisable = SlotInfo.IsHPModAcquired(bit);
                 break;
 
             case ItemType.EnergyTank:
                 if(bit == 0)
-                    doDisable = PlayerStats.isSubTankEnergy1Acquired;
+                    doDisable = SlotInfo.isSubTankEnergy1Acquired;
                 else
-                    doDisable = PlayerStats.isSubTankEnergy2Acquired;
+                    doDisable = SlotInfo.isSubTankEnergy2Acquired;
                 break;
 
             case ItemType.WeaponTank:
                 if(bit == 0)
-                    doDisable = PlayerStats.isSubTankWeapon1Acquired;
+                    doDisable = SlotInfo.isSubTankWeapon1Acquired;
                 else
-                    doDisable = PlayerStats.isSubTankWeapon2Acquired;
+                    doDisable = SlotInfo.isSubTankWeapon2Acquired;
                 break;
 
             case ItemType.Armor:
-                doDisable = PlayerStats.isArmorAcquired;
+                doDisable = SlotInfo.isArmorAcquired;
                 break;
 
             default:

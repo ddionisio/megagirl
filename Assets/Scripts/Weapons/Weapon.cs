@@ -56,8 +56,6 @@ public class Weapon : MonoBehaviour {
     public const string weaponEnergyPrefix = "wpnE";
     public const float weaponEnergyDefaultMax = 32.0f;
 
-    public const string weaponFlagsKey = "playerWeapons";
-
     [SerializeField]
     string _iconSpriteRef;
 
@@ -103,15 +101,6 @@ public class Weapon : MonoBehaviour {
     private float mCurTime;
 
     private float mCurEnergy;
-
-    public static bool IsAvailable(int index) {
-        return index == 0 ? true : SceneState.instance.CheckGlobalFlag(weaponFlagsKey, index);
-        //return true;
-    }
-
-    public static void UnlockWeapon(int index) {
-        SceneState.instance.SetGlobalFlag(weaponFlagsKey, index, true, true);
-    }
 
     public static string GetWeaponEnergyKey(EnergyType type) {
         if(type == EnergyType.Unlimited || type == EnergyType.NumTypes)

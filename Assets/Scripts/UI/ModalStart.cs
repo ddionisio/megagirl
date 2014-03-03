@@ -2,31 +2,21 @@
 using System.Collections;
 
 public class ModalStart : UIController {
-    public UIEventListener continueGame;
-    public UIEventListener newGame;
+    public UIEventListener play;
     public UIEventListener options;
     public UIEventListener credits;
 
     protected override void OnActive(bool active) {
         if(active) {
-            if(continueGame) {
-                UICamera.selectedObject = continueGame.gameObject;
+            UICamera.selectedObject = play.gameObject;
 
-                continueGame.onClick = OnContinueGame;
-            }
-            else
-                UICamera.selectedObject = newGame.gameObject;
-
-            newGame.onClick = OnNewGame;
+            play.onClick = OnPlay;
             options.onClick = OnOptions;
             credits.onClick = OnCredits;
 
         }
         else {
-            if(continueGame)
-                continueGame.onClick = null;
-
-            newGame.onClick = null;
+            play.onClick = null;
             options.onClick = null;
             credits.onClick = null;
         }
@@ -38,30 +28,9 @@ public class ModalStart : UIController {
     protected override void OnClose() {
     }
 
-    void OnNewGame(GameObject go) {
-        if(PlayerStats.isGameExists) {
-            UIModalConfirm.Open(
-                GameLocalize.GetText("newgame_confirm_title"),
-                GameLocalize.GetText("newgame_confirm_desc"),
-            delegate(bool yes) {
-                if(yes) {
-                    Debug.Log("clearing save");
-                    SceneState.instance.ClearAllSavedData();
-                    UserData.instance.Save();
-
-                    PlayerStats.isGameExists = true;
-                    Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
-                }
-            });
-        }
-        else {
-            PlayerStats.isGameExists = true;
-            Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
-        }
-    }
-
-    void OnContinueGame(GameObject go) {
-        Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
+    void OnPlay(GameObject go) {
+        //Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
+        UIModalManager.instance.ModalOpen("slots");
     }
 
     void OnOptions(GameObject go) {
