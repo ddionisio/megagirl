@@ -281,7 +281,7 @@ public class Player : EntityBase {
                 if(saveLevelComplete)
                     LevelController.Complete();
 
-                //other things?
+                SlotInfo.ComputeClearTime();
                 break;
 
             case EntityState.Exit:

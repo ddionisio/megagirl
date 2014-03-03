@@ -16,11 +16,21 @@
 	
 	{
 		"key":"gameNormal",
-		"text":"Play the game normally."
+		"text":"NORMAL"
 	},
 	
 	{
 		"key":"gameHardcore",
+		"text":"IRON MAIDEN"
+	},
+	
+	{
+		"key":"gameNormal_d",
+		"text":"Play the game normally."
+	},
+	
+	{
+		"key":"gameHardcore_d",
 		"text":"If you lose all your lives, it's over. No retry. Enemies do not drop life-up. Exiting a level is prohibited if it's not completed."
 	},
 	

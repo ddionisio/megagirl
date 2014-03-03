@@ -4,6 +4,7 @@ using System.Collections;
 public class SlotInfo {
     public const string defaultName = "gg";
     public const string dataKey = "dat";
+    public const string timeKey = "t";
 
     public const int hpModMaxCount = 8;
 
@@ -27,6 +28,28 @@ public class SlotInfo {
         int d = GetData(slot);
 
         return (GameMode)((d>>11) & 3);
+    }
+
+    //call this once the last level's time has been computed (during Player's Final state)
+    public static void ComputeClearTime() {
+        float t = 0;
+
+        string[] levelTimeKeys = SceneState.instance.GetGlobalKeys(itm => itm.Key.LastIndexOf(LevelController.levelTimePostfix) != -1);
+
+        for(int i = 0; i < levelTimeKeys.Length; i++) {
+            t += SceneState.instance.GetGlobalValueFloat(levelTimeKeys[i]);
+        }
+
+        UserSlotData.SetSlotValueFloat(UserSlotData.currentSlot, timeKey, t);
+    }
+
+    public static string GetClearTimeString(int slot) {
+        if(UserSlotData.HasSlotValue(slot, timeKey)) {
+            return LevelController.LevelTimeFormat(UserSlotData.GetSlotValueFloat(slot, timeKey));
+        }
+        else {
+            return "---:--.--";
+        }
     }
 
     public static void WeaponUnlock(int index) {
@@ -169,6 +192,7 @@ public class SlotInfo {
     //call this before deleting the slot
     public static void DeleteData(int slot) {
         UserSlotData.DeleteValue(slot, dataKey);
+        UserSlotData.DeleteValue(slot, timeKey);
     }
 
     private static int GetData() {

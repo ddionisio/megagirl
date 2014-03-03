@@ -16,6 +16,7 @@ public class UISlotInfo : MonoBehaviour {
     public UILabel heartsLabel;
     public UILabel eTankLabel;
     public UILabel wTankLabel;
+    public UILabel clearTimeLabel;
 
     public UISprite armor;
 
@@ -75,6 +76,8 @@ public class UISlotInfo : MonoBehaviour {
             wTankLabel.text = "x" + tankCount;
 
             armor.color = SlotInfo.IsArmorAcquired(slot) ? Color.white : Color.black;
+
+            clearTimeLabel.text = "CLEAR TIME: "+SlotInfo.GetClearTimeString(slot);
         }
         else {
             infoGO.SetActive(false);

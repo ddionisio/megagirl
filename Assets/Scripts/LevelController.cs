@@ -8,7 +8,7 @@ public class LevelController : MonoBehaviour {
     private const string levelFinalCurState = "levelFinalCur";
 
     public const string levelTimeAccumKey = "lvlatime";
-    public const string levelTimePostfix = "_t";
+    public const string levelTimePostfix = "_ctime";
 
     private static LevelController mInstance = null;
     private static bool mCheckpointActive = false;
@@ -82,7 +82,7 @@ public class LevelController : MonoBehaviour {
         int seconds = Mathf.RoundToInt(time);
         int minutes = seconds / 60;
 
-        return string.Format("{0:D2}:{1:D2}.{2:D2}", minutes % 60, seconds % 60, centi % 100);
+        return string.Format("{0:D3}:{1:D2}.{2:D2}", minutes, seconds % 60, centi % 100);
     }
 
     public static LevelController instance { get { return mInstance; } }

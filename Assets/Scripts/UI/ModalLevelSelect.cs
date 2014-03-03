@@ -26,7 +26,8 @@ public class ModalLevelSelect : UIController {
             UICamera.selectedObject = levelSelected.gameObject;
 
             mCurInfoSubActiveGO = levelSelected.infoSubActiveGO ? levelSelected.infoSubActiveGO : gitgirl.infoSubActiveGO;
-            mCurInfoSubActiveGO.SetActive(true);
+            if(mCurInfoSubActiveGO)
+                mCurInfoSubActiveGO.SetActive(true);
 
             foreach(UILevelSelectItem item in mLevelItems) {
                 if(item.gameObject.activeSelf) {
@@ -138,7 +139,8 @@ public class ModalLevelSelect : UIController {
                             mCurInfoSubActiveGO.SetActive(false);
 
                         mCurInfoSubActiveGO = mLevelItems[i].infoSubActiveGO;
-                        mCurInfoSubActiveGO.SetActive(true);
+                        if(mCurInfoSubActiveGO)
+                            mCurInfoSubActiveGO.SetActive(true);
                     }
                     break;
                 }
