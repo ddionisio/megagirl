@@ -6,6 +6,7 @@ public class ModalOptions : UIController {
     public UIEventListener graphics;
     public UIEventListener music;
     public UIEventListener sound;
+    public UIEventListener back;
     public UIEventListener exitToMainMenu;
 
     public UILabel musicLabel;
@@ -35,8 +36,10 @@ public class ModalOptions : UIController {
             if(graphics)
                 graphics.onClick = OnGraphicsClick;
 
-            music.onClick = OnMusicClick;
-            sound.onClick = OnSoundClick;
+            //music.onClick = OnMusicClick;
+            //sound.onClick = OnSoundClick;
+
+            back.onClick = OnBack;
 
             if(exitToMainMenu)
                 exitToMainMenu.onClick = OnExitToMainMenuClick;
@@ -53,8 +56,10 @@ public class ModalOptions : UIController {
             if(graphics)
                 graphics.onClick = null;
 
-            music.onClick = null;
-            sound.onClick = null;
+            //music.onClick = null;
+            //sound.onClick = null;
+
+            back.onClick = null;
 
             if(exitToMainMenu)
                 exitToMainMenu.onClick = null;
@@ -122,6 +127,10 @@ public class ModalOptions : UIController {
 
     }
 
+    void OnBack(GameObject go) {
+        UIModalManager.instance.ModalCloseTop();
+    }
+
     void Awake() {
 #if OUYA
         input.gameObject.SetActive(false);
@@ -131,7 +140,7 @@ public class ModalOptions : UIController {
         graphics = null;
         
         UIButtonKeys musicBtnKeys = music.GetComponent<UIButtonKeys>();
-        UIButtonKeys lastItmBtnKeys = exitToMainMenu ? exitToMainMenu.GetComponent<UIButtonKeys>() : sound.GetComponent<UIButtonKeys>();
+        UIButtonKeys lastItmBtnKeys = exitToMainMenu ? exitToMainMenu.GetComponent<UIButtonKeys>() : back.GetComponent<UIButtonKeys>();
         
         musicBtnKeys.selectOnUp = lastItmBtnKeys;
         lastItmBtnKeys.selectOnDown = musicBtnKeys;

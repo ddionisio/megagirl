@@ -4,6 +4,9 @@ using System.Collections;
 public class ModalSaveSlots : UIController {
     public UISlotInfo[] slots;
 
+    public UIEventListener back;
+
+    private UIButtonKeys mBackKeys;
     private static int mSelectedSlot = -1;
     private bool mLateRefresh = false;
 
@@ -20,6 +23,7 @@ public class ModalSaveSlots : UIController {
         }
         else {
             HookUpEvents(false);
+            back.onClick = null;
             CancelInvoke();
         }
     }
@@ -28,6 +32,8 @@ public class ModalSaveSlots : UIController {
         RefreshSlots();
         
         HookUpEvents(true);
+
+        back.onClick = OnBack;
         
         if(mSelectedSlot == -1)
             mSelectedSlot = 0;
@@ -43,6 +49,10 @@ public class ModalSaveSlots : UIController {
     }
     
     protected override void OnClose() {
+    }
+
+    void Awake() {
+        mBackKeys = back.GetComponent<UIButtonKeys>();
     }
 
     void OnInfoClick(GameObject go) {
@@ -77,6 +87,10 @@ public class ModalSaveSlots : UIController {
             mSelectedSlot = slot;
             UIModalManager.instance.ModalOpen("newGame");
         }
+    }
+
+    void OnBack(GameObject go) {
+        UIModalManager.instance.ModalCloseTop();
     }
 
     private int GetSlot(GameObject go) {
@@ -149,28 +163,23 @@ public class ModalSaveSlots : UIController {
         UISlotInfo last = slots[slots.Length - 1];
         if(first != last) {
             if(first.exists) {
-                if(last.exists) {
-                    last.infoKeys.selectOnDown = first.infoKeys;
-                    last.deleteKeys.selectOnDown = first.deleteKeys;
-                    first.infoKeys.selectOnUp = last.infoKeys;
-                    first.deleteKeys.selectOnUp = last.deleteKeys;
-                }
-                else {
-                    last.newKeys.selectOnDown = first.infoKeys;
-                    first.infoKeys.selectOnUp = last.newKeys;
-                    first.deleteKeys.selectOnUp = last.newKeys;
-                }
+                first.infoKeys.selectOnUp = mBackKeys;
+                first.deleteKeys.selectOnUp = mBackKeys;
+                mBackKeys.selectOnDown = first.infoKeys;
             }
             else {
-                if(last.exists) {
-                    last.infoKeys.selectOnDown = first.newKeys;
-                    last.deleteKeys.selectOnDown = first.newKeys;
-                    first.newKeys.selectOnUp = last.infoKeys;
-                }
-                else {
-                    last.newKeys.selectOnDown = first.newKeys;
-                    first.newKeys.selectOnUp = last.newKeys;
-                }
+                first.newKeys.selectOnUp = mBackKeys;
+                mBackKeys.selectOnDown = first.newKeys;
+            }
+
+            if(last.exists) {
+                last.infoKeys.selectOnDown = mBackKeys;
+                last.deleteKeys.selectOnDown = mBackKeys;
+                mBackKeys.selectOnUp = last.infoKeys;
+            }
+            else {
+                last.newKeys.selectOnDown = mBackKeys;
+                mBackKeys.selectOnUp = last.newKeys;
             }
         }
     }

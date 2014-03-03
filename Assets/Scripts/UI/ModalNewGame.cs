@@ -14,12 +14,16 @@ public class ModalNewGame : UIController {
 
     public UILabel infoLabel;
 
+    public UIEventListener back;
+
     protected override void OnActive(bool active) {
         if(active) {
             for(int i = 0; i < data.Length; i++) {
                 data[i].btn.onSelect = OnSelect;
                 data[i].btn.onClick = OnClick;
             }
+
+            back.onClick = OnBack;
 
             UICamera.selectedObject = data[startIndex].btn.gameObject;
             infoLabel.text = GameLocalize.GetText(data[startIndex].infoRef);
@@ -30,6 +34,8 @@ public class ModalNewGame : UIController {
                 data[i].btn.onSelect = null;
                 data[i].btn.onClick = null;
             }
+
+            back.onClick = null;
         }
     }
 
@@ -63,5 +69,9 @@ public class ModalNewGame : UIController {
             SlotInfo.CreateSlot(ModalSaveSlots.selectedSlot, data[ind].mode);
             Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
         }
+    }
+
+    void OnBack(GameObject go) {
+        UIModalManager.instance.ModalCloseTop();
     }
 }
