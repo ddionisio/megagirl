@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ModalFinalStage : UIController {
@@ -45,7 +45,7 @@ public class ModalFinalStage : UIController {
 
         for(int i = 0; i < stages.Length - 1; i++) {
             Item stage = stages[i];
-            if(LevelController.isLevelComplete(stage.level)) {
+            if(LevelController.IsLevelComplete(stage.level)) {
                 stage.pathAnim.Fill();
                 mCurStage++;
             }

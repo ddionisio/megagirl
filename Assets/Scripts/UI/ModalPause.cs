@@ -368,12 +368,15 @@ public class ModalPause : UIController {
         if(mInputLockCounter > 0)
             return;
 
+        /*
         UIModalConfirm.Open(
             GameLocalize.GetText("exit_confirm_title"), GameLocalize.GetText("exit_confirm_desc"),
             delegate(bool yes) {
             if(yes)
                 Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
-        });
+        });*/
+
+        UIModalManager.instance.ModalOpen("exit");
     }
 
     void OnOptionsClick(GameObject go) {

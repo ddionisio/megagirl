@@ -46,6 +46,7 @@ public class ModalSaveSlots : UIController {
     }
     
     protected override void OnOpen() {
+        UserSlotData.LoadSlot(-1, false);
     }
     
     protected override void OnClose() {
@@ -59,8 +60,29 @@ public class ModalSaveSlots : UIController {
         int slot = GetSlot(go);
         if(slot != -1) {
             mSelectedSlot = slot;
-            UserSlotData.LoadSlot(slot, false);
-            Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
+
+            if(SlotInfo.IsDead(slot)) {
+                UIModalConfirm.Open(GameLocalize.GetText("dead_confirm_title"), GameLocalize.GetText("dead_confirm_desc"),
+                                    delegate(bool yes) {
+                    if(yes) {
+                        SlotInfo.DeleteData(slot);
+                        UserSlotData.DeleteSlot(slot);
+
+                        SlotInfo.CreateSlot(ModalSaveSlots.selectedSlot, SlotInfo.GameMode.Hardcore);
+                        SceneState.instance.ResetGlobalValues();
+                        SceneState.instance.ResetValues();
+                        Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
+
+                    }
+                });
+            }
+            else {
+                UserSlotData.LoadSlot(slot, true);
+                SlotInfo.LoadCurrentSlotData();
+                SceneState.instance.ResetGlobalValues();
+                SceneState.instance.ResetValues();
+                Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
+            }
         }
     }
 

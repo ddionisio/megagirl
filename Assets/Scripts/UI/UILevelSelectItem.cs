@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class UILevelSelectItem : MonoBehaviour {
@@ -36,7 +36,7 @@ public class UILevelSelectItem : MonoBehaviour {
         mIsFinalLevel = false;
 
         if(inactive) {
-            inactive.SetActive(string.IsNullOrEmpty(level) ? false : LevelController.isLevelComplete(level));
+            inactive.SetActive(string.IsNullOrEmpty(level) ? false : LevelController.IsLevelComplete(level));
         }
     }
 

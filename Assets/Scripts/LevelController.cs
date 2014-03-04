@@ -29,8 +29,14 @@ public class LevelController : MonoBehaviour {
         }
     }
 
-    public static bool isLevelComplete(string level) {
+    public static bool IsLevelComplete(string level) {
         return SceneState.instance.GetGlobalValue(level) == 1;
+    }
+
+    public static bool isLevelLoadedComplete {
+        get {
+            return IsLevelComplete(mLevelLoaded);
+        }
     }
 
     /// <summary>
@@ -38,7 +44,7 @@ public class LevelController : MonoBehaviour {
     /// </summary>
     public static bool isLifeUpDropped {
         get { return SceneState.instance.CheckGlobalFlag(levelPickupBitState, 30); }
-        set { SceneState.instance.SetGlobalFlag(levelPickupBitState, 30, value, false); }
+        set { SceneState.instance.SetGlobalFlag(levelPickupBitState, 30, value, SlotInfo.gameMode == SlotInfo.GameMode.Hardcore); }
     }
 
     public static void CheckpointApplyTo(Transform target) {
@@ -64,13 +70,14 @@ public class LevelController : MonoBehaviour {
     /// </summary>
     public static void LevelStateReset() {
         SceneState.instance.SetGlobalValue(levelBitState, 0, false);
+
         SceneState.instance.SetGlobalValue(levelPickupBitState, 0, false);
 
         SceneState.instance.DeleteGlobalValue(levelTimeAccumKey, false);
     }
 
-    public static void Complete() {
-        SceneState.instance.SetGlobalValue(mLevelLoaded, 1, true);
+    public static void Complete(bool persistent) {
+        SceneState.instance.SetGlobalValue(mLevelLoaded, 1, persistent);
     }
 
     public static float LevelTime(string level) {
@@ -147,6 +154,9 @@ public class LevelController : MonoBehaviour {
 
     void OnDestroy() {
         if(mInstance == this) {
+            if(UserData.instance)
+                UserData.instance.actCallback -= OnUserDataAct;
+
             mInstance = null;
         }
     }
@@ -155,9 +165,20 @@ public class LevelController : MonoBehaviour {
         if(mInstance == null) {
             mLevelLoaded = Application.loadedLevelName;
 
+            SceneState.instance.SetGlobalValue(levelPickupBitState, SceneState.instance.GetValue(levelPickupBitState, 0), false);
+
+            UserData.instance.actCallback += OnUserDataAct;
+
             mInstance = this;
         }
         else
             DestroyImmediate(gameObject);
+    }
+
+    void OnUserDataAct(UserData ud, UserData.Action act) {
+        if(act == UserData.Action.Save) {
+            SlotInfo.SaveCurrentSlotData();
+            //Debug.Log("save slot data");
+        }
     }
 }

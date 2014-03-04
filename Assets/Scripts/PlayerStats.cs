@@ -20,6 +20,8 @@ public class PlayerStats : Stats {
 
     public const string lifeCountKey = "playerLife";
 
+    public static bool savePersist = false;
+
     public GameObject energyShield;
     public GameObject[] energyShieldPts;
     public float energyShieldMaxHP = 9.0f;
@@ -46,7 +48,7 @@ public class PlayerStats : Stats {
         }
 
         set {
-            SceneState.instance.SetGlobalValue(lifeCountKey, Mathf.Clamp(value, 0, 99), false);
+            SceneState.instance.SetGlobalValue(lifeCountKey, Mathf.Clamp(value, 0, 99), savePersist);
         }
     }
 
@@ -133,9 +135,9 @@ public class PlayerStats : Stats {
 
         if(hpPersist) {
             if(mCurHP > 0)
-                SceneState.instance.SetGlobalValueFloat(hpKey, mCurHP, false);
+                SceneState.instance.SetGlobalValueFloat(hpKey, mCurHP, savePersist);
             else
-                SceneState.instance.DeleteGlobalValue(hpKey, false);
+                SceneState.instance.DeleteGlobalValue(hpKey, savePersist);
         }
     }
 
@@ -173,6 +175,10 @@ public class PlayerStats : Stats {
                 curHP += delta;
             }
         }
+    }
+
+    public void LoadHP() {
+        mCurHP = SceneState.instance.GetGlobalValueFloat(hpKey, maxHP);
     }
 
     public override bool ApplyDamage(Damage damage, Vector3 hitPos, Vector3 hitNorm) {
@@ -263,7 +269,7 @@ public class PlayerStats : Stats {
         base.Awake();
 
         if(hpPersist) {
-            mCurHP = SceneState.instance.GetGlobalValueFloat(hpKey, maxHP);
+            LoadHP();
         }
     }
 }

@@ -20,12 +20,14 @@ public class SlotInfo {
         Easy
     }
 
+    private static int mData;
+
     public static GameMode gameMode {
         get { return GetGameMode(UserSlotData.currentSlot); }
     }
 
     public static GameMode GetGameMode(int slot) {
-        int d = GetData(slot);
+        int d = slot == UserSlotData.currentSlot ? mData : GrabData(slot);
 
         return (GameMode)((d>>11) & 3);
     }
@@ -52,13 +54,23 @@ public class SlotInfo {
         }
     }
 
+    public static bool IsDead(int slot) {
+        int d = slot == UserSlotData.currentSlot ? mData : GrabData(slot);
+        return (d & 8192) != 0;
+    }
+
+    public static void SetDead(bool dead) {
+        if(dead) {
+            mData |= 8192;
+        }
+        else {
+            mData &= ~8192;
+        }
+    }
+
     public static void WeaponUnlock(int index) {
         if(index > 0) {
-            int d = GetData();
-
-            d |= 1<<(index - 1);
-
-            SaveData(d);
+            mData |= 1<<(index - 1);
         }
     }
 
@@ -70,30 +82,23 @@ public class SlotInfo {
         if(index == 0)
             return true;
         else {
-            return (GetData(slot) & (1<<(index-1))) != 0;
+            int d = slot == UserSlotData.currentSlot ? mData : GrabData(slot);
+            return (d & (1<<(index-1))) != 0;
         }
     }
 
     public static void SetHeartFlags(int flags) {
-        int d = GetData();
-
-        d = (d & 8191) | (flags<<13);
-
-        SaveData(d);
+        mData = (mData & 16383) | (flags<<14);
     }
 
     public static int GetHeartFlags(int slot) {
-        int d = GetData(slot);
+        int d = slot == UserSlotData.currentSlot ? mData : GrabData(slot);
 
-        return (d >> 13) & 255;
+        return (d >> 14) & 255;
     }
 
     public static void SetItemsFlags(int flags) {
-        int d = GetData();
-
-        d = (d & (~1984)) | (flags<<6);
-
-        SaveData(d);
+        mData = (mData & (~1984)) | (flags<<6);
     }
 
     public static int GetItemsFlags() {
@@ -101,7 +106,7 @@ public class SlotInfo {
     }
 
     public static int GetItemsFlags(int slot) {
-        int d = GetData(slot);
+        int d = slot == UserSlotData.currentSlot ? mData : GrabData(slot);
         return (d >> 6) & 31;
     }
 
@@ -185,25 +190,27 @@ public class SlotInfo {
 
     public static void CreateSlot(int slot, GameMode mode) {
         UserSlotData.CreateSlot(slot, defaultName);
-        int d = (int)mode;
-        SaveData(d<<11);
+        mData = ((int)mode)<<11;
+        UserSlotData.SetSlotValueInt(slot, dataKey, mData);
     }
 
     //call this before deleting the slot
     public static void DeleteData(int slot) {
         UserSlotData.DeleteValue(slot, dataKey);
         UserSlotData.DeleteValue(slot, timeKey);
+
+        mData = 0;
     }
 
-    private static int GetData() {
-        return GetData(UserSlotData.currentSlot);
+    public static void LoadCurrentSlotData() {
+        mData = UserSlotData.GetSlotValueInt(UserSlotData.currentSlot, dataKey, 0);
     }
 
-    private static int GetData(int slot) {
+    public static void SaveCurrentSlotData() {
+        UserSlotData.SetSlotValueInt(UserSlotData.currentSlot, dataKey, mData);
+    }
+
+    private static int GrabData(int slot) {
         return UserSlotData.GetSlotValueInt(slot, dataKey, 0);
-    }
-
-    private static void SaveData(int dat) {
-        UserSlotData.SetSlotValueInt(UserSlotData.currentSlot, dataKey, dat);
     }
 }

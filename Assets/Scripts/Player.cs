@@ -19,6 +19,7 @@ public class Player : EntityBase {
     public GameObject[] armorDisplayGOs;
 
     public bool saveLevelComplete = true;
+    public bool levelCompletePersist = true;
     public bool preserveEnergySpent = false; //when moving to next level
 
     public SoundPlayer sfxWallJump;
@@ -241,6 +242,13 @@ public class Player : EntityBase {
 
                     PlayerStats.curLife--;
 
+                    bool isHardcore = SlotInfo.gameMode == SlotInfo.GameMode.Hardcore;
+                    if(isHardcore && PlayerStats.curLife == 0)
+                        SlotInfo.SetDead(true);
+
+                    //save when we die
+                    UserData.instance.autoSave = true;
+
                     StartCoroutine(DoDeathFinishDelay());
                 }
                 break;
@@ -265,7 +273,10 @@ public class Player : EntityBase {
                 mCtrlSpr.PlayOverrideClip("victory");
 
                 if(saveLevelComplete)
-                    LevelController.Complete();
+                    LevelController.Complete(levelCompletePersist);
+
+                //ok to save now
+                UserData.instance.autoSave = true;
                 break;
 
             case EntityState.Final:
@@ -279,7 +290,7 @@ public class Player : EntityBase {
                 LockControls();
 
                 if(saveLevelComplete)
-                    LevelController.Complete();
+                    LevelController.Complete(levelCompletePersist);
 
                 SlotInfo.ComputeClearTime();
                 break;
@@ -409,6 +420,16 @@ public class Player : EntityBase {
 
         if(deathGOActivate)
             deathGOActivate.SetActive(false);
+
+        //disable autosave if hardcore
+        if(SlotInfo.gameMode == SlotInfo.GameMode.Hardcore) {
+            preserveEnergySpent = true;
+            mStats.hpPersist = true;
+            PlayerStats.savePersist = true;
+            UserData.instance.autoSave = LevelController.isLevelLoadedComplete;
+        }
+        else
+            PlayerStats.savePersist = false;
     }
 
     // Use this for initialization
@@ -766,13 +787,15 @@ public class Player : EntityBase {
     void SceneChange(string nextScene) {
         //Debug.Log("scene from: " + Application.loadedLevelName + " to: " + nextScene);
 
+        bool isHardcore = SlotInfo.gameMode == SlotInfo.GameMode.Hardcore;
+
         mStats.SaveStates();
 
         if(nextScene == Application.loadedLevelName) {
             //restarting level
             foreach(Weapon weapon in weapons) {
                 if(weapon)
-                    weapon.SaveEnergySpent();
+                    weapon.SaveEnergySpent(isHardcore);
             }
         } else {
             LevelController.CheckpointReset();
@@ -781,21 +804,28 @@ public class Player : EntityBase {
             if(!preserveEnergySpent || nextScene == Scenes.gameover) {
                 foreach(Weapon weapon in weapons) {
                     if(weapon)
-                        weapon.ResetEnergySpent();
+                        weapon.ResetEnergySpent(isHardcore);
                 }
             }
             else {
                 foreach(Weapon weapon in weapons) {
                     if(weapon)
-                        weapon.SaveEnergySpent();
+                        weapon.SaveEnergySpent(isHardcore);
                 }
             }
 
-            if(PlayerStats.curLife < PlayerStats.defaultNumLives) {
-                PlayerStats.curLife = PlayerStats.defaultNumLives;
-            }
+            if(!isHardcore) {
+                if(PlayerStats.curLife < PlayerStats.defaultNumLives) {
+                    PlayerStats.curLife = PlayerStats.defaultNumLives;
+                }
 
-            SceneState.instance.DeleteGlobalValue(PlayerStats.hpKey, false);
+                SceneState.instance.DeleteGlobalValue(PlayerStats.hpKey, false);
+            }
+        }
+
+        if(UserData.instance.autoSave) {
+            UserData.instance.Save();
+            PlayerPrefs.Save();
         }
     }
 

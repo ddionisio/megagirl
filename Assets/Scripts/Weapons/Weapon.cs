@@ -182,17 +182,17 @@ public class Weapon : MonoBehaviour {
     /// <summary>
     /// Call this to preserve energy when going to a new scene, usu. when you die
     /// </summary>
-    public void SaveEnergySpent() {
+    public void SaveEnergySpent(bool preserve) {
         string key = energyTypeKey;
         if(!string.IsNullOrEmpty(key)) {
-            SceneState.instance.SetGlobalValueFloat(key, mCurEnergy, false);
+            SceneState.instance.SetGlobalValueFloat(key, mCurEnergy, preserve);
         }
     }
 
-    public void ResetEnergySpent() {
+    public void ResetEnergySpent(bool preserve) {
         string key = energyTypeKey;
         if(!string.IsNullOrEmpty(key)) {
-            SceneState.instance.SetGlobalValueFloat(key, weaponEnergyDefaultMax, false);
+            SceneState.instance.SetGlobalValueFloat(key, weaponEnergyDefaultMax, preserve);
         }
 
         mCurEnergy = weaponEnergyDefaultMax;

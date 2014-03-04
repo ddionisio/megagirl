@@ -162,6 +162,7 @@ public class EnemyBossCatGirl : Enemy {
                 break;
 
             case Phase.Dead:
+                bodyCtrl.moveSide = 0;
                 bodySpriteCtrl.StopOverrideClip();
                 break;
         }

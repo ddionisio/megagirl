@@ -122,6 +122,12 @@ public class ItemPickup : EntityBase {
 
             if(savePickUp) {
                 SceneState.instance.SetGlobalFlag(LevelController.levelPickupBitState, pickupBit, true, false);
+
+                bool isHardcore = SlotInfo.gameMode == SlotInfo.GameMode.Hardcore;
+                if(isHardcore) {
+                    int dat = SceneState.instance.GetGlobalValue(LevelController.levelPickupBitState, 0);
+                    SceneState.instance.SetValue(LevelController.levelPickupBitState, dat, true);
+                }
             }
 
             if(!string.IsNullOrEmpty(sound)) {

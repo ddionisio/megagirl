@@ -15,6 +15,16 @@
 	},
 	
 	{
+		"key":"dead_confirm_title",
+		"text":"SADNESS AND TEARS"
+	},
+	
+	{
+		"key":"dead_confirm_desc",
+		"text":"This character is dead.  Would you like to start over?"
+	},
+	
+	{
 		"key":"gameNormal",
 		"text":"NORMAL"
 	},
@@ -31,7 +41,7 @@
 	
 	{
 		"key":"gameHardcore_d",
-		"text":"If you lose all your lives, it's over. No retry. Enemies do not drop life-up. Exiting a level is prohibited if it's not completed."
+		"text":"If you lose all your lives, it's over. No retry. Exiting a level is prohibited if it's not completed. Health and weapon energies are persistent. Life pickups are persistent."
 	},
 	
 	{
@@ -69,6 +79,12 @@
 		"key":"level_select_instruction",
 		"text":"ACCEPT [808080][{0}, {3}][-]    INFO [808080][{1}][-]    OPTIONS [808080][{2}][-]",
 		"param":["input_6", "input_3", "input_7", "input_2"]
+	},
+	
+	{
+		"key":"victory_instruction",
+		"text":"[{0}, {1}]: TO CONTINUE",
+		"param":["input_6", "input_2"]
 	},
 	
 	{

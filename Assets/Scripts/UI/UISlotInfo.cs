@@ -4,6 +4,7 @@ using System.Collections;
 public class UISlotInfo : MonoBehaviour {
     public const string portraitNormal = "levelSelectPortraits_gitGirl";
     public const string portraitHardcore = "levelSelectPortraits_gitGirlMad";
+    public const string portraitDead = "levelSelectPortraits_dead";
 
     public GameObject infoGO;
     public GameObject deleteGO;
@@ -51,7 +52,7 @@ public class UISlotInfo : MonoBehaviour {
 
             switch(SlotInfo.GetGameMode(slot)) {
                 case SlotInfo.GameMode.Hardcore:
-                    portrait.spriteName = portraitHardcore;
+                    portrait.spriteName = SlotInfo.IsDead(slot) ? portraitDead : portraitHardcore;
                     break;
 
                 default:
