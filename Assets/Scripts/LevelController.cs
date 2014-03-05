@@ -154,6 +154,9 @@ public class LevelController : MonoBehaviour {
 
     void OnDestroy() {
         if(mInstance == this) {
+            SlotInfo.SaveCurrentSlotData();
+            PlayerPrefs.Save();
+
             if(UserData.instance)
                 UserData.instance.actCallback -= OnUserDataAct;
 

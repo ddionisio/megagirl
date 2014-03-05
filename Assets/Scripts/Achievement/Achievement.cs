@@ -64,6 +64,8 @@ public class Achievement : MonoBehaviour {
     private Queue<DataProcess> mProcessUpdates;
     private Data[] mData;
 
+    private Queue<DataProcess> mProcessPopUps;
+
     public static Achievement instance { get { return mInstance; } }
 
     public Data[] data { get { return mData; } }
@@ -113,6 +115,7 @@ public class Achievement : MonoBehaviour {
             mData = (fastJSON.JSON.Instance.ToObject<List<Data>>(config.text)).ToArray();
 
             mProcessUpdates = new Queue<Achievement.DataProcess>(mData.Length);
+            mProcessPopUps = new Queue<DataProcess>(mData.Length);
 
             mInstance = this;
         }
@@ -148,9 +151,18 @@ public class Achievement : MonoBehaviour {
             if(numProcessComplete == mServices.Count) {
                 mProcessUpdates.Dequeue();
 
-                //notify pop-up
                 if(popupCallback != null)
                     popupCallback(dat.data, dat.progress, dat.complete);
+                else
+                    mProcessPopUps.Enqueue(dat);
+            }
+        }
+
+        //notify pop-up
+        if(mProcessPopUps.Count > 0 && popupCallback != null) {
+            while(mProcessPopUps.Count > 0) {
+                DataProcess dat = mProcessPopUps.Dequeue();
+                popupCallback(dat.data, dat.progress, dat.complete);
             }
         }
     }

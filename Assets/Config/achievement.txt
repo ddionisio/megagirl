@@ -91,7 +91,7 @@
 	
 	{
 		"id":9,
-		"title":"¡Viva la Revolución!",
+		"title":"Long Live The Revolution!",
 		"description":"Defeat Chea Guerrera.",
 		"imageRef":"achievement_katgirl_defeat",
 		"points":10,

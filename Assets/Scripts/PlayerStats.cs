@@ -86,7 +86,7 @@ public class PlayerStats : Stats {
             mSubTankEnergyMax += subTankMaxValue;
 
             int d = SlotInfo.GetItemsFlags();
-            d |= 1<<SlotInfo.stateSubTankEnergy1;
+            d |= SlotInfo.stateSubTankEnergy1;
             SlotInfo.SetItemsFlags(d);
         }
     }
@@ -96,7 +96,7 @@ public class PlayerStats : Stats {
             mSubTankEnergyMax += subTankMaxValue;
 
             int d = SlotInfo.GetItemsFlags();
-            d |= 1<<SlotInfo.stateSubTankEnergy2;
+            d |= SlotInfo.stateSubTankEnergy2;
             SlotInfo.SetItemsFlags(d);
         }
     }
@@ -106,7 +106,7 @@ public class PlayerStats : Stats {
             mSubTankWeaponMax += subTankMaxValue;
 
             int d = SlotInfo.GetItemsFlags();
-            d |= 1<<SlotInfo.stateSubTankWeapon1;
+            d |= SlotInfo.stateSubTankWeapon1;
             SlotInfo.SetItemsFlags(d);
         }
     }
@@ -116,7 +116,7 @@ public class PlayerStats : Stats {
             mSubTankWeaponMax += subTankMaxValue;
 
             int d = SlotInfo.GetItemsFlags();
-            d |= 1<<SlotInfo.stateSubTankWeapon2;
+            d |= SlotInfo.stateSubTankWeapon2;
             SlotInfo.SetItemsFlags(d);
         }
     }
@@ -125,7 +125,7 @@ public class PlayerStats : Stats {
         damageReduction = armorRating;
 
         int d = SlotInfo.GetItemsFlags();
-        d |= 1<<SlotInfo.stateArmor;
+        d |= SlotInfo.stateArmor;
         SlotInfo.SetItemsFlags(d);
     }
 

@@ -5,6 +5,8 @@ public class ItemPickup : EntityBase {
     public const float destroyDelay = 4.0f;
     public const float destroyStartBlinkDelay = destroyDelay * 0.7f;
 
+    public delegate void OnPickUp(ItemPickup item);
+
     public ItemType type;
     public int bit; //which bit in the flag, used by certain types
     public bool savePickUp; //if true, sets flag in pickupBit to avoid spawning item when starting level over after death
@@ -20,6 +22,8 @@ public class ItemPickup : EntityBase {
     public float dropSpeed;
 
     public string sfxId;
+
+    public event OnPickUp pickupCallback;
 
     private bool mDropActive;
     private float mRadius;
@@ -137,6 +141,9 @@ public class ItemPickup : EntityBase {
             if(collider)
                 collider.enabled = false;
 
+            if(pickupCallback != null)
+                pickupCallback(this);
+
             if(dialogTextRefs != null && dialogTextRefs.Length > 0) {
                 mCurDialogTextInd = 0;
                 UIModalCharacterDialog dlg = UIModalCharacterDialog.Open(true, UIModalCharacterDialog.defaultModalRef, 
@@ -209,6 +216,7 @@ public class ItemPickup : EntityBase {
 
     protected override void OnDestroy() {
         //dealloc here
+        pickupCallback = null;
 
         base.OnDestroy();
     }

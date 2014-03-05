@@ -8,11 +8,11 @@ public class SlotInfo {
 
     public const int hpModMaxCount = 8;
 
-    public const int stateSubTankEnergy1 = 0;
-    public const int stateSubTankEnergy2 = 1;
-    public const int stateSubTankWeapon1 = 2;
-    public const int stateSubTankWeapon2 = 3;
-    public const int stateArmor = 4;
+    public const int stateSubTankEnergy1 = 1;
+    public const int stateSubTankEnergy2 = 2;
+    public const int stateSubTankWeapon1 = 4;
+    public const int stateSubTankWeapon2 = 8;
+    public const int stateArmor = 16;
 
     public enum GameMode {
         Normal,
@@ -71,6 +71,9 @@ public class SlotInfo {
     public static void WeaponUnlock(int index) {
         if(index > 0) {
             mData |= 1<<(index - 1);
+
+            SaveCurrentSlotData();
+            PlayerPrefs.Save();
         }
     }
 
@@ -98,7 +101,7 @@ public class SlotInfo {
     }
 
     public static void SetItemsFlags(int flags) {
-        mData = (mData & (~1984)) | (flags<<6);
+        mData = mData | ((flags&31)<<6);
     }
 
     public static int GetItemsFlags() {
