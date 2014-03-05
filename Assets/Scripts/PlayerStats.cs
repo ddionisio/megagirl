@@ -228,6 +228,9 @@ public class PlayerStats : Stats {
 
             if(amt > 0.0f) {
                 curHP -= amt;
+
+                ApplyDamageEvent(damage);
+
                 return true;
             }
         }

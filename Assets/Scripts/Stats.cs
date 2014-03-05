@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Stats : MonoBehaviour {
     public delegate void ChangeCallback(Stats stat, float delta);
+    public delegate void ApplyDamageCallback(Damage damage);
 
     [System.Serializable]
     public class DamageMod {
@@ -26,6 +27,7 @@ public class Stats : MonoBehaviour {
     public Vector3 itemDropOfs;
 
     public event ChangeCallback changeHPCallback;
+    public event ApplyDamageCallback applyDamageCallback;
 
     protected Damage mLastDamage;
     protected Vector3 mLastDamagePos;
@@ -131,6 +133,11 @@ public class Stats : MonoBehaviour {
         return amt;
     }
 
+    protected void ApplyDamageEvent(Damage damage) {
+        if(applyDamageCallback != null)
+            applyDamageCallback(damage);
+    }
+
     public virtual bool ApplyDamage(Damage damage, Vector3 hitPos, Vector3 hitNorm) {
         mLastDamage = damage;
         mLastDamagePos = hitPos;
@@ -146,6 +153,8 @@ public class Stats : MonoBehaviour {
                 }
 
                 curHP -= amt;
+
+                ApplyDamageEvent(damage);
 
                 return true;
             }
@@ -170,6 +179,7 @@ public class Stats : MonoBehaviour {
 
     protected virtual void OnDestroy() {
         changeHPCallback = null;
+        applyDamageCallback = null;
     }
 
     protected virtual void Awake() {

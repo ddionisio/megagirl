@@ -103,7 +103,7 @@
 	},
 	{
 		"key":"tankgirl_name",
-		"text":"TANKIE GIRL"
+		"text":"TANKIE-GIRL"
 	},
 	{
 		"key":"clonegirl_name",
@@ -111,7 +111,7 @@
 	},
 	{
 		"key":"hipgirl_name",
-		"text":"NATACHA NICE"
+		"text":"NATACHA"
 	},
 	{
 		"key":"valleygirl_name",

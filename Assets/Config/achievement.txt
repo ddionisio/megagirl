@@ -1,0 +1,241 @@
+[
+	{
+		"id":0,
+		"title":"Dar She Blows",
+		"description":"Defeat the Leviathan.",
+		"imageRef":"achievement_bunnyship_defeat",
+		"points":10,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":1,
+		"title":"Everyone's Favorite B.F.F.",
+		"description":"Defeat Tabitha.",
+		"imageRef":"achievement_valleygirl_defeat",
+		"points":10,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":2,
+		"title":"How Ironic",
+		"description":"Defeat Natacha.",
+		"imageRef":"achievement_hipgirl_defeat",
+		"points":10,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":3,
+		"title":"Like All Good Equations, You Shall Follow",
+		"description":"Defeat the Demiurge.",
+		"imageRef":"achievement_demiurge_defeat",
+		"points":10,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":4,
+		"title":"Molly's Lips",
+		"description":"Defeat Molly.",
+		"imageRef":"achievement_clonegirl_defeat",
+		"points":10,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":5,
+		"title":"Sappy",
+		"description":"Defeat Pink Devil.",
+		"imageRef":"achievement_pink_defeat",
+		"points":10,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":6,
+		"title":"Second-Rate Hero",
+		"description":"Defeat Thunder.",
+		"imageRef":"achievement_thunder_defeat",
+		"points":10,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":7,
+		"title":"Sgt. John Captain's Bastard Child",
+		"description":"Defeat Tankie-Girl.",
+		"imageRef":"achievement_tankgirl_defeat",
+		"points":10,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":8,
+		"title":"The End",
+		"description":"Defeat Nil.",
+		"imageRef":"achievement_finish_game",
+		"points":10,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":9,
+		"title":"¡Viva la Revolución!",
+		"description":"Defeat Chea Guerrera.",
+		"imageRef":"achievement_katgirl_defeat",
+		"points":10,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":10,
+		"title":"A Chance Against All Odds And Ambivalence",
+		"description":"Defeat Pink Devil while only using the Star-Gazer, and without taking damage.",
+		"imageRef":"achievement_pink_defeat_perfect",
+		"points":25,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":11,
+		"title":"Highly Intimidating",
+		"description":"Defeat the Leviathan while only using the Star-Gazer, and without taking damage.",
+		"imageRef":"achievement_bunnyship_defeat_perfect",
+		"points":25,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":12,
+		"title":"I Got This Medal While Under Judgement",
+		"description":"Defeat Natacha while only using the Star-Gazer, and without taking damage.",
+		"imageRef":"achievement_hipgirl_defeat_perfect",
+		"points":25,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":13,
+		"title":"I'm So Lucky To Have A Tabitha",
+		"description":"Defeat Tabitha while only using the Star-Gazer, and without taking damage.",
+		"imageRef":"achievement_valleygirl_defeat_perfect",
+		"points":25,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":14,
+		"title":"Just Be Yourself, Everyone Else Is Taken, and This Quote",
+		"description":"Defeat Thunder while only using the Star-Gazer, and without taking damage.",
+		"imageRef":"achievement_thunder_defeat_perfect",
+		"points":25,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":15,
+		"title":"Just Keep Moving, Eventually You'll Come To A Better Place",
+		"description":"Defeat Tankie-Girl while only using the Star-Gazer, and without taking damage.",
+		"imageRef":"achievement_tankgirl_defeat_perfect",
+		"points":25,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":16,
+		"title":"So Long As I'm Good And Clean",
+		"description":"Defeat Molly while only using the Star-Gazer, and without taking damage.",
+		"imageRef":"achievement_clonegirl_defeat_perfect",
+		"points":25,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":17,
+		"title":"The End Justifies The Means",
+		"description":"Defeat Nil in Iron Maiden Mode.",
+		"imageRef":"achievement_finish_hardcore",
+		"points":25,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":18,
+		"title":"The Material World",
+		"description":"Defeat the Demiurge while only using the Star-Gazer, and without taking damage.",
+		"imageRef":"achievement_demiurge_defeat_perfect",
+		"points":25,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":19,
+		"title":"There Is No True Equality",
+		"description":"Defeat Chea Guerrera while only using the Star-Gazer, and without taking damage.",
+		"imageRef":"achievement_katgirl_defeat_perfect",
+		"points":25,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":20,
+		"title":"Upgrayedd",
+		"description":"Collect all the upgrades.",
+		"imageRef":"achievement_all_upgrades",
+		"points":25,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":21,
+		"title":"Doesn't Have A Point of View",
+		"description":"Defeat Nil while only using the Star-Gazer, and without taking damage.",
+		"imageRef":"achievement_nil_defeat_perfect",
+		"points":50,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":22,
+		"title":"Totally Worth It",
+		"description":"Finish the game in Iron Maiden mode without dying, and by not collecting any of the upgrades.",
+		"imageRef":"achievement_finish_hardcore_ultimate",
+		"points":50,
+		"progress":0,
+		"hidden":false
+	},
+	
+	{
+		"id":23,
+		"title":"Never",
+		"description":"Gonna give you up.",
+		"imageRef":"achievement_rickroll",
+		"points":5,
+		"progress":0,
+		"hidden":false
+	}
+]

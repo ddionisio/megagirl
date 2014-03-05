@@ -1,22 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Achievement\AchievementEnemyDead.cs">
     <Files>
-      <File FileName="Assets\Scripts\Player.cs" Line="815" Column="30" />
-      <File FileName="Assets\Scripts\LevelController.cs" Line="71" Column="35" />
-      <File FileName="Assets\M8\Scripts\Core\UserData.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Core\UserSlotData.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SlotInfo.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalSaveSlots.cs" Line="63" Column="44" />
-      <File FileName="Assets\Scripts\PlayerStats.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Game\EntityBase.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ItemPickup.cs" Line="274" Column="33" />
+      <File FileName="Assets\Scripts\Achievement\Achievement.cs" Line="112" Column="30" />
+      <File FileName="Assets\Scripts\Achievement\AchievementNotifier.cs" Line="8" Column="42" />
+      <File FileName="Assets\Scripts\Achievement\AchievementServiceOffline.cs" Line="16" Column="1" />
+      <File FileName="Assets\Scripts\UI\UIAchievementPopUp.cs" Line="84" Column="9" />
+      <File FileName="Assets\M8\Scripts\NGUIExt\NGUILayoutFlow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\UIAchievementPopUpItem.cs" Line="10" Column="61" />
+      <File FileName="Assets\Scripts\Achievement\AchievementEnemyDead.cs" Line="21" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\EntitySpawner.cs" line="109" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
