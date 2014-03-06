@@ -1,8 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SlotInfo.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\HUD.cs">
     <Files>
-      <File FileName="Assets\Scripts\Achievement\Achievement.cs" Line="163" Column="46" />
+      <File FileName="Assets\Scripts\Achievement\Achievement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Achievement\AchievementNotifier.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\UIAchievementPopUp.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\NGUIExt\NGUILayoutFlow.cs" Line="1" Column="1" />
@@ -13,14 +13,23 @@
       <File FileName="Assets\Plugins\Newgrounds\Newgrounds.js" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PlayerStats.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CheckpointTrigger.cs" Line="22" Column="45" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="184" Column="37" />
-      <File FileName="Assets\Scripts\LevelController.cs" Line="158" Column="32" />
-      <File FileName="Assets\Scripts\SlotInfo.cs" Line="71" Column="49" />
+      <File FileName="Assets\Scripts\CheckpointTrigger.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LevelController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SlotInfo.cs" Line="203" Column="27" />
+      <File FileName="Assets\Scripts\ItemPickup.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\ModalPause.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\ModalSaveSlots.cs" Line="99" Column="38" />
+      <File FileName="Assets\Scripts\Achievement\AchievementEnemyMultiDeadPerfect.cs" Line="28" Column="77" />
+      <File FileName="Assets\Scripts\UI\ModalNewGame.cs" Line="71" Column="13" />
+      <File FileName="Assets\Scripts\UI\HUD.cs" Line="34" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\ItemPickup.cs" line="295" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\PlayerStats.cs" line="95" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

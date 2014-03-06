@@ -67,6 +67,8 @@ public class ModalNewGame : UIController {
         int ind = GetIndex(go);
         if(ind != -1) {
             SlotInfo.CreateSlot(ModalSaveSlots.selectedSlot, data[ind].mode);
+            PlayerPrefs.Save();
+
             SceneState.instance.ResetGlobalValues();
             SceneState.instance.ResetValues();
             Main.instance.sceneManager.LoadScene(Scenes.levelSelect);

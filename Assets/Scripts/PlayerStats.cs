@@ -15,6 +15,7 @@ public class PlayerStats : Stats {
     public const string subTankEnergyFillKey = "etank";
     public const string subTankWeaponFillKey = "wtank";
     public const string hpKey = "chp";
+    public const string deathCountKey = "ded";
 
     public const float subTankMaxValue = 32.0f; //max value of each tank
 
@@ -48,8 +49,17 @@ public class PlayerStats : Stats {
         }
 
         set {
+            int l = SceneState.instance.GetGlobalValue(lifeCountKey, defaultNumLives);
+            if(value < l) {
+                SceneState.instance.SetGlobalValue(deathCountKey, deathCount+1, true);
+            }
+
             SceneState.instance.SetGlobalValue(lifeCountKey, Mathf.Clamp(value, 0, 99), savePersist);
         }
+    }
+
+    public static int deathCount {
+        get { return SceneState.instance.GetGlobalValue(deathCountKey, 0); }
     }
 
     public float subTankEnergyCurrent {

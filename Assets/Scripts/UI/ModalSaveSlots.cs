@@ -98,6 +98,7 @@ public class ModalSaveSlots : UIController {
                 if(yes) {
                     SlotInfo.DeleteData(slot);
                     UserSlotData.DeleteSlot(slot);
+                    PlayerPrefs.Save();
                 }
                                });
         }
