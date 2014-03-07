@@ -41,7 +41,7 @@
 	
 	{
 		"key":"gameHardcore_d",
-		"text":"If you lose all your lives, it's over. No retry. Exiting a level is prohibited if it's not completed. Health and weapon energies are persistent. Life pickups are persistent."
+		"text":"If you lose all your lives, it's over.  No retry.  Exiting a level is prohibited if not complete.  Health and weapon energies are persistent.  Life pickups are persistent.\n\nA special surprise awaits in the end! ;)"
 	},
 	
 	{

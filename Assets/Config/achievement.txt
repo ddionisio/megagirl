@@ -121,7 +121,7 @@
 	
 	{
 		"id":12,
-		"title":"I Got This Medal While Under Judgement",
+		"title":"Naughty or Nice",
 		"description":"Defeat Natacha while only using the Star-Gazer, and without taking damage.",
 		"imageRef":"achievement_hipgirl_defeat_perfect",
 		"points":25,

@@ -10,6 +10,7 @@ public class NGUILabelTypewrite : MonoBehaviour {
     public bool delayNormalized;
     public bool playOnEnable;
     public string text;
+    public float endDelay;
 
     public GameObject endGO;
 
@@ -90,8 +91,12 @@ public class NGUILabelTypewrite : MonoBehaviour {
         }
 
         mActive = false;
-        mEnded = true;
 
         if(endGO) endGO.SetActive(false);
+
+        if(endDelay > 0)
+            yield return new WaitForSeconds(endDelay);
+
+        mEnded = true;
     }
 }

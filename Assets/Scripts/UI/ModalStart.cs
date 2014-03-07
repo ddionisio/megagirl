@@ -6,6 +6,9 @@ public class ModalStart : UIController {
     public UIEventListener options;
     public UIEventListener credits;
 
+    public GameObject activeGODefault;
+    public GameObject activeGOCleared;
+
     protected override void OnActive(bool active) {
         if(active) {
             UICamera.selectedObject = play.gameObject;
@@ -23,6 +26,20 @@ public class ModalStart : UIController {
     }
 
     protected override void OnOpen() {
+        bool hasCleared = false;
+
+        ModalSaveSlots modalSlots = UIModalManager.instance.ModalGetController<ModalSaveSlots>("slots");
+        for(int i = 0; i < modalSlots.slots.Length; i++) {
+            if(SlotInfo.HasClearTime(i)) {
+                hasCleared = true;
+                break;
+            }
+        }
+
+        if(hasCleared)
+            activeGOCleared.SetActive(true);
+        else
+            activeGODefault.SetActive(true);
     }
 
     protected override void OnClose() {

@@ -46,8 +46,12 @@ public class SlotInfo {
         UserSlotData.SetSlotValueFloat(UserSlotData.currentSlot, timeKey, t);
     }
 
+    public static bool HasClearTime(int slot) {
+        return UserSlotData.HasSlotValue(slot, timeKey);
+    }
+
     public static string GetClearTimeString(int slot) {
-        if(UserSlotData.HasSlotValue(slot, timeKey)) {
+        if(HasClearTime(slot)) {
             return LevelController.LevelTimeFormat(UserSlotData.GetSlotValueFloat(slot, timeKey));
         }
         else {
