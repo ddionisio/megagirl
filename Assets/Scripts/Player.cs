@@ -247,7 +247,12 @@ public class Player : EntityBase {
                         SlotInfo.SetDead(true);
 
                     //save when we die
-                    UserData.instance.autoSave = true;
+                    if(!UserData.instance.autoSave) {
+                        UserData.instance.autoSave = true;
+                        UserData.instance.Save();
+                        SlotInfo.SaveCurrentSlotData();
+                        PlayerPrefs.Save();
+                    }
 
                     StartCoroutine(DoDeathFinishDelay());
                 }

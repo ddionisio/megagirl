@@ -185,7 +185,7 @@
 	},
 	{
 		"key":"hoolahoop_desc",
-		"text":"Super fast! cool! Hold the fire button (default: X) to go fast and hit enemies that are in the way. While active, you are immune to contact damage."
+		"text":"Hold the fire button to move fast and hit enemies along the way. While active, you are immune to contact damage."
 	},
 	
 	{
@@ -194,7 +194,7 @@
 	},
 	{
 		"key":"cannon_desc",
-		"text":"The ultimate conflict resolver.  Adjust your aim by pressing UP or DOWN. The RESOLVER can also break boulders. Now go forth and rain death upon them!"
+		"text":"The ultimate conflict resolver.  Fires an altillery shell that breaks into explosive shards on contact.  The RESOLVER can also break boulders. Now go forth and rain death upon them!"
 	},
 	
 	{
@@ -203,7 +203,7 @@
 	},
 	{
 		"key":"cloner_desc",
-		"text":"PLACEHOLDER Press fire button to create a clone, press fire again to detonate."
+		"text":"Creates a copy of yourself that seeks nearby enemies and explodes on contact.  You can fire up to two clones at a time."
 	},
 	
 	{
@@ -212,7 +212,7 @@
 	},
 	{
 		"key":"hipster_desc",
-		"text":"Hold fire button to slow down time around you.  Also makes you fall slower."
+		"text":"Hold the fire button to slow down time around you.  TIME WARP also slows down your movement as you descent."
 	},
 	
 	{
@@ -221,7 +221,7 @@
 	},
 	{
 		"key":"lightning_desc",
-		"text":"Fry your foes and eat them with this fork.  Press the FIRE button (default: X) when the reticle is active.  Hold the FIRE button to create a chain lightning, hitting multiple foes."
+		"text":"Fry your foes and eat them with this fork.  Press the fire button to create a shield around you that absorbs energy damage.  Press the fire button again to shoot a chain lightning when the reticle is active near enemies."
 	},
 	
 	{
@@ -230,7 +230,7 @@
 	},
 	{
 		"key":"whip_desc",
-		"text":"Punish your foes with a deadly whip.  Certain enemies are stunned when struck.  Also used for grabbing items out of reach."
+		"text":"Punish your foes with a deadly whip.  Certain enemies are stunned when struck.  Also used for grabbing items."
 	},
 	
 	{
@@ -313,11 +313,11 @@
 	
 	{
 		"key":"final_convo_1_nil_0",
-		"text":"Aw hell! Looks like ya got me real good, kid!"
+		"text":"Ah heck, you got me."
 	},
 	{
 		"key":"final_convo_1_nil_1",
-		"text":"Well fought!"
+		"text":"Well fought! Medals all around!"
 	},
 	
 	{
@@ -326,12 +326,12 @@
 	},
 	{
 		"key":"final_convo_1_gg_1",
-		"text":"What a pain-in-the-arse! Geez!"
+		"text":"What a pain-in-the-arse you are! Geez!"
 	},
 	
 	{
 		"key":"final_convo_1_nil_2",
-		"text":"Ha! Well, I'm just makin' sure it's a well-earned fight, is all."
+		"text":"Yeah well I was making sure it's worth it.  I'm impressed you got this far and beat me!  I guess there's still some people out there who likes a good challenge."
 	},
 	
 	{
@@ -350,11 +350,11 @@
 	
 	{
 		"key":"final_convo_2_fleur_0",
-		"text":"Please don't!"
+		"text":"No! Please don't!"
 	},
 	{
 		"key":"final_convo_2_fleur_1",
-		"text":"Don't hurt Mr. Nil! We just want to be free!"
+		"text":"Don't hurt Mr. Nil! All we want is to be free!"
 	},
 	{
 		"key":"final_convo_2_fleur_2",
@@ -381,11 +381,11 @@
 	
 	{
 		"key":"final_convo_2_nil_0",
-		"text":"Nah, s'aright kiddo. GitGirl's just doin' her thing."
+		"text":"Nah, it's alright, kid. GitGirl's just doing her thing. Justice and all."
 	},
 	{
 		"key":"final_convo_2_nil_1",
-		"text":"There ain't nothin' wrong with a strong sense of purpose."
+		"text":"Nothing wrong with a strong sense of purpose, even if it binds you in servitude."
 	},
 		
 	{
@@ -409,20 +409,20 @@
 	
 	{
 		"key":"final_convo_3_gg_0",
-		"text":"And that's that."
+		"text":"...and that's that!"
 	},
 	{
 		"key":"final_convo_3_gg_1",
-		"text":"Come on now, I can't let a stray cluster like you sticking around here.  Let's go."
+		"text":"Come on now, I can't let a stray cluster like you stick around here.  I have to bring you back to where you belong."
 	},
 	
 	{
 		"key":"final_convo_3_fleur_0",
-		"text":"Aye-aye! Off to the ethernet we go!"
+		"text":"Yes, ma'am! Off to the ethernet we go!"
 	},
 	
 	{
 		"key":"final_convo_3_gg_2",
-		"text":"Hey...you seem cheery all of a sudden.  But whatever."
+		"text":"Hm...alright."
 	},
 ]
