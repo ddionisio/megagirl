@@ -1,5 +1,5 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\M8\Scripts\Transform\TransUpLock.cs">
     <Files>
       <File FileName="Assets\Scripts\Achievement\Achievement.cs" Line="1" Column="1" />
@@ -26,9 +26,9 @@
       <File FileName="Assets\Scripts\UI\ModalStart.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\NGUILabelTypewrite.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Audio\SoundPlayer.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Transform\TransFollow.cs" Line="13" Column="24" />
-      <File FileName="Assets\M8\Scripts\Transform\TransRotateTowards.cs" Line="22" Column="1" />
-      <File FileName="Assets\M8\Scripts\Transform\TransUpLock.cs" Line="18" Column="27" />
+      <File FileName="Assets\M8\Scripts\Transform\TransFollow.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Transform\TransRotateTowards.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Transform\TransUpLock.cs" Line="24" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
