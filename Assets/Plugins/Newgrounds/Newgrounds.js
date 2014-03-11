@@ -171,13 +171,20 @@ function unlockMedal (s : String) {
 }
 
 function postScore (score : int, BoardName : String) {
+	Debug.Log("Newgrounds submit score to "+BoardName);
+	
+	mWorking = true;
+	
 	var BoardId : int;
 	for (i = 0; i < boardNames.Length; i++){
 		if (BoardName == boardNames[i])
 			BoardId = boardIndices[i];
 }	var seed : String = genSeed ();
 	var text : String = '{"command_id":"postScore","publisher_id":' + PublisherId + ',"session_id":"' + SessionID + '","board":' + BoardId + ',"value":' + score + ',"seed":"' + seed + '"}';
-	SecurePacket (seed, text);	
+	yield SecurePacket (seed, text);
+	
+	mWorking = false;
+	Debug.Log("Newgrounds Finish Submitting Score: "+BoardName);
 }
 
 function getMedals () {

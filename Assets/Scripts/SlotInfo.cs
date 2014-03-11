@@ -50,9 +50,13 @@ public class SlotInfo {
         return UserSlotData.HasSlotValue(slot, timeKey);
     }
 
+    public static float GetClearTime(int slot) {
+        return UserSlotData.GetSlotValueFloat(slot, timeKey);
+    }
+
     public static string GetClearTimeString(int slot) {
         if(HasClearTime(slot)) {
-            return LevelController.LevelTimeFormat(UserSlotData.GetSlotValueFloat(slot, timeKey));
+            return LevelController.LevelTimeFormat(GetClearTime(slot));
         }
         else {
             return "---:--.--";

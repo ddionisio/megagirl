@@ -282,6 +282,8 @@ public class Player : EntityBase {
 
                 //ok to save now
                 UserData.instance.autoSave = true;
+                SlotInfo.SaveCurrentSlotData();
+                PlayerPrefs.Save();
                 break;
 
             case EntityState.Final:
@@ -298,6 +300,8 @@ public class Player : EntityBase {
                     LevelController.Complete(levelCompletePersist);
 
                 SlotInfo.ComputeClearTime();
+                SlotInfo.SaveCurrentSlotData();
+                PlayerPrefs.Save();
                 break;
 
             case EntityState.Exit:
@@ -829,6 +833,7 @@ public class Player : EntityBase {
         }
 
         if(UserData.instance.autoSave) {
+            SlotInfo.SaveCurrentSlotData();
             UserData.instance.Save();
             PlayerPrefs.Save();
         }
