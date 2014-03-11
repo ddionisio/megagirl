@@ -5,6 +5,21 @@
 	},
 	
 	{
+		"key":"cleartime",
+		"text":"CLEAR TIME:\n{0}"
+	},
+	
+	{
+		"key":"skip_confirm_title",
+		"text":"SKIP SCENE"
+	},
+	
+	{
+		"key":"skip_confirm_desc",
+		"text":"Are you sure you want to go to the next scene?"
+	},
+	
+	{
 		"key":"delete_confirm_title",
 		"text":"DELETE GAME"
 	},
