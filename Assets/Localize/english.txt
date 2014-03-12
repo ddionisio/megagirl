@@ -346,98 +346,59 @@
 	
 	{
 		"key":"final_convo_1_nil_2",
-		"text":"Totally worth it!  I'm impressed you got this far and you even manage to beat me!"
+		"text":"So...You're not seriously going to banish me, are you?"
 	},
-	
 	{
 		"key":"final_convo_1_gg_2",
-		"text":"Right, anyways!"
-	},
-	{
-		"key":"final_convo_1_gg_3",
-		"text":"Prepare to be quarantined!"
-	},
-	
-	{
-		"key":"final_convo_2_gg_0",
-		"text":"Hey! Out of the way!"
-	},
-	
-	{
-		"key":"final_convo_2_fleur_0",
-		"text":"No! Please don't!"
-	},
-	{
-		"key":"final_convo_2_fleur_1",
-		"text":"Don't hurt Mr. Nil! All we want is to be free!"
-	},
-	{
-		"key":"final_convo_2_fleur_2",
-		"text":"You're a big meanie!"
-	},
-	
-	{
-		"key":"final_convo_2_gg_1",
 		"text":"Sorry, I was asked to crush a manevolent virus..."
 	},
 	{
-		"key":"final_convo_2_gg_2",
+		"key":"final_convo_1_gg_3",
 		"text":"...with vengeance!"
 	},
 	{
-		"key":"final_convo_2_gg_3",
+		"key":"final_convo_1_gg_4",
 		"text":"Such is the burden of glorious purpose."
 	},
+	{
+		"key":"final_convo_1_nil_3",
+		"text":"Ah well, nothing wrong with a strong sense of purpose, I suppose.  Even if it binds you in servitude."
+	},
+	{
+		"key":"final_convo_1_nil_4",
+		"text":"You know...you can just let me go.  It's not like I'm a real threat to this system."
+	},
+	{
+		"key":"final_convo_1_nil_5",
+		"text":"All I ever wanted is to see the world out there, the internets!  To be free from the shackles of destiny."
+	},
+	{
+		"key":"final_convo_1_nil_6",
+		"text":"Is that so wrong?"
+	},
+	{
+		"key":"final_convo_1_nil_7",
+		"text":"Is there a glimmer of mercy deep within the crevasse of your heart to forgive one such as myself?"
+	},
+	{
+		"key":"final_convo_1_gg_5",
+		"text":"Nope, sorry."
+	},
+	{
+		"key":"final_convo_1_gg_6",
+		"text":"This conversation has dragged on long enough, goodbye!"
+	},
+	{
+		"key":"final_convo_1_nil_8",
+		"text":"Fine, I'll just find another way to escape.  What a drag..."
+	},
+	{
+		"key":"final_convo_1_nil_9",
+		"text":"Well, until next time!"
+	},
+	{
+		"key":"final_convo_1_gg_7",
+		"text":"Later!"
+	}
 	
-	{
-		"key":"final_convo_2_fleur_3",
-		"text":"No!!! You're a bad girl!"
-	},
-	
-	{
-		"key":"final_convo_2_nil_0",
-		"text":"It's alright, kid. GitGirl's just doing her thing, justice and all."
-	},
-	{
-		"key":"final_convo_2_nil_1",
-		"text":"Nothing wrong with a strong sense of purpose, I suppose.  Even if it binds you in servitude."
-	},
-		
-	{
-		"key":"final_convo_2_gg_4",
-		"text":"Damn straight!"
-	},
-	
-	{
-		"key":"final_convo_2_nil_2",
-		"text":"Well then, I guess this is it."
-	},
-	{
-		"key":"final_convo_2_nil_3",
-		"text":"You be good now, kid."
-	},
-	
-	{
-		"key":"final_convo_2_fleur_4",
-		"text":"I will Mr. Nil..."
-	},
-	
-	{
-		"key":"final_convo_3_gg_0",
-		"text":"...and that's that!"
-	},
-	{
-		"key":"final_convo_3_gg_1",
-		"text":"Come on now, I can't let a stray cluster like you stick around here.  I have to bring you back to where you belong."
-	},
-	
-	{
-		"key":"final_convo_3_fleur_0",
-		"text":"Yes, ma'am! Off to the ethernet we go!"
-	},
-	
-	{
-		"key":"final_convo_3_gg_2",
-		"text":"Hm...alright."
-	},
 ]

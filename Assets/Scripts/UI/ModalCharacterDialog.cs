@@ -6,6 +6,8 @@ public class ModalCharacterDialog : UIModalCharacterDialog {
     public UILabel textLabel;
     public UISprite portrait;
 
+    private bool mDoLayoutUpdate = false;
+
     protected override void OnActive(bool active) {
         InputManager input = Main.instance ? Main.instance.input : null;
 
@@ -40,12 +42,20 @@ public class ModalCharacterDialog : UIModalCharacterDialog {
         textLabel.text = isLocalized ? GameLocalize.GetText(text) : text;
         portrait.spriteName = portraitSpriteRef;
         portrait.MakePixelPerfect();
-        NGUILayoutBase.RefreshNow(transform);
+
+        mDoLayoutUpdate = true;
     }
 
     void OnInput(InputManager.Info dat) {
         if(dat.state == InputManager.State.Pressed) {
             Action(-1);
+        }
+    }
+
+    void LateUpdate() {
+        if(mDoLayoutUpdate) {
+            NGUILayoutBase.RefreshNow(transform);
+            mDoLayoutUpdate = false;
         }
     }
 }

@@ -43,6 +43,7 @@ public class Player : EntityBase {
     private bool mHurtActive;
     private int mCurWeaponInd = -1;
     private int mPauseCounter;
+    private bool mAllowPauseTime = true;
 
     private PlayMakerFSM mFireFSM;
 
@@ -153,6 +154,18 @@ public class Player : EntityBase {
                 mCtrl.inputEnabled = mInputEnabled;
             }
         }
+    }
+
+    public bool allowPauseTime { 
+        get { return mAllowPauseTime; } 
+        set {
+            if(mAllowPauseTime != value) {
+                mAllowPauseTime = value; 
+
+                if(!mAllowPauseTime && mPauseCounter > 0)
+                    Main.instance.sceneManager.Resume();
+            }
+        } 
     }
 
     public PlatformerController controller { get { return mCtrl; } }
@@ -699,7 +712,9 @@ public class Player : EntityBase {
         if(pause) {
             mPauseCounter++;
             if(mPauseCounter == 1) {
-                Main.instance.sceneManager.Pause();
+                if(mAllowPauseTime)
+                    Main.instance.sceneManager.Pause();
+
                 inputEnabled = false;
 
                 Main.instance.input.RemoveButtonCall(0, InputAction.MenuEscape, OnInputPause);
@@ -709,14 +724,16 @@ public class Player : EntityBase {
         } else {
             mPauseCounter--;
             if(mPauseCounter == 0) {
-                Main.instance.sceneManager.Resume();
+                if(mAllowPauseTime)
+                    Main.instance.sceneManager.Resume();
 
-                if(state != (int)EntityState.Invalid)
+                if(state != (int)EntityState.Lock && state != (int)EntityState.Invalid) {
                     inputEnabled = true;
 
-                Main.instance.input.AddButtonCall(0, InputAction.MenuEscape, OnInputPause);
+                    Main.instance.input.AddButtonCall(0, InputAction.MenuEscape, OnInputPause);
 
-                LevelController.instance.TimeResume();
+                    LevelController.instance.TimeResume();
+                }
             }
         }
     }

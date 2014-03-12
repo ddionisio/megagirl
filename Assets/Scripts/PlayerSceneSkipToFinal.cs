@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SceneSkip : MonoBehaviour {
+public class PlayerSceneSkipToFinal : MonoBehaviour {
     public float wait = 1.5f;
-    public string toScene;
 
     void OnDestroy() {
         InputManager input = Main.instance ? Main.instance.input : null;
@@ -11,15 +10,15 @@ public class SceneSkip : MonoBehaviour {
             input.RemoveButtonCall(0, InputAction.MenuEscape, OnInput);
         }
     }
-
+    
     void Awake() {
         Invoke("EnableInput", wait);
     }
-
+    
     void EnableInput() {
         Main.instance.input.AddButtonCall(0, InputAction.MenuEscape, OnInput);
     }
-
+    
     void OnInput(InputManager.Info dat) {
         if(!UIModalManager.instance.ModalIsInStack(UIModalConfirm.modalName)) {
             if(dat.state == InputManager.State.Pressed) {
@@ -27,7 +26,7 @@ public class SceneSkip : MonoBehaviour {
                                     delegate(bool yes) {
                     if(yes) {
                         Main.instance.input.RemoveButtonCall(0, InputAction.MenuEscape, OnInput);
-                        Main.instance.sceneManager.LoadScene(toScene);
+                        Player.instance.state = (int)EntityState.Final;
                     }
                 });
             }

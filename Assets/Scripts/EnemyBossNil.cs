@@ -98,6 +98,13 @@ public class EnemyBossNil : Enemy {
             case EntityState.Dead:
                 ToPhase(Phase.Dead);
                 break;
+
+            case EntityState.Final:
+                mPlayer.allowPauseTime = false;
+                HUD.instance.barHP.gameObject.SetActive(false);
+                HUD.instance.barEnergy.gameObject.SetActive(false);
+                HUD.instance.lifeCountLabel.gameObject.SetActive(false);
+                break;
                 
             case EntityState.Invalid:
                 ToPhase(Phase.None);
