@@ -1,9 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerSceneSkipToFinal.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyBossBunnyShip.cs">
     <Files>
-      <File FileName="Assets\Scripts\Player.cs" Line="307" Column="32" />
-      <File FileName="Assets\Scripts\EnemyBossNil.cs" Line="106" Column="73" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyBossNil.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\HUD.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\FSMActions\CameraControllerAttach.cs" Line="1" Column="1" />
@@ -17,12 +17,13 @@
       <File FileName="Assets\NGUI\Scripts\UI\UIPanel.cs" Line="1" Column="1" />
       <File FileName="Assets\M8PlayMaker\Audio\SoundPlay.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CameraController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LevelController.cs" Line="89" Column="34" />
-      <File FileName="Assets\Scripts\SlotInfo.cs" Line="46" Column="35" />
-      <File FileName="Assets\Scripts\PlayerSceneSkipToFinal.cs" Line="23" Column="80" />
-      <File FileName="Assets\Scripts\SceneSkip.cs" Line="24" Column="80" />
-      <File FileName="Assets\M8\Scripts\Core\UserSlotData.cs" Line="81" Column="26" />
-      <File FileName="Assets\M8\Scripts\UI\UIModalConfirm.cs" Line="25" Column="45" />
+      <File FileName="Assets\Scripts\LevelController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SlotInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerSceneSkipToFinal.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SceneSkip.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Core\UserSlotData.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\UI\UIModalConfirm.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyBossBunnyShip.cs" Line="501" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
