@@ -366,7 +366,7 @@
 	},
 	{
 		"key":"final_convo_1_nil_4",
-		"text":"You know...you can just let me go.  It's not like I'm a real threat to this system."
+		"text":"You know...you can just let me go.  It's not like I'm a real threat to the system."
 	},
 	{
 		"key":"final_convo_1_nil_5",
@@ -382,23 +382,77 @@
 	},
 	{
 		"key":"final_convo_1_gg_5",
-		"text":"Nope, sorry."
+		"text":"Nope, sorry.  Consequences do happen, and boy, does it suck to be you!"
 	},
 	{
 		"key":"final_convo_1_gg_6",
-		"text":"This conversation has dragged on long enough, goodbye!"
+		"text":"Besides, this conversation has dragged on long enough.  So, goodbye!"
 	},
 	{
 		"key":"final_convo_1_nil_8",
-		"text":"Fine, I'll just find another way to escape.  What a drag..."
+		"text":"Fine, I'll just find another way out."
+	},
+	{
+		"key":"final_convo_1_gg_7",
+		"text":"And I'll just defeat you all over again!"
 	},
 	{
 		"key":"final_convo_1_nil_9",
 		"text":"Well, until next time!"
 	},
-	{
-		"key":"final_convo_1_gg_7",
-		"text":"Later!"
-	}
 	
+	{
+		"key":"rickadv0",
+		"text":"You are standing in the middle of a dark room, alone, in your pajamas.  In front of you is a door with a knob, and a keyhole.  A sliver of light gently flows out from the keyhole, illuminating your face.\n\nYou..."
+	},
+	
+	{
+		"key":"rickadv0_0",
+		"text":"Examine the room."
+	},
+	{
+		"key":"rickadv0_1",
+		"text":"Open the door."
+	},
+	{
+		"key":"rickadv0_2",
+		"text":"Go back to sleep."
+	},
+	
+	{
+		"key":"rickadv0_0_0",
+		"text":"The room appears to be empty with the exception of a dirty old mattress on the wooden floor, filled with stains and burnt marks.  You take a quick whiff of the mattress.\n\n*whiff*\n*whiff*\n\nIt smells like teen spirit."
+	},
+	
+	{
+		"key":"rickadv0_1_0",
+		"text":"You gently turn the knob.  The door cries in melancholic creek as it turns.  It hates you, and the world.  You are blinded by the light as it floods the room."
+	},
+	
+	{
+		"key":"rickadv1",
+		"text":"Without warning, a sudden, strong, sharp pain pierces through your heart.  You collapse on the floor, writhing in agony.  Each heart-beat feels like a stabbing knife."
+	},
+	
+	{
+		"key":"rickadv2",
+		"text":"You feel a presence of a person standing next to you.  You take a peek as you struggle on the floor.  A silhouette of a man is reaching out to you with his hand.\n\nA warm sensation of hope and salvation fills every fiber of your being."
+	},
+	
+	{
+		"key":"rickadv3",
+		"text":"You hear the man speak in a soft, gentle voice like an angel, \"No, I can't let you down.  I'm not going to say goodbye...\""
+	},
+	{
+		"key":"rickadv4",
+		"text":"You hear the man speak in a soft, gentle voice like an angel, \"No, I can't let you down.  I'm not going to say goodbye...\"\n\n\"I'm...\""
+	},
+	{
+		"key":"rickadv5",
+		"text":"You hear the man speak in a soft, gentle voice like an angel, \"No, I can't let you down.  I'm not going to say goodbye...\"\n\n\"I'm...\"\n\n\"I'm...\""
+	},
+	{
+		"key":"rickadv6",
+		"text":"You hear the man speak in a soft, gentle voice like an angel, \"No, I can't let you down.  I'm not going to say goodbye...\"\n\n\"I'm...\"\n\n\"I'm...\"\n\n\"Never gonna give you up!\""
+	},
 ]
