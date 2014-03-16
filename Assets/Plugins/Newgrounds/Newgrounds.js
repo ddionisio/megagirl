@@ -159,13 +159,12 @@ function unlockMedal (s : String) {
 	mWorking = true;
 
 	var a : int = findMedal(s);
+	Medals[a].unlocked = true;
 	a = Medals[a].id;
 	var seed : String = genSeed ();
 	var text : String = '{"command_id":"unlockMedal","publisher_id":' + PublisherId + ',"session_id":"' + SessionID + '","medal_id":' + a + ',"seed":"' + seed + '"}';
 	yield SecurePacket (seed, text);
-	
-	Medals[a].unlocked = true;
-	
+			
 	mWorking = false;
 	Debug.Log("Newgrounds Finish Unlocking Medal: "+s);
 }
@@ -293,7 +292,9 @@ function parseJSON (str : String) {
 }}		else if (str[i] == '"') {
 			isString = true;
 			start = (i+1);
-}		if ((str[i] == ",") || (str[i] == "}")) {
+}		
+if(!isString) {
+if ((str[i] == ",") || (str[i] == "}")) {
 			left = true;
 			if (isNum)  {
 				item = str.Substring (start, (i-start));
@@ -390,7 +391,7 @@ function parseJSON (str : String) {
 				saveGroups0 = false;
 			keys = false;
 			ratings = false;
-}}}
+}}}}
 
 function loadSettings () {
 	var download : WWW = new WWW ("http://www.ngads.com/gateway_v2.php", encoding.GetBytes("command%5Fid=preloadSettings&tracker%5Fid=" + WWW.EscapeURL(APIID) + "&publisher%5Fid=" + PublisherId + "&user%5Fid=" + UserID), headers);
@@ -447,6 +448,7 @@ function saveFile (saveGroup: String, fileName: String, description: String, fil
 function SecurePacket (seed : String, text : String) {
 	text = encrypt (seed, text);
 	text = "command%5Fid=securePacket&secure=" + WWW.EscapeURL(text) + "&tracker%5Fid=" + WWW.EscapeURL(APIID);
+	Debug.Log("Newgrounds send: "+text);
 	var download : WWW = new WWW ("http://www.ngads.com/gateway_v2.php", encoding.GetBytes(text), headers);
 	yield download;
 	

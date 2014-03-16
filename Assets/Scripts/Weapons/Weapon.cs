@@ -246,6 +246,12 @@ public class Weapon : MonoBehaviour {
         if(!string.IsNullOrEmpty(type)) {
             ret = Projectile.Create(projGroup, type, spawnPoint, dir, seek);
             if(ret) {
+                if(SceneState.instance.GetGlobalValue("cheat") > 0) {
+                    Damage dmg = ret.GetComponent<Damage>();
+                    if(dmg)
+                        dmg.amount = 100.0f;
+                }
+
                 mCurProjCount++;
                 ret.releaseCallback += OnProjRelease;
 

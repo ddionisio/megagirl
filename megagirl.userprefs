@@ -1,36 +1,19 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteAttachPoint.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Plugins\Newgrounds\Newgrounds.js">
     <Files>
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyBossNil.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\HUD.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\CameraControllerAttach.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalCharacterDialog.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\PlayerPause.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\PlayerNudge.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\UI\UIModalCharacterDialog.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\NGUIExt\NGUILayoutBase.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIGameLocalize.cs" Line="1" Column="1" />
-      <File FileName="Assets\NGUI\Scripts\UI\UILabel.cs" Line="1" Column="1" />
-      <File FileName="Assets\NGUI\Scripts\UI\UIPanel.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8PlayMaker\Audio\SoundPlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CameraController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LevelController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SlotInfo.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerSceneSkipToFinal.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SceneSkip.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Core\UserSlotData.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\UI\UIModalConfirm.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyBossBunnyShip.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\NGUIExt\NGUIModalCharacterDialog.cs" Line="1" Column="1" />
-      <File FileName="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSlicedSprite.cs" Line="1" Column="1" />
-      <File FileName="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteAttachPoint.cs" Line="19" Column="21" />
+      <File FileName="Assets\Plugins\Newgrounds\Newgrounds.js" Line="208" Column="3" />
+      <File FileName="Assets\Scripts\Weapons\WeaponStarGazer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\UI\UIModalInputBindDialog.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="274" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="343" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

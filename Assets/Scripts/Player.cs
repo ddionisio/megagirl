@@ -387,6 +387,10 @@ public class Player : EntityBase {
         state = (int)EntityState.Normal;
 
         LevelController.instance.TimeStart();
+
+        if(SceneState.instance.GetGlobalValue("cheat") > 0) {
+            stats.damageReduction = 1.0f;
+        }
     }
 
     public void RefreshArmor() {
