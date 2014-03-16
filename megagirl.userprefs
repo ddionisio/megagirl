@@ -1,18 +1,26 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Plugins\Newgrounds\Newgrounds.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\M8\Scripts\Core\UserSlotData.cs">
     <Files>
-      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="706" Column="25" />
       <File FileName="Assets\Plugins\Newgrounds\Newgrounds.js" Line="208" Column="3" />
-      <File FileName="Assets\Scripts\Weapons\WeaponStarGazer.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\UI\UIModalInputBindDialog.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemy.cs" Line="57" Column="1" />
+      <File FileName="Assets\Scripts\Stats.cs" Line="192" Column="15" />
+      <File FileName="Assets\Scripts\EnemyCatRoller.cs" Line="170" Column="24" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="640" Column="19" />
+      <File FileName="Assets\Scripts\PlayerStats.cs" Line="270" Column="9" />
+      <File FileName="Assets\Scripts\SlotInfo.cs" Line="145" Column="63" />
+      <File FileName="Assets\M8\Scripts\Core\UserSlotData.cs" Line="165" Column="9" />
+      <File FileName="Assets\M8\Scripts\Core\UserData.cs" Line="9" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="274" />
       <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="343" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\Stats.cs" line="198" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\PlayerStats.cs" line="277" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\SlotInfo.cs" line="121" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

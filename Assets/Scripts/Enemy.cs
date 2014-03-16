@@ -48,6 +48,7 @@ public class Enemy : EntityBase {
 
     private bool mUseBossHP;
     private float mLastStunnedTime;
+    private bool mIsSuddenDeath;
 
     public Stats stats { get { return mStats; } }
     public PlatformerController bodyCtrl { get { return mBodyCtrl; } }
@@ -193,13 +194,18 @@ public class Enemy : EntityBase {
                 if(visibleGO)
                     visibleGO.SetActive(false);
 
-                if(!string.IsNullOrEmpty(deathSpawnGroup) && !string.IsNullOrEmpty(deathSpawnType)) {
-                    Vector3 pt = (deathSpawnAttach ? deathSpawnAttach : transform).localToWorldMatrix.MultiplyPoint(deathSpawnOfs); pt.z = 0;
-                    PoolController.Spawn(deathSpawnGroup, deathSpawnType, deathSpawnType, null, pt, Quaternion.identity);
+                if(mIsSuddenDeath) { //don't spawn death stuff if we fall in death
+                    mIsSuddenDeath = false;
                 }
+                else {
+                    if(!string.IsNullOrEmpty(deathSpawnGroup) && !string.IsNullOrEmpty(deathSpawnType)) {
+                        Vector3 pt = (deathSpawnAttach ? deathSpawnAttach : transform).localToWorldMatrix.MultiplyPoint(deathSpawnOfs); pt.z = 0;
+                        PoolController.Spawn(deathSpawnGroup, deathSpawnType, deathSpawnType, null, pt, Quaternion.identity);
+                    }
 
-                if(deathActivateGO) {
-                    deathActivateGO.SetActive(true);
+                    if(deathActivateGO) {
+                        deathActivateGO.SetActive(true);
+                    }
                 }
 
                 if(toRespawnAuto) {
@@ -455,6 +461,11 @@ public class Enemy : EntityBase {
             else
                 SoundPlayerGlobal.instance.Play(soundHurt);
         }
+    }
+
+    protected virtual void OnSuddenDeath() {
+        mIsSuddenDeath = true;
+        stats.curHP = 0;
     }
 
     private const string DoRespawnWaitDelayKey = "DoRespawnWaitDelay";

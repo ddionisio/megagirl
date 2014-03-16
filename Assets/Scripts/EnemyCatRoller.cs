@@ -164,6 +164,17 @@ public class EnemyCatRoller : Enemy {
             mSensor.updateCallback += OnSensorUpdate;
     }
 
+    protected override void OnSuddenDeath() {
+        if(mRock) {
+            mRock.Release();
+            mRock = null;
+            mRockCtrl = null;
+            mRockBlinkDelay = null;
+        }
+
+        base.OnSuddenDeath();
+    }
+
     void FixedUpdate() {
         bool updatePos = false;
 

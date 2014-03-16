@@ -702,6 +702,10 @@ public class Player : EntityBase {
         }
     }
 
+    void OnSuddenDeath() {
+        stats.curHP = 0;
+    }
+
     //misc
 
     void OnUIModalActive() {

@@ -636,6 +636,10 @@ public class Projectile : EntityBase {
         DoSimpleMove(delta);
     }
 
+    void OnSuddenDeath() {
+        Release();
+    }
+
     protected virtual void FixedUpdate() {
         switch((State)state) {
             case State.Active:

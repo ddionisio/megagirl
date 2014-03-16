@@ -188,13 +188,15 @@ public class Stats : MonoBehaviour {
 
     void OnCollisionEnter(Collision col) {
         if(col.gameObject.CompareTag(deathTag)) {
-            curHP = 0;
+            SendMessage("OnSuddenDeath", null, SendMessageOptions.DontRequireReceiver);
+            //curHP = 0;
         }
     }
 
     void OnTriggerEnter(Collider col) {
         if(col.gameObject.CompareTag(deathTag)) {
-            curHP = 0;
+            SendMessage("OnSuddenDeath", null, SendMessageOptions.DontRequireReceiver);
+            //curHP = 0;
         }
     }
 
