@@ -9,6 +9,13 @@ public class LeaderboardServiceNGrounds : MonoBehaviour, Leaderboard.IService {
     private string mCurBoardName;
     private int mCurBoardScore;
 
+    private const float retryWaitDelay = 1.0f;
+    private const int retryCount = 5;
+
+    private bool mRetry;
+    private int mCurRetry = 0;
+    private float mLastTime;
+
     void OnDestroy() {
         if(Leaderboard.instance) {
             Leaderboard.instance.UnregisterService(this);
@@ -23,14 +30,37 @@ public class LeaderboardServiceNGrounds : MonoBehaviour, Leaderboard.IService {
 
 	// Update is called once per frame
 	void Update () {
-        if(mCurBoardProcess) {
-            if(mNG.HasStarted() && !mNG.IsWorking()) {
-                if(!mScoreProcessing) {
-                    StartCoroutine(mNG.postScore(mCurBoardScore, mCurBoardName));
-                    mScoreProcessing = true;
+        if(mRetry) {
+            if(Time.time - mLastTime > retryWaitDelay) {
+                DoScoreProcess();
+                mRetry = false;
+            }
+        }
+        else if(mCurBoardProcess) {
+            if(mNG.HasStarted()) {
+                if(!mNG.IsWorking()) {
+                    if(!mScoreProcessing) { //start process if we haven't
+                        StartCoroutine(mNG.postScore(mCurBoardScore, mCurBoardName));
+                        mScoreProcessing = true;
+                    }
+                    else { //completed
+                        if(!mNG.success) {
+                            if(mCurRetry == retryCount) {
+                                //TODO: tell the user the bad news
+                                mCurBoardProcess = false;
+                            }
+                            else {
+                                mCurRetry++;
+                                mLastTime = Time.time;
+                                mRetry = true;
+                                mScoreProcessing = false;
+                            }
+                        }
+                        else {
+                            mCurBoardProcess = false;
+                        }
+                    }
                 }
-                else
-                    mCurBoardProcess = false;
             }
         }
 	}
@@ -50,9 +80,17 @@ public class LeaderboardServiceNGrounds : MonoBehaviour, Leaderboard.IService {
         mCurBoardName = boardName;
         mCurBoardScore = score;
 
-        if(mNG.HasStarted() && !mNG.IsWorking()) {
-            StartCoroutine(mNG.postScore(score, boardName));
-            mScoreProcessing = true;
+        DoScoreProcess();
+    }
+
+    void DoScoreProcess() {
+        mScoreProcessing = false;
+
+        if(mNG.HasStarted()) {
+            if(!mNG.IsWorking()) {
+                StartCoroutine(mNG.postScore(mCurBoardScore, mCurBoardName));
+                mScoreProcessing = true;
+            }
         }
     }
 }

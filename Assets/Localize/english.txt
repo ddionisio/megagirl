@@ -1,7 +1,7 @@
 [
 	{
 		"key":"ver",
-		"text":"0.0.4"
+		"text":"0.0.6"
 	},
 	{
 		"key":"title",
@@ -96,7 +96,7 @@
 	
 	{
 		"key":"level_select_instruction",
-		"text":"ACCEPT [808080][{0}, {3}][-]    INFO [808080][{1}][-]    OPTIONS [808080][{2}][-]",
+		"text":"ACCEPT [808080][{0}, {3}][-]   OPTIONS [808080][{2}][-]",
 		"param":["input_6", "input_3", "input_7", "input_2"]
 	},
 	

@@ -1,23 +1,26 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\M8\Scripts\Core\UserSlotData.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Plugins\Newgrounds\Newgrounds.js">
     <Files>
-      <File FileName="Assets\Scripts\Player.cs" Line="706" Column="25" />
-      <File FileName="Assets\Plugins\Newgrounds\Newgrounds.js" Line="208" Column="3" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="57" Column="1" />
-      <File FileName="Assets\Scripts\Stats.cs" Line="192" Column="15" />
-      <File FileName="Assets\Scripts\EnemyCatRoller.cs" Line="170" Column="24" />
-      <File FileName="Assets\Scripts\Projectile.cs" Line="640" Column="19" />
-      <File FileName="Assets\Scripts\PlayerStats.cs" Line="270" Column="9" />
-      <File FileName="Assets\Scripts\SlotInfo.cs" Line="145" Column="63" />
-      <File FileName="Assets\M8\Scripts\Core\UserSlotData.cs" Line="165" Column="9" />
-      <File FileName="Assets\M8\Scripts\Core\UserData.cs" Line="9" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Plugins\Newgrounds\Newgrounds.js" Line="463" Column="28" />
+      <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Stats.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EnemyCatRoller.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerStats.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SlotInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Core\UserSlotData.cs" Line="156" Column="22" />
+      <File FileName="Assets\M8\Scripts\Core\UserData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Achievement\AchievementServiceNGrounds.cs" Line="133" Column="34" />
+      <File FileName="Assets\Scripts\Leaderboard\LeaderboardServiceNGrounds.cs" Line="80" Column="35" />
+      <File FileName="Assets\Scripts\Achievement\Achievement.cs" Line="162" Column="64" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="274" />
-      <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="343" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="281" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="356" />
       <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\Stats.cs" line="198" />
       <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\PlayerStats.cs" line="277" />
       <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\SlotInfo.cs" line="121" />

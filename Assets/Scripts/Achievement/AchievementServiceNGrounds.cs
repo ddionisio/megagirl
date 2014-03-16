@@ -6,13 +6,20 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
         Uninitialized,
         RetrieveMedals,
         ProcessData,
+        RetryWait,
+        Wait,
         None
     }
 
     private Newgrounds mNG;
 
+    private const float retryWaitDelay = 1.0f;
+    private const int retryCount = 5;
+
     private Status mStatus = Status.Uninitialized;
     private Achievement.Data mData;
+    private int mCurRetry = 0;
+    private float mLastTime;
 
     void Awake() {
         Achievement.instance.RegisterService(this);
@@ -43,8 +50,39 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
                 break;
 
             case Status.ProcessData:
-                if(!mNG.IsWorking())
-                    mStatus = Status.None;
+                if(!mNG.IsWorking()) {
+                    if(!mNG.success) {
+                        if(mCurRetry == retryCount) {
+                            //TODO: tell the user the bad news
+                            mStatus = Status.None;
+                        }
+                        else {
+                            mCurRetry++;
+                            mLastTime = Time.time;
+                            mStatus = Status.RetryWait;
+                        }
+                    }
+                    else
+                        mStatus = Status.None;
+                }
+                break;
+
+            case Status.Wait:
+                if(mNG.HasStarted() && !mNG.IsWorking()) {
+                    StartCoroutine(mNG.unlockMedal(mData.title));
+                    mStatus = Status.ProcessData;
+                }
+                break;
+
+            case Status.RetryWait:
+                if(Time.time - mLastTime > retryWaitDelay) {
+                    if(mNG.IsWorking() || !mNG.HasStarted())
+                        mStatus = Status.Wait;
+                    else {
+                        StartCoroutine(mNG.unlockMedal(mData.title));
+                        mStatus = Status.ProcessData;
+                    }
+                }
                 break;
         }
 	}
@@ -96,9 +134,14 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
         mData = data;
         if(mStatus == Status.None) {
             //Debug.Log("Newgrounds Unlocking Medal: "+data.title);
+            if(mNG.IsWorking() || !mNG.HasStarted())
+                mStatus = Status.Wait;
+            else {
+                StartCoroutine(mNG.unlockMedal(data.title));
+                mStatus = Status.ProcessData;
+            }
 
-            StartCoroutine(mNG.unlockMedal(data.title));
-            mStatus = Status.ProcessData;
+            mCurRetry = 0;
         }
     }
 }

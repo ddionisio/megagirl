@@ -20,6 +20,9 @@ var Medals : medal[];
 var SaveGroups : SaveGroup[];
 var boardNames : String[];
 var boardIndices : int[];
+var errorMessage : String;
+var errorCode : int;
+var success : boolean;
 
 private var mStarted : boolean;
 private var mWorking : boolean;
@@ -249,6 +252,10 @@ function parseJSON (str : String) {
 	var groupName : String;
 	var groupType : int;
 	
+	errorCode = -1;
+	errorMessage = "";
+	success = true;
+	
 	if ((str[0] != "{") && (str[1] != "{")) {
 		throw new UnityException ("Command Failed: Unknown Command");
 }	for (i = 0; i < str.Length; i++) {
@@ -283,6 +290,9 @@ function parseJSON (str : String) {
 						name0 = item;	
 					if (itemName == "group_name")
 						groupName = item;
+					if (itemName == "error_msg")
+						errorMessage = item;
+					
 }				isString = false;
 }}		else if (str[i] == ":"){
 			left = false;
@@ -331,8 +341,11 @@ if ((str[i] == ",") || (str[i] == "}")) {
 						isFloat = true;
 					else
 						isFloat = false;
+				if (itemName == "error_code")
+					errorCode = parseInt(item);
 }				if ((itemName == "success") && (item == "0"))
-					throw new UnityException ("Command Failed: " + commandId);				
+					success = false;
+					//throw new UnityException ("Command Failed: " + commandId);				
 				isNum = false;
 }}		if (str[i] == "}") {
 			if (medalID != 0){
@@ -391,7 +404,12 @@ if ((str[i] == ",") || (str[i] == "}")) {
 				saveGroups0 = false;
 			keys = false;
 			ratings = false;
-}}}}
+}}}
+
+	if(!success && errorMessage.Length == 0)
+		errorMessage = commandId;
+
+}
 
 function loadSettings () {
 	var download : WWW = new WWW ("http://www.ngads.com/gateway_v2.php", encoding.GetBytes("command%5Fid=preloadSettings&tracker%5Fid=" + WWW.EscapeURL(APIID) + "&publisher%5Fid=" + PublisherId + "&user%5Fid=" + UserID), headers);
@@ -446,18 +464,23 @@ function saveFile (saveGroup: String, fileName: String, description: String, fil
 }
 
 function SecurePacket (seed : String, text : String) {
+	Debug.Log("Newgrounds send: "+text);
 	text = encrypt (seed, text);
 	text = "command%5Fid=securePacket&secure=" + WWW.EscapeURL(text) + "&tracker%5Fid=" + WWW.EscapeURL(APIID);
-	Debug.Log("Newgrounds send: "+text);
+	Debug.Log("Newgrounds send-encrypt: "+text);
 	var download : WWW = new WWW ("http://www.ngads.com/gateway_v2.php", encoding.GetBytes(text), headers);
 	yield download;
 	
-	if(!String.IsNullOrEmpty(download.error))
+	if(!String.IsNullOrEmpty(download.error)) {
 		Debug.Log("Newgrounds Error: "+download.error);
-	
-	//guiText.text += ("\n" + download.text);
-	Debug.Log("Newgrounds text: "+download.text);
-	parseJSON (download.text);
+		error = download.error;
+		success = false;
+	}
+	else {
+		//guiText.text += ("\n" + download.text);
+		Debug.Log("Newgrounds text: "+download.text);
+		parseJSON (download.text);
+	}
 }
 
 function encrypt (seed : String, text : String) {
