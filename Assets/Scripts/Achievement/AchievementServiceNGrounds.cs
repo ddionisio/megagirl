@@ -8,12 +8,13 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
         ProcessData,
         RetryWait,
         Wait,
+        Error,
         None
     }
 
     private Newgrounds mNG;
 
-    private const float retryWaitDelay = 1.0f;
+    private const float waitDelay = 1.0f;
     private const int retryCount = 5;
 
     private Status mStatus = Status.Uninitialized;
@@ -32,7 +33,7 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
         switch(mStatus) {
             case Status.Uninitialized:
                 if(mNG.HasStarted()) {
-                    StartCoroutine(mNG.getMedals());
+                    StartCoroutine(mNG.loadSettings());
                     mStatus = Status.RetrieveMedals;
                 }
                 break;
@@ -45,6 +46,7 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
                     }
                     else {
                         mStatus = Status.None;
+                        mLastTime = Time.time;
                     }
                 }
                 break;
@@ -54,7 +56,8 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
                     if(!mNG.success) {
                         if(mCurRetry == retryCount) {
                             //TODO: tell the user the bad news
-                            mStatus = Status.None;
+                            UIModalMessage.Open("Server Error: "+mNG.errorCode, mNG.errorMessage, null);
+                            mStatus = Status.Error;
                         }
                         else {
                             mCurRetry++;
@@ -62,8 +65,10 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
                             mStatus = Status.RetryWait;
                         }
                     }
-                    else
+                    else {
                         mStatus = Status.None;
+                        mLastTime = Time.time;
+                    }
                 }
                 break;
 
@@ -75,7 +80,7 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
                 break;
 
             case Status.RetryWait:
-                if(Time.time - mLastTime > retryWaitDelay) {
+                if(Time.time - mLastTime > waitDelay) {
                     if(mNG.IsWorking() || !mNG.HasStarted())
                         mStatus = Status.Wait;
                     else {
@@ -87,11 +92,15 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
         }
 	}
 
+    public bool AchievementAllow() {
+        return mNG.IsLoggedIn();
+    }
+
     /// <summary>
     /// Return true if we are ready to process new data.  Should return false if processing a data or is still initializing.
     /// </summary>
     public bool AchievementIsReady() {
-        return mStatus == Status.None;
+        return (mStatus == Status.None || mStatus == Status.Error) && Time.time - mLastTime > waitDelay;
     }
     
     /// <summary>

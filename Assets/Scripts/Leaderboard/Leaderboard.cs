@@ -5,6 +5,11 @@ using System.Collections.Generic;
 public class Leaderboard : MonoBehaviour {
     public interface IService {
         /// <summary>
+        /// Return true if we are allowed to process leaderboard stuff (if user is properly logged in, etc)
+        /// </summary>
+        bool LeaderboardAllow();
+
+        /// <summary>
         /// Return true if we are still working on something
         /// </summary>
         bool LeaderboardIsWorking();
@@ -57,14 +62,21 @@ public class Leaderboard : MonoBehaviour {
             DataProcess dat = mProcess.Peek();
 
             int numReady = 0;
+            int numInvalid = 0;
             for(int i = 0; i < mServices.Count; i++) {
                 IService service = mServices[i];
                 if(!service.LeaderboardIsWorking()) {
-                    numReady++;
+                    if(service.LeaderboardAllow())
+                        numReady++;
+                    else
+                        numInvalid++;
                 }
             }
 
-            if(numReady == mServices.Count) {
+            if(numInvalid == mServices.Count) {
+                mProcess.Dequeue();
+            }
+            else if(numReady == mServices.Count - numInvalid) {
                 for(int i = 0; i < mServices.Count; i++) {
                     IService service = mServices[i];
                     service.LeaderboardProcessData(dat.boardName, dat.score);

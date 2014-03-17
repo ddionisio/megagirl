@@ -5,10 +5,16 @@ using System.Collections.Generic;
 public class Achievement : MonoBehaviour {
     public enum Status {
         Processing,
+        Error,
         Complete
     }
 
     public interface IService {
+        /// <summary>
+        /// Return true if we are allowed to process achievement (if user is properly logged in, etc)
+        /// </summary>
+        bool AchievementAllow();
+
         /// <summary>
         /// Return true if we are ready to process new data.  Should return false if processing a data or is still initializing.
         /// </summary>
@@ -126,29 +132,39 @@ public class Achievement : MonoBehaviour {
             DataProcess dat = mProcessUpdates.Peek();
 
             int numProcessComplete = 0;
+            int numInvalid = 0;
 
             for(int i = 0; i < mServices.Count; i++) {
                 IService service = mServices[i];
 
                 Data serviceData = service.AchievementCurrentData();
                 if(serviceData == dat.data) {
-                    if(service.AchievementCurrentStatus() == Status.Complete) {
+                    Status s = service.AchievementCurrentStatus();
+                    if(s == Status.Error)
+                        numInvalid++;
+                    else if(s == Status.Complete)
                         numProcessComplete++;
-                    }
                 }
                 else if(service.AchievementIsReady()) {
-                    //if it's already completed, ignore completely and pop process
-                    if(service.AchievementIsComplete(dat.data)) {
-                        mProcessUpdates.Dequeue();
-                        return;
-                    }
+                    if(service.AchievementAllow()) {
+                        //if it's already completed, ignore completely and pop process
+                        if(service.AchievementIsComplete(dat.data)) {
+                            mProcessUpdates.Dequeue();
+                            return;
+                        }
 
-                    service.AchievementProcessData(dat.data, dat.progress, dat.complete);
+                        service.AchievementProcessData(dat.data, dat.progress, dat.complete);
+                    }
+                    else
+                        numInvalid++;
                 }
             }
 
             //all done?
-            if(numProcessComplete == mServices.Count) {
+            if(numInvalid == mServices.Count) {
+                mProcessUpdates.Dequeue();
+            }
+            else if(numProcessComplete == mServices.Count - numInvalid) {
                 mProcessUpdates.Dequeue();
 
                 if(popupCallback != null)

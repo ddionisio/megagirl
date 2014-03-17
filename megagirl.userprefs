@@ -1,9 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\M8PlayMaker\Audio\MusicPlay.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Achievement\AchievementServiceNGrounds.cs">
     <Files>
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\Plugins\Newgrounds\Newgrounds.js" Line="1" Column="1" />
+      <File FileName="Assets\Plugins\Newgrounds\Newgrounds.js" Line="107" Column="1" />
       <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Stats.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyCatRoller.cs" Line="1" Column="1" />
@@ -12,16 +12,22 @@
       <File FileName="Assets\Scripts\SlotInfo.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Core\UserSlotData.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Core\UserData.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Achievement\AchievementServiceNGrounds.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Leaderboard\LeaderboardServiceNGrounds.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Achievement\Achievement.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8PlayMaker\Audio\MusicPlay.cs" Line="37" Column="50" />
+      <File FileName="Assets\Scripts\Achievement\AchievementServiceNGrounds.cs" Line="76" Column="59" />
+      <File FileName="Assets\Scripts\Leaderboard\LeaderboardServiceNGrounds.cs" Line="48" Column="58" />
+      <File FileName="Assets\Scripts\Achievement\Achievement.cs" Line="143" Column="42" />
+      <File FileName="Assets\M8PlayMaker\Audio\MusicPlay.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Achievement\AchievementHardcorePlus.cs" Line="15" Column="1" />
+      <File FileName="Assets\Scripts\Achievement\AchievementHardcore.cs" Line="10" Column="22" />
+      <File FileName="Assets\M8\Scripts\UI\UIModalMessage.cs" Line="17" Column="5" />
+      <File FileName="Assets\M8\Scripts\UI\UIModalConfirm.cs" Line="10" Column="26" />
+      <File FileName="Assets\Scripts\Leaderboard\Leaderboard.cs" Line="64" Column="30" />
+      <File FileName="Assets\Scripts\PlatformerController.cs" Line="217" Column="49" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="281" />
-      <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="356" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="285" />
+      <Breakpoint file="C:\Lab\megagirl\Assets\Plugins\Newgrounds\Newgrounds.js" line="360" />
       <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\Stats.cs" line="198" />
       <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\PlayerStats.cs" line="277" />
       <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\SlotInfo.cs" line="121" />

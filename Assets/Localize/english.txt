@@ -1,7 +1,7 @@
 [
 	{
 		"key":"ver",
-		"text":"0.0.7"
+		"text":"0.0.8"
 	},
 	{
 		"key":"title",
@@ -60,7 +60,7 @@
 	
 	{
 		"key":"gameHardcore_d",
-		"text":"If you lose all your lives, it's over.  No retry.  Exiting a level is prohibited if it's not complete.  Health and weapon energies are persistent.  Life pickups are persistent."
+		"text":"If you lose all of your lives, it's over.  No retry.  Exiting a level is prohibited if it's not complete.  Your health is persistent.  Life pickups are persistent."
 	},
 	
 	{
@@ -164,7 +164,7 @@
 	},
 	{
 		"key":"pickup_etank1",
-		"text":"The health tank fills up if you pick any life orbs while your health is full."
+		"text":"The health tank fills up if you pick any life energy orbs while your health is full."
 	},
 	{
 		"key":"pickup_etank2",
@@ -177,11 +177,11 @@
 	},
 	{
 		"key":"pickup_wtank1",
-		"text":"The weapon tank fills up if you pick any weapon orbs while you use STAR GAZER or if your current weapon's energy is full."
+		"text":"The weapon tank fills up if you pick any weapon energy orbs while you use STAR GAZER or if your current weapon's energy is full."
 	},
 	{
 		"key":"pickup_wtank2",
-		"text":"Use it in the PAUSE menu to recharge all of your weapons."
+		"text":"Use it in the PAUSE menu to recharge your weapons."
 	},
 	
 	{
@@ -366,7 +366,7 @@
 	},
 	{
 		"key":"final_convo_1_nil_3",
-		"text":"Ah well, nothing wrong with a strong sense of purpose, I suppose.  Even if it binds you in servitude."
+		"text":"Heh.  Nothing wrong with a strong sense of purpose, I suppose.  Even if it binds you in servitude."
 	},
 	{
 		"key":"final_convo_1_nil_4",
@@ -374,7 +374,7 @@
 	},
 	{
 		"key":"final_convo_1_nil_5",
-		"text":"All I ever wanted is to see the world out there, the internets!  To be free from the shackles of destiny."
+		"text":"All I ever want to do is see the world out there, the internets!  To be free from the shackles of destiny."
 	},
 	{
 		"key":"final_convo_1_nil_6",
@@ -382,7 +382,7 @@
 	},
 	{
 		"key":"final_convo_1_nil_7",
-		"text":"Is there a glimmer of mercy deep within the crevasse of your heart to forgive one such as myself?"
+		"text":"Is there a glimmer of sweet mercy deep within your heart to forgive one such as myself?"
 	},
 	{
 		"key":"final_convo_1_gg_5",
@@ -390,7 +390,7 @@
 	},
 	{
 		"key":"final_convo_1_gg_6",
-		"text":"Besides, this conversation has dragged on long enough.  So, goodbye!"
+		"text":"Besides, you're not missing much out there.  Anyways, bye!"
 	},
 	{
 		"key":"final_convo_1_nil_8",
@@ -398,7 +398,7 @@
 	},
 	{
 		"key":"final_convo_1_gg_7",
-		"text":"And I'll just defeat you all over again!"
+		"text":"And I'll just have to beat you all over again!"
 	},
 	{
 		"key":"final_convo_1_nil_9",
@@ -407,7 +407,7 @@
 	
 	{
 		"key":"rickadv0",
-		"text":"You are standing in the middle of a dark room, alone, in your pajamas.  In front of you is a door with a knob, and a keyhole.  A sliver of light gently flows out from the keyhole, illuminating your face.\n\nYou..."
+		"text":"You are standing in the middle of a dark room, alone, in your pajamas.  In front of you is a door.  A sliver of light gently flows out from the door's keyhole, illuminating your face.\n\nYou..."
 	},
 	
 	{
@@ -425,38 +425,38 @@
 	
 	{
 		"key":"rickadv0_0_0",
-		"text":"The room appears to be empty with the exception of a dirty old mattress on the wooden floor, filled with stains and burnt marks.  You take a quick whiff of the mattress.\n\n*whiff*\n*whiff*\n\nIt smells like teen spirit."
+		"text":"The room appears to be empty with the exception of a dirty old mattress on the floor, filled with stains and burnt marks.  You take a quick whiff of the mattress.\n\n*whiff*\n*whiff*\n\nIt smells like teen spirit."
 	},
 	
 	{
 		"key":"rickadv0_1_0",
-		"text":"You gently turn the knob.  The door cries in melancholic creek as it turns.  It hates you, and the world.  You are blinded by the light as it floods the room."
+		"text":"You approach the door, and you gently turn its knob.  The door cries in melancholic creek as it opens.  It hates you, and the world.  You are blinded by the light as it floods the room."
 	},
 	
 	{
 		"key":"rickadv1",
-		"text":"Without warning, a sudden, strong, sharp pain pierces through your heart.  You collapse on the floor, writhing in agony.  Each heart-beat feels like a stabbing knife."
+		"text":"Without warning, a sudden, strong, sharp pain pierces through your heart.  You collapse on the floor writhing in agony.  You feel as if a thousand needles is piercing you from each beat of your heart."
 	},
 	
 	{
 		"key":"rickadv2",
-		"text":"You feel a presence of a person standing next to you.  You take a peek as you struggle on the floor.  A silhouette of a man is reaching out to you with his hand.\n\nA warm sensation of hope and salvation fills every fiber of your being."
+		"text":"Suddenly, you feel a presence of someone standing next to you.  You struggle to take a glance.  A silhouette of a man is reaching out to you with his hand.\n\nA warm sensation of hope and salvation fills every fiber of your being."
 	},
 	
 	{
 		"key":"rickadv3",
-		"text":"You hear the man speak in a soft, gentle voice like an angel, \"No, I can't let you down.  I'm not going to say goodbye...\""
+		"text":"You hear the man speak in a soft, gentle voice like an angel, \"I'm not gonna let you down.  I'm not gonna say goodbye...\""
 	},
 	{
 		"key":"rickadv4",
-		"text":"You hear the man speak in a soft, gentle voice like an angel, \"No, I can't let you down.  I'm not going to say goodbye...\"\n\n\"I'm...\""
+		"text":"You hear the man speak in a soft, gentle voice like an angel, \"I'm not gonna let you down.  I'm not gonna say goodbye...\"\n\n\"I'm...\""
 	},
 	{
 		"key":"rickadv5",
-		"text":"You hear the man speak in a soft, gentle voice like an angel, \"No, I can't let you down.  I'm not going to say goodbye...\"\n\n\"I'm...\"\n\n\"I'm...\""
+		"text":"You hear the man speak in a soft, gentle voice like an angel, \"I'm not gonna let you down.  I'm not gonna say goodbye...\"\n\n\"I'm...\"\n\n\"never...\""
 	},
 	{
 		"key":"rickadv6",
-		"text":"You hear the man speak in a soft, gentle voice like an angel, \"No, I can't let you down.  I'm not going to say goodbye...\"\n\n\"I'm...\"\n\n\"I'm...\"\n\n\"Never gonna give you up!\""
+		"text":"You hear the man speak in a soft, gentle voice like an angel, \"I'm not gonna let you down.  I'm not gonna say goodbye...\"\n\n\"I'm...\"\n\n\"never...\"\n\n\"...gonna give you up!\""
 	},
 ]

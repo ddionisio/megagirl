@@ -144,7 +144,14 @@ public class LevelController : MonoBehaviour {
             TimeResume();
 
             float t = mAccumTime + (Time.time - mLastTime);
-            SceneState.instance.SetGlobalValueFloat(mLevelLoaded+levelTimePostfix, t, true);
+
+            string key = mLevelLoaded + levelTimePostfix;
+
+            float oldT = SceneState.instance.GetGlobalValueFloat(key, float.MaxValue);
+            if(oldT < t)
+                t = oldT;
+
+            SceneState.instance.SetGlobalValueFloat(key, t, true);
 
             mTimeStarted = false;
 

@@ -37,13 +37,15 @@ public class SlotInfo {
     public static void ComputeClearTime() {
         float t = 0;
 
-        string[] levelTimeKeys = SceneState.instance.GetGlobalKeys(itm => itm.Key.LastIndexOf(LevelController.levelTimePostfix) != -1);
+        string[] levelTimeKeys = UserData.instance.GetKeys(itm => itm.Key.LastIndexOf(LevelController.levelTimePostfix) != -1);
 
         for(int i = 0; i < levelTimeKeys.Length; i++) {
-            t += SceneState.instance.GetGlobalValueFloat(levelTimeKeys[i]);
+            t += UserData.instance.GetFloat(levelTimeKeys[i]);
         }
 
-        UserSlotData.SetSlotValueFloat(UserSlotData.currentSlot, timeKey, t);
+        float oldT = UserSlotData.GetSlotValueFloat(UserSlotData.currentSlot, timeKey, float.MaxValue);
+        if(t < oldT)
+            UserSlotData.SetSlotValueFloat(UserSlotData.currentSlot, timeKey, t);
     }
 
     public static bool HasClearTime(int slot) {

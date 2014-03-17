@@ -172,7 +172,7 @@
 	{
 		"id":17,
 		"title":"The End Justifies The Means",
-		"description":"Defeat Nil in Iron Maiden Mode.",
+		"description":"Finish the game in Iron Maiden Mode.",
 		"imageRef":"achievement_finish_hardcore",
 		"points":25,
 		"progress":0,
@@ -222,7 +222,7 @@
 	{
 		"id":22,
 		"title":"Totally Worth It",
-		"description":"Finish the game in Iron Maiden mode without dying, and by not collecting any of the upgrades.",
+		"description":"Finish the game in Iron Maiden mode without dying.",
 		"imageRef":"achievement_finish_hardcore_ultimate",
 		"points":50,
 		"progress":0,

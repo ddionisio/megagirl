@@ -47,6 +47,7 @@ public class LeaderboardServiceNGrounds : MonoBehaviour, Leaderboard.IService {
                         if(!mNG.success) {
                             if(mCurRetry == retryCount) {
                                 //TODO: tell the user the bad news
+                                UIModalMessage.Open("Server Error: "+mNG.errorCode, mNG.errorMessage, null);
                                 mCurBoardProcess = false;
                             }
                             else {
@@ -64,6 +65,10 @@ public class LeaderboardServiceNGrounds : MonoBehaviour, Leaderboard.IService {
             }
         }
 	}
+
+    public bool LeaderboardAllow() {
+        return mNG.IsLoggedIn();
+    }
 
     /// <summary>
     /// Return true if we are still working on something

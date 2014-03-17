@@ -449,7 +449,7 @@ public class Player : EntityBase {
 
         //disable autosave if hardcore
         if(SlotInfo.gameMode == SlotInfo.GameMode.Hardcore) {
-            preserveEnergySpent = true;
+            //preserveEnergySpent = true;
             mStats.hpPersist = true;
             PlayerStats.savePersist = true;
             UserData.instance.autoSave = LevelController.isLevelLoadedComplete;

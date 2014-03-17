@@ -129,7 +129,11 @@ function Start () {
 	mStarted = true;
 	mWorking = false;
 	
-	Debug.Log("Newgrounds Started");
+	Debug.Log("Newgrounds Started SessionID: "+SessionID+" UserID: "+UserID+" Name: "+UserName);
+}
+
+function IsLoggedIn() {
+	return SessionID.Length > 0;
 }
 
 function downloadMedal (s : String) {
@@ -196,13 +200,16 @@ function getMedals () {
 	yield download;
 	
 	//Debug.Log(download.text);
-	
-	parseJSON (download.text);
-	
+			
 	mWorking = false;
 	Debug.Log("Newgrounds Finish Getting Medals");
-	if(!String.IsNullOrEmpty(download.error))
+	if(!String.IsNullOrEmpty(download.error)) {
 		Debug.Log("Newgrounds Error: "+download.error);
+		success = false;
+	}
+	else {
+		parseJSON (download.text);
+	}
 	
 	if(Medals.Length > 0) {		
 		for(i = 0; i < Medals.Length; i++) {
@@ -414,6 +421,24 @@ if ((str[i] == ",") || (str[i] == "}")) {
 function loadSettings () {
 	var download : WWW = new WWW ("http://www.ngads.com/gateway_v2.php", encoding.GetBytes("command%5Fid=preloadSettings&tracker%5Fid=" + WWW.EscapeURL(APIID) + "&publisher%5Fid=" + PublisherId + "&user%5Fid=" + UserID), headers);
 	yield download;
+	
+	mWorking = false;
+	Debug.Log("Newgrounds Finish Getting Settings");
+	if(!String.IsNullOrEmpty(download.error)) {
+		Debug.Log("Newgrounds Error: "+download.error);
+		success = false;
+	}
+	else {
+		Debug.Log("Newgrounds Settings: "+download.text);
+		parseJSON (download.text);
+	}
+	
+	if(Medals.Length > 0) {		
+		for(i = 0; i < Medals.Length; i++) {
+			Debug.Log("Medal: "+Medals[i].id+" name: "+Medals[i].name);
+		}
+	}
+	
 	parseJSON (download.text);
 }
 
@@ -426,6 +451,8 @@ function registerSession () {
 	
 	if(!String.IsNullOrEmpty(download.error))
 		Debug.Log("Newgrounds Error: "+download.error);
+		
+	Debug.Log("Newgrounds: "+download.text);
 		
 	parseJSON (download.text);
 }
