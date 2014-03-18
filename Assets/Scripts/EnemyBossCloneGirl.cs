@@ -38,6 +38,8 @@ public class EnemyBossCloneGirl : Enemy {
     public string castProjSeekType;
     public int castProjCount = 2;
 
+    public float timeWarpHarm = 3.0f;
+
     public SoundPlayer crazySfx;
     public SoundPlayer cloneSfx;
     public SoundPlayer sunnySpawnSfx;
@@ -61,6 +63,8 @@ public class EnemyBossCloneGirl : Enemy {
     private float mLastMoveTime;
 
     private float mLastMoveSide;
+
+    private TimeWarp mTimeWarp;
 
     protected override void StateChanged() {
         switch((EntityState)prevState) {
@@ -170,6 +174,8 @@ public class EnemyBossCloneGirl : Enemy {
         mSensor.updateCallback += OnSensorUpdate;
 
         mCrazyProjs = new Projectile[crazySpawnPts.Length - 1];
+
+        mTimeWarp = GetComponent<TimeWarp>();
     }
 
     protected override void Start() {
@@ -194,6 +200,10 @@ public class EnemyBossCloneGirl : Enemy {
 
         switch(mCurPhase) {
             case Phase.Move:
+                if(!stats.isInvul && mTimeWarp.scale < 1.0f) {
+                    stats.curHP -= timeWarpHarm;
+                }
+
                 mSensor.hFlip = bodySpriteCtrl.isLeft;
 
                 //Vector3 playerPos = mPlayer.transform.position;
@@ -386,7 +396,7 @@ public class EnemyBossCloneGirl : Enemy {
         }
 
         mCrazyProjsActive = true;
-        stats.damageAmp = 2.5f;
+        stats.damageAmp = 2.0f;
 
         bool projsAlive = true;
         while(projsAlive) {

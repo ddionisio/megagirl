@@ -26,6 +26,9 @@ public class ModalStart : UIController {
     }
 
     protected override void OnOpen() {
+        SlotInfo.ClearCurrentSlotLoaded();
+        ((UserSlotData)UserData.instance).SetSlot(-1, false);
+
         bool hasCleared = false;
 
         ModalSaveSlots modalSlots = UIModalManager.instance.ModalGetController<ModalSaveSlots>("slots");

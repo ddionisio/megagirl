@@ -43,8 +43,10 @@ public class LevelController : MonoBehaviour {
     /// Determine if life up has been dropped, uses bit 30 in levelPickupBitState
     /// </summary>
     public static bool isLifeUpDropped {
-        get { return SceneState.instance.CheckGlobalFlag(levelPickupBitState, 30); }
-        set { SceneState.instance.SetGlobalFlag(levelPickupBitState, 30, value, SlotInfo.gameMode == SlotInfo.GameMode.Hardcore); }
+        get { return SceneState.instance.CheckFlag(levelPickupBitState, 30); }
+        set { 
+            SceneState.instance.SetFlag(levelPickupBitState, 30, value, SlotInfo.gameMode == SlotInfo.GameMode.Hardcore); 
+        }
     }
 
     public static void CheckpointApplyTo(Transform target) {
@@ -173,7 +175,8 @@ public class LevelController : MonoBehaviour {
         if(mInstance == null) {
             mLevelLoaded = Application.loadedLevelName;
 
-            SceneState.instance.SetGlobalValue(levelPickupBitState, SceneState.instance.GetValue(levelPickupBitState, 0), false);
+            if(SceneState.instance.HasValue(levelPickupBitState))
+                SceneState.instance.SetGlobalValue(levelPickupBitState, SceneState.instance.GetValue(levelPickupBitState, 0), false);
 
             UserData.instance.actCallback += OnUserDataAct;
 

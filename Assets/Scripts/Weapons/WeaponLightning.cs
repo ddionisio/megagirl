@@ -124,7 +124,7 @@ public class WeaponLightning : Weapon {
                     float _dist = _dir.sqrMagnitude;
                     if(_dist < nearSqr) {
                         Stats stat = cols[cI].GetComponent<Stats>();
-                        if(stat && stat.CanDamage(mDmg)) {
+                        if(stat && stat.CanDamage(mDmg) && stat.curHP > 0.0f) {
                             p = _p;
                             dir = _dir;
                             col = cols[cI];
@@ -195,7 +195,7 @@ public class WeaponLightning : Weapon {
                         float _dist = _dir.sqrMagnitude;
                         if(_dist < nearSqr) {
                             Stats stat = cols[cI].GetComponent<Stats>();
-                            if(stat && stat.CanDamage(mDmg)) {
+                            if(stat && stat.CanDamage(mDmg) && stat.curHP > 0.0f) {
                                 reticleTarget = cols[cI];
                                 nearSqr = _dist;
                             }

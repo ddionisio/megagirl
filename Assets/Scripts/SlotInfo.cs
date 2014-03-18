@@ -21,14 +21,14 @@ public class SlotInfo {
     }
 
     private static int mData=0;
-    private static bool mLoaded=false;
+    private static bool mCurrentSlotLoaded=false;
 
     public static GameMode gameMode {
         get { return GetGameMode(UserSlotData.currentSlot); }
     }
 
     public static GameMode GetGameMode(int slot) {
-        int d = mLoaded ? mData : mData = GrabData(slot);
+        int d = GrabData(slot);
 
         return (GameMode)((d>>11) & 3);
     }
@@ -66,11 +66,13 @@ public class SlotInfo {
     }
 
     public static bool IsDead(int slot) {
-        int d = mLoaded ? mData : mData = GrabData(slot);
+        int d = GrabData(slot);
         return (d & 8192) != 0;
     }
 
     public static void SetDead(bool dead) {
+        if(!mCurrentSlotLoaded) LoadCurrentSlotData();
+
         if(dead) {
             mData |= 8192;
         }
@@ -81,6 +83,7 @@ public class SlotInfo {
 
     public static void WeaponUnlock(int index) {
         if(index > 0) {
+            if(!mCurrentSlotLoaded) LoadCurrentSlotData();
             mData |= 1<<(index - 1);
 
             SaveCurrentSlotData();
@@ -96,22 +99,24 @@ public class SlotInfo {
         if(index == 0)
             return true;
         else {
-            int d = mLoaded ? mData : mData = GrabData(slot);
+            int d = GrabData(slot);
             return (d & (1<<(index-1))) != 0;
         }
     }
 
     public static void SetHeartFlags(int flags) {
+        if(!mCurrentSlotLoaded) LoadCurrentSlotData();
         mData = (mData & 16383) | (flags<<14);
     }
 
     public static int GetHeartFlags(int slot) {
-        int d = mLoaded ? mData : mData = GrabData(slot);
+        int d = GrabData(slot);
 
         return (d >> 14) & 255;
     }
 
     public static void SetItemsFlags(int flags) {
+        if(!mCurrentSlotLoaded) LoadCurrentSlotData();
         mData = mData | ((flags&31)<<6);
     }
 
@@ -120,7 +125,7 @@ public class SlotInfo {
     }
 
     public static int GetItemsFlags(int slot) {
-        int d = mLoaded ? mData : mData = GrabData(slot);
+        int d = GrabData(slot);
         return (d >> 6) & 31;
     }
 
@@ -206,27 +211,37 @@ public class SlotInfo {
         UserSlotData.CreateSlot(slot, defaultName);
         mData = ((int)mode)<<11;
         UserSlotData.SetSlotValueInt(slot, dataKey, mData);
+
+        mCurrentSlotLoaded = true;
     }
 
     //call this before deleting the slot
     public static void DeleteData(int slot) {
         UserSlotData.DeleteValue(slot, dataKey);
         UserSlotData.DeleteValue(slot, timeKey);
-
-        mData = 0;
-        mLoaded = false;
+        ClearCurrentSlotLoaded();
     }
 
     public static void LoadCurrentSlotData() {
         mData = UserSlotData.GetSlotValueInt(UserSlotData.currentSlot, dataKey, 0);
-        mLoaded = true;
+        mCurrentSlotLoaded = true;
     }
 
     public static void SaveCurrentSlotData() {
         UserSlotData.SetSlotValueInt(UserSlotData.currentSlot, dataKey, mData);
     }
 
+    public static void ClearCurrentSlotLoaded() {
+        mData = 0;
+        mCurrentSlotLoaded = false;
+    }
+
     private static int GrabData(int slot) {
-        return UserSlotData.GetSlotValueInt(slot, dataKey, 0);
+        if(mCurrentSlotLoaded && slot == UserSlotData.currentSlot)
+            return mData;
+        else {
+            int d = UserSlotData.GetSlotValueInt(slot, dataKey, 0);
+            return d;
+        }
     }
 }
