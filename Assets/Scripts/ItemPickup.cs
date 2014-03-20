@@ -122,6 +122,10 @@ public class ItemPickup : EntityBase {
 
                     SoundPlayerGlobal.instance.Play(sfxId);
                     break;
+
+                case ItemType.Invul:
+                    player.stats.invulGO.SetActive(true);
+                    break;
             }
 
             if(savePickUp) {
@@ -232,6 +236,15 @@ public class ItemPickup : EntityBase {
 
     protected override void Awake() {
         base.Awake();
+
+        //check if life pick, change to invul for non-hardcore.
+        if(type == ItemType.Life && SlotInfo.gameMode != SlotInfo.GameMode.Hardcore) {
+            type = ItemType.Invul;
+            savePickUp = false;
+            tk2dSpriteAnimator anim = GetComponentInChildren<tk2dSpriteAnimator>();
+            if(anim)
+                anim.DefaultClipId = anim.GetClipIdByName("alt");
+        }
 
         //initialize variables
         if(collider) {

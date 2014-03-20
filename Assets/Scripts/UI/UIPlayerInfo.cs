@@ -29,7 +29,7 @@ public class UIPlayerInfo : MonoBehaviour {
         //get hp mod counts
         heartsFoundLabel.text = string.Format("{0}/{1}", SlotInfo.heartCount, SlotInfo.hpModMaxCount);
 
-        livesLabel.text = string.Format("x{0:D2}", PlayerStats.curLife >= 0 ? PlayerStats.curLife - 1 : 0);
+        livesLabel.text = SlotInfo.gameMode == SlotInfo.GameMode.Hardcore ? string.Format("x{0:D2}", PlayerStats.curLife >= 0 ? PlayerStats.curLife - 1 : 0) : "--";
 
         //get sub energy counts
         int subECount = 0;

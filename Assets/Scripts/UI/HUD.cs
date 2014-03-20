@@ -10,6 +10,7 @@ public class HUD : MonoBehaviour {
     public UIEnergyBar barBoss;
     public UILabel lifeCountLabel;
     public AnimatorData popUpMessage;
+    public UILabel timeLabel;
 
     private UILabel mPopUpMessageLabel;
 
@@ -39,10 +40,13 @@ public class HUD : MonoBehaviour {
 
         UILabel[] popLabels = popUpMessage.GetComponentsInChildren<UILabel>(true);
         mPopUpMessageLabel = popLabels[0];
-    }
 
-    // Use this for initialization
-    void Start() {
-
+        if(LevelController.isTimeTrial) {
+            timeLabel.gameObject.SetActive(true);
+            lifeCountLabel.gameObject.SetActive(false);
+        }
+        else if(SlotInfo.gameMode != SlotInfo.GameMode.Hardcore) {
+            lifeCountLabel.gameObject.SetActive(false);
+        }
     }
 }

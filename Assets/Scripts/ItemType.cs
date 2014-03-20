@@ -7,6 +7,7 @@
     EnergyTank,
     WeaponTank,
     Armor,
+    Invul,
 
     NumTypes
 }

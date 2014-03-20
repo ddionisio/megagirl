@@ -28,6 +28,7 @@ public class ModalStart : UIController {
     protected override void OnOpen() {
         SlotInfo.ClearCurrentSlotLoaded();
         ((UserSlotData)UserData.instance).SetSlot(-1, false);
+        SceneState.instance.SetGlobalValue(LevelController.timeTrialKey, 0, false);
 
         bool hasCleared = false;
 

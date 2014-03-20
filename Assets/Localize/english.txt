@@ -1,7 +1,7 @@
 [
 	{
 		"key":"ver",
-		"text":"1.0.1"
+		"text":"1.1.0"
 	},
 	{
 		"key":"title",
@@ -60,7 +60,7 @@
 	
 	{
 		"key":"gameHardcore_d",
-		"text":"If you lose all of your lives, it's over.  No retry.  Exiting a level is prohibited if it's not complete.  Your health is persistent.  Life pickups are persistent."
+		"text":"You have a limited number of lives.  Exiting a level is prohibited if it's not complete.  Your health is persistent.  Life pickups are persistent."
 	},
 	
 	{

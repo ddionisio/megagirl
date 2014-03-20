@@ -8,7 +8,7 @@ public class PlayerStats : Stats {
     public const string gameExistKey = "s";
     public const float hpMod = 2;
 
-    public const int defaultNumLives = 4;
+    public const int defaultNumLives = 5;
 
     public const float armorRating = 0.3f;
 
@@ -28,6 +28,8 @@ public class PlayerStats : Stats {
     public float energyShieldMaxHP = 9.0f;
 
     public bool hpPersist;
+
+    public GameObject invulGO;
 
     public SoundPlayer energyShieldHitSfx;
 
@@ -88,6 +90,15 @@ public class PlayerStats : Stats {
         get {
             float c = (float)energyShieldPts.Length;
             return Mathf.CeilToInt(c*(mEnergyShieldCurHP/energyShieldMaxHP));
+        }
+    }
+
+    public override bool isInvul {
+        get {
+            return base.isInvul || invulGO.activeSelf;
+        }
+        set {
+            base.isInvul = value;
         }
     }
 
@@ -284,5 +295,7 @@ public class PlayerStats : Stats {
         if(hpPersist) {
             LoadHP();
         }
+
+        invulGO.SetActive(false);
     }
 }

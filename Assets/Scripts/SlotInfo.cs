@@ -231,6 +231,12 @@ public class SlotInfo {
         UserSlotData.SetSlotValueInt(UserSlotData.currentSlot, dataKey, mData);
     }
 
+    public static void LoadTimeTrialData() {
+        UserSlotData.LoadSlot(99, true);
+        mData = 4177983;
+        mCurrentSlotLoaded = true;
+    }
+
     public static void ClearCurrentSlotLoaded() {
         mData = 0;
         mCurrentSlotLoaded = false;

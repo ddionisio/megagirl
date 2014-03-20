@@ -21,7 +21,7 @@ public class ModalExitStage : UIController {
 
             bool isHardcore = SlotInfo.gameMode == SlotInfo.GameMode.Hardcore;
 
-            if(isHardcore && !LevelController.isLevelLoadedComplete) {
+            if((isHardcore && !LevelController.isLevelLoadedComplete) || LevelController.isTimeTrial) {
                 mCancelKeys.selectOnDown = mMainKeys;
                 mMainKeys.selectOnUp = mCancelKeys;
 

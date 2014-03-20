@@ -61,11 +61,15 @@ public class ItemDropManager : MonoBehaviour {
 
                 //Debug.Log("dropping: " + spawnType);
 
-                if(spawnType == "itemLife" && SlotInfo.gameMode == SlotInfo.GameMode.Hardcore) {
-                    if(LevelController.isLifeUpDropped)
+                if(spawnType == "itemLife") {
+                    if(LevelController.isTimeTrial)
                         return;
-                    else
-                        LevelController.isLifeUpDropped = true;
+                    if(SlotInfo.gameMode == SlotInfo.GameMode.Hardcore) {
+                        if(LevelController.isLifeUpDropped)
+                            return;
+                        else
+                            LevelController.isLifeUpDropped = true;
+                    }
                 }
 
                 mCtrl.Spawn(spawnType, spawnType, null, pos, Quaternion.identity);

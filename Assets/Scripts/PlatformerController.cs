@@ -264,7 +264,7 @@ public class PlatformerController : RigidBodyController {
                     impulse += dirHolder.up * jumpWallUpImpulse;
 
                     PrepJumpVel();
-                    rigidbody.AddForce(impulse * moveScale, ForceMode.Impulse);
+                    rigidbody.AddForce(impulse, ForceMode.Impulse);
 
                     mJumpingWall = true;
                     mJump = true;
@@ -286,7 +286,7 @@ public class PlatformerController : RigidBodyController {
 
                         PrepJumpVel();
 
-                        rigidbody.AddForce(dirHolder.up * jumpImpulse * moveScale, ForceMode.Impulse);
+                        rigidbody.AddForce(dirHolder.up * jumpImpulse, ForceMode.Impulse);
 
                         mJumpCounter++;
                         mJumpingWall = false;
@@ -621,7 +621,7 @@ public class PlatformerController : RigidBodyController {
             //jump
             if(mJump && !mWallSticking) {
                 if(isUnderWater) {
-                    body.AddForce(dirRot * Vector3.up * jumpWaterForce * moveScale);
+                    body.AddForce(dirRot * Vector3.up * jumpWaterForce);
                 }
                 else {
                     if(!mJumpInputDown || Time.fixedTime - mJumpLastTime >= jumpDelay || collisionFlags == CollisionFlags.Above) {
@@ -629,7 +629,7 @@ public class PlatformerController : RigidBodyController {
                         lockDrag = false;
                     }
                     else if(localVelocity.y < airMaxSpeed) {
-                        body.AddForce(dirRot * Vector3.up * jumpForce * moveScale);
+                        body.AddForce(dirRot * Vector3.up * jumpForce);
                     }
                 }
             }
@@ -664,19 +664,19 @@ public class PlatformerController : RigidBodyController {
                     upDir = M8.MathUtil.Slide(upDir, mWallStickCollInfo.normal);
 
                     if(localVelocity.y < airMaxSpeed)
-                        body.AddForce(upDir * wallStickUpForce * moveScale);
+                        body.AddForce(upDir * wallStickUpForce);
                 }
             }
 
             //push towards the wall
-            body.AddForce(-mWallStickCollInfo.normal * wallStickForce * moveScale);
+            body.AddForce(-mWallStickCollInfo.normal * wallStickForce);
         }
         else if(mCollCount == 0) {
             //check if no collision, then try to dampen horizontal speed
             if(airDampForceX != 0.0f && moveSide == 0.0f) {
                 if(localVelocity.x < -airDampMinSpeedX || localVelocity.x > airDampMinSpeedX) {
                     Vector3 dir = localVelocity.x < 0.0f ? Vector3.right : Vector3.left;
-                    body.AddForce(dirRot * dir * airDampForceX * moveScale);
+                    body.AddForce(dirRot * dir * airDampForceX);
                 }
             }
         }

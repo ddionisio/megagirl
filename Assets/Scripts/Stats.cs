@@ -51,7 +51,7 @@ public class Stats : MonoBehaviour {
         }
     }
 
-    public bool isInvul { get { return mIsInvul; } set { mIsInvul = value; } }
+    public virtual bool isInvul { get { return mIsInvul; } set { mIsInvul = value; } }
 
     public Damage lastDamageSource { get { return mLastDamage; } }
 
@@ -83,7 +83,7 @@ public class Stats : MonoBehaviour {
     }
 
     public bool CanDamage(Damage damage) {
-        if(!mIsInvul) {
+        if(!isInvul) {
             float amt = damage.amount;
 
             if(damageAmp > 0.0f) {
@@ -143,7 +143,7 @@ public class Stats : MonoBehaviour {
         mLastDamagePos = hitPos;
         mLastDamageNorm = hitNorm;
 
-        if(!mIsInvul && mCurHP > 0.0f) {
+        if(!isInvul && mCurHP > 0.0f) {
             float amt = CalculateDamageAmount(damage);
 
             if(amt > 0.0f) {

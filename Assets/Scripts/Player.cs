@@ -46,6 +46,7 @@ public class Player : EntityBase {
     private bool mAllowPauseTime = true;
 
     private PlayMakerFSM mFireFSM;
+    private bool mTimeTrial;
 
     public static Player instance { get { return mInstance; } }
 
@@ -253,14 +254,15 @@ public class Player : EntityBase {
                     if(deathGOActivate)
                         deathGOActivate.SetActive(true);
 
-                    PlayerStats.curLife--;
-
                     bool isHardcore = SlotInfo.gameMode == SlotInfo.GameMode.Hardcore;
-                    if(isHardcore && PlayerStats.curLife == 0)
-                        SlotInfo.SetDead(true);
+                    if(isHardcore) {
+                        PlayerStats.curLife--;
+                        if(PlayerStats.curLife == 0)
+                            SlotInfo.SetDead(true);
+                    }
 
                     //save when we die
-                    if(!UserData.instance.autoSave) {
+                    if(!UserData.instance.autoSave && !mTimeTrial) {
                         UserData.instance.autoSave = true;
                         UserData.instance.Save();
                         SlotInfo.SaveCurrentSlotData();
@@ -290,13 +292,15 @@ public class Player : EntityBase {
                 LockControls();
                 mCtrlSpr.PlayOverrideClip("victory");
 
-                if(saveLevelComplete)
-                    LevelController.Complete(levelCompletePersist);
-
                 //ok to save now
-                UserData.instance.autoSave = true;
-                SlotInfo.SaveCurrentSlotData();
-                PlayerPrefs.Save();
+                if(!mTimeTrial) {
+                    if(saveLevelComplete)
+                        LevelController.Complete(levelCompletePersist);
+
+                    UserData.instance.autoSave = true;
+                    SlotInfo.SaveCurrentSlotData();
+                    PlayerPrefs.Save();
+                }
                 break;
 
             case EntityState.Final:
@@ -414,6 +418,8 @@ public class Player : EntityBase {
 
         base.Awake();
 
+        mTimeTrial = LevelController.isTimeTrial;
+
         //CameraController camCtrl = CameraController.instance;
         //camCtrl.transform.position = collider.bounds.center;
 
@@ -484,6 +490,12 @@ public class Player : EntityBase {
         HUD.instance.barEnergy.animateEndCallback += OnEnergyAnimStop;
 
         HUD.instance.RefreshLifeCount();
+
+        //force scene victory for time trial
+        if(mTimeTrial) {
+            HutongGames.PlayMaker.FsmString str = FSM.FsmVariables.FindFsmString("sceneVictory");
+            str.Value = Scenes.victoryTimeTrial;
+        }
     }
 
     void OnTriggerEnter(Collider col) {
@@ -517,6 +529,10 @@ public class Player : EntityBase {
             if(Time.time - mSlidingLastTime >= slideDelay) {
                 SetSlide(false);
             }
+        }
+
+        if(mTimeTrial) {
+            HUD.instance.timeLabel.text = LevelController.LevelTimeFormat(LevelController.instance.TimeCurrent());
         }
     }
 
@@ -857,7 +873,7 @@ public class Player : EntityBase {
             }
         }
 
-        if(UserData.instance.autoSave) {
+        if(!mTimeTrial && UserData.instance.autoSave) {
             SlotInfo.SaveCurrentSlotData();
             UserData.instance.Save();
             PlayerPrefs.Save();

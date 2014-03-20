@@ -7,7 +7,8 @@ public class PlayerSceneSkipToFinal : MonoBehaviour {
     void OnDestroy() {
         InputManager input = Main.instance ? Main.instance.input : null;
         if(input) {
-            input.RemoveButtonCall(0, InputAction.MenuEscape, OnInput);
+            for(int i = 0; i < InputAction._count; i++)
+                input.RemoveButtonCall(0, i, OnInput);
         }
     }
     
@@ -16,7 +17,8 @@ public class PlayerSceneSkipToFinal : MonoBehaviour {
     }
     
     void EnableInput() {
-        Main.instance.input.AddButtonCall(0, InputAction.MenuEscape, OnInput);
+        for(int i = 0; i < InputAction._count; i++)
+            Main.instance.input.AddButtonCall(0, i, OnInput);
     }
     
     void OnInput(InputManager.Info dat) {
@@ -25,7 +27,9 @@ public class PlayerSceneSkipToFinal : MonoBehaviour {
                 UIModalConfirm.Open(GameLocalize.GetText("skip_confirm_title"), GameLocalize.GetText("skip_confirm_desc"),
                                     delegate(bool yes) {
                     if(yes) {
-                        Main.instance.input.RemoveButtonCall(0, InputAction.MenuEscape, OnInput);
+                        for(int i = 0; i < InputAction._count; i++)
+                            Main.instance.input.RemoveButtonCall(0, i, OnInput);
+
                         Player.instance.state = (int)EntityState.Final;
                     }
                 });

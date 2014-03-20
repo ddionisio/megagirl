@@ -10,6 +10,9 @@ public class LevelController : MonoBehaviour {
     public const string levelTimeAccumKey = "lvlatime";
     public const string levelTimePostfix = "_ctime";
 
+    public const string timeTrialKey = "trial";
+    public const string timeTrialSaveKey = "trialSaved";
+
     private static LevelController mInstance = null;
     private static bool mCheckpointActive = false;
     private static Vector3 mCheckpoint;
@@ -19,6 +22,7 @@ public class LevelController : MonoBehaviour {
     private float mAccumTime; //time accumulated
     private bool mTimeStarted;
     private bool mTimePaused;
+    private bool mTimeSaved;
 
     /// <summary>
     /// Get the level that was loaded from stage
@@ -26,6 +30,21 @@ public class LevelController : MonoBehaviour {
     public static string levelLoaded {
         get {
             return mLevelLoaded;
+        }
+    }
+
+    public static bool isTimeTrial {
+        get {
+            return SceneState.instance.GetGlobalValue(timeTrialKey) == 1;
+        }
+    }
+
+    /// <summary>
+    /// The last saved time trial recorded, use this in time trial victory screen.
+    /// </summary>
+    public static float timeTrialSaved {
+        get {
+            return SceneState.instance.GetGlobalValueFloat(timeTrialSaveKey, float.MaxValue);
         }
     }
 
@@ -104,6 +123,7 @@ public class LevelController : MonoBehaviour {
         mLastTime = Time.time;
 
         mTimeStarted = true;
+        mTimeSaved = false;
     }
 
     /// <summary>
@@ -138,6 +158,19 @@ public class LevelController : MonoBehaviour {
         }
     }
 
+    public float TimeCurrent() {
+        if(mTimeSaved)
+            return mAccumTime;
+        else if(mTimeStarted) {
+            if(mTimePaused)
+                return mAccumTime;
+            else
+                return (Time.time - mLastTime) + mAccumTime;
+        }
+        else
+            return 0.0f;
+    }
+
     /// <summary>
     /// Save actual time, call as soon as boss is defeated
     /// </summary>
@@ -147,15 +180,22 @@ public class LevelController : MonoBehaviour {
 
             float t = mAccumTime + (Time.time - mLastTime);
 
-            string key = mLevelLoaded + levelTimePostfix;
+            if(isTimeTrial) {
+                SceneState.instance.SetGlobalValueFloat(timeTrialSaveKey, t, false);
+            }
+            else {
+                string key = mLevelLoaded + levelTimePostfix;
 
-            float oldT = SceneState.instance.GetGlobalValueFloat(key, float.MaxValue);
-            if(oldT < t)
-                t = oldT;
+                float oldT = SceneState.instance.GetGlobalValueFloat(key, float.MaxValue);
+                if(oldT < t)
+                    t = oldT;
 
-            SceneState.instance.SetGlobalValueFloat(key, t, true);
+                SceneState.instance.SetGlobalValueFloat(key, t, true);
+            }
 
             mTimeStarted = false;
+            mTimeSaved = true;
+            mAccumTime = t;
 
             Debug.Log("Level Clear Time: "+LevelTimeFormat(t));
         }
@@ -188,7 +228,8 @@ public class LevelController : MonoBehaviour {
 
     void OnUserDataAct(UserData ud, UserData.Action act) {
         if(act == UserData.Action.Save) {
-            SlotInfo.SaveCurrentSlotData();
+            if(!isTimeTrial)
+                SlotInfo.SaveCurrentSlotData();
             //Debug.Log("save slot data");
         }
     }
