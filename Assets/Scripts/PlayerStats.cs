@@ -45,6 +45,8 @@ public class PlayerStats : Stats {
 
     private float mEnergyShieldCurHP;
 
+    private bool mNoPain;
+
     public static int curLife {
         get {
             return SceneState.instance.GetGlobalValue(lifeCountKey, defaultNumLives);
@@ -63,6 +65,8 @@ public class PlayerStats : Stats {
     public static int deathCount {
         get { return SceneState.instance.GetGlobalValue(deathCountKey, 0); }
     }
+
+    public bool noPain { get { return mNoPain; } set { mNoPain = value; } }
 
     public float subTankEnergyCurrent {
         get { return mSubTankEnergyCur; }

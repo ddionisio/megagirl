@@ -203,23 +203,27 @@ public class Player : EntityBase {
                 break;
 
             case EntityState.Hurt:
-                if(mCurWeaponInd >= 0) {
-                    Weapon curWpn = weapons[mCurWeaponInd];
-                    if(curWpn.stopOnHurt)
-                        curWpn.FireStop();
+                if(!stats.noPain) {
+                    if(mCurWeaponInd >= 0) {
+                        Weapon curWpn = weapons[mCurWeaponInd];
+                        if(curWpn.stopOnHurt)
+                            curWpn.FireStop();
+                    }
+
+                    //check to see if we can stop sliding, then do hurt
+                    SetSlide(false);
+                    if(!mSliding) {
+                        inputEnabled = false;
+
+                        mCtrlSpr.PlayOverrideClip(clipHurt);
+
+                        StartCoroutine(DoHurtForce(mStats.lastDamageNormal));
+                    }
                 }
-                
+                else
+                    state = (int)EntityState.Normal;
+
                 Blink(hurtInvulDelay);
-
-                //check to see if we can stop sliding, then do hurt
-                SetSlide(false);
-                if(!mSliding) {
-                    inputEnabled = false;
-
-                    mCtrlSpr.PlayOverrideClip(clipHurt);
-
-                    StartCoroutine(DoHurtForce(mStats.lastDamageNormal));
-                }
 
                 sfxHurt.Play();
                 break;
@@ -883,9 +887,13 @@ public class Player : EntityBase {
     IEnumerator DoDeathFinishDelay() {
         yield return new WaitForSeconds(deathFinishDelay);
 
-        if(PlayerStats.curLife > 0) {
+        if(LevelController.isTimeTrial) {
+            Main.instance.sceneManager.LoadScene(Scenes.main);
+        }
+        else if(PlayerStats.curLife > 0) {
             Main.instance.sceneManager.Reload();
-        } else {
+        } 
+        else {
             Main.instance.sceneManager.LoadScene(Scenes.gameover);
         }
     }

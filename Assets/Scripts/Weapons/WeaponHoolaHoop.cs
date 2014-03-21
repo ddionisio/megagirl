@@ -18,6 +18,8 @@ public class WeaponHoolaHoop : Weapon {
         if(canFire && player.state != (int)EntityState.Hurt && !mFireActive) {
             mFireActive = true;
 
+            player.stats.noPain = true;
+
             player.controllerSprite.PlayOverrideClip(clip);
             player.controllerSprite.useVelocitySpeed = true;
 
@@ -43,6 +45,8 @@ public class WeaponHoolaHoop : Weapon {
             mFireActive = false;
 
             Player player = Player.instance;
+
+            player.stats.noPain = false;
 
             player.controllerSprite.StopOverrideClip();
             player.controllerSprite.useVelocitySpeed = false;

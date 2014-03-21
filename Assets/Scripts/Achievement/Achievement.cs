@@ -107,6 +107,42 @@ public class Achievement : MonoBehaviour {
         mServices.Remove(service);
     }
 
+    /// <summary>
+    /// Wait for services to complete.
+    /// </summary>
+    public IEnumerator WaitServiceComplete() {
+        WaitForFixedUpdate wait = new WaitForFixedUpdate();
+
+        int numReady = 0;
+        while(numReady < mServices.Count) {
+            numReady = 0;
+            for(int i = 0; i < mServices.Count; i++) {
+                if(mServices[i].AchievementIsReady())
+                    numReady++;
+            }
+
+            yield return wait;
+        }
+    }
+
+    public bool AchievementIsUnlocked(int id) {
+        Data dat = null;
+        for(int d = 0; d < mData.Length; d++) {
+            if(mData[d].id == id) {
+                dat = mData[d];
+                break;
+            }
+        }
+
+        for(int i = 0; i < mServices.Count; i++) {
+            if(mServices[i].AchievementIsComplete(dat)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     void OnDestroy() {
         if(mInstance == this) {
             popupCallback = null;

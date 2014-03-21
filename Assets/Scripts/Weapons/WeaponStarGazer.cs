@@ -7,7 +7,19 @@ public class WeaponStarGazer : Weapon {
     public int starLargeIndex = 2;
     public float angle;
 
+    public GameObject deactiveOnStopGO;
+
     private Projectile mLastLargeStar;
+
+    public override void FireStop() {
+        base.FireStop();
+        deactiveOnStopGO.SetActive(false);
+    }
+    
+    public override void FireCancel() {
+        base.FireCancel();
+        deactiveOnStopGO.SetActive(false);
+    }
 
     protected override void OnDisable() {
         /*if(mLastLargeStar) {

@@ -1,7 +1,7 @@
 [
 	{
 		"key":"ver",
-		"text":"1.1.0"
+		"text":"1.2.1"
 	},
 	{
 		"key":"title",
@@ -91,6 +91,12 @@
 	{
 		"key":"menu_back",
 		"text":"[808080][{0}][-] BACK",
+		"param":["input_7"]
+	},
+	
+	{
+		"key":"skip",
+		"text":"[{0}] - SKIP",
 		"param":["input_7"]
 	},
 	

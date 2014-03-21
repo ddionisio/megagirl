@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ModalStart : UIController {
     public UIEventListener play;
+    public UIEventListener trial;
     public UIEventListener options;
     public UIEventListener credits;
 
@@ -14,12 +15,14 @@ public class ModalStart : UIController {
             UICamera.selectedObject = play.gameObject;
 
             play.onClick = OnPlay;
+            trial.onClick = OnTrial;
             options.onClick = OnOptions;
             credits.onClick = OnCredits;
 
         }
         else {
             play.onClick = null;
+            trial.onClick = null;
             options.onClick = null;
             credits.onClick = null;
         }
@@ -52,6 +55,10 @@ public class ModalStart : UIController {
     void OnPlay(GameObject go) {
         //Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
         UIModalManager.instance.ModalOpen("slots");
+    }
+
+    void OnTrial(GameObject go) {
+        UIModalManager.instance.ModalOpen("trial");
     }
 
     void OnOptions(GameObject go) {

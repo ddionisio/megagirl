@@ -7,7 +7,9 @@ public class TimeTrial : MonoBehaviour {
     [System.Serializable]
     public class Data {
         public string name;
+        public string iconRef;
         public string level;
+        public int achieveId; //for unlocking
         public bool requireUnlock;
     }
 
@@ -39,7 +41,7 @@ public class TimeTrial : MonoBehaviour {
         }
         
         if(ind != -1)
-            Leaderboard.instance.PostScore(mInstance.data[ind].name, Mathf.RoundToInt(time*1000.0f));
+            Leaderboard.instance.PostScore("Trial - " + mInstance.data[ind].name, Mathf.RoundToInt(time*1000.0f));
     }
 
     private static TimeTrial mInstance;
