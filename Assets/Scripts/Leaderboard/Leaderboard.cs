@@ -17,11 +17,12 @@ public class Leaderboard : MonoBehaviour {
         /// <summary>
         /// Called when processing new data.
         /// </summary>
-        void LeaderboardProcessData(string boardName, int score);
+        void LeaderboardProcessData(string boardName, string text, int score);
     }
 
     private struct DataProcess {
         public string boardName;
+        public string text;
         public int score;
     }
 
@@ -40,8 +41,8 @@ public class Leaderboard : MonoBehaviour {
         mServices.Remove(service);
     }
 
-    public void PostScore(string aBoardName, int aScore) {
-        mProcess.Enqueue(new DataProcess() { boardName = aBoardName, score = aScore });
+    public void PostScore(string aBoardName, string aText, int aScore) {
+        mProcess.Enqueue(new DataProcess() { boardName = aBoardName, text = aText, score = aScore });
     }
 
     void OnDestroy() {
@@ -79,7 +80,7 @@ public class Leaderboard : MonoBehaviour {
             else if(numReady == mServices.Count - numInvalid) {
                 for(int i = 0; i < mServices.Count; i++) {
                     IService service = mServices[i];
-                    service.LeaderboardProcessData(dat.boardName, dat.score);
+                    service.LeaderboardProcessData(dat.boardName, dat.text, dat.score);
                 }
 
                 mProcess.Dequeue();

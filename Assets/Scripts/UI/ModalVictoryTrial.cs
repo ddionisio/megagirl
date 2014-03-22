@@ -48,6 +48,8 @@ public class ModalVictoryTrial : UIController {
         timeLabel.text = LevelController.LevelTimeFormat(t);
         timeBestLabel.text = LevelController.LevelTimeFormat(tBest);
 
+        newRecordGO.SetActive(isBest);
+
         //post
         TimeTrial.Post(level, t);
 

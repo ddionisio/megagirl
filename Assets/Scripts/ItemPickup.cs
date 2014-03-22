@@ -276,25 +276,25 @@ public class ItemPickup : EntityBase {
 
         switch(type) {
             case ItemType.HealthUpgrade:
-                doDisable = SlotInfo.IsHPModAcquired(bit);
+                doDisable = SlotInfo.IsHPModAcquired(bit) || LevelController.isTimeTrial;
                 break;
 
             case ItemType.EnergyTank:
                 if(bit == 0)
-                    doDisable = SlotInfo.isSubTankEnergy1Acquired;
+                    doDisable = SlotInfo.isSubTankEnergy1Acquired || LevelController.isTimeTrial;
                 else
-                    doDisable = SlotInfo.isSubTankEnergy2Acquired;
+                    doDisable = SlotInfo.isSubTankEnergy2Acquired || LevelController.isTimeTrial;
                 break;
 
             case ItemType.WeaponTank:
                 if(bit == 0)
-                    doDisable = SlotInfo.isSubTankWeapon1Acquired;
+                    doDisable = SlotInfo.isSubTankWeapon1Acquired || LevelController.isTimeTrial;
                 else
-                    doDisable = SlotInfo.isSubTankWeapon2Acquired;
+                    doDisable = SlotInfo.isSubTankWeapon2Acquired || LevelController.isTimeTrial;
                 break;
 
             case ItemType.Armor:
-                doDisable = SlotInfo.isArmorAcquired;
+                doDisable = SlotInfo.isArmorAcquired || LevelController.isTimeTrial;
                 break;
 
             default:

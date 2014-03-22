@@ -1,7 +1,7 @@
 [
 	{
 		"key":"ver",
-		"text":"1.2.1"
+		"text":"1.3.0"
 	},
 	{
 		"key":"title",
@@ -202,6 +202,11 @@
 	{
 		"key":"stargazer",
 		"text":"STAR GAZER"
+	},
+	
+	{
+		"key":"stargazerarc",
+		"text":"HAPPY STAR"
 	},
 	
 	{

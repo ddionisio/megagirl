@@ -1,73 +1,22 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\TimeTrial.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ItemPickup.cs">
     <Files>
-      <File FileName="Assets\Scripts\Player.cs" Line="224" Column="53" />
-      <File FileName="Assets\Plugins\Newgrounds\Newgrounds.js" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Stats.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyCatRoller.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerStats.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="106" Column="5" />
+      <File FileName="Assets\Scripts\ProjectileBlaster.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\WeaponStarGazer.cs" Line="4" Column="40" />
+      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="254" Column="17" />
       <File FileName="Assets\Scripts\SlotInfo.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Core\UserData.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Achievement\AchievementServiceNGrounds.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Leaderboard\LeaderboardServiceNGrounds.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Achievement\Achievement.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8PlayMaker\Audio\MusicPlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Achievement\AchievementHardcorePlus.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Achievement\AchievementHardcore.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\UI\UIModalMessage.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\UI\UIModalConfirm.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Leaderboard\Leaderboard.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlatformerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LevelController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\LevelTimeSave.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Core\SceneState.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyLightningTrigger.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Damage.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Weapons\WeaponLightning.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ItemPickup.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ItemDropManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalNewGame.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalSaveSlots.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\UISlotInfo.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\InputAnyKeyPressed.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FSMActions\EnemyGetVisibleGO.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TimeWarp.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TimeWarpField.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemyBossCloneGirl.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalStart.cs" Line="61" Column="52" />
-      <File FileName="Assets\M8\Scripts\Core\UserSlotData.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalPause.cs" Line="59" Column="1" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalExitStage.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\HUD.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Scenes.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ModalVictoryTrial.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TimeTrial.cs" Line="10" Column="31" />
-      <File FileName="Assets\Scripts\ItemType.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\tk2dExt\SpritePlayOnEnable.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Game\GOActivateDelay.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Game\GODeactivateDelay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Weapons\WeaponHoolaHoop.cs" Line="1" Column="1" />
-      <File FileName="Assets\M8\Scripts\Physics\RigidBodyController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MoveScaleOnActive.cs" Line="1" Column="1" />
-      <File FileName="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteAnimator.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\tk2dExt\SpriteColorBlink.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SpriteBlinkEx.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ItemDrop.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\UIPlayerInfo.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerSceneSkipToFinal.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SceneSkip.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\WeaponHappyStar.cs" Line="108" Column="26" />
+      <File FileName="Assets\Scripts\ItemPickup.cs" Line="285" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Lab\megagirl\Assets\M8\Scripts\tk2dExt\SpriteColorBlink.cs" line="48" />
       <Breakpoint file="C:\Lab\megagirl\Assets\M8\Scripts\tk2dExt\SpriteColorBlink.cs" line="52" />
-      <Breakpoint file="C:\Lab\megagirl\Assets\M8\Scripts\tk2dExt\SpriteColorBlink.cs" line="16" />
-      <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\Player.cs" line="622" />
       <Breakpoint file="C:\Lab\megagirl\Assets\Scripts\Weapons\WeaponHoolaHoop.cs" line="16" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -33,7 +33,7 @@ public class Achievement : MonoBehaviour {
         /// <summary>
         /// Check to see if given achievement has already been completed.
         /// </summary>
-        bool AchievementIsComplete(Data data);
+        bool AchievementIsUnlocked(Data data);
 
         /// <summary>
         /// Called when processing new data.
@@ -135,7 +135,7 @@ public class Achievement : MonoBehaviour {
         }
 
         for(int i = 0; i < mServices.Count; i++) {
-            if(mServices[i].AchievementIsComplete(dat)) {
+            if(mServices[i].AchievementIsUnlocked(dat)) {
                 return true;
             }
         }
@@ -184,7 +184,7 @@ public class Achievement : MonoBehaviour {
                 else if(service.AchievementIsReady()) {
                     if(service.AchievementAllow()) {
                         //if it's already completed, ignore completely and pop process
-                        if(service.AchievementIsComplete(dat.data)) {
+                        if(service.AchievementIsUnlocked(dat.data)) {
                             mProcessUpdates.Dequeue();
                             return;
                         }

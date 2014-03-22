@@ -289,7 +289,12 @@ public class EnemyBossNil : Enemy {
         bodySpriteCtrl.isLeft = true;
         bodySpriteCtrl.PlayOverrideClip(clipDead);
 
-        state = (int)EntityState.Final;
+        if(LevelController.isTimeTrial) {
+            mPlayer.state = (int)EntityState.Victory;
+        }
+        else {
+            state = (int)EntityState.Final;
+        }
     }
 
     IEnumerator DoIdle() {

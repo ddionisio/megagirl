@@ -11,7 +11,7 @@ public class Weapon : MonoBehaviour {
         Whip,
         HoolaHoop,
         Clone,
-
+        Happy,
         NumTypes
     }
 
@@ -372,13 +372,6 @@ public class Weapon : MonoBehaviour {
 
                             mCurChargeLevel = nextLevel;
 
-                            //beginning first charge
-                            if(mCurChargeLevel == 1) {
-                                if(anim && mClips[(int)AnimState.charge] != null) {
-                                    anim.Play(mClips[(int)AnimState.charge]);
-                                }
-                            }
-
                             //charge sound
                             if(chargeSfx && charges[mCurChargeLevel].chargeSfxOn) {
                                 chargeSfx.audio.pitch = charges[mCurChargeLevel].chargeSfxPitch;
@@ -430,7 +423,13 @@ public class Weapon : MonoBehaviour {
     //> AnimationCompleted
     protected virtual void OnAnimationClipEnd(tk2dSpriteAnimator aAnim, tk2dSpriteAnimationClip aClip) {
         if(aAnim == anim && aClip == mClips[(int)AnimState.attack]) {
-            anim.Play(mClips[(int)AnimState.normal]);
+            //beginning first charge
+            if(mFireActive && mClips[(int)AnimState.charge] != null) {
+                anim.Play(mClips[(int)AnimState.charge]);
+            }
+            else {
+                anim.Play(mClips[(int)AnimState.normal]);
+            }
         }
     }
 

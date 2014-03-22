@@ -41,7 +41,7 @@ public class TimeTrial : MonoBehaviour {
         }
         
         if(ind != -1)
-            Leaderboard.instance.PostScore("Trial - " + mInstance.data[ind].name, Mathf.RoundToInt(time*1000.0f));
+            Leaderboard.instance.PostScore("Trial - " + mInstance.data[ind].name, LevelController.LevelTimeFormat(time), Mathf.RoundToInt(time*1000.0f));
     }
 
     private static TimeTrial mInstance;

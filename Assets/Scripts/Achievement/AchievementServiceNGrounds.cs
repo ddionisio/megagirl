@@ -123,7 +123,7 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
     /// <summary>
     /// Check to see if given achievement has already been completed.
     /// </summary>
-    public bool AchievementIsComplete(Achievement.Data data) {
+    public bool AchievementIsUnlocked(Achievement.Data data) {
         if(mStatus == Status.Uninitialized || mStatus == Status.RetrieveMedals)
             return false;
 

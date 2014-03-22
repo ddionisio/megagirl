@@ -80,7 +80,7 @@ public class LeaderboardServiceNGrounds : MonoBehaviour, Leaderboard.IService {
     /// <summary>
     /// Called when processing new data.
     /// </summary>
-    public void LeaderboardProcessData(string boardName, int score) {
+    public void LeaderboardProcessData(string boardName, string text, int score) {
         mCurBoardProcess = true;
         mCurBoardName = boardName;
         mCurBoardScore = score;

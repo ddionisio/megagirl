@@ -115,6 +115,8 @@ public class Projectile : EntityBase {
 
     public bool isAlive { get { return (State)state == State.Active || (State)state == State.Seek || (State)state == State.SeekForce; } }
 
+    public Damage damage { get { return mDamage; } }
+
     public Transform seek {
         get { return mSeek; }
         set {

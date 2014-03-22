@@ -2,14 +2,10 @@
 using System.Collections;
 
 public class WeaponStarGazer : Weapon {
-    public Transform starLargeAttach; //point for large star
     public DamageTrigger starLargeChargeDamage; //the trigger used while chargning large star, this is to destroy it
-    public int starLargeIndex = 2;
-    public float angle;
 
     public GameObject deactiveOnStopGO;
 
-    private Projectile mLastLargeStar;
 
     public override void FireStop() {
         base.FireStop();
@@ -19,6 +15,14 @@ public class WeaponStarGazer : Weapon {
     public override void FireCancel() {
         base.FireCancel();
         deactiveOnStopGO.SetActive(false);
+    }
+
+    protected override void OnEnable() {
+        base.OnEnable();
+
+        if(mStarted) {
+            deactiveOnStopGO.SetActive(false);
+        }
     }
 
     protected override void OnDisable() {
@@ -33,54 +37,6 @@ public class WeaponStarGazer : Weapon {
         base.OnDisable();
     }
 
-    protected override void OnProjRelease(EntityBase ent) {
-        if(mLastLargeStar == ent) {
-            for(int i = 0; i < Player.instance.controller.collisionCount; i++) {
-                if(Player.instance.controller.collisionData[i].collider == mLastLargeStar.collider) {
-                    Player.instance.controller.ResetCollision();
-                    break;
-                }
-            }
-
-            mLastLargeStar = null;
-        }
-
-        base.OnProjRelease(ent);
-    }
-
-    protected override Projectile CreateProjectile(int chargeInd, Transform seek) {
-        if(chargeInd == starLargeIndex) {
-            if(mLastLargeStar && !mLastLargeStar.isReleased) {
-                mLastLargeStar.Release();
-                mLastLargeStar = null;
-            }
-
-            string type = charges[chargeInd].projType;
-            if(!string.IsNullOrEmpty(type)) {
-                Vector3 _pt = starLargeAttach.position, _dir = dir;
-
-                _pt.z = 0.0f;
-
-                if(angle != 0.0f) {
-                    _dir = Quaternion.Euler(new Vector3(0, 0, Mathf.Sign(_dir.x)*angle))*_dir;
-                }
-
-                mLastLargeStar = Projectile.Create(projGroup, type, _pt, _dir, seek);
-                if(mLastLargeStar) {
-                    mCurProjCount++;
-                    mLastLargeStar.releaseCallback += OnProjRelease;
-
-                    PlaySfx(chargeInd);
-                }
-            }
-
-            return mLastLargeStar;
-        }
-        else {
-            return base.CreateProjectile(chargeInd, seek);
-        }
-    }
-
     protected override void Awake() {
         base.Awake();
 
@@ -89,5 +45,10 @@ public class WeaponStarGazer : Weapon {
 
     void OnStarLargeHit(DamageTrigger trigger, GameObject victim) {
         ResetCharge();
+    }
+
+    void Update() {
+        if(!mFireActive && deactiveOnStopGO.activeSelf)
+            deactiveOnStopGO.SetActive(false);
     }
 }

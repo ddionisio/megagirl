@@ -96,7 +96,7 @@ public class SlotInfo {
     }
 
     public static bool WeaponIsUnlock(int slot, int index) {
-        if(index == 0)
+        if(index == 0 || index == 7)
             return true;
         else {
             int d = GrabData(slot);
