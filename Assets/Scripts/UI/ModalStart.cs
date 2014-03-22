@@ -6,6 +6,7 @@ public class ModalStart : UIController {
     public UIEventListener trial;
     public UIEventListener options;
     public UIEventListener credits;
+    public UIEventListener exit;
 
     public GameObject activeGODefault;
     public GameObject activeGOCleared;
@@ -19,12 +20,18 @@ public class ModalStart : UIController {
             options.onClick = OnOptions;
             credits.onClick = OnCredits;
 
+            if(exit)
+                exit.onClick = OnExit;
+
         }
         else {
             play.onClick = null;
             trial.onClick = null;
             options.onClick = null;
             credits.onClick = null;
+
+            if(exit)
+                exit.onClick = null;
         }
     }
 
@@ -50,6 +57,10 @@ public class ModalStart : UIController {
     }
 
     protected override void OnClose() {
+    }
+
+    void OnExit(GameObject go) {
+        Application.Quit();
     }
 
     void OnPlay(GameObject go) {

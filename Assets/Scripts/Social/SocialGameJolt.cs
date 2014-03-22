@@ -4,6 +4,7 @@ using System.Collections;
 public class SocialGameJolt : MonoBehaviour, Achievement.IService, Leaderboard.IService {
     public enum State {
         Uninitialized,
+        RequireLogin,
         GrabUser,
         VerifyUser,
 
@@ -65,22 +66,33 @@ public class SocialGameJolt : MonoBehaviour, Achievement.IService, Leaderboard.I
             GJAPI.Scores.GetTablesCallback += OnScoresGrab;
             GJAPI.Scores.AddCallback += OnScoreAdd;
 
-            if(userGrabFromWeb)
-                GJAPIHelper.Users.GetFromWeb(OnGrabUser);
-            else {
-                //TODO: login window
-                mIsGuest = string.IsNullOrEmpty(userToken);
-                GJAPI.Users.Verify(userName, userToken);
-            }
-
-            mState = State.GrabUser;
-
             if(Achievement.instance) {
                 Achievement.instance.RegisterService(this);
             }
-
+            
             if(Leaderboard.instance) {
                 Leaderboard.instance.RegisterService(this);
+            }
+
+            if(userGrabFromWeb) {
+                mState = State.GrabUser;
+                GJAPIHelper.Users.GetFromWeb(OnGrabUser);
+            }
+            else {
+                //TODO: login window
+                if(!string.IsNullOrEmpty(userName)) {
+                    if(string.IsNullOrEmpty(userToken)) {
+                        mState = State.None;
+                        mIsGuest = true;
+                    }
+                    else {
+                        mState = State.VerifyUser;
+                        mIsGuest = false;
+                        GJAPI.Users.Verify(userName, userToken);
+                    }
+                }
+                else
+                    mState = State.RequireLogin;
             }
         }
         else
@@ -93,9 +105,9 @@ public class SocialGameJolt : MonoBehaviour, Achievement.IService, Leaderboard.I
         userName = user;
         userToken = token;
 
-        GJAPI.Users.Verify(userName, userToken);
-
         mState = State.VerifyUser;
+
+        GJAPI.Users.Verify(userName, userToken);
     }
 
     void OnVerifyUser(bool success) {
@@ -247,8 +259,12 @@ public class SocialGameJolt : MonoBehaviour, Achievement.IService, Leaderboard.I
         }
 
         if(table != null) {
-            GJAPI.Scores.Add(text, (uint)score, table.Id);
             mState = State.Busy;
+
+            if(mIsGuest)
+                GJAPI.Scores.AddForGuest(text, (uint)score, "Guest", table.Id);
+            else
+                GJAPI.Scores.Add(text, (uint)score, table.Id);
         }
     }
     

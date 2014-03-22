@@ -1,16 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ItemPickup.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\ModalStart.cs">
     <Files>
-      <File FileName="Assets\Scripts\Projectile.cs" Line="106" Column="5" />
+      <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ProjectileBlaster.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Weapons\WeaponStarGazer.cs" Line="4" Column="40" />
-      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="254" Column="17" />
+      <File FileName="Assets\Scripts\Weapons\WeaponStarGazer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SlotInfo.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\tk2dExt\SpriteColorBlink.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Weapons\WeaponHappyStar.cs" Line="108" Column="26" />
-      <File FileName="Assets\Scripts\ItemPickup.cs" Line="285" Column="21" />
+      <File FileName="Assets\Scripts\Weapons\WeaponHappyStar.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ItemPickup.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Core\Main.cs" Line="1" Column="1" />
+      <File FileName="Assets\M8\Scripts\Core\GamePlatform.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Social\SocialGameJolt.cs" Line="37" Column="26" />
+      <File FileName="Assets\Scripts\UI\ModalGameJoltLogin.cs" Line="4" Column="47" />
+      <File FileName="Assets\Scripts\UI\ModalStart.cs" Line="34" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
