@@ -85,6 +85,8 @@ public class Weapon : MonoBehaviour {
 
     public SoundPlayer chargeSfx;
 
+    public float lockAfterChargeDelay = 0.1f;
+
     public event ChangeValueCallback energyChangeCallback;
 
     [SerializeField]
@@ -101,6 +103,7 @@ public class Weapon : MonoBehaviour {
     private float mCurTime;
 
     private float mCurEnergy;
+    private float mLastChargeShotTime;
 
     public static string GetWeaponEnergyKey(EnergyType type) {
         if(type == EnergyType.Unlimited || type == EnergyType.NumTypes)
@@ -278,6 +281,8 @@ public class Weapon : MonoBehaviour {
 
             if(charges.Length > 0)
                 charges[mCurChargeLevel].Enable(true);
+
+            mLastChargeShotTime = 0.0f;
         }
     }
 
@@ -346,7 +351,10 @@ public class Weapon : MonoBehaviour {
         mFireCancel = false;
 
         //fire projectile
-        CreateProjectile(mCurChargeLevel, null);
+        if(Time.time - mLastChargeShotTime > lockAfterChargeDelay) {
+            mLastChargeShotTime = 0.0f;
+            CreateProjectile(mCurChargeLevel, null);
+        }
 
         //do charging
 
@@ -407,6 +415,8 @@ public class Weapon : MonoBehaviour {
 
                 //spawn charged projectile
                 CreateProjectile(mCurChargeLevel, null);
+
+                mLastChargeShotTime = Time.time;
             }
 
             //reset charge

@@ -1,6 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\ModalStart.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\StartController.cs">
     <Files>
       <File FileName="Assets\Scripts\Projectile.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ProjectileBlaster.cs" Line="1" Column="1" />
@@ -13,9 +13,11 @@
       <File FileName="Assets\Scripts\ItemPickup.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Core\Main.cs" Line="1" Column="1" />
       <File FileName="Assets\M8\Scripts\Core\GamePlatform.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Social\SocialGameJolt.cs" Line="37" Column="26" />
-      <File FileName="Assets\Scripts\UI\ModalGameJoltLogin.cs" Line="4" Column="47" />
+      <File FileName="Assets\Scripts\Social\SocialGameJolt.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\ModalGameJoltLogin.cs" Line="17" Column="6" />
       <File FileName="Assets\Scripts\UI\ModalStart.cs" Line="34" Column="37" />
+      <File FileName="Assets\Scripts\StartController.cs" Line="5" Column="5" />
+      <File FileName="Assets\M8\Scripts\UI\UIController.cs" Line="17" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
