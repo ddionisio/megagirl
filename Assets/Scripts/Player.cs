@@ -856,7 +856,7 @@ public class Player : EntityBase {
             LevelController.CheckpointReset();
             LevelController.LevelStateReset();
 
-            if(!preserveEnergySpent || nextScene == Scenes.gameover) {
+            if(!preserveEnergySpent || mTimeTrial || nextScene == Scenes.gameover) {
                 foreach(Weapon weapon in weapons) {
                     if(weapon)
                         weapon.ResetEnergySpent(isHardcore);

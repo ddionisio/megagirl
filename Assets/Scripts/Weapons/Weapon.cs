@@ -435,7 +435,7 @@ public class Weapon : MonoBehaviour {
         if(aAnim == anim && aClip == mClips[(int)AnimState.attack]) {
             //beginning first charge
             if(mFireActive && mClips[(int)AnimState.charge] != null) {
-                anim.Play(mClips[(int)AnimState.charge]);
+                //anim.Play(mClips[(int)AnimState.charge]);
             }
             else {
                 anim.Play(mClips[(int)AnimState.normal]);

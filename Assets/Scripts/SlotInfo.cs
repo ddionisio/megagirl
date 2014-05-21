@@ -233,7 +233,7 @@ public class SlotInfo {
 
     public static void LoadTimeTrialData() {
         UserSlotData.LoadSlot(99, true);
-        mData = 4177983;
+        mData = 4179007;
         mCurrentSlotLoaded = true;
     }
 
