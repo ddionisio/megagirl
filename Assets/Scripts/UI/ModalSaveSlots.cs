@@ -56,6 +56,16 @@ public class ModalSaveSlots : UIController {
         mBackKeys = back.GetComponent<UIButtonKeys>();
     }
 
+    void AchievementFixRetroActive() {
+        GameObject go = GameObject.FindGameObjectWithTag("RetroActive");
+        if(go) {
+            AchievementRetroActive a = go.GetComponent<AchievementRetroActive>();
+            if(a) {
+                a.Apply();
+            }
+        }
+    }
+
     void OnInfoClick(GameObject go) {
         int slot = GetSlot(go);
         if(slot != -1) {
@@ -71,6 +81,7 @@ public class ModalSaveSlots : UIController {
                         SlotInfo.CreateSlot(ModalSaveSlots.selectedSlot, SlotInfo.GameMode.Hardcore);
                         SceneState.instance.ResetGlobalValues();
                         SceneState.instance.ResetValues();
+                        AchievementFixRetroActive();
                         Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
 
                     }
@@ -81,6 +92,7 @@ public class ModalSaveSlots : UIController {
                 SlotInfo.LoadCurrentSlotData();
                 SceneState.instance.ResetGlobalValues();
                 SceneState.instance.ResetValues();
+                AchievementFixRetroActive();
                 Main.instance.sceneManager.LoadScene(Scenes.levelSelect);
             }
         }

@@ -92,6 +92,17 @@ public class Achievement : MonoBehaviour {
         return null;
     }
 
+    public bool isReady {
+        get {
+            int numReady = 0;
+            for(int i = 0; i < mServices.Count; i++) {
+                if(mServices[i].AchievementIsReady())
+                    numReady++;
+            }
+            return numReady == mServices.Count;
+        }
+    }
+
     /// <summary>
     /// A given achievement item has been updated.
     /// </summary>

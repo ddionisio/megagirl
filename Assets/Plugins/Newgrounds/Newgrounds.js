@@ -419,6 +419,8 @@ if ((str[i] == ",") || (str[i] == "}")) {
 }
 
 function loadSettings () {
+    mWorking = true;
+
 	var download : WWW = new WWW ("http://www.ngads.com/gateway_v2.php", encoding.GetBytes("command%5Fid=preloadSettings&tracker%5Fid=" + WWW.EscapeURL(APIID) + "&publisher%5Fid=" + PublisherId + "&user%5Fid=" + UserID), headers);
 	yield download;
 	

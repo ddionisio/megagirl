@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
+    public AchievementServiceOffline offlineAchieve;
+
     private enum Status {
         Uninitialized,
         RetrieveMedals,
@@ -47,6 +50,28 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
                     else {
                         mStatus = Status.None;
                         mLastTime = Time.time;
+
+                        //sync from offline achievement
+                        if(offlineAchieve) {
+                            Achievement achieve = Achievement.instance;
+                            Achievement.Data[] achieveDat = achieve.data;
+
+                            List<Achievement.Data> syncUnlockAchieve = new List<Achievement.Data>(achieveDat.Length);
+
+                            for(int i = 0; i < achieveDat.Length; i++) {
+                                if(!AchievementIsUnlocked(achieveDat[i])) {
+                                    //check if it's unlocked in offline
+                                    if(offlineAchieve.AchievementIsUnlocked(achieveDat[i]))
+                                        syncUnlockAchieve.Add(achieveDat[i]);
+                                }
+                            }
+
+                            //queue up unlocks
+                            for(int i = 0; i < syncUnlockAchieve.Count; i++) {
+                                achieve.NotifyUpdate(syncUnlockAchieve[i], 0, true);
+                            }
+                            //
+                        }
                     }
                 }
                 break;

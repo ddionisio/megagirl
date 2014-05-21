@@ -354,6 +354,7 @@ public class Player : EntityBase {
         }
         //
 
+        Blink(0.0f);
         mStats.isInvul = true;
 
         mCtrl.moveSideLock = true;
