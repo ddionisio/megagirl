@@ -102,7 +102,7 @@ public class AchievementServiceOffline : MonoBehaviour, Achievement.IService {
 
         //load data
         mData = LoadData();
-        if(mData == null) { //create new and put in the ids
+        if(mData == null || mData.Length == 0) { //create new and put in the ids
             Achievement.Data[] data = Achievement.instance.data;
             mData = new AchievedData[data.Length];
             for(int i = 0; i < data.Length; i++) {

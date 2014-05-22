@@ -61,7 +61,7 @@ public class WeaponHappyStar : Weapon {
     }
     
     protected override Projectile CreateProjectile(int chargeInd, Transform seek) {
-        if(mLastLargeStar) {
+        if(mLastLargeStar && mLastLargeStar.isAlive && !mLastLargeStar.isReleased) {
             Projectile proj = Projectile.Create(projGroup, twinkleProjType, spawnPoint, dir, seek);
             if(proj) {
                 twinkleSfx.Play();

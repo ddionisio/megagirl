@@ -201,6 +201,8 @@ public class Achievement : MonoBehaviour {
                         }
 
                         service.AchievementProcessData(dat.data, dat.progress, dat.complete);
+                        if(service.AchievementCurrentStatus() == Status.Complete)
+                            numProcessComplete++;
                     }
                     else
                         numInvalid++;
