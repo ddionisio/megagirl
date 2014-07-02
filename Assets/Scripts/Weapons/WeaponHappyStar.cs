@@ -13,7 +13,9 @@ public class WeaponHappyStar : Weapon {
 
     public GameObject deactiveOnStopGO;
 
-    private Projectile mLastLargeStar;
+    public float groundImpulse = 10.0f;
+
+    private ProjectileStarBounce mLastLargeStar;
     
     public override void FireStop() {
         base.FireStop();
@@ -23,6 +25,19 @@ public class WeaponHappyStar : Weapon {
     public override void FireCancel() {
         base.FireCancel();
         deactiveOnStopGO.SetActive(false);
+    }
+
+    public override bool Jump(Player player) {
+        if(mLastLargeStar && mLastLargeStar.isAlive && !mLastLargeStar.isReleased) {
+            if(mLastLargeStar.attachBody) {
+                mLastLargeStar.attachBody = null;
+                player.controller.ResetCollision();
+                player.controller.jumpCounterCurrent = 0;
+                player.controller.Jump(true, true);
+                return true;
+            }
+        }
+        return false;
     }
     
     protected override void OnEnable() {
@@ -47,13 +62,6 @@ public class WeaponHappyStar : Weapon {
     
     protected override void OnProjRelease(EntityBase ent) {
         if(mLastLargeStar == ent) {
-            for(int i = 0; i < Player.instance.controller.collisionCount; i++) {
-                if(Player.instance.controller.collisionData[i].collider == mLastLargeStar.collider) {
-                    Player.instance.controller.ResetCollision();
-                    break;
-                }
-            }
-            
             mLastLargeStar = null;
         }
         
@@ -62,6 +70,7 @@ public class WeaponHappyStar : Weapon {
     
     protected override Projectile CreateProjectile(int chargeInd, Transform seek) {
         if(mLastLargeStar && mLastLargeStar.isAlive && !mLastLargeStar.isReleased) {
+            //standard pew-pew star thing
             Projectile proj = Projectile.Create(projGroup, twinkleProjType, spawnPoint, dir, seek);
             if(proj) {
                 twinkleSfx.Play();
@@ -74,41 +83,30 @@ public class WeaponHappyStar : Weapon {
             string type = charges[chargeInd].projType;
             if(!string.IsNullOrEmpty(type)) {
                 Player player = Player.instance;
-                bool isGround = player.controller.isGrounded;
 
-                Vector3 _pt = isGround ? starLargeAttach.position : player.collider.bounds.center, _dir = dir;
-                
-                _pt.z = 0.0f;
-                
-                if(angle != 0.0f) {
-                    _dir = Quaternion.Euler(new Vector3(0, 0, Mathf.Sign(_dir.x)*angle))*_dir;
-                }
-                
-                mLastLargeStar = Projectile.Create(projGroup, type, _pt, _dir, seek);
+                mLastLargeStar = Projectile.Create(projGroup, type, player.transform.position, dir, seek) as ProjectileStarBounce;
                 if(mLastLargeStar) {
                     mCurProjCount++;
                     mLastLargeStar.releaseCallback += OnProjRelease;
-                    
+
                     PlaySfx(chargeInd);
-                    
+
                     //spend energy
                     currentEnergy -= charges[chargeInd].energyCost;
 
-                    if(!isGround) {
-                        //move player to top if possible
-                        Vector3 dest = _pt; _pt.y += playerOfsY;
-                        Vector3 pdir = dest - player.transform.position;
-                        float d = pdir.magnitude;
-                        if(d > 0) {
-                            pdir /= d;
-                            RaycastHit hit;
-                            if(!player.rigidbody.SweepTest(pdir, out hit, d) || ((1<<hit.collider.gameObject.layer) & playerSweepSolid) == 0) {
-                                player.rigidbody.MovePosition(dest);
-                            }
-                        }
+                    //check if we can move player above the attach
+                    Vector3 attachPos = mLastLargeStar.attachWorldPos;
+                    if(player.controller.CheckPenetrate(attachPos, 0.1f, playerSweepSolid)) {
+                        Vector3 p = starLargeAttach.position; p.z = 0.0f;
+                        mLastLargeStar.transform.position = p;
                     }
-                    //playerOfsY playerSweepSolid
-                    //if(player.rigidbody.SweepTest(
+                    else {
+                        mLastLargeStar.attachBody = player.rigidbody;
+                    }
+
+                    if(player.controller.isGrounded) {
+                        mLastLargeStar.rigidbody.AddForce(Vector3.up*groundImpulse, ForceMode.Impulse);
+                    }
                 }
             }
             

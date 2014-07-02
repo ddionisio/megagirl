@@ -225,6 +225,13 @@ public class Weapon : MonoBehaviour {
             chargeSfx.Stop();
     }
 
+    /// <summary>
+    /// Called when player press jump, use for certain weapons. Return true if jump overridden
+    /// </summary>
+    public virtual bool Jump(Player player) {
+        return false;
+    }
+
     public void ResetCharge() {
         if(mCurChargeLevel > 0 && charges.Length > 0)
             charges[mCurChargeLevel].Enable(false);

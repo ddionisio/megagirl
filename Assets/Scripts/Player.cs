@@ -675,29 +675,34 @@ public class Player : EntityBase {
         if(dat.state == InputManager.State.Pressed) {
             InputManager input = Main.instance.input;
 
-            if(!mSliding) {
-                if(input.GetAxis(0, InputAction.MoveY) < -0.1f && mCtrl.isGrounded) {
-                    Weapon curWpn = weapons[mCurWeaponInd];
-                    if(!curWpn.isFireActive || curWpn.allowSlide)
-                        SetSlide(true);
+            Weapon curWpn = currentWeapon;
+            if(curWpn == null || curWpn.Jump(this) == false) {
+                if(!mSliding) {
+                    if(input.GetAxis(0, InputAction.MoveY) < -0.1f && mCtrl.isGrounded) {
+                        if(!curWpn.isFireActive || curWpn.allowSlide)
+                            SetSlide(true);
 
-                } else {
-                    mCtrl.Jump(true);
-                    if(mCtrl.isJumpWall) {
-                        Vector2 p = mCtrlSpr.wallStickParticle.transform.position;
-                        PoolController.Spawn("fxp", "wallSpark", "wallSpark", null, p);
-                        sfxWallJump.Play();
+                    }
+                    else {
+                        mCtrl.Jump(true);
+                        if(mCtrl.isJumpWall) {
+                            Vector2 p = mCtrlSpr.wallStickParticle.transform.position;
+                            PoolController.Spawn("fxp", "wallSpark", "wallSpark", null, p);
+                            sfxWallJump.Play();
+                        }
                     }
                 }
-            } else {
-                if(input.GetAxis(0, InputAction.MoveY) >= 0.0f) {
-                    //if we can stop sliding, then jump
-                    SetSlide(false, false);
-                    if(!mSliding) {
-                        mCtrl.Jump(true);
+                else {
+                    if(input.GetAxis(0, InputAction.MoveY) >= 0.0f) {
+                        //if we can stop sliding, then jump
+                        SetSlide(false, false);
+                        if(!mSliding) {
+                            mCtrl.Jump(true);
+                        }
                     }
                 }
             }
+
         } else if(dat.state == InputManager.State.Released) {
             mCtrl.Jump(false);
         }

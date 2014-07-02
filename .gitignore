@@ -32,3 +32,6 @@ Plugins/Android.meta
 /Common/UI/*.png.meta
 /Common/Fonts/*.png.meta
 /*.apk
+Build-Linux
+Build-Mac
+Build-Windows

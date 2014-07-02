@@ -244,7 +244,7 @@ public class PlatformerController : RigidBodyController {
     /// <summary>
     /// Call this for manual input jumping
     /// </summary>
-    public void Jump(bool down) {
+    public void Jump(bool down, bool forceJump = false) {
         if(mJumpInputDown != down && !rigidbody.isKinematic) {
             mJumpInputDown = down;
 
@@ -279,8 +279,8 @@ public class PlatformerController : RigidBodyController {
                     if(jumpCallback != null)
                         jumpCallback(this);
                 }
-                else if(!isSlopSlide || slideAllowJump) {
-                    if(isGrounded || isSlopSlide || (mJumpCounter < jumpCounter && (Time.fixedTime - mLastGroundTime < jumpAirDelay || jumpDropAllow || mJumpCounter > 0))) {
+                else if(forceJump || !isSlopSlide || slideAllowJump) {
+                    if(forceJump || isGrounded || isSlopSlide || (mJumpCounter < jumpCounter && (Time.fixedTime - mLastGroundTime < jumpAirDelay || jumpDropAllow || mJumpCounter > 0))) {
                         lockDrag = true;
                         rigidbody.drag = airDrag;
 

@@ -51,4 +51,9 @@ public class WeaponStarGazer : Weapon {
         if(!mFireActive && deactiveOnStopGO.activeSelf)
             deactiveOnStopGO.SetActive(false);
     }
+
+    protected override void OnAnimationClipEnd(tk2dSpriteAnimator aAnim, tk2dSpriteAnimationClip aClip) {
+        base.OnAnimationClipEnd(aAnim, aClip);
+        deactiveOnStopGO.SetActive(false);
+    }
 }
