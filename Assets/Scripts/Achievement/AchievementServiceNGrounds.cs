@@ -15,7 +15,9 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
         None
     }
 
+#if !OUYA
     private Newgrounds mNG;
+#endif
 
     private const float waitDelay = 1.0f;
     private const int retryCount = 5;
@@ -28,11 +30,16 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
     void Awake() {
         Achievement.instance.RegisterService(this);
 
+#if !OUYA
         mNG = GetComponent<Newgrounds>();
+#endif
     }
 
 	// Update is called once per frame
 	void Update () {
+#if OUYA
+        return;
+#else
         switch(mStatus) {
             case Status.Uninitialized:
                 if(mNG.HasStarted()) {
@@ -115,10 +122,15 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
                 }
                 break;
         }
+#endif
 	}
 
     public bool AchievementAllow() {
+#if OUYA
+        return false;
+#else
         return mNG.IsLoggedIn();
+#endif
     }
 
     /// <summary>
@@ -149,6 +161,9 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
     /// Check to see if given achievement has already been completed.
     /// </summary>
     public bool AchievementIsUnlocked(Achievement.Data data) {
+#if OUYA
+        return false;
+#else
         if(mStatus == Status.Uninitialized || mStatus == Status.RetrieveMedals)
             return false;
 
@@ -159,6 +174,7 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
         //Debug.Log("Newgrounds Medal Index: "+ind+" complete? "+mNG.Medals[ind].unlocked);
 
         return mNG.Medals[ind].unlocked;
+#endif
     }
     
     /// <summary>
@@ -167,6 +183,7 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
     public void AchievementProcessData(Achievement.Data data, int progress, bool complete) {
         mData = data;
         if(mStatus == Status.None) {
+#if !OUYA
             //Debug.Log("Newgrounds Unlocking Medal: "+data.title);
             if(mNG.IsWorking() || !mNG.HasStarted())
                 mStatus = Status.Wait;
@@ -174,7 +191,7 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
                 StartCoroutine(mNG.unlockMedal(data.title));
                 mStatus = Status.ProcessData;
             }
-
+#endif
             mCurRetry = 0;
         }
     }

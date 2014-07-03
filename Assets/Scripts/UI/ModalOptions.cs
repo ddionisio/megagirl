@@ -140,10 +140,10 @@ public class ModalOptions : UIController {
         graphics = null;
         
         UIButtonKeys musicBtnKeys = music.GetComponent<UIButtonKeys>();
-        UIButtonKeys lastItmBtnKeys = exitToMainMenu ? exitToMainMenu.GetComponent<UIButtonKeys>() : back.GetComponent<UIButtonKeys>();
-        
-        musicBtnKeys.selectOnUp = lastItmBtnKeys;
-        lastItmBtnKeys.selectOnDown = musicBtnKeys;
+        UIButtonKeys backBtnKeys = back.GetComponent<UIButtonKeys>();
+
+        musicBtnKeys.selectOnUp = backBtnKeys;
+        backBtnKeys.selectOnDown = musicBtnKeys;
 
         NGUILayoutBase.RefreshNow(transform);
 #endif

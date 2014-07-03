@@ -2,8 +2,9 @@
 using System.Collections;
 
 public class LeaderboardServiceNGrounds : MonoBehaviour, Leaderboard.IService {
-
+#if !OUYA
     private Newgrounds mNG;
+#endif
     private bool mCurBoardProcess;
     private bool mScoreProcessing;
     private string mCurBoardName;
@@ -24,12 +25,14 @@ public class LeaderboardServiceNGrounds : MonoBehaviour, Leaderboard.IService {
 
     void Awake() {
         Leaderboard.instance.RegisterService(this);
-        
+#if !OUYA        
         mNG = GetComponent<Newgrounds>();
+#endif
     }
 
 	// Update is called once per frame
 	void Update () {
+#if !OUYA        
         if(mRetry) {
             if(Time.time - mLastTime > retryWaitDelay) {
                 DoScoreProcess();
@@ -64,17 +67,26 @@ public class LeaderboardServiceNGrounds : MonoBehaviour, Leaderboard.IService {
                 }
             }
         }
+#endif
 	}
 
     public bool LeaderboardAllow() {
+#if OUYA
+        return false;
+#else
         return mNG.IsLoggedIn();
+#endif
     }
 
     /// <summary>
     /// Return true if we are still working on something
     /// </summary>
     public bool LeaderboardIsWorking() {
+#if OUYA
+        return false;
+#else
         return !mNG.HasStarted() || mNG.IsWorking() || mCurBoardProcess;
+#endif
     }
     
     /// <summary>
@@ -90,12 +102,13 @@ public class LeaderboardServiceNGrounds : MonoBehaviour, Leaderboard.IService {
 
     void DoScoreProcess() {
         mScoreProcessing = false;
-
+#if !OUYA
         if(mNG.HasStarted()) {
             if(!mNG.IsWorking()) {
                 StartCoroutine(mNG.postScore(mCurBoardScore, mCurBoardName));
                 mScoreProcessing = true;
             }
         }
+#endif
     }
 }
