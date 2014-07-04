@@ -403,6 +403,9 @@ public class Weapon : MonoBehaviour {
                     //}
                 }
 
+                if(!Main.instance.input.IsDown(0, InputAction.Fire))
+                    break; //release
+
                 yield return wait;
             }
         }
