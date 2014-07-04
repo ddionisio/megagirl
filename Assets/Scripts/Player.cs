@@ -149,6 +149,11 @@ public class Player : EntityBase {
                         input.RemoveButtonCall(0, InputAction.PowerPrev, OnInputPowerPrev);
                         input.RemoveButtonCall(0, InputAction.Jump, OnInputJump);
                         input.RemoveButtonCall(0, InputAction.Slide, OnInputSlide);
+
+                        //check if we are holding fire
+                        if(currentWeapon) {
+                            currentWeapon.FireCancel();
+                        }
                     }
                 }
 

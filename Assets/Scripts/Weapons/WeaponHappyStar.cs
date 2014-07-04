@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class WeaponHappyStar : Weapon {
-    public Transform starLargeAttach; //point for large star
     public float angle;
 
     public LayerMask playerSweepSolid;
@@ -95,14 +94,10 @@ public class WeaponHappyStar : Weapon {
                     currentEnergy -= charges[chargeInd].energyCost;
 
                     //check if we can move player above the attach
+                    //then attach player
                     Vector3 attachPos = mLastLargeStar.attachWorldPos;
-                    if(player.controller.CheckPenetrate(attachPos, 0.1f, playerSweepSolid)) {
-                        Vector3 p = starLargeAttach.position; p.z = 0.0f;
-                        mLastLargeStar.transform.position = p;
-                    }
-                    else {
+                    if(!player.controller.CheckPenetrate(attachPos, 0.1f, playerSweepSolid))
                         mLastLargeStar.attachBody = player.rigidbody;
-                    }
 
                     if(player.controller.isGrounded) {
                         mLastLargeStar.rigidbody.AddForce(Vector3.up*groundImpulse, ForceMode.Impulse);
