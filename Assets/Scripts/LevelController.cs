@@ -48,6 +48,29 @@ public class LevelController : MonoBehaviour {
         }
     }
 
+    public static void TimeTrialProcess(string level) {
+        float t = timeTrialSaved;
+        float tBest = t;
+
+        if(TimeTrial.Exists(level)) {
+            float lastT = TimeTrial.Load(level);
+            if(t < lastT) {
+                tBest = t;
+                TimeTrial.Save(level, t);
+            }
+            else {
+                tBest = lastT;
+            }
+        }
+        else {
+            tBest = t;
+            TimeTrial.Save(level, t);
+        }
+
+        //post
+        TimeTrial.Post(level, t);
+    }
+
     public static bool IsLevelComplete(string level) {
         return SceneState.instance.GetGlobalValue(level) == 1;
     }
@@ -179,11 +202,10 @@ public class LevelController : MonoBehaviour {
             TimeResume();
 
             float t = mAccumTime + (Time.time - mLastTime);
+            SceneState.instance.SetGlobalValueFloat(timeTrialSaveKey, t, false);
+            TimeTrialProcess(mLevelLoaded);
 
-            if(isTimeTrial) {
-                SceneState.instance.SetGlobalValueFloat(timeTrialSaveKey, t, false);
-            }
-            else {
+            if(!isTimeTrial) {
                 string key = mLevelLoaded + levelTimePostfix;
 
                 float oldT = SceneState.instance.GetGlobalValueFloat(key, float.MaxValue);

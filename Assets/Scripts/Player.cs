@@ -77,14 +77,16 @@ public class Player : EntityBase {
                         hud.barEnergy.SetIconSprite(weapon.iconSpriteRef);
                         hud.barEnergy.max = Mathf.CeilToInt(Weapon.weaponEnergyDefaultMax);
                         hud.barEnergy.current = Mathf.CeilToInt(weapon.currentEnergy);
-                    } else {
+                    }
+                    else {
                         hud.barEnergy.gameObject.SetActive(false);
                     }
 
                     mCtrlSpr.animLibIndex = weapon.playerAnimIndex;
 
                     weapon.gameObject.SetActive(true);
-                } else {
+                }
+                else {
                     mCtrlSpr.animLibIndex = -1;
                     HUD.instance.barEnergy.gameObject.SetActive(false);
                 }
@@ -112,7 +114,8 @@ public class Player : EntityBase {
                     if(lowestWpn) {
                         if(wpn.currentEnergy < lowestWpn.currentEnergy)
                             lowestWpn = wpn;
-                    } else
+                    }
+                    else
                         lowestWpn = wpn;
                 }
             }
@@ -143,7 +146,8 @@ public class Player : EntityBase {
                         input.AddButtonCall(0, InputAction.PowerPrev, OnInputPowerPrev);
                         input.AddButtonCall(0, InputAction.Jump, OnInputJump);
                         input.AddButtonCall(0, InputAction.Slide, OnInputSlide);
-                    } else {
+                    }
+                    else {
                         input.RemoveButtonCall(0, InputAction.Fire, OnInputFire);
                         input.RemoveButtonCall(0, InputAction.PowerNext, OnInputPowerNext);
                         input.RemoveButtonCall(0, InputAction.PowerPrev, OnInputPowerPrev);
@@ -157,16 +161,16 @@ public class Player : EntityBase {
         }
     }
 
-    public bool allowPauseTime { 
-        get { return mAllowPauseTime; } 
+    public bool allowPauseTime {
+        get { return mAllowPauseTime; }
         set {
             if(mAllowPauseTime != value) {
-                mAllowPauseTime = value; 
+                mAllowPauseTime = value;
 
                 if(!mAllowPauseTime && mPauseCounter > 0)
                     Main.instance.sceneManager.Resume();
             }
-        } 
+        }
     }
 
     public PlatformerController controller { get { return mCtrl; } }
@@ -203,6 +207,9 @@ public class Player : EntityBase {
                 break;
 
             case EntityState.Hurt:
+                Blink(hurtInvulDelay);
+                sfxHurt.Play();
+
                 if(!stats.noPain) {
                     if(mCurWeaponInd >= 0) {
                         Weapon curWpn = weapons[mCurWeaponInd];
@@ -212,7 +219,10 @@ public class Player : EntityBase {
 
                     //check to see if we can stop sliding, then do hurt
                     SetSlide(false);
-                    if(!mSliding) {
+                    if(mSliding) {
+                        state = (int)EntityState.Normal;
+                    }
+                    else {
                         inputEnabled = false;
 
                         mCtrlSpr.PlayOverrideClip(clipHurt);
@@ -222,14 +232,9 @@ public class Player : EntityBase {
                 }
                 else
                     state = (int)EntityState.Normal;
-
-                Blink(hurtInvulDelay);
-
-                sfxHurt.Play();
                 break;
 
-            case EntityState.Dead:
-                {
+            case EntityState.Dead: {
                     UIModalManager.instance.ModalCloseAll();
 
                     stats.EnergyShieldSetActive(false);
@@ -238,7 +243,7 @@ public class Player : EntityBase {
                         weapons[mCurWeaponInd].FireStop();
 
                     SetSlide(false);
-                    
+
                     mCtrl.enabled = false;
                     rigidbody.isKinematic = true;
                     rigidbody.detectCollisions = false;
@@ -313,7 +318,7 @@ public class Player : EntityBase {
                     currentWeapon.FireStop();
 
                 stats.EnergyShieldSetActive(false);
-                
+
                 currentWeaponIndex = -1;
                 LockControls();
 
@@ -414,7 +419,7 @@ public class Player : EntityBase {
 
         //start ai, player control, etc
         currentWeaponIndex = 0;
-        
+
         RefreshArmor();
     }
 
@@ -547,12 +552,14 @@ public class Player : EntityBase {
         if(delta < 0.0f) {
             if(stat.curHP <= 0.0f) {
                 state = (int)EntityState.Dead;
-            } else {
+            }
+            else {
                 state = (int)EntityState.Hurt;
             }
 
             HUD.instance.barHP.current = Mathf.CeilToInt(stat.curHP);
-        } else {
+        }
+        else {
             //healed
             if(!HUD.instance.barHP.isAnimating)
                 Pause(true);
@@ -569,7 +576,8 @@ public class Player : EntityBase {
         if(weapon == weapons[mCurWeaponInd]) {
             if(delta <= 0.0f) {
                 HUD.instance.barEnergy.current = Mathf.CeilToInt(weapon.currentEnergy);
-            } else {
+            }
+            else {
                 if(!HUD.instance.barEnergy.isAnimating)
                     Pause(true);
 
@@ -636,7 +644,8 @@ public class Player : EntityBase {
                     }
                 }
             }
-        } else if(dat.state == InputManager.State.Released) {
+        }
+        else if(dat.state == InputManager.State.Released) {
             if(!mFireFSM && currentWeapon) {
                 currentWeapon.FireStop();
             }
@@ -703,7 +712,8 @@ public class Player : EntityBase {
                 }
             }
 
-        } else if(dat.state == InputManager.State.Released) {
+        }
+        else if(dat.state == InputManager.State.Released) {
             mCtrl.Jump(false);
         }
     }
@@ -755,7 +765,8 @@ public class Player : EntityBase {
 
                 LevelController.instance.TimePause();
             }
-        } else {
+        }
+        else {
             mPauseCounter--;
             if(mPauseCounter == 0) {
                 if(mAllowPauseTime)
@@ -790,7 +801,8 @@ public class Player : EntityBase {
                 mCtrlSpr.state = PlatformerSpriteController.State.Slide;
 
                 sfxSlide.Play();
-            } else {
+            }
+            else {
                 //cannot set to false if we can't stand
                 if(CanStand()) {
                     //revert
@@ -808,7 +820,8 @@ public class Player : EntityBase {
                             Vector3 v = rigidbody.velocity; v.x = 0.0f; v.z = 0.0f;
                             rigidbody.velocity = v;
                         }
-                    } else {
+                    }
+                    else {
                         //limit x velocity
                         Vector3 v = rigidbody.velocity;
                         if(Mathf.Abs(v.x) > 12.0f) {
@@ -825,7 +838,8 @@ public class Player : EntityBase {
 
                     slideParticle.Stop();
                     slideParticle.Clear();
-                } else {
+                }
+                else {
                     mSliding = true;
                 }
             }
@@ -857,7 +871,8 @@ public class Player : EntityBase {
                 if(weapon)
                     weapon.SaveEnergySpent(isHardcore);
             }
-        } else {
+        }
+        else {
             LevelController.CheckpointReset();
             LevelController.LevelStateReset();
 
@@ -898,7 +913,7 @@ public class Player : EntityBase {
         }
         else if(PlayerStats.curLife > 0) {
             Main.instance.sceneManager.Reload();
-        } 
+        }
         else {
             Main.instance.sceneManager.LoadScene(Scenes.gameover);
         }

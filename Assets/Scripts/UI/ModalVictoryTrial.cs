@@ -32,7 +32,7 @@ public class ModalVictoryTrial : UIController {
             if(t < lastT) {
                 tBest = t;
                 isBest = true;
-                TimeTrial.Save(level, t);
+                //TimeTrial.Save(level, t);
             }
             else {
                 tBest = lastT;
@@ -42,7 +42,7 @@ public class ModalVictoryTrial : UIController {
         else {
             tBest = t;
             isBest = true;
-            TimeTrial.Save(level, t);
+            //TimeTrial.Save(level, t);
         }
 
         timeLabel.text = LevelController.LevelTimeFormat(t);
@@ -51,7 +51,7 @@ public class ModalVictoryTrial : UIController {
         newRecordGO.SetActive(isBest);
 
         //post
-        TimeTrial.Post(level, t);
+        //TimeTrial.Post(level, t);
 
         NGUILayoutBase.RefreshNow(transform);
     }

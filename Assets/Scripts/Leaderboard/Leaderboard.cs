@@ -42,7 +42,10 @@ public class Leaderboard : MonoBehaviour {
     }
 
     public void PostScore(string aBoardName, string aText, int aScore) {
-        mProcess.Enqueue(new DataProcess() { boardName = aBoardName, text = aText, score = aScore });
+        if(aScore > 0)
+            mProcess.Enqueue(new DataProcess() { boardName = aBoardName, text = aText, score = aScore });
+        else
+            Debug.Log("score is "+aScore+" ??? ");
     }
 
     void OnDestroy() {

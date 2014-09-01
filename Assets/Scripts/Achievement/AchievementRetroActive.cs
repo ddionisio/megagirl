@@ -17,6 +17,8 @@ public class AchievementRetroActive : MonoBehaviour {
         while(!achieve.isReady)
             yield return wait;
 
+        Debug.Log("retro active ready");
+
         //wait for user slot
         UserSlotData usd = UserData.instance as UserSlotData;
         if(usd) {
@@ -25,6 +27,8 @@ public class AchievementRetroActive : MonoBehaviour {
         }
 
         //now for the checks
+
+        Debug.Log("retro active check");
 
         if(LevelController.IsLevelComplete("level_katgirl"))
             achieve.NotifyUpdate(achieve.GetDataById(7041), 0, true);

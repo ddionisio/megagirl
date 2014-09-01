@@ -180,6 +180,7 @@ public class Achievement : MonoBehaviour {
 
             int numProcessComplete = 0;
             int numInvalid = 0;
+            int numUnlocked = 0;
 
             for(int i = 0; i < mServices.Count; i++) {
                 IService service = mServices[i];
@@ -194,26 +195,28 @@ public class Achievement : MonoBehaviour {
                 }
                 else if(service.AchievementIsReady()) {
                     if(service.AchievementAllow()) {
-                        //if it's already completed, ignore completely and pop process
+                        //if it's already completed
                         if(service.AchievementIsUnlocked(dat.data)) {
-                            mProcessUpdates.Dequeue();
-                            return;
+                            numUnlocked++;
                         }
-
-                        service.AchievementProcessData(dat.data, dat.progress, dat.complete);
-                        if(service.AchievementCurrentStatus() == Status.Complete)
-                            numProcessComplete++;
+                        else {
+                            service.AchievementProcessData(dat.data, dat.progress, dat.complete);
+                            if(service.AchievementCurrentStatus() == Status.Complete)
+                                numProcessComplete++;
+                        }
                     }
                     else
                         numInvalid++;
                 }
             }
 
+            int validServices = mServices.Count - numInvalid;
+
             //all done?
-            if(numInvalid == mServices.Count) {
+            if(numUnlocked >= validServices) {
                 mProcessUpdates.Dequeue();
             }
-            else if(numProcessComplete == mServices.Count - numInvalid) {
+            else if(numProcessComplete > 0 && numUnlocked + numProcessComplete >= validServices) {
                 mProcessUpdates.Dequeue();
 
                 if(popupCallback != null)

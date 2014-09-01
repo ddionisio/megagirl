@@ -19,13 +19,48 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
     private Newgrounds mNG;
 #endif
 
-    private const float waitDelay = 1.0f;
+    private const float waitDelay = 2.0f;
     private const int retryCount = 5;
 
     private Status mStatus = Status.Uninitialized;
     private Achievement.Data mData;
     private int mCurRetry = 0;
     private float mLastTime;
+
+    void OnLevelWasLoaded(int ind) {
+        if(Application.loadedLevelName == Scenes.levelSelect)
+            StartCoroutine(DoOfflineSync());
+    }
+
+    IEnumerator DoOfflineSync() {
+        //sync from offline achievement
+        if(offlineAchieve) {
+            WaitForFixedUpdate wait = new WaitForFixedUpdate();
+            while(!AchievementIsReady())
+                yield return wait;
+
+            Achievement achieve = Achievement.instance;
+            Achievement.Data[] achieveDat = achieve.data;
+
+            List<Achievement.Data> syncUnlockAchieve = new List<Achievement.Data>(achieveDat.Length);
+
+            for(int i = 0; i < achieveDat.Length; i++) {
+                if(!AchievementIsUnlocked(achieveDat[i])) {
+                    //check if it's unlocked in offline
+                    if(offlineAchieve.AchievementIsUnlocked(achieveDat[i])) {
+                        Debug.Log("Newgrounds Syncing from offline: "+achieveDat[i].title);
+                        syncUnlockAchieve.Add(achieveDat[i]);
+                    }
+                }
+            }
+
+            //queue up unlocks
+            for(int i = 0; i < syncUnlockAchieve.Count; i++) {
+                achieve.NotifyUpdate(syncUnlockAchieve[i], 0, true);
+            }
+            //
+        }
+    }
 
     void Awake() {
         Achievement.instance.RegisterService(this);
@@ -57,28 +92,6 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
                     else {
                         mStatus = Status.None;
                         mLastTime = Time.time;
-
-                        //sync from offline achievement
-                        if(offlineAchieve) {
-                            Achievement achieve = Achievement.instance;
-                            Achievement.Data[] achieveDat = achieve.data;
-
-                            List<Achievement.Data> syncUnlockAchieve = new List<Achievement.Data>(achieveDat.Length);
-
-                            for(int i = 0; i < achieveDat.Length; i++) {
-                                if(!AchievementIsUnlocked(achieveDat[i])) {
-                                    //check if it's unlocked in offline
-                                    if(offlineAchieve.AchievementIsUnlocked(achieveDat[i]))
-                                        syncUnlockAchieve.Add(achieveDat[i]);
-                                }
-                            }
-
-                            //queue up unlocks
-                            for(int i = 0; i < syncUnlockAchieve.Count; i++) {
-                                achieve.NotifyUpdate(syncUnlockAchieve[i], 0, true);
-                            }
-                            //
-                        }
                     }
                 }
                 break;
@@ -116,6 +129,7 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
                     if(mNG.IsWorking() || !mNG.HasStarted())
                         mStatus = Status.Wait;
                     else {
+                        Debug.Log("Newgrounds Try Again: "+mData.title);
                         StartCoroutine(mNG.unlockMedal(mData.title));
                         mStatus = Status.ProcessData;
                     }
@@ -167,11 +181,11 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
         if(mStatus == Status.Uninitialized || mStatus == Status.RetrieveMedals)
             return false;
 
-        //Debug.Log("Newgrounds Check Medal Complete: "+data.title);
+        Debug.Log("Newgrounds Check Medal Complete: "+data.title);
 
         int ind = mNG.findMedal(data.title);
 
-        //Debug.Log("Newgrounds Medal Index: "+ind+" complete? "+mNG.Medals[ind].unlocked);
+        Debug.Log("Newgrounds Medal Index: "+ind+" complete? "+mNG.Medals[ind].unlocked);
 
         return mNG.Medals[ind].unlocked;
 #endif
@@ -184,12 +198,13 @@ public class AchievementServiceNGrounds : MonoBehaviour, Achievement.IService {
         mData = data;
         if(mStatus == Status.None) {
 #if !OUYA
-            //Debug.Log("Newgrounds Unlocking Medal: "+data.title);
+            Debug.Log("Newgrounds Unlocking Medal: "+data.title);
             if(mNG.IsWorking() || !mNG.HasStarted())
                 mStatus = Status.Wait;
             else {
                 StartCoroutine(mNG.unlockMedal(data.title));
                 mStatus = Status.ProcessData;
+                mLastTime = Time.time;
             }
 #endif
             mCurRetry = 0;

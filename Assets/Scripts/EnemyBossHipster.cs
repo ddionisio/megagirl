@@ -248,6 +248,8 @@ public class EnemyBossHipster : Enemy {
 
         float lastGroundY = transform.position.y;
 
+        yield return new WaitForSeconds(0.2f); //wait a small bit
+
         //jump
         Jump(5.0f);
 
