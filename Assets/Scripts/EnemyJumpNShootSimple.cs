@@ -31,7 +31,7 @@ public class EnemyJumpNShootSimple : Enemy {
         
         switch((EntityState)state) {
             case EntityState.Normal:
-                bodyCtrl.inputEnabled = true;
+                bodyCtrl.moveEnabled = true;
                 mJump = false;
                 mLastJumpTime = 0;
                 mLastShootTime = 0;

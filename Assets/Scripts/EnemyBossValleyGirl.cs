@@ -55,7 +55,7 @@ public class EnemyBossValleyGirl : Enemy {
     protected override void StateChanged() {
         switch((EntityState)prevState) {
             case EntityState.Normal:
-                bodyCtrl.inputEnabled = false;
+                bodyCtrl.moveEnabled = false;
                 
                 ToPhase(Phase.None);
                 break;
@@ -65,7 +65,7 @@ public class EnemyBossValleyGirl : Enemy {
 
         switch((EntityState)state) {
             case EntityState.Normal:
-                bodyCtrl.inputEnabled = true;
+                bodyCtrl.moveEnabled = true;
                 mPhaseCounter = 0;
                 mNextPhase = Phase.ChargeToPlayer;
                 ToPhase(Phase.Idle);
@@ -98,7 +98,7 @@ public class EnemyBossValleyGirl : Enemy {
             case Phase.ChargeToPlayer:
                 StopCoroutine(chargeRoutine);
                 chargeGO.SetActive(false);
-                bodyCtrl.lockDrag = false;
+                bodyCtrl.lockDragOverrideCount--;
                 bodyCtrl.moveScale = 1.0f;
 
                 damageGO.SetActive(true);
@@ -115,7 +115,7 @@ public class EnemyBossValleyGirl : Enemy {
                 stats.damageReduction = 0.0f;
                 StopCoroutine(tornadoRoutine);
                 tornadoAnimDat.Stop();
-                bodyCtrl.lockDrag = false;
+                bodyCtrl.lockDragOverrideCount--;
                 break;
         }
 
@@ -225,7 +225,7 @@ public class EnemyBossValleyGirl : Enemy {
 
         float curTime = 0.0f;
 
-        bodyCtrl.lockDrag = true;
+        bodyCtrl.lockDragOverrideCount++;
         bodyCtrl.rigidbody.drag = 0;
 
         tornadoSfx.Play();
@@ -255,7 +255,7 @@ public class EnemyBossValleyGirl : Enemy {
         float lastTurnTime = 0.0f;
         float curTime = 0.0f;
 
-        bodyCtrl.lockDrag = true;
+        bodyCtrl.lockDragOverrideCount++;
         bodyCtrl.rigidbody.drag = 0.0f;
 
         twirlSfx.Play();

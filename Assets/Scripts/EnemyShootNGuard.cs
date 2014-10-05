@@ -42,7 +42,7 @@ public class EnemyShootNGuard : Enemy {
         
         switch((EntityState)state) {
             case EntityState.Normal:
-                bodyCtrl.inputEnabled = true;
+                bodyCtrl.moveEnabled = true;
                 StartCoroutine(ActiveRoutine);
                 mLastFaceTime = 0.0f;
                 break;

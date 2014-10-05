@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Player : EntityBase {
     public const string clipHurt = "hurt";
-    public float hurtForce = 15.0f;
     public float hurtInvulDelay = 0.5f;
     public float deathFinishDelay = 2.0f;
     public float slideForce;
@@ -40,7 +39,6 @@ public class Player : EntityBase {
     private bool mInputEnabled;
     private bool mSliding;
     private float mSlidingLastTime;
-    private bool mHurtActive;
     private int mCurWeaponInd = -1;
     private int mPauseCounter;
     private bool mAllowPauseTime = true;
@@ -156,7 +154,16 @@ public class Player : EntityBase {
                     }
                 }
 
-                mCtrl.inputEnabled = mInputEnabled;
+                if(mInputEnabled) {
+                    mCtrl.moveInputX = InputAction.MoveX;
+                    mCtrl.moveInputY = InputAction.MoveY;
+                    mCtrl.jumpInput = InputAction.Jump;
+                }
+                else {
+                    mCtrl.moveInputX = InputManager.ActionInvalid;
+                    mCtrl.moveInputY = InputManager.ActionInvalid;
+                    mCtrl.jumpInput = InputManager.ActionInvalid;
+                }
             }
         }
     }
@@ -181,10 +188,6 @@ public class Player : EntityBase {
 
     protected override void StateChanged() {
         switch((EntityState)prevState) {
-            case EntityState.Hurt:
-                mHurtActive = false;
-                break;
-
             case EntityState.Lock:
                 inputEnabled = true;
 
@@ -224,10 +227,8 @@ public class Player : EntityBase {
                     }
                     else {
                         inputEnabled = false;
-
+                        
                         mCtrlSpr.PlayOverrideClip(clipHurt);
-
-                        StartCoroutine(DoHurtForce(mStats.lastDamageNormal));
                     }
                 }
                 else
@@ -418,9 +419,14 @@ public class Player : EntityBase {
         //initialize some things
 
         //start ai, player control, etc
+        mCtrl.moveEnabled = true;
+
         currentWeaponIndex = 0;
 
         RefreshArmor();
+
+        CameraController.instance.attach = transform;
+        CameraController.instance.SnapPosition();
     }
 
     protected override void Awake() {
@@ -437,8 +443,6 @@ public class Player : EntityBase {
         Main.instance.input.AddButtonCall(0, InputAction.MenuEscape, OnInputPause);
 
         mCtrl = GetComponent<PlatformerController>();
-        mCtrl.moveInputX = InputAction.MoveX;
-        mCtrl.moveInputY = InputAction.MoveY;
         mCtrl.collisionEnterCallback += OnRigidbodyCollisionEnter;
         mCtrl.landCallback += OnLand;
 
@@ -585,32 +589,7 @@ public class Player : EntityBase {
             }
         }
     }
-
-    IEnumerator DoHurtForce(Vector3 normal) {
-        mHurtActive = true;
-
-        mCtrl.enabled = false;
-        rigidbody.velocity = Vector3.zero;
-        rigidbody.drag = 0.0f;
-
-        WaitForFixedUpdate wait = new WaitForFixedUpdate();
-
-        normal.x = Mathf.Sign(normal.x);
-        normal.y = 0.0f;
-        normal.z = 0.0f;
-
-        while(mHurtActive) {
-            yield return wait;
-
-            rigidbody.AddForce(normal * hurtForce);
-        }
-
-        mCtrl.enabled = true;
-        mCtrl.ResetCollision();
-
-        mHurtActive = false;
-    }
-
+    
     //anim
 
     void OnSpriteCtrlOneTimeClipEnd(PlatformerSpriteController ctrl, tk2dSpriteAnimationClip clip) {

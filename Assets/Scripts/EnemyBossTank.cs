@@ -7,7 +7,7 @@ public class EnemyBossTank : Enemy {
 
         switch((EntityState)state) {
             case EntityState.Normal:
-                bodyCtrl.inputEnabled = true;
+                bodyCtrl.moveEnabled = true;
                 //bodyCtrl.moveSide = 0.5f;
                 break;
         }

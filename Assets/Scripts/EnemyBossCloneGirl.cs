@@ -77,7 +77,7 @@ public class EnemyBossCloneGirl : Enemy {
 
         switch((EntityState)state) {
             case EntityState.Normal:
-                bodyCtrl.inputEnabled = true;
+                bodyCtrl.moveEnabled = true;
                 ToPhase(Phase.Move);
                 break;
                 

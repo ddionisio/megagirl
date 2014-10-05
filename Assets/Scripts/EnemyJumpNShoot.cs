@@ -50,7 +50,7 @@ public class EnemyJumpNShoot : Enemy {
                 if(mPlayers == null)
                     mPlayers = GameObject.FindGameObjectsWithTag("Player");
 
-                bodyCtrl.inputEnabled = true;
+                bodyCtrl.moveEnabled = true;
                 anim.Play(idleClip);
                 stats.damageReduction = 1.0f;
                 InvokeRepeating("DoActiveCheck", 0, activateCheckDelay);

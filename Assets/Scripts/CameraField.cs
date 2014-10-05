@@ -17,21 +17,11 @@ public class CameraField : MonoBehaviour {
     private GameObject mAttachGO;
 
     void OnTriggerEnter(Collider col) {
-        if(mAttachGO == null)
+        if(mAttachGO == null && !string.IsNullOrEmpty(attachTag))
             mAttachGO = GameObject.FindGameObjectWithTag(attachTag);
 
-        if(mAttachGO) {
-            mCamCtrl.mode = mode;
-            
-            Bounds setBounds = bounds;
-            setBounds.center += transform.position;
-            
-            mCamCtrl.bounds = setBounds;
-            
-            mCamCtrl.attach = mAttachGO.transform;
-            
-            mCamCtrl.SetTransition(doTransition);
-        }
+        mCamCtrl.attach = mAttachGO ? mAttachGO.transform : null;
+        mCamCtrl.field = this;
     }
 
     void OnDestroy() {

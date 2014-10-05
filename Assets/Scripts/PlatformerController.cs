@@ -49,10 +49,7 @@ public class PlatformerController : RigidBodyController {
     public float plankCheckDelay; //delay to check if we can revert plank collision
 
     public int player = 0;
-    public int moveInputX = InputManager.ActionInvalid;
-    public int moveInputY = InputManager.ActionInvalid;
-    public int jumpInput = InputManager.ActionInvalid;
-
+    
     public bool startInputEnabled = false;
     public bool jumpReleaseClearVelocity = false;
     public float jumpReleaseClearVelocityTo = 0.0f;
@@ -62,7 +59,7 @@ public class PlatformerController : RigidBodyController {
 
     private const string mInvokePlankEndIgnore = "OnPlankEndIgnore";
 
-    private bool mInputEnabled = false;
+    private bool mMoveEnabled = false;
 
     private bool mJump = false;
     private int mJumpCounter = 0;
@@ -97,28 +94,40 @@ public class PlatformerController : RigidBodyController {
 
     private List<Collider> mTriggers = new List<Collider>(4); //triggers we entered
 
-    public bool inputEnabled {
-        get { return mInputEnabled; }
+    [System.NonSerialized]
+    public int moveInputX = InputManager.ActionInvalid;
+
+    [System.NonSerialized]
+    public int moveInputY = InputManager.ActionInvalid;
+
+    public int jumpInput {
+        get { return mJumpInput; }
         set {
-            if(mInputEnabled != value) {
-                mInputEnabled = value;
-
+            if(mJumpInput != value) {
                 InputManager input = Main.instance != null ? Main.instance.input : null;
-                if(input != null) {
-                    if(mInputEnabled) {
-                        if(jumpInput != InputManager.ActionInvalid)
-                            input.AddButtonCall(player, jumpInput, OnInputJump);
-                    }
-                    else {
-                        if(jumpInput != InputManager.ActionInvalid)
-                            input.RemoveButtonCall(player, jumpInput, OnInputJump);
-
-                        mJumpInputDown = false;
-
-                        mMoveYGround = 0.0f;
-                    }
+                if(value != InputManager.ActionInvalid) {
+                    if(input)
+                        input.AddButtonCall(player, value, OnInputJump);
                 }
+                else {
+                    if(input && mJumpInput != InputManager.ActionInvalid)
+                        input.RemoveButtonCall(player, mJumpInput, OnInputJump);
+
+                    Jump(false);
+                    mMoveYGround = 0.0f;
+                }
+
+                mJumpInput = value;
             }
+        }
+    }
+
+    private int mJumpInput = InputManager.ActionInvalid;
+
+    public bool moveEnabled {
+        get { return mMoveEnabled; }
+        set {
+            mMoveEnabled = value;
         }
     }
 
@@ -179,8 +188,6 @@ public class PlatformerController : RigidBodyController {
         mLastGroundTime = 0.0f;
         mJump = false;
         mJumpingWall = false;
-
-        lockDrag = false;
 
         mWallSticking = false;
         mWallStickWaitInput = false;
@@ -245,69 +252,73 @@ public class PlatformerController : RigidBodyController {
     /// Call this for manual input jumping
     /// </summary>
     public void Jump(bool down, bool forceJump = false) {
-        if(mJumpInputDown != down && !rigidbody.isKinematic) {
+        if(mJumpInputDown != down) {
             mJumpInputDown = down;
 
-            if(mJumpInputDown) {
-                if(isUnderWater) {
-                    mJumpingWall = false;
-                    mJump = true;
-                    mJumpCounter = 0;
-                }
-                else if(canWallJump) {
+            if(!rigidbody.isKinematic) {
+                if(mJumpInputDown) {
+                    if(isUnderWater) {
+                        mJumpingWall = false;
+                        mJump = true;
+                        mJumpCounter = 0;
+                    }
+                    else if(canWallJump) {
 
-                    rigidbody.velocity = Vector3.zero;
-                    lockDrag = true;
-                    rigidbody.drag = airDrag;
-
-                    Vector3 impulse = mWallStickCollInfo.normal * jumpWallImpulse;
-                    impulse += dirHolder.up * jumpWallUpImpulse;
-
-                    PrepJumpVel();
-                    rigidbody.AddForce(impulse, ForceMode.Impulse);
-
-                    mJumpingWall = true;
-                    mJump = true;
-
-                    mWallSticking = false;
-
-                    mJumpLastTime = Time.fixedTime;
-                    //mJumpCounter = Mathf.Clamp(mJumpCounter + 1, 0, jumpCounter);
-
-                    mJumpCounter = 1;
-
-                    if(jumpCallback != null)
-                        jumpCallback(this);
-                }
-                else if(forceJump || !isSlopSlide || slideAllowJump) {
-                    if(forceJump || isGrounded || isSlopSlide || (mJumpCounter < jumpCounter && (Time.fixedTime - mLastGroundTime < jumpAirDelay || jumpDropAllow || mJumpCounter > 0))) {
-                        lockDrag = true;
+                        rigidbody.velocity = Vector3.zero;
+                        mLockDrag = true;
                         rigidbody.drag = airDrag;
 
+                        Vector3 impulse = mWallStickCollInfo.normal * jumpWallImpulse;
+                        impulse += dirHolder.up * jumpWallUpImpulse;
+
                         PrepJumpVel();
+                        rigidbody.AddForce(impulse, ForceMode.Impulse);
 
-                        rigidbody.AddForce(dirHolder.up * jumpImpulse, ForceMode.Impulse);
-
-                        mJumpCounter++;
-                        mJumpingWall = false;
+                        mJumpingWall = true;
+                        mJump = true;
 
                         mWallSticking = false;
 
-                        mJump = true;
                         mJumpLastTime = Time.fixedTime;
+                        //mJumpCounter = Mathf.Clamp(mJumpCounter + 1, 0, jumpCounter);
+
+                        mJumpCounter = 1;
 
                         if(jumpCallback != null)
                             jumpCallback(this);
                     }
-                }
-            }
-            else {
-                if(jumpReleaseClearVelocity) {
-                    Vector3 lv = localVelocity;
-                    if(lv.y > jumpReleaseClearVelocityTo) {
-                        lv.y = jumpReleaseClearVelocityTo;
-                        localVelocity = lv;
+                    else if(forceJump || !isSlopSlide || slideAllowJump) {
+                        if(forceJump || isGrounded || isSlopSlide || (mJumpCounter < jumpCounter && (Time.fixedTime - mLastGroundTime < jumpAirDelay || jumpDropAllow || mJumpCounter > 0))) {
+                            mLockDrag = true;
+                            rigidbody.drag = airDrag;
+
+                            PrepJumpVel();
+
+                            rigidbody.AddForce(dirHolder.up * jumpImpulse, ForceMode.Impulse);
+
+                            mJumpCounter++;
+                            mJumpingWall = false;
+
+                            mWallSticking = false;
+
+                            mJump = true;
+                            mJumpLastTime = Time.fixedTime;
+
+                            if(jumpCallback != null)
+                                jumpCallback(this);
+                        }
                     }
+                }
+                else {
+                    if(jumpReleaseClearVelocity) {
+                        Vector3 lv = localVelocity;
+                        if(lv.y > jumpReleaseClearVelocityTo) {
+                            lv.y = jumpReleaseClearVelocityTo;
+                            localVelocity = lv;
+                        }
+                    }
+
+                    mLockDrag = false;
                 }
             }
         }
@@ -346,7 +357,7 @@ public class PlatformerController : RigidBodyController {
         if(wallStickDownEaseDelay <= 0.0f || Time.fixedTime - mWallStickLastTime >= wallStickDownEaseDelay)
             return wallStickDownSpeedCap;
 
-        return Holoville.HOTween.Core.Easing.Sine.EaseIn(Time.fixedTime - mWallStickLastTime, 0.0f, wallStickDownSpeedCap, wallStickDownEaseDelay, 0, 0);
+        return Holoville.HOTween.Core.Easing.Sine.EaseIn(Time.fixedTime - mWallStickLastTime, 0.01f, wallStickDownSpeedCap, wallStickDownEaseDelay, 0, 0);
     }
 
     protected override void RefreshCollInfo() {
@@ -444,9 +455,11 @@ public class PlatformerController : RigidBodyController {
                             //Debug.Log("la");
 
                             float yCap = WallStickCurrentDownCap();
-                            if(newVel.y < -yCap) newVel.y = -yCap;
+                            if(newVel.y < -yCap) {
+                                newVel.y = -yCap;
 
-                            rigidbody.velocity = dirHolder.rotation * newVel;
+                                rigidbody.velocity = dirHolder.rotation * newVel;
+                            }
 
                             mWallStickWaitInput = true;
                         }
@@ -493,8 +506,8 @@ public class PlatformerController : RigidBodyController {
 
             if(mWallSticking != lastWallStick) {
                 if(mWallSticking) {
-                    mJump = false;
-                    lockDrag = false;
+                    //mJump = false;
+                    mLockDrag = false;
                 }
                 else {
                     if(wallStickPush)
@@ -529,7 +542,7 @@ public class PlatformerController : RigidBodyController {
     }
 
     protected override void OnDestroy() {
-        inputEnabled = false;
+        moveEnabled = false;
 
         landCallback = null;
         jumpCallback = null;
@@ -555,7 +568,7 @@ public class PlatformerController : RigidBodyController {
     protected override void Start() {
         base.Start();
 
-        inputEnabled = startInputEnabled;
+        moveEnabled = startInputEnabled;
     }
 
     // Update is called once per frame
@@ -563,7 +576,7 @@ public class PlatformerController : RigidBodyController {
         Rigidbody body = rigidbody;
         Quaternion dirRot = dirHolder.rotation;
 
-        if(mInputEnabled) {
+        if(mMoveEnabled) {
             InputManager input = Main.instance.input;
 
             float moveX, moveY;
@@ -619,14 +632,14 @@ public class PlatformerController : RigidBodyController {
             }
 
             //jump
-            if(mJump && !mWallSticking) {
+            if(mJump) {// && !mWallSticking) {
                 if(isUnderWater) {
                     body.AddForce(dirRot * Vector3.up * jumpWaterForce);
                 }
                 else {
                     if(!mJumpInputDown || Time.fixedTime - mJumpLastTime >= jumpDelay || collisionFlags == CollisionFlags.Above) {
                         mJump = false;
-                        lockDrag = false;
+                        mLockDrag = false;
                     }
                     else if(localVelocity.y < airMaxSpeed) {
                         body.AddForce(dirRot * Vector3.up * jumpForce);
@@ -657,9 +670,9 @@ public class PlatformerController : RigidBodyController {
                 body.velocity = dirHolder.rotation * newVel;
             }
             //boost up
-            else if(localVelocity.y >= 0.0f) {
+            else if(localVelocity.y >= 0.0f && wallStickUpForce > 0.0f) {
                 float curT = Time.fixedTime - mWallStickLastTime;
-                if(curT <= wallStickUpDelay && Main.instance.input.IsDown(0, jumpInput)) {
+                if(curT <= wallStickUpDelay && Main.instance.input.IsDown(0, mJumpInput)) {
                     Vector3 upDir = dirRot * Vector3.up;
                     upDir = M8.MathUtil.Slide(upDir, mWallStickCollInfo.normal);
 

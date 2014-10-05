@@ -61,7 +61,7 @@ public class EnemyBossCatGirl : Enemy {
     protected override void StateChanged() {
         switch((EntityState)prevState) {
             case EntityState.Normal:
-                bodyCtrl.inputEnabled = false;
+                bodyCtrl.moveEnabled = false;
                 
                 ToPhase(Phase.None);
                 break;
@@ -71,7 +71,7 @@ public class EnemyBossCatGirl : Enemy {
 
         switch((EntityState)state) {
             case EntityState.Normal:
-                bodyCtrl.inputEnabled = true;
+                bodyCtrl.moveEnabled = true;
 
                 mLastJumpToWallTime = Time.fixedTime;
                 ToPhase(Phase.Move);

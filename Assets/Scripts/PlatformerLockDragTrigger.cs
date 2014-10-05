@@ -13,7 +13,7 @@ public class PlatformerLockDragTrigger : MonoBehaviour {
     void OnDisable() {
         for(int i = 0; i < mCurColCount; i++) {
             if(mCtrls[i])
-                mCtrls[i].lockDrag = false;
+                mCtrls[i].lockDragOverrideCount--;
         }
 
         mCurColCount = 0;
@@ -23,7 +23,7 @@ public class PlatformerLockDragTrigger : MonoBehaviour {
         PlatformerController ctrl = col.GetComponent<PlatformerController>();
         if(ctrl) {
             if(mCurColCount < maxCols) {
-                ctrl.lockDrag = true;
+                ctrl.lockDragOverrideCount++;
                 ctrl.rigidbody.drag = drag;
                 mCtrls[mCurColCount] = ctrl;
                 mCurColCount++;
@@ -39,7 +39,7 @@ public class PlatformerLockDragTrigger : MonoBehaviour {
         for(int i = 0; i < mCurColCount; i++) {
             if(mCtrls[i].collider == col) {
                 ind = i;
-                mCtrls[i].lockDrag = true;
+                mCtrls[i].lockDragOverrideCount++;
                 mCtrls[i].rigidbody.drag = drag;
                 break;
             }
@@ -53,7 +53,7 @@ public class PlatformerLockDragTrigger : MonoBehaviour {
     void OnTriggerExit(Collider col) {
         for(int i = 0; i < mCurColCount; i++) {
             if(mCtrls[i].collider == col) {
-                mCtrls[i].lockDrag = false;
+                mCtrls[i].lockDragOverrideCount--;
 
                 if(mCurColCount > 1) {
                     mCtrls[i] = mCtrls[mCurColCount - 1];

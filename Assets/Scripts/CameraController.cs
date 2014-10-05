@@ -23,6 +23,7 @@ public class CameraController : MonoBehaviour {
     private bool mDoTrans;
     private float mLastTransTime;
     private float mCurDelay;
+    private CameraField mCurField;
 
     public static CameraController instance { get { return mInstance; } }
 
@@ -32,6 +33,25 @@ public class CameraController : MonoBehaviour {
             if(mAttach != value) {
                 mAttach = value;
                 mCurVel = Vector3.zero;
+            }
+        }
+    }
+
+    public CameraField field {
+        get { return mCurField; }
+        set {
+            if(mCurField != value) {
+                mCurField = value;
+                if(mCurField) {
+                    mode = mCurField.mode;
+
+                    Bounds setBounds = mCurField.bounds;
+                    setBounds.center += mCurField.transform.position;
+
+                    bounds = setBounds;
+
+                    SetTransition(mCurField.doTransition);
+                }
             }
         }
     }
@@ -51,6 +71,21 @@ public class CameraController : MonoBehaviour {
         mLastTransTime = Time.fixedTime;
         mCurVel = Vector3.zero;
         mCurDelay = transitionDelay;
+    }
+
+    public void SnapPosition() {
+        Vector3 dest = mAttach ? mAttach.collider ? mAttach.collider.bounds.center : mAttach.position : transform.position;
+
+        //apply bounds
+        ApplyBounds(ref dest);
+
+        if(rigidbody)
+            rigidbody.MovePosition(dest);
+        else
+            transform.position = dest;
+
+        mDoTrans = false;
+        mCurDelay = delay;
     }
 
     void Awake() {
@@ -93,21 +128,7 @@ public class CameraController : MonoBehaviour {
         Vector3 dest = mAttach ? mAttach.collider ? mAttach.collider.bounds.center : mAttach.position : curPos;
 
         //apply bounds
-        switch(mode) {
-            case Mode.HorizontalLock:
-                ApplyBounds(ref dest);
-                dest.x = bounds.center.x;
-                break;
-
-            case Mode.VerticalLock:
-                ApplyBounds(ref dest);
-                dest.y = bounds.center.y;
-                break;
-
-            default:
-                ApplyBounds(ref dest);
-                break;
-        }
+        ApplyBounds(ref dest);
 
         if(curPos != dest) {
             if(rigidbody) {
@@ -132,6 +153,16 @@ public class CameraController : MonoBehaviour {
                 pos.y = bounds.min.y + screen.height * 0.5f;
             else if(pos.y + screen.height * 0.5f > bounds.max.y)
                 pos.y = bounds.max.y - screen.height * 0.5f;
+        }
+
+        switch(mode) {
+            case Mode.HorizontalLock:
+                pos.x = bounds.center.x;
+                break;
+
+            case Mode.VerticalLock:
+                pos.y = bounds.center.y;
+                break;
         }
     }
 }

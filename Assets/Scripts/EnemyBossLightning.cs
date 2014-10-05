@@ -64,7 +64,7 @@ public class EnemyBossLightning : Enemy {
     protected override void StateChanged() {
         switch((EntityState)prevState) {
             case EntityState.Normal:
-                bodyCtrl.inputEnabled = false;
+                bodyCtrl.moveEnabled = false;
                 
                 ToPhase(Phase.None);
                 break;
@@ -75,7 +75,7 @@ public class EnemyBossLightning : Enemy {
         switch((EntityState)state) {
             case EntityState.Normal:
                 mNextPhase = Phase.TargetStrike;
-                bodyCtrl.inputEnabled = true;
+                bodyCtrl.moveEnabled = true;
                 ToPhase(Phase.Move);
                 break;
                 

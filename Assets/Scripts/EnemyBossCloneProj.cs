@@ -28,7 +28,7 @@ public class EnemyBossCloneProj : Projectile {
                 //mCtrl.gravityController.enabled = true;
                 //mCtrl.enabled = true;
                 mCtrl.moveSideLock = true;
-                mCtrl.inputEnabled = true;
+                mCtrl.moveEnabled = true;
                 mCtrl.ResetCollision();
                 dieDelay = mDefaultDieDelay;
                 mLastFollowPlayerTime = 0;

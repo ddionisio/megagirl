@@ -88,7 +88,7 @@ public class EnemyBossNil : Enemy {
         
         switch((EntityState)state) {
             case EntityState.Normal:
-                bodyCtrl.inputEnabled = true;
+                bodyCtrl.moveEnabled = true;
 
                 SetPhysicsActive(true, false);
 

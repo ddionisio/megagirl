@@ -91,7 +91,7 @@ public class EnemyBossTankieGirl : Enemy {
 
         switch((EntityState)state) {
             case EntityState.Normal:
-                bodyCtrl.inputEnabled = true;
+                bodyCtrl.moveEnabled = true;
                 ToPhase(Phase.Move);
                 break;
                 
@@ -165,7 +165,7 @@ public class EnemyBossTankieGirl : Enemy {
 
                 bodyCtrl.rigidbody.isKinematic = false;
                 bodyCtrl.enabled = true;
-                bodyCtrl.inputEnabled = true;
+                bodyCtrl.moveEnabled = true;
                 gravityCtrl.enabled = true;
                 bodySpriteCtrl.controller = bodyCtrl;
 
