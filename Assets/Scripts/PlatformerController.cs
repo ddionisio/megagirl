@@ -5,6 +5,11 @@ using System.Collections.Generic;
 public class PlatformerController : RigidBodyController {
     public delegate void Callback(PlatformerController ctrl);
 
+    public bool moveSnap; //if true, moving left and right immediately switches velocity without momentum, airDamp is ignored
+
+    public float fallSnapSpeed; //if fallSnapSpeed > 0 and y-velocity is < 0 and > -fallSnapSpeed, then set y-velocity to fallSnapSpeed
+                                //ensure this is positive value
+
     [SerializeField]
     Transform _eye;
 
@@ -19,6 +24,7 @@ public class PlatformerController : RigidBodyController {
     public float jumpWaterForce = 5f;
     public float jumpForce = 80.0f;
     public float jumpDelay = 0.1f;
+    public float jumpMaxSpeed = 8f;
 
     public bool jumpWall = false; //wall jump
     public float jumpWallLockDelay = 0.1f;
@@ -73,7 +79,7 @@ public class PlatformerController : RigidBodyController {
 
     private bool mWallSticking = false;
     private float mWallStickLastTime = 0.0f;
-    private float mWallStickLastInputTime = 0.0f;
+    private float mWallStickStartTime = 0.0f;
     private CollideInfo mWallStickCollInfo;
     private M8.MathUtil.Side mWallStickSide;
     private bool mWallStickWaitInput;
@@ -93,6 +99,8 @@ public class PlatformerController : RigidBodyController {
     private float mLastGroundTime; //last time we were on ground
 
     private List<Collider> mTriggers = new List<Collider>(4); //triggers we entered
+
+    private float mLastMoveSide;
 
     [System.NonSerialized]
     public int moveInputX = InputManager.ActionInvalid;
@@ -279,7 +287,7 @@ public class PlatformerController : RigidBodyController {
 
                         mWallSticking = false;
 
-                        mJumpLastTime = Time.fixedTime;
+                        mJumpLastTime = Time.time;
                         //mJumpCounter = Mathf.Clamp(mJumpCounter + 1, 0, jumpCounter);
 
                         mJumpCounter = 1;
@@ -302,7 +310,7 @@ public class PlatformerController : RigidBodyController {
                             mWallSticking = false;
 
                             mJump = true;
-                            mJumpLastTime = Time.fixedTime;
+                            mJumpLastTime = Time.time;
 
                             if(jumpCallback != null)
                                 jumpCallback(this);
@@ -331,7 +339,7 @@ public class PlatformerController : RigidBodyController {
 
     protected override void WaterExit() {
         if(mJump) {
-            mJumpLastTime = Time.fixedTime;
+            mJumpLastTime = Time.time;
         }
     }
 
@@ -354,10 +362,10 @@ public class PlatformerController : RigidBodyController {
     }
 
     float WallStickCurrentDownCap() {
-        if(wallStickDownEaseDelay <= 0.0f || Time.fixedTime - mWallStickLastTime >= wallStickDownEaseDelay)
+        if(wallStickDownEaseDelay <= 0.0f || Time.fixedTime - mWallStickStartTime >= wallStickDownEaseDelay)
             return wallStickDownSpeedCap;
 
-        return Holoville.HOTween.Core.Easing.Sine.EaseIn(Time.fixedTime - mWallStickLastTime, 0.01f, wallStickDownSpeedCap, wallStickDownEaseDelay, 0, 0);
+        return Holoville.HOTween.Core.Easing.Sine.EaseIn(Time.fixedTime - mWallStickStartTime, 0.01f, wallStickDownSpeedCap, wallStickDownEaseDelay, 0, 0);
     }
 
     protected override void RefreshCollInfo() {
@@ -451,26 +459,18 @@ public class PlatformerController : RigidBodyController {
                             newVel.x = 0.0f;
 
                             //reduce downward speed
-
-                            //Debug.Log("la");
-
                             float yCap = WallStickCurrentDownCap();
-                            if(newVel.y < -yCap) {
-                                newVel.y = -yCap;
+                            if(newVel.y < -yCap) newVel.y = -yCap;
 
-                                rigidbody.velocity = dirHolder.rotation * newVel;
-                            }
+                            rigidbody.velocity = dirHolder.rotation * newVel;
 
                             mWallStickWaitInput = true;
                         }
 
-                        if(!lastWallStick)
-                            mWallStickLastTime = Time.fixedTime;
-
-                        mWallStickLastInputTime = Time.fixedTime;
+                        mWallStickLastTime = Time.fixedTime;
                     }
                     else {
-                        bool wallStickExpired = Time.fixedTime - mWallStickLastInputTime > wallStickDelay;
+                        bool wallStickExpired = Time.fixedTime - mWallStickLastTime > wallStickDelay;
 
                         if(wallStickExpired) {
                             mWallStickWaitInput = false;
@@ -508,6 +508,7 @@ public class PlatformerController : RigidBodyController {
                 if(mWallSticking) {
                     //mJump = false;
                     mLockDrag = false;
+                    mWallStickStartTime = Time.fixedTime;
                 }
                 else {
                     if(wallStickPush)
@@ -532,8 +533,8 @@ public class PlatformerController : RigidBodyController {
                 //falling down?
                 /*if(mJumpCounter <= 0)
                     mJumpCounter = 1;*/
-
-                mJumpLastTime = Time.fixedTime;
+                //Debug.Log("wtf");
+                //mJumpLastTime = Time.fixedTime;
                 mLastGroundTime = Time.fixedTime;
             }
 
@@ -637,11 +638,11 @@ public class PlatformerController : RigidBodyController {
                     body.AddForce(dirRot * Vector3.up * jumpWaterForce);
                 }
                 else {
-                    if(!mJumpInputDown || Time.fixedTime - mJumpLastTime >= jumpDelay || collisionFlags == CollisionFlags.Above) {
+                    if(!mJumpInputDown || Time.time - mJumpLastTime >= jumpDelay || collisionFlags == CollisionFlags.Above) {
                         mJump = false;
                         mLockDrag = false;
                     }
-                    else if(localVelocity.y < airMaxSpeed) {
+                    else if(localVelocity.y < jumpMaxSpeed) {
                         body.AddForce(dirRot * Vector3.up * jumpForce);
                     }
                 }
@@ -656,6 +657,32 @@ public class PlatformerController : RigidBodyController {
             mJump = false;
 
             mMoveYGround = 0.0f;
+        }
+
+        if(!(mWallSticking || mJumpingWall)) {
+            bool applyNewLocalVel = false;
+            Vector3 newLocalVel = localVelocity;
+
+            if(moveSnap) {
+                if(mLastMoveSide != moveSide) {
+                    //make sure we are not colliding, except for ground
+                    if(mCollFlags == CollisionFlags.None || mCollFlags == CollisionFlags.Below) {
+                        //if(mCollFlags == CollisionFlags.Below && !mIsOnPlatform)
+                        newLocalVel.x = 0f;
+                        applyNewLocalVel = true;
+                    }
+                }
+            }
+
+            if(fallSnapSpeed > 0f && !mJump && localVelocity.y < 0f && localVelocity.y > -fallSnapSpeed) {
+                if(mCollFlags == CollisionFlags.None) {
+                    newLocalVel.y = -fallSnapSpeed;
+                    applyNewLocalVel = true;
+                }
+            }
+
+            if(applyNewLocalVel)
+                localVelocity = newLocalVel;
         }
 
         base.FixedUpdate();
@@ -686,7 +713,7 @@ public class PlatformerController : RigidBodyController {
         }
         else if(mCollCount == 0) {
             //check if no collision, then try to dampen horizontal speed
-            if(airDampForceX != 0.0f && moveSide == 0.0f) {
+            if(!moveSnap && airDampForceX != 0.0f && moveSide == 0.0f) {
                 if(localVelocity.x < -airDampMinSpeedX || localVelocity.x > airDampMinSpeedX) {
                     Vector3 dir = localVelocity.x < 0.0f ? Vector3.right : Vector3.left;
                     body.AddForce(dirRot * dir * airDampForceX);
@@ -695,30 +722,14 @@ public class PlatformerController : RigidBodyController {
         }
 
         //see if we are jumping wall and falling, then cancel jumpwall
-        if(mJumpingWall && Time.fixedTime - mJumpLastTime >= jumpWallLockDelay)
+        if(mJumpingWall && Time.time - mJumpLastTime >= jumpWallLockDelay)
             mJumpingWall = false;
 
         //set eye rotation
         UpdateCamera(Time.fixedDeltaTime);
 
-        //if(CheckPenetrate(0.1f, plankLayer))
-        //Debug.Log("planking");
+        mLastMoveSide = moveSide;
     }
-
-    /*IEnumerator DoWallStick() {
-        yield return new WaitForSeconds(wallStickDelay);
-
-        //see if we still sticking
-        WaitForFixedUpdate wait = new WaitForFixedUpdate();
-
-        PrepJumpVel();
-        
-        while(mWallSticking) {
-            rigidbody.AddForce(gravityController.up * wallStickUpForce, ForceMode.Force);
-
-            yield return wait;
-        }
-    }*/
 
     void PrepJumpVel() {
         ComputeLocalVelocity();

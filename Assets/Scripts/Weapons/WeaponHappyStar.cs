@@ -30,6 +30,7 @@ public class WeaponHappyStar : Weapon {
         if(mLastLargeStar && mLastLargeStar.isAlive && !mLastLargeStar.isReleased) {
             if(mLastLargeStar.attachBody) {
                 mLastLargeStar.attachBody = null;
+                player.controller.moveSnap = true;
                 player.controller.ResetCollision();
                 player.controller.jumpCounterCurrent = 0;
                 player.controller.Jump(true, true);
@@ -61,6 +62,7 @@ public class WeaponHappyStar : Weapon {
     
     protected override void OnProjRelease(EntityBase ent) {
         if(mLastLargeStar == ent) {
+            Player.instance.controller.moveSnap = true;
             mLastLargeStar = null;
         }
         
@@ -96,8 +98,10 @@ public class WeaponHappyStar : Weapon {
                     //check if we can move player above the attach
                     //then attach player
                     Vector3 attachPos = mLastLargeStar.attachWorldPos;
-                    if(!player.controller.CheckPenetrate(attachPos, 0.1f, playerSweepSolid))
+                    if(!player.controller.CheckPenetrate(attachPos, 0.1f, playerSweepSolid)) {
+                        player.controller.moveSnap = false;
                         mLastLargeStar.attachBody = player.rigidbody;
+                    }
 
                     if(player.controller.isGrounded) {
                         mLastLargeStar.rigidbody.AddForce(Vector3.up*groundImpulse, ForceMode.Impulse);
