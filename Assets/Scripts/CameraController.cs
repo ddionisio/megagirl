@@ -11,9 +11,10 @@ public class CameraController : MonoBehaviour {
 
     public Mode mode = Mode.Lock;
     public float delay = 0.1f; //reposition delay
+    public bool transitionSnap; //if true, snap position within the bounds of a field right away with no transition
     public float transitionDelay = 0.5f;
     public float transitionExpire = 1.0f;
-
+    
     private static CameraController mInstance;
 
     private tk2dCamera mCam;
@@ -50,7 +51,10 @@ public class CameraController : MonoBehaviour {
 
                     bounds = setBounds;
 
-                    SetTransition(mCurField.doTransition);
+                    if(transitionSnap)
+                        SnapPosition();
+                    else
+                        SetTransition(mCurField.doTransition);
                 }
             }
         }

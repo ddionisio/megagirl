@@ -14,22 +14,29 @@ public class CameraField : MonoBehaviour {
     public Color boundColor = Color.blue; //for gizmo
 
     private CameraController mCamCtrl;
-    private GameObject mAttachGO;
+    private Transform mAttach;
 
-    void OnTriggerEnter(Collider col) {
-        if(mAttachGO == null && !string.IsNullOrEmpty(attachTag))
-            mAttachGO = GameObject.FindGameObjectWithTag(attachTag);
+    //void OnTriggerEnter(Collider col) {
+    //}
 
-        mCamCtrl.attach = mAttachGO ? mAttachGO.transform : null;
+    void OnTriggerStay(Collider col) {
+        mCamCtrl.attach = mAttach;
         mCamCtrl.field = this;
     }
 
     void OnDestroy() {
-        mAttachGO = null;
+        mAttach = null;
     }
 
     void Awake() {
         mCamCtrl = CameraController.instance;
+    }
+
+    void Start() {
+        if(mAttach == null && !string.IsNullOrEmpty(attachTag)) {
+            GameObject go = GameObject.FindGameObjectWithTag(attachTag);
+            if(go) mAttach = go.transform;
+        }
     }
 
     void OnDrawGizmos() {

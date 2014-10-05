@@ -33,13 +33,14 @@ public class PlatformerLockDragTrigger : MonoBehaviour {
             }
         }
     }
-
+    /*
     void OnTriggerStay(Collider col) {
         int ind = -1;
         for(int i = 0; i < mCurColCount; i++) {
             if(mCtrls[i].collider == col) {
                 ind = i;
-                mCtrls[i].lockDragOverrideCount++;
+                if(mCtrls[i].lockDragOverrideCount == 0)
+                    mCtrls[i].lockDragOverrideCount++;
                 mCtrls[i].rigidbody.drag = drag;
                 break;
             }
@@ -48,7 +49,7 @@ public class PlatformerLockDragTrigger : MonoBehaviour {
         if(ind == -1) {
             OnTriggerEnter(col);
         }
-    }
+    }*/
 
     void OnTriggerExit(Collider col) {
         for(int i = 0; i < mCurColCount; i++) {

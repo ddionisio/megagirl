@@ -98,7 +98,7 @@ public class EnemyBossValleyGirl : Enemy {
             case Phase.ChargeToPlayer:
                 StopCoroutine(chargeRoutine);
                 chargeGO.SetActive(false);
-                bodyCtrl.lockDragOverrideCount--;
+                bodyCtrl.lockDragOverrideCount = 0;
                 bodyCtrl.moveScale = 1.0f;
 
                 damageGO.SetActive(true);
@@ -115,7 +115,7 @@ public class EnemyBossValleyGirl : Enemy {
                 stats.damageReduction = 0.0f;
                 StopCoroutine(tornadoRoutine);
                 tornadoAnimDat.Stop();
-                bodyCtrl.lockDragOverrideCount--;
+                bodyCtrl.lockDragOverrideCount = 0;
                 break;
         }
 
@@ -225,7 +225,7 @@ public class EnemyBossValleyGirl : Enemy {
 
         float curTime = 0.0f;
 
-        bodyCtrl.lockDragOverrideCount++;
+        bodyCtrl.lockDragOverrideCount = 1;
         bodyCtrl.rigidbody.drag = 0;
 
         tornadoSfx.Play();
@@ -255,7 +255,7 @@ public class EnemyBossValleyGirl : Enemy {
         float lastTurnTime = 0.0f;
         float curTime = 0.0f;
 
-        bodyCtrl.lockDragOverrideCount++;
+        bodyCtrl.lockDragOverrideCount = 1;
         bodyCtrl.rigidbody.drag = 0.0f;
 
         twirlSfx.Play();

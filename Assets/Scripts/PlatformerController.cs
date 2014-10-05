@@ -659,12 +659,17 @@ public class PlatformerController : RigidBodyController {
             mMoveYGround = 0.0f;
         }
 
+        bool lastJumpingWall = mJumpingWall;
+        //see if we are jumping wall and falling, then cancel jumpwall
+        if(mJumpingWall && Time.time - mJumpLastTime >= jumpWallLockDelay)
+            mJumpingWall = false;
+
         if(!(mWallSticking || mJumpingWall)) {
             bool applyNewLocalVel = false;
             Vector3 newLocalVel = localVelocity;
 
             if(moveSnap) {
-                if(mLastMoveSide != moveSide) {
+                if(mLastMoveSide != moveSide || lastJumpingWall) {
                     //make sure we are not colliding, except for ground
                     if(mCollFlags == CollisionFlags.None || mCollFlags == CollisionFlags.Below) {
                         //if(mCollFlags == CollisionFlags.Below && !mIsOnPlatform)
@@ -720,10 +725,6 @@ public class PlatformerController : RigidBodyController {
                 }
             }
         }
-
-        //see if we are jumping wall and falling, then cancel jumpwall
-        if(mJumpingWall && Time.time - mJumpLastTime >= jumpWallLockDelay)
-            mJumpingWall = false;
 
         //set eye rotation
         UpdateCamera(Time.fixedDeltaTime);

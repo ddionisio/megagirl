@@ -399,6 +399,8 @@ public class Player : EntityBase {
     }
 
     public override void SpawnFinish() {
+        CameraController.instance.transitionSnap = false;
+
         state = (int)EntityState.Normal;
 
         LevelController.instance.TimeStart();
@@ -425,8 +427,7 @@ public class Player : EntityBase {
 
         RefreshArmor();
 
-        CameraController.instance.attach = transform;
-        CameraController.instance.SnapPosition();
+        CameraController.instance.transitionSnap = true;
     }
 
     protected override void Awake() {
