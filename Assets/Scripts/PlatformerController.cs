@@ -7,6 +7,7 @@ public class PlatformerController : RigidBodyController {
 
     public bool moveSnap; //if true, moving left and right immediately switches velocity without momentum, airDamp is ignored
 
+    public bool fallSnap;
     public float fallSnapSpeedMin; //
     public float fallSnapSpeed; //if fallSnapSpeed > 0 and y-velocity is <= fallSnapSpeedMin and > -fallSnapSpeed, then set y-velocity to fallSnapSpeed
                                 //ensure this is positive value
@@ -670,7 +671,7 @@ public class PlatformerController : RigidBodyController {
                 }
             }
 
-            if(fallSnapSpeed > 0f && !mJump && localVelocity.y <= fallSnapSpeedMin && localVelocity.y > -fallSnapSpeed) {
+            if(fallSnap && fallSnapSpeed > 0f && !mJump && localVelocity.y <= fallSnapSpeedMin && localVelocity.y > -fallSnapSpeed) {
                 if(mCollFlags == CollisionFlags.None) {
                     newLocalVel.y = -fallSnapSpeed;
                     applyNewLocalVel = true;

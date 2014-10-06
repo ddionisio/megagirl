@@ -4,6 +4,7 @@ using System.Collections;
 public class PlatformerJumpSettingTrigger : MonoBehaviour {
     [System.Serializable]
     public class Info {
+        public bool jumpDelayApply = true;
         public float jumpDelay;
         public float fallSnapSpeedMin;
         public float fallSnapSpeed;
@@ -34,7 +35,7 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
         public float lastFallSnapSpeed { get { return mLastFallSnapSpeed; } }
 
         public void Apply(Collider triggerCol, Info inf, PlatformerController aCtrl) {
-            Revert(triggerCol);
+            Revert(triggerCol, inf);
 
             mCtrl = aCtrl;
 
@@ -63,7 +64,7 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
                 mLastFallSnapSpeed = mCtrl.fallSnapSpeed;
             }
 
-            mCtrl.jumpDelay = inf.jumpDelay;
+            if(inf.jumpDelayApply) mCtrl.jumpDelay = inf.jumpDelay;
             mCtrl.fallSnapSpeedMin = inf.fallSnapSpeedMin;
             mCtrl.fallSnapSpeed = inf.fallSnapSpeed;
 
@@ -72,15 +73,15 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
 
         public void Refresh(Collider triggerCol, Info inf) {
             if(mCtrl) {
-                mCtrl.jumpDelay = inf.jumpDelay;
+                if(inf.jumpDelayApply) mCtrl.jumpDelay = inf.jumpDelay;
                 mCtrl.fallSnapSpeedMin = inf.fallSnapSpeedMin;
                 mCtrl.fallSnapSpeed = inf.fallSnapSpeed;
             }
         }
 
-        public void Revert(Collider triggerCol) {
+        public void Revert(Collider triggerCol, Info inf) {
             if(mCtrl) {
-                mCtrl.jumpDelay = mLastJumpDelay;
+                if(inf.jumpDelayApply) mCtrl.jumpDelay = mLastJumpDelay;
                 mCtrl.fallSnapSpeedMin = mLastFallSnapSpeedMin;
                 mCtrl.fallSnapSpeed = mLastFallSnapSpeed;
                 mCtrl.triggers.Remove(triggerCol);
@@ -94,7 +95,7 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
     
     void OnDisable() {
         for(int i = 0; i < mCurColCount; i++) {
-            mCtrls[i].Revert(collider);
+            mCtrls[i].Revert(collider, info);
         }
         
         mCurColCount = 0;
@@ -136,7 +137,7 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
     void OnTriggerExit(Collider col) {
         for(int i = 0; i < mCurColCount; i++) {
             if(mCtrls[i].collider == col) {
-                mCtrls[i].Revert(collider);
+                mCtrls[i].Revert(collider, info);
                 
                 if(mCurColCount > 1) {
                     mCtrls[i] = mCtrls[mCurColCount - 1];

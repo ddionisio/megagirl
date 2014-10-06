@@ -11,6 +11,8 @@ public class WeaponHipster : Weapon {
     public override void FireStart() {
         if(canFire && !mFireActive) {
             mFireActive = true;
+            Player.instance.controller.moveSnap = false;
+            Player.instance.controller.fallSnap = false;
 
             fireGO.SetActive(true);
 
@@ -21,6 +23,8 @@ public class WeaponHipster : Weapon {
     public override void FireStop() {
         if(mFireActive) {
             mFireActive = false;
+            Player.instance.controller.moveSnap = true;
+            Player.instance.controller.fallSnap = true;
 
             fireGO.SetActive(false);
 
