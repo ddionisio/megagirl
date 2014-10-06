@@ -7,9 +7,10 @@ public class PlatformerController : RigidBodyController {
 
     public bool moveSnap; //if true, moving left and right immediately switches velocity without momentum, airDamp is ignored
 
-    public float fallSnapSpeed; //if fallSnapSpeed > 0 and y-velocity is < 0 and > -fallSnapSpeed, then set y-velocity to fallSnapSpeed
+    public float fallSnapSpeedMin; //
+    public float fallSnapSpeed; //if fallSnapSpeed > 0 and y-velocity is <= fallSnapSpeedMin and > -fallSnapSpeed, then set y-velocity to fallSnapSpeed
                                 //ensure this is positive value
-
+    
     [SerializeField]
     Transform _eye;
 
@@ -57,8 +58,6 @@ public class PlatformerController : RigidBodyController {
     public int player = 0;
     
     public bool startInputEnabled = false;
-    public bool jumpReleaseClearVelocity = false;
-    public float jumpReleaseClearVelocityTo = 0.0f;
 
     public event Callback landCallback;
     public event Callback jumpCallback;
@@ -318,14 +317,6 @@ public class PlatformerController : RigidBodyController {
                     }
                 }
                 else {
-                    if(jumpReleaseClearVelocity) {
-                        Vector3 lv = localVelocity;
-                        if(lv.y > jumpReleaseClearVelocityTo) {
-                            lv.y = jumpReleaseClearVelocityTo;
-                            localVelocity = lv;
-                        }
-                    }
-
                     mLockDrag = false;
                 }
             }
@@ -679,7 +670,7 @@ public class PlatformerController : RigidBodyController {
                 }
             }
 
-            if(fallSnapSpeed > 0f && !mJump && localVelocity.y < 0f && localVelocity.y > -fallSnapSpeed) {
+            if(fallSnapSpeed > 0f && !mJump && localVelocity.y <= fallSnapSpeedMin && localVelocity.y > -fallSnapSpeed) {
                 if(mCollFlags == CollisionFlags.None) {
                     newLocalVel.y = -fallSnapSpeed;
                     applyNewLocalVel = true;

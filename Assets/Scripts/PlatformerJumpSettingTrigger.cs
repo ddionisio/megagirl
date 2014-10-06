@@ -4,8 +4,9 @@ using System.Collections;
 public class PlatformerJumpSettingTrigger : MonoBehaviour {
     [System.Serializable]
     public class Info {
-        public bool jumpReleaseClearVelocity;
         public float jumpDelay;
+        public float fallSnapSpeedMin;
+        public float fallSnapSpeed;
     }
 
     public string spawnGrp;
@@ -20,13 +21,17 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
     private struct Data {
         private PlatformerController mCtrl;
 
-        private bool mLastJumpReleaseClearVelocity;
         private float mLastJumpDelay;
+        private float mLastFallSnapSpeedMin;
+        private float mLastFallSnapSpeed;
 
         public PlatformerController ctrl { get { return mCtrl; } }
         public Collider collider { get { return mCtrl ? mCtrl.collider : null; } }
-        public bool lastJumpReleaseClearVelocity { get { return mLastJumpReleaseClearVelocity; } }
         public float lastJumpDelay { get { return mLastJumpDelay; } }
+
+        public float lastFallSnapSpeedMin { get { return mLastFallSnapSpeedMin; } }
+
+        public float lastFallSnapSpeed { get { return mLastFallSnapSpeed; } }
 
         public void Apply(Collider triggerCol, Info inf, PlatformerController aCtrl) {
             Revert(triggerCol);
@@ -39,8 +44,9 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
                 if(pt) {
                     foreach(PlatformerJumpSettingTrigger.Data dat in pt.mCtrls) {
                         if(dat.collider == aCtrl.collider) {
-                            mLastJumpReleaseClearVelocity = dat.mLastJumpReleaseClearVelocity;
                             mLastJumpDelay = dat.mLastJumpDelay;
+                            mLastFallSnapSpeedMin = dat.mLastFallSnapSpeedMin;
+                            mLastFallSnapSpeed = dat.mLastFallSnapSpeed;
                             isNew = false;
                             break;
                         }
@@ -52,27 +58,31 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
             }
 
             if(isNew) {
-                mLastJumpReleaseClearVelocity = mCtrl.jumpReleaseClearVelocity;
                 mLastJumpDelay = mCtrl.jumpDelay;
+                mLastFallSnapSpeedMin = mCtrl.fallSnapSpeedMin;
+                mLastFallSnapSpeed = mCtrl.fallSnapSpeed;
             }
 
-            mCtrl.jumpReleaseClearVelocity = inf.jumpReleaseClearVelocity;
             mCtrl.jumpDelay = inf.jumpDelay;
+            mCtrl.fallSnapSpeedMin = inf.fallSnapSpeedMin;
+            mCtrl.fallSnapSpeed = inf.fallSnapSpeed;
 
             mCtrl.triggers.Add(triggerCol);
         }
 
         public void Refresh(Collider triggerCol, Info inf) {
             if(mCtrl) {
-                mCtrl.jumpReleaseClearVelocity = inf.jumpReleaseClearVelocity;
                 mCtrl.jumpDelay = inf.jumpDelay;
+                mCtrl.fallSnapSpeedMin = inf.fallSnapSpeedMin;
+                mCtrl.fallSnapSpeed = inf.fallSnapSpeed;
             }
         }
 
         public void Revert(Collider triggerCol) {
             if(mCtrl) {
-                mCtrl.jumpReleaseClearVelocity = mLastJumpReleaseClearVelocity;
                 mCtrl.jumpDelay = mLastJumpDelay;
+                mCtrl.fallSnapSpeedMin = mLastFallSnapSpeedMin;
+                mCtrl.fallSnapSpeed = mLastFallSnapSpeed;
                 mCtrl.triggers.Remove(triggerCol);
                 mCtrl = null;
             }
