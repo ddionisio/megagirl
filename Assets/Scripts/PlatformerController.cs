@@ -588,21 +588,23 @@ public class PlatformerController : RigidBodyController {
                 Move(dirRot, Vector3.up, Vector3.right, new Vector2(moveX, moveY), moveForce);
             }
             else if(mWallSticking) {
-                if(wallStickPush) {
-                    if(!mMoveSideLock)
+                if(mWallStickWaitInput) {
+                    if(CheckWallStickMoveAway(moveX)) {
+                        mWallStickWaitInput = false;
+                        mWallStickLastTime = Time.fixedTime;
+                    }
+                    else if(!mMoveSideLock && wallStickPush)
                         moveSide = moveX;
                 }
-                else {
-                    if(mWallStickWaitInput) {
-                        if(CheckWallStickMoveAway(moveX)) {
-                            mWallStickWaitInput = false;
-                            mWallStickLastTime = Time.fixedTime;
-                        }
-                    }
-                    else if(Time.fixedTime - mWallStickLastTime > wallStickDelay) {
-                        if(!mMoveSideLock)
+                else if(wallStickPush) {
+                    if(!mMoveSideLock) {
+                        if(CheckWallStickIn(moveX))
                             moveSide = moveX;
                     }
+                }
+                else if(Time.fixedTime - mWallStickLastTime > wallStickDelay) {
+                    if(!mMoveSideLock)
+                        moveSide = moveX;
                 }
             }
             else if(!(isSlopSlide || mJumpingWall)) {
