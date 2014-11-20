@@ -157,12 +157,12 @@ public class Player : EntityBase {
                 if(mInputEnabled) {
                     mCtrl.moveInputX = InputAction.MoveX;
                     mCtrl.moveInputY = InputAction.MoveY;
-                    mCtrl.jumpInput = InputAction.Jump;
+                    //mCtrl.jumpInput = InputAction.Jump;
                 }
                 else {
                     mCtrl.moveInputX = InputManager.ActionInvalid;
                     mCtrl.moveInputY = InputManager.ActionInvalid;
-                    mCtrl.jumpInput = InputManager.ActionInvalid;
+                    //mCtrl.jumpInput = InputManager.ActionInvalid;
                 }
             }
         }
