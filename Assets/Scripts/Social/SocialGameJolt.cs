@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SocialGameJolt : MonoBehaviour, Achievement.IService, Leaderboard.IService {
     public enum State {
@@ -21,6 +22,8 @@ public class SocialGameJolt : MonoBehaviour, Achievement.IService, Leaderboard.I
     public string userToken;
     public bool userGrabFromWeb = true;
 
+    public AchievementServiceOffline offlineAchieve;
+
     private static SocialGameJolt mInstance;
 
     private bool mIsGuest;
@@ -32,6 +35,11 @@ public class SocialGameJolt : MonoBehaviour, Achievement.IService, Leaderboard.I
 
     public State state { get { return mState; } }
     public bool isGuest { get { return mIsGuest; } }
+
+    void OnLevelWasLoaded(int ind) {
+        if(Application.loadedLevelName == Scenes.levelSelect)
+            StartCoroutine(DoOfflineSync());
+    }
 
     void OnDestroy() {
         if(mInstance == this) {
@@ -144,6 +152,7 @@ public class SocialGameJolt : MonoBehaviour, Achievement.IService, Leaderboard.I
 
     void OnTrophyAdd(bool success) {
         if(success) {
+            Debug.Log("Process trophy: "+mCurAchieveDat.title);
             mState = State.None;
         }
         else {
@@ -154,6 +163,7 @@ public class SocialGameJolt : MonoBehaviour, Achievement.IService, Leaderboard.I
 
     void OnScoreAdd(bool success) {
         if(success) {
+            Debug.Log("Score added");
             mState = State.None;
         }
         else {
@@ -210,6 +220,7 @@ public class SocialGameJolt : MonoBehaviour, Achievement.IService, Leaderboard.I
     public bool AchievementIsUnlocked(Achievement.Data data) {
         GJTrophy t = GetTrophy(data.id);
         if(t != null) {
+            Debug.Log("Is achieved: "+data.title+": "+t.Achieved);
             return t.Achieved;
         }
         return false;
@@ -275,5 +286,35 @@ public class SocialGameJolt : MonoBehaviour, Achievement.IService, Leaderboard.I
         }
 
         return null;
+    }
+
+    IEnumerator DoOfflineSync() {
+        //sync from offline achievement
+        if(offlineAchieve) {
+            WaitForFixedUpdate wait = new WaitForFixedUpdate();
+            while(!AchievementIsReady())
+                yield return wait;
+
+            Achievement achieve = Achievement.instance;
+            Achievement.Data[] achieveDat = achieve.data;
+
+            List<Achievement.Data> syncUnlockAchieve = new List<Achievement.Data>(achieveDat.Length);
+
+            for(int i = 0; i < achieveDat.Length; i++) {
+                if(!AchievementIsUnlocked(achieveDat[i])) {
+                    //check if it's unlocked in offline
+                    if(offlineAchieve.AchievementIsUnlocked(achieveDat[i])) {
+                        Debug.Log("Newgrounds Syncing from offline: "+achieveDat[i].title);
+                        syncUnlockAchieve.Add(achieveDat[i]);
+                    }
+                }
+            }
+
+            //queue up unlocks
+            for(int i = 0; i < syncUnlockAchieve.Count; i++) {
+                achieve.NotifyUpdate(syncUnlockAchieve[i], 0, true);
+            }
+            //
+        }
     }
 }
