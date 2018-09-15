@@ -288,7 +288,7 @@ public class RigidBodyController : MonoBehaviour {
     /// This will override the rigidbody's velocity to the current local velocity
     /// </summary>
     public void SetLocalVelocityToBody() {
-        rigidbody.velocity = dirHolder.localToWorldMatrix.MultiplyVector(mLocalVelocity);
+        GetComponent<Rigidbody>().velocity = dirHolder.localToWorldMatrix.MultiplyVector(mLocalVelocity);
     }
 
     // implements
@@ -568,11 +568,11 @@ public class RigidBodyController : MonoBehaviour {
         mSlopLimitCos = Mathf.Cos(slopLimit * Mathf.Deg2Rad);
         mAboveLimitCos = Mathf.Cos(aboveLimit * Mathf.Deg2Rad);
 
-        if(collider != null) {
-            if(collider is SphereCollider)
-                mRadius = ((SphereCollider)collider).radius;
-            else if(collider is CapsuleCollider) {
-                mCapsuleColl = collider as CapsuleCollider;
+        if(GetComponent<Collider>() != null) {
+            if(GetComponent<Collider>() is SphereCollider)
+                mRadius = ((SphereCollider)GetComponent<Collider>()).radius;
+            else if(GetComponent<Collider>() is CapsuleCollider) {
+                mCapsuleColl = GetComponent<Collider>() as CapsuleCollider;
                 mRadius = mCapsuleColl.radius;
             }
         }
@@ -586,10 +586,10 @@ public class RigidBodyController : MonoBehaviour {
     // Update is called once per frame
     protected virtual void FixedUpdate() {
         if(speedCap > 0.0f) {
-            Vector3 vel = rigidbody.velocity;
+            Vector3 vel = GetComponent<Rigidbody>().velocity;
             float spdSqr = vel.sqrMagnitude;
             if(spdSqr > speedCap * speedCap) {
-                rigidbody.velocity = (vel / Mathf.Sqrt(spdSqr)) * speedCap;
+                GetComponent<Rigidbody>().velocity = (vel / Mathf.Sqrt(spdSqr)) * speedCap;
             }
         }
 
@@ -605,7 +605,7 @@ public class RigidBodyController : MonoBehaviour {
 
             Vector3 dir = M8.MathUtil.Slide(-dirHolder.up, mSlopNormal);
             dir.Normalize();
-            rigidbody.AddForce(dir * slopSlideForce * moveScale);
+            GetComponent<Rigidbody>().AddForce(dir * slopSlideForce * moveScale);
         }
 
         bool allowDrag = !mLockDrag && mLockDragOverrideCount == 0;
@@ -614,13 +614,13 @@ public class RigidBodyController : MonoBehaviour {
             //move
             if(isGrounded) {
                 if(allowDrag)
-                    rigidbody.drag = isUnderWater ? waterDrag : groundDrag;
+                    GetComponent<Rigidbody>().drag = isUnderWater ? waterDrag : groundDrag;
 
                 Move(dirHolder.rotation, Vector3.forward, Vector3.right, mCurMoveAxis, moveForce);
             }
             else {
                 if(allowDrag)
-                    rigidbody.drag = isUnderWater ? waterDrag : airDrag;
+                    GetComponent<Rigidbody>().drag = isUnderWater ? waterDrag : airDrag;
 
                 Move(dirHolder.rotation, Vector3.forward, Vector3.right, mCurMoveAxis, moveAirForce);
             }
@@ -629,7 +629,7 @@ public class RigidBodyController : MonoBehaviour {
             mCurMoveDir = Vector3.zero;
 
             if(allowDrag)
-                rigidbody.drag = isUnderWater ? waterDrag : isGrounded && !mIsSlopSlide ? (standDragLayer & mCollGroundLayerMask) == 0 ? groundDrag : standDrag : airDrag;
+                GetComponent<Rigidbody>().drag = isUnderWater ? waterDrag : isGrounded && !mIsSlopSlide ? (standDragLayer & mCollGroundLayerMask) == 0 ? groundDrag : standDrag : airDrag;
         }
     }
 
@@ -687,7 +687,7 @@ public class RigidBodyController : MonoBehaviour {
 
         if(canMove) {
             //M8.Debug.
-            rigidbody.AddForce(moveDelta * force * moveScale);
+            GetComponent<Rigidbody>().AddForce(moveDelta * force * moveScale);
             return true;
         }
 
@@ -695,14 +695,14 @@ public class RigidBodyController : MonoBehaviour {
     }
 
     protected virtual bool CanMove(Vector3 dir, float maxSpeed) {
-        Vector3 vel = rigidbody.velocity - mGroundMoveVel;
+        Vector3 vel = GetComponent<Rigidbody>().velocity - mGroundMoveVel;
         float sqrMag = vel.sqrMagnitude;
 
         bool ret = sqrMag < maxSpeed * maxSpeed;
 
         //see if we are trying to move the opposite dir
         if(!ret) { //see if we are trying to move the opposite dir
-            Vector3 velDir = rigidbody.velocity.normalized;
+            Vector3 velDir = GetComponent<Rigidbody>().velocity.normalized;
             ret = Vector3.Dot(dir, velDir) < moveCosCheck;
         }
 
@@ -749,7 +749,7 @@ public class RigidBodyController : MonoBehaviour {
                 }
 
                 //for platforms
-                Rigidbody body = inf.collider.rigidbody;
+                Rigidbody body = inf.collider.GetComponent<Rigidbody>();
                 if(body != null) {
                     mGroundMoveVel += body.velocity;
                 }
@@ -760,6 +760,6 @@ public class RigidBodyController : MonoBehaviour {
     }
 
     protected void ComputeLocalVelocity() {
-        mLocalVelocity = dirHolder.worldToLocalMatrix.MultiplyVector(rigidbody.velocity);
+        mLocalVelocity = dirHolder.worldToLocalMatrix.MultiplyVector(GetComponent<Rigidbody>().velocity);
     }
 }

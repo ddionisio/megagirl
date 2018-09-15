@@ -187,14 +187,14 @@ public class Stats : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision col) {
-        if(col.gameObject.CompareTag(deathTag)) {
+        if(!string.IsNullOrEmpty(deathTag) && col.gameObject.CompareTag(deathTag)) {
             SendMessage("OnSuddenDeath", null, SendMessageOptions.DontRequireReceiver);
             //curHP = 0;
         }
     }
 
     void OnTriggerEnter(Collider col) {
-        if(col.gameObject.CompareTag(deathTag)) {
+        if(!string.IsNullOrEmpty(deathTag) && col.gameObject.CompareTag(deathTag)) {
             SendMessage("OnSuddenDeath", null, SendMessageOptions.DontRequireReceiver);
             //curHP = 0;
         }

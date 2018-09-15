@@ -203,7 +203,7 @@ public class EnemyCatRoller : Enemy {
 	                    if(Time.fixedTime - mLastFireTime > projFireDelay) {
 	                        mLastFireTime = Time.fixedTime;
 	                        
-	                        Vector3 pt = projPt ? projPt.position : collider.bounds.center; pt.z = 0.0f;
+	                        Vector3 pt = projPt ? projPt.position : GetComponent<Collider>().bounds.center; pt.z = 0.0f;
 	                        
 	                        Vector3 dir = bodySpriteCtrl.isLeft ? Vector3.left : Vector3.right;
 	                        dir = Quaternion.AngleAxis(Random.Range(-projAngleRand, projAngleRand), Vector3.forward) * dir;
@@ -233,9 +233,9 @@ public class EnemyCatRoller : Enemy {
         }
 
         if(updatePos && mRock) {
-            Vector3 rockPos = mRock.collider.bounds.center; rockPos.z = 0.0f;
+            Vector3 rockPos = mRock.GetComponent<Collider>().bounds.center; rockPos.z = 0.0f;
             rockPos.y -= rockYOfs;
-            rigidbody.MovePosition(rockPos);
+            GetComponent<Rigidbody>().MovePosition(rockPos);
         }
     }
 
@@ -252,7 +252,7 @@ public class EnemyCatRoller : Enemy {
                 }
                 else if(!ignoreFallDetect) {
                     if(mRockCtrl.isGrounded) {
-                        mRockCtrl.rigidbody.velocity = Vector3.zero;
+                        mRockCtrl.GetComponent<Rigidbody>().velocity = Vector3.zero;
                         mRockCtrl.moveSide *= -1.0f;
                         //Debug.Log("move side: " + mRockCtrl.moveSide);
                     }

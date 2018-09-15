@@ -69,8 +69,8 @@ public class EnemyJumpNShoot : Enemy {
         switch((EntityState)state) {
             case EntityState.Normal:
                 if(mJumping) {
-                    Vector3 pos = collider.bounds.center; pos.z = 0;
-                    Vector3 targetPos = mTarget.collider.bounds.center;
+                    Vector3 pos = GetComponent<Collider>().bounds.center; pos.z = 0;
+                    Vector3 targetPos = mTarget.GetComponent<Collider>().bounds.center;
                     if(targetPos.y < pos.y && (Time.fixedTime - bodyCtrl.jumpLastTime > 0.07f)) {
                         Jump(0);
                     }
@@ -106,8 +106,8 @@ public class EnemyJumpNShoot : Enemy {
 
     void OnAnimEnd(tk2dSpriteAnimator aAnim, tk2dSpriteAnimationClip aClip) {
         if(aClip.name == jumpReadyClip) {
-            Vector3 pos = collider.bounds.center; pos.z = 0;
-            Vector3 targetPos = mTarget.collider.bounds.center;
+            Vector3 pos = GetComponent<Collider>().bounds.center; pos.z = 0;
+            Vector3 targetPos = mTarget.GetComponent<Collider>().bounds.center;
             bodyCtrl.moveSide = Mathf.Sign(targetPos.x - pos.x)*0.5f;
 
             if(shootBeforeJump)
@@ -132,7 +132,7 @@ public class EnemyJumpNShoot : Enemy {
                 Shoot();
 
             mJumping = false;
-            bodyCtrl.rigidbody.velocity = Vector3.zero;
+            bodyCtrl.GetComponent<Rigidbody>().velocity = Vector3.zero;
             bodyCtrl.moveSide = 0.0f;
             Jump(0);
             anim.Play(landClip);
@@ -140,7 +140,7 @@ public class EnemyJumpNShoot : Enemy {
     }
 
     void Shoot() {
-        Vector3 pos = collider.bounds.center; pos.z = 0.0f;
+        Vector3 pos = GetComponent<Collider>().bounds.center; pos.z = 0.0f;
         
         Vector3 dir = new Vector3(Mathf.Sign(bodyCtrl.moveSide), 0.0f, 0.0f);
         

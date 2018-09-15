@@ -167,12 +167,12 @@ public class OuyaPanel : EditorWindow
 
     static string GetRJava()
     {
-        if (string.IsNullOrEmpty(PlayerSettings.bundleIdentifier))
+        if (string.IsNullOrEmpty(PlayerSettings.applicationIdentifier))
         {
             return string.Empty;
         }
 
-        string path = string.Format("Assets/Plugins/Android/src/{0}/R.java", PlayerSettings.bundleIdentifier.Replace(".", "/"));
+        string path = string.Format("Assets/Plugins/Android/src/{0}/R.java", PlayerSettings.applicationIdentifier.Replace(".", "/"));
         FileInfo fi = new FileInfo(path);
         return fi.FullName;
     }
@@ -271,7 +271,7 @@ public class OuyaPanel : EditorWindow
 
     static string GetBundlePrefix()
     {
-        string identifier = PlayerSettings.bundleIdentifier;
+        string identifier = PlayerSettings.applicationIdentifier;
         if (string.IsNullOrEmpty(identifier))
         {
             return string.Empty;
@@ -562,7 +562,7 @@ public class OuyaPanel : EditorWindow
 
     public static void SyncBundleID()
     {
-        string bundleId = PlayerSettings.bundleIdentifier;
+        string bundleId = PlayerSettings.applicationIdentifier;
         if (string.IsNullOrEmpty(bundleId))
         {
             return;
@@ -952,7 +952,7 @@ public class OuyaPanel : EditorWindow
             {
                 //Debug.Log(appPath);
                 //Debug.Log(pathADB);
-                string args = string.Format("shell am start -n {0}/.{1}", PlayerSettings.bundleIdentifier, javaAppName);
+                string args = string.Format("shell am start -n {0}/.{1}", PlayerSettings.applicationIdentifier, javaAppName);
                 //Debug.Log(args);
                 ProcessStartInfo ps = new ProcessStartInfo(pathADB, args);
                 Process p = new Process();
@@ -1310,7 +1310,7 @@ public class OuyaPanel : EditorWindow
         }
 
         RunProcess(pathJar, pathClasses, string.Format("cvfM OuyaUnityApplication.jar {0}/", bundlePrefix));
-        OuyaPanel.RunProcess(pathJavaP, pathClasses, string.Format("-s {0}.{1}", PlayerSettings.bundleIdentifier, javaAppName));
+        OuyaPanel.RunProcess(pathJavaP, pathClasses, string.Format("-s {0}.{1}", PlayerSettings.applicationIdentifier, javaAppName));
         string pathAppJar = string.Format("{0}/OuyaUnityApplication.jar", pathClasses);
         string pathDest = string.Format("{0}/Assets/Plugins/Android/OuyaUnityApplication.jar", pathUnityProject);
         try
@@ -1464,8 +1464,7 @@ public class OuyaPanel : EditorWindow
         DisplayImagesFor("Unknown Images", BuildTargetGroup.Unknown);
 
         DisplayImagesFor("Android Images", BuildTargetGroup.Android);
-        DisplayImagesFor("WebPlayer Images", BuildTargetGroup.WebPlayer);
-        DisplayImagesFor("iPhone Images", BuildTargetGroup.iPhone);
+        DisplayImagesFor("iPhone Images", BuildTargetGroup.iOS);
         DisplayImagesFor("Standalone Images", BuildTargetGroup.Standalone);
     }
 
@@ -1553,7 +1552,7 @@ public class OuyaPanel : EditorWindow
         apkName = string.Format ("{0}.apk", productName);
         EditorPrefs.SetString(KEY_APK_NAME, apkName);
 
-        PlayerSettings.bundleIdentifier = string.Format("tv.ouya.demo.{0}", productName);
+        PlayerSettings.applicationIdentifier = string.Format("tv.ouya.demo.{0}", productName);
         PlayerSettings.productName = productName;
 
         m_toggleSyncBundleID = true;
@@ -1729,12 +1728,12 @@ public class OuyaPanel : EditorWindow
                 PlayerSettings.productName = GUILayout.TextField(PlayerSettings.productName, EditorStyles.wordWrappedLabel, GUILayout.MaxWidth(position.width - 130));
                 GUILayout.EndHorizontal();
 
-                if ((PlayerSettings.bundleIdentifier.Contains(" ") ||
-                    PlayerSettings.bundleIdentifier.Contains("\t") ||
-                    PlayerSettings.bundleIdentifier.Contains("\r") ||
-                    PlayerSettings.bundleIdentifier.Contains("\n") ||
-                    PlayerSettings.bundleIdentifier.Contains("(") ||
-                    PlayerSettings.bundleIdentifier.Contains(")")))
+                if ((PlayerSettings.applicationIdentifier.Contains(" ") ||
+                    PlayerSettings.applicationIdentifier.Contains("\t") ||
+                    PlayerSettings.applicationIdentifier.Contains("\r") ||
+                    PlayerSettings.applicationIdentifier.Contains("\n") ||
+                    PlayerSettings.applicationIdentifier.Contains("(") ||
+                    PlayerSettings.applicationIdentifier.Contains(")")))
                 {
                     String fieldError = "[error] (bundle id has an invalid character)\n";
                     if (string.IsNullOrEmpty(error))
@@ -1749,7 +1748,7 @@ public class OuyaPanel : EditorWindow
                 GUILayout.Space(25);
                 GUILayout.Label("Bundle Identifier", GUILayout.Width(100));
                 GUILayout.Space(5);
-                PlayerSettings.bundleIdentifier = GUILayout.TextField(PlayerSettings.bundleIdentifier, EditorStyles.wordWrappedLabel, GUILayout.MaxWidth(position.width - 130));
+                PlayerSettings.applicationIdentifier = GUILayout.TextField(PlayerSettings.applicationIdentifier, EditorStyles.wordWrappedLabel, GUILayout.MaxWidth(position.width - 130));
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal(GUILayout.MaxWidth(position.width));
@@ -1822,7 +1821,7 @@ public class OuyaPanel : EditorWindow
                 GUILayout.EndHorizontal();
 
                 string javaPackageName = GetApplicationJavaPackageName();
-                if (!javaPackageName.Equals(string.Format("package {0};", PlayerSettings.bundleIdentifier)))
+                if (!javaPackageName.Equals(string.Format("package {0};", PlayerSettings.applicationIdentifier)))
                 {
                     String fieldError = "[error] (bundle mismatched)\n";
                     if (string.IsNullOrEmpty(error))
@@ -1842,7 +1841,7 @@ public class OuyaPanel : EditorWindow
                 GUILayout.EndHorizontal();
 
                 string manifestPackageName = GetAndroidManifestPackageName();
-                if (!manifestPackageName.Equals(PlayerSettings.bundleIdentifier))
+                if (!manifestPackageName.Equals(PlayerSettings.applicationIdentifier))
                 {
                     String fieldError = "[error] (bundle mismatched)\n";
                     if (string.IsNullOrEmpty(error))

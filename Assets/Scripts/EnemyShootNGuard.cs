@@ -93,7 +93,7 @@ public class EnemyShootNGuard : Enemy {
                     }
 
                     if(bodyCtrl.isGrounded && Mathf.Abs(nearest.position.x - transform.position.x) <= jumpDistX) {
-                        if(nearest.collider && nearest.collider.bounds.min.y > collider.bounds.center.y) {
+                        if(nearest.GetComponent<Collider>() && nearest.GetComponent<Collider>().bounds.min.y > GetComponent<Collider>().bounds.center.y) {
                             Jump(0.0f);
                             Jump(1.0f);
                         }

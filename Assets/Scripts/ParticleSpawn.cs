@@ -22,17 +22,17 @@ public class ParticleSpawn : MonoBehaviour {
         mActive = false;
 
         CancelInvoke();
-        particleSystem.Clear();
+        GetComponent<ParticleSystem>().Clear();
     }
 
     // Update is called once per frame
     void LateUpdate() {
-        if(mActive && !particleSystem.IsAlive())
+        if(mActive && !GetComponent<ParticleSystem>().IsAlive())
             PoolController.ReleaseAuto(transform);
     }
 
     void DoPlay() {
-        particleSystem.Play();
+        GetComponent<ParticleSystem>().Play();
         mActive = true;
     }
 }

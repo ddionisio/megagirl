@@ -19,7 +19,7 @@ public class ProjectileArc : Projectile {
 
         switch((State)state) {
             case State.Seek:
-                Vector3 pos = collider.bounds.center;
+                Vector3 pos = GetComponent<Collider>().bounds.center;
                 Vector3 target = mSeek.position;
                 if(randXRange > 0.0f) {
                     target.x += Random.Range(-randXRange, randXRange);
@@ -59,11 +59,11 @@ public class ProjectileArc : Projectile {
                         vel = straightVelocity;
                     }
 
-                    rigidbody.velocity = mInitDir * vel;// .AddForce(mDir * vel, ForceMode.VelocityChange);
+                    GetComponent<Rigidbody>().velocity = mInitDir * vel;// .AddForce(mDir * vel, ForceMode.VelocityChange);
                     //Debug.Log("theta: " + (Mathf.Rad2Deg * theta));
                 }
                 else {
-                    rigidbody.AddForce(new Vector3(0.0f, Mathf.Sign(target.y - pos.y), 0.0f) * seekVelocity, ForceMode.VelocityChange);
+                    GetComponent<Rigidbody>().AddForce(new Vector3(0.0f, Mathf.Sign(target.y - pos.y), 0.0f) * seekVelocity, ForceMode.VelocityChange);
                 }
 
                 seek = null;

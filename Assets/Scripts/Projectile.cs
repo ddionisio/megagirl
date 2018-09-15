@@ -179,9 +179,9 @@ public class Projectile : EntityBase {
     protected override void Awake() {
         base.Awake();
 
-        mBody = rigidbody;
+        mBody = GetComponent<Rigidbody>();
 
-        mSphereColl = collider ? collider as SphereCollider : null;
+        mSphereColl = GetComponent<Collider>() ? GetComponent<Collider>() as SphereCollider : null;
 
         mDefaultSpeedLimit = speedLimit;
 
@@ -189,8 +189,8 @@ public class Projectile : EntityBase {
             mBody.detectCollisions = false;
         }
 
-        if(collider != null && autoDisableCollision)
-            collider.enabled = false;
+        if(GetComponent<Collider>() != null && autoDisableCollision)
+            GetComponent<Collider>().enabled = false;
 
         mDamage = GetComponent<Damage>();
 
@@ -288,8 +288,8 @@ public class Projectile : EntityBase {
             case State.Seek:
             case State.SeekForce:
             case State.Active:
-                if(collider)
-                    collider.enabled = true;
+                if(GetComponent<Collider>())
+                    GetComponent<Collider>().enabled = true;
 
                 if(mBody)
                     mBody.detectCollisions = true;
@@ -336,8 +336,8 @@ public class Projectile : EntityBase {
 
     void PhysicsDisable() {
         mCurVelocity = Vector3.zero;
-        if(collider && autoDisableCollision)
-            collider.enabled = false;
+        if(GetComponent<Collider>() && autoDisableCollision)
+            GetComponent<Collider>().enabled = false;
 
         if(mBody) {
             if(autoDisableCollision)
@@ -762,9 +762,9 @@ public class Projectile : EntityBase {
         Collider[] cols = Physics.OverlapSphere(pos, explodeRadius, explodeMask.value);
 
         foreach(Collider col in cols) {
-            if(col != null && col.rigidbody != null && CheckTag(col.gameObject.tag)) {
+            if(col != null && col.GetComponent<Rigidbody>() != null && CheckTag(col.gameObject.tag)) {
                 //hurt?
-                col.rigidbody.AddExplosionForce(explodeForce, pos, explodeRadius, 0.0f, ForceMode.Force);
+                col.GetComponent<Rigidbody>().AddExplosionForce(explodeForce, pos, explodeRadius, 0.0f, ForceMode.Force);
 
                 //float distSqr = (col.transform.position - pos).sqrMagnitude;
 

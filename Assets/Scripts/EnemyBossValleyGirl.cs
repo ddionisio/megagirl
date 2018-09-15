@@ -190,7 +190,7 @@ public class EnemyBossValleyGirl : Enemy {
 
     //true if moving
     bool MoveTowardsX(float toX) {
-        float x = collider.bounds.center.x;
+        float x = GetComponent<Collider>().bounds.center.x;
         float dx = toX - x;
         if(Mathf.Abs(dx) > 0.15f) {
             bodyCtrl.moveSide = Mathf.Sign(dx);
@@ -226,7 +226,7 @@ public class EnemyBossValleyGirl : Enemy {
         float curTime = 0.0f;
 
         bodyCtrl.lockDragOverrideCount = 1;
-        bodyCtrl.rigidbody.drag = 0;
+        bodyCtrl.GetComponent<Rigidbody>().drag = 0;
 
         tornadoSfx.Play();
 
@@ -256,7 +256,7 @@ public class EnemyBossValleyGirl : Enemy {
         float curTime = 0.0f;
 
         bodyCtrl.lockDragOverrideCount = 1;
-        bodyCtrl.rigidbody.drag = 0.0f;
+        bodyCtrl.GetComponent<Rigidbody>().drag = 0.0f;
 
         twirlSfx.Play();
 
@@ -311,7 +311,7 @@ public class EnemyBossValleyGirl : Enemy {
 
 
         for(int i = 0; i < laserCount; i++) {
-            Vector3 playerPos = mPlayer.collider.bounds.center; playerPos.z = 0;
+            Vector3 playerPos = mPlayer.GetComponent<Collider>().bounds.center; playerPos.z = 0;
 
             bodySpriteCtrl.isLeft = Mathf.Sign(playerPos.x - transform.position.x) < 0.0f;
 

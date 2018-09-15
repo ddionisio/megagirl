@@ -371,7 +371,7 @@ public class EnemyBossNil : Enemy {
         //launch
         seekerSfx.Play();
 
-        Vector3 missilePt = collider.bounds.center; missilePt.z = 0;
+        Vector3 missilePt = GetComponent<Collider>().bounds.center; missilePt.z = 0;
 
         for(int i = 0; i < mMissiles.Length; i++) {
             mMissiles[i] = Projectile.Create(projGroup, missileProj, missilePt, Vector3.zero, null) as ProjectileTweenTo;
@@ -401,7 +401,7 @@ public class EnemyBossNil : Enemy {
         //move towards player
         for(int i = 0; i < mMissiles.Length; i++) {
             Vector2 ofs = Random.insideUnitCircle;
-            Vector3 toPos = mPlayer.collider.bounds.center; 
+            Vector3 toPos = mPlayer.GetComponent<Collider>().bounds.center; 
             Vector3 playerVel = mPlayer.controller.localVelocity;
             Vector3 playerVelDir = playerVel.normalized;
 
@@ -491,7 +491,7 @@ public class EnemyBossNil : Enemy {
 
             //
             Vector3 projPos = projPoint.position; projPos.z = 0.0f;
-            Vector3 dpos = mPlayer.collider.bounds.center - projPos; dpos.z = 0.0f;
+            Vector3 dpos = mPlayer.GetComponent<Collider>().bounds.center - projPos; dpos.z = 0.0f;
 
             //face player
             bodyCtrl.moveSide = Mathf.Sign(dpos.x);

@@ -1101,7 +1101,7 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
 	void GetEditorData() {
 		// Don't guess, load editor data every frame		
 		string editorDataPath = AssetDatabase.GUIDToAssetPath(tileMap.editorDataGUID);
-		editorData = Resources.LoadAssetAtPath(editorDataPath, typeof(tk2dTileMapEditorData)) as tk2dTileMapEditorData;
+		editorData = AssetDatabase.LoadAssetAtPath(editorDataPath, typeof(tk2dTileMapEditorData)) as tk2dTileMapEditorData;
 	}
 	
 	public override void OnInspectorGUI()

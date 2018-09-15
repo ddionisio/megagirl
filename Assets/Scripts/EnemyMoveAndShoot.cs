@@ -29,7 +29,7 @@ public class EnemyMoveAndShoot : Enemy {
                 bodySpriteCtrl.StopOverrideClip();
                 mFiring = false;
 
-                float side = Mathf.Sign(Player.instance.collider.bounds.center.x - collider.bounds.center.x);
+                float side = Mathf.Sign(Player.instance.GetComponent<Collider>().bounds.center.x - GetComponent<Collider>().bounds.center.x);
                 bodyCtrl.moveSide = side;
                 
                 if(mSensor) {
@@ -100,7 +100,7 @@ public class EnemyMoveAndShoot : Enemy {
                 }
                 else if(bodyCtrl.isGrounded) {
                     if(bodyCtrl.moveSide == 0.0f) {
-                        float side = Mathf.Sign(Player.instance.collider.bounds.center.x - collider.bounds.center.x);
+                        float side = Mathf.Sign(Player.instance.GetComponent<Collider>().bounds.center.x - GetComponent<Collider>().bounds.center.x);
                         bodyCtrl.moveSide = side;
                     }
                 }
@@ -121,7 +121,7 @@ public class EnemyMoveAndShoot : Enemy {
                 }
                 else if(!ignoreFallDetect) {
                     if(bodyCtrl.isGrounded) {
-                        bodyCtrl.rigidbody.velocity = Vector3.zero;
+                        bodyCtrl.GetComponent<Rigidbody>().velocity = Vector3.zero;
                         bodyCtrl.moveSide *= -1.0f;
                     }
                 }
@@ -140,7 +140,7 @@ public class EnemyMoveAndShoot : Enemy {
     }
 
     void FireStart() {
-        float side = Mathf.Sign(Player.instance.collider.bounds.center.x - collider.bounds.center.x);
+        float side = Mathf.Sign(Player.instance.GetComponent<Collider>().bounds.center.x - GetComponent<Collider>().bounds.center.x);
         bodyCtrl.moveSide = side;
 
         bodySpriteCtrl.PlayOverrideClip("fireStart");

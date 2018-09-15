@@ -1,3 +1,6 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Hidden/ProBuilder/VertexBillboard"
 {
 	Properties
@@ -46,9 +49,9 @@ Shader "Hidden/ProBuilder/VertexBillboard"
 			{
 				v2f o;
 
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.pos = UnityObjectToClipPos(v.vertex);
 
-				float dist = distance(_WorldSpaceCameraPos, mul(_Object2World, v.vertex));
+				float dist = distance(_WorldSpaceCameraPos, mul(unity_ObjectToWorld, v.vertex));
 
 				// prevent oblong shapes
 				float2 screenScale = float2( max(_ScreenParams.y/_ScreenParams.x, 1), max(_ScreenParams.x/_ScreenParams.y, 1) );

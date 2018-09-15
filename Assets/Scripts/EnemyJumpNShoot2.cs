@@ -60,7 +60,7 @@ public class EnemyJumpNShoot2 : Enemy {
         nearDistSqr = Mathf.Infinity;
         Transform nearT = null;
 
-        Vector3 p = collider.bounds.center;
+        Vector3 p = GetComponent<Collider>().bounds.center;
         for(int i = 0, max = mPlayers.Length; i < max; i++) {
             if(mPlayers[i] && mPlayers[i].activeSelf) {
                 Transform t = mPlayers[i].transform;

@@ -11,7 +11,7 @@ public class tk2dUIMaskEditor : Editor {
 		DrawDefaultInspector();
 
 #if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
-	Renderer renderer = mask.renderer;
+	Renderer renderer = mask.GetComponent<Renderer>();
         GUILayout.Space(8);
 		if (renderer != null) {
             string sortingLayerName = tk2dEditorUtility.SortingLayerNamePopup("Sorting Layer", renderer.sortingLayerName);

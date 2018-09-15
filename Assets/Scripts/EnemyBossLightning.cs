@@ -117,7 +117,7 @@ public class EnemyBossLightning : Enemy {
                 superStrikeTargetGO.SetActive(false);
                 superStrikeGO.SetActive(false);
 
-                bodyCtrl.rigidbody.isKinematic = false;
+                bodyCtrl.GetComponent<Rigidbody>().isKinematic = false;
                 bodyCtrl.enabled = true;
                 gravityCtrl.enabled = true;
                 break;
@@ -226,7 +226,7 @@ public class EnemyBossLightning : Enemy {
                     Vector3 dpos = mPlayer.transform.position - transform.position;
                     bodySpriteCtrl.isLeft = dpos.x < 0.0f;
 
-                    Vector3 seekDir = mPlayer.collider.bounds.center - fork.position; seekDir.z = 0.0f;
+                    Vector3 seekDir = mPlayer.GetComponent<Collider>().bounds.center - fork.position; seekDir.z = 0.0f;
                     seekDir.Normalize();
 
                     targetStrikeGO.transform.right = seekDir;
@@ -288,11 +288,11 @@ public class EnemyBossLightning : Enemy {
         }
 
         bodyCtrl.moveSide = 0.0f;
-        bodyCtrl.rigidbody.velocity = Vector3.zero;
+        bodyCtrl.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         //jump
         Jump(bodyCtrl.jumpDelay);
-        while(Mathf.Abs(dest.y - collider.bounds.center.y) > 0.1f) {
+        while(Mathf.Abs(dest.y - GetComponent<Collider>().bounds.center.y) > 0.1f) {
             yield return waitUpdate;
         }
         Jump(0);
@@ -301,14 +301,14 @@ public class EnemyBossLightning : Enemy {
 
         bodyCtrl.enabled = false;
         gravityCtrl.enabled = false;
-        bodyCtrl.rigidbody.isKinematic = true;
+        bodyCtrl.GetComponent<Rigidbody>().isKinematic = true;
 
         bodySpriteCtrl.PlayOverrideClip("chargeUp");
 
         superStrikeChargeGO.SetActive(true);
 
         superStrikeHolderGO.SetActive(true);
-        Vector3 pos = collider.bounds.center; pos.z = 0;
+        Vector3 pos = GetComponent<Collider>().bounds.center; pos.z = 0;
         superStrikeHolderGO.transform.position = pos;
         superStrikeHolderGO.transform.eulerAngles = new Vector3(0,0,45);
 
@@ -350,7 +350,7 @@ public class EnemyBossLightning : Enemy {
 
         movePrepareGO.SetActive(true);
 
-        bodyCtrl.rigidbody.velocity = Vector3.zero;
+        bodyCtrl.GetComponent<Rigidbody>().velocity = Vector3.zero;
         bodyCtrl.moveSide = 0.0f;
 
         do {
@@ -418,7 +418,7 @@ public class EnemyBossLightning : Enemy {
             lightningStrike.transform.position = lightningPos;
             lightningStrike.transform.rotation = Quaternion.identity;
 
-            bodyCtrl.rigidbody.velocity = Vector3.zero;
+            bodyCtrl.GetComponent<Rigidbody>().velocity = Vector3.zero;
             bodyCtrl.moveSide = 0.0f;
             bodySpriteCtrl.PlayOverrideClip(chargeClip);
 

@@ -18,11 +18,11 @@ public class TimeWarp : MonoBehaviour {
         if(mScale != scale) {
             mScale = scale;
 
-            if(scale < 1.0f && target.rigidbody && !target.rigidbody.isKinematic) {
-                Vector3 v = target.rigidbody.velocity;
+            if(scale < 1.0f && target.GetComponent<Rigidbody>() && !target.GetComponent<Rigidbody>().isKinematic) {
+                Vector3 v = target.GetComponent<Rigidbody>().velocity;
                 float mag = v.magnitude;
                 if(mag > 0.0f) {
-                    target.rigidbody.velocity = (v / mag) * (mag * 0.3f);
+                    target.GetComponent<Rigidbody>().velocity = (v / mag) * (mag * 0.3f);
                 }
             }
 

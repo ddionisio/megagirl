@@ -20,7 +20,7 @@ public class SpriteHFlipRigidbodyVelX : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        float vx = rigidbody.velocity.x;
+        float vx = GetComponent<Rigidbody>().velocity.x;
         if(Mathf.Abs(vx) > minX) {
             float sign = Mathf.Sign(vx);
             for(int i = 0, max = mSprites.Length; i < max; i++) {

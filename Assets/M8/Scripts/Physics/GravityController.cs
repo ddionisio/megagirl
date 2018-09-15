@@ -93,7 +93,7 @@ public class GravityController : MonoBehaviour {
     }
     
     protected virtual void Awake() {
-        rigidbody.useGravity = false;
+        GetComponent<Rigidbody>().useGravity = false;
 
         if(startUp == Vector3.zero)
             startUp = transform.up;
@@ -149,11 +149,11 @@ public class GravityController : MonoBehaviour {
 
                 if(fallLimit) {
                     //assume y-axis, positive up
-                    if(rigidbody && !rigidbody.isKinematic) {
-                        Vector3 localVel = transform.worldToLocalMatrix.MultiplyVector(rigidbody.velocity);
+                    if(GetComponent<Rigidbody>() && !GetComponent<Rigidbody>().isKinematic) {
+                        Vector3 localVel = transform.worldToLocalMatrix.MultiplyVector(GetComponent<Rigidbody>().velocity);
                         if(localVel.y < -fallSpeedLimit) {
                             localVel.y = -fallSpeedLimit;
-                            rigidbody.velocity = transform.localToWorldMatrix.MultiplyVector(localVel);
+                            GetComponent<Rigidbody>().velocity = transform.localToWorldMatrix.MultiplyVector(localVel);
                         }
                     }
                 }
@@ -165,7 +165,7 @@ public class GravityController : MonoBehaviour {
         }
 
         if(!mGravityLocked)
-            rigidbody.AddForce(mUp * gravity * rigidbody.mass * mMoveScale, ForceMode.Force);
+            GetComponent<Rigidbody>().AddForce(mUp * gravity * GetComponent<Rigidbody>().mass * mMoveScale, ForceMode.Force);
     }
 
     protected virtual void ApplyUp() {
@@ -192,7 +192,7 @@ public class GravityController : MonoBehaviour {
 
         while(transform.up != mUp) {
             float step = orientationSpeed * Time.fixedDeltaTime;
-            rigidbody.MoveRotation(Quaternion.RotateTowards(transform.rotation, mRotateTo, step));
+            GetComponent<Rigidbody>().MoveRotation(Quaternion.RotateTowards(transform.rotation, mRotateTo, step));
 
             yield return mWaitUpdate;
         }

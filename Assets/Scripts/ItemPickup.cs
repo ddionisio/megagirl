@@ -142,8 +142,8 @@ public class ItemPickup : EntityBase {
                 SoundPlayerGlobal.instance.Play(sound);
             }
 
-            if(collider)
-                collider.enabled = false;
+            if(GetComponent<Collider>())
+                GetComponent<Collider>().enabled = false;
 
             if(pickupCallback != null)
                 pickupCallback(this);
@@ -196,8 +196,8 @@ public class ItemPickup : EntityBase {
 
     protected override void OnDespawned() {
         //reset stuff here
-        if(collider)
-            collider.enabled = true;
+        if(GetComponent<Collider>())
+            GetComponent<Collider>().enabled = true;
 
         mDropActive = false;
 
@@ -247,13 +247,13 @@ public class ItemPickup : EntityBase {
         }
 
         //initialize variables
-        if(collider) {
-            SphereCollider sphr = collider as SphereCollider;
+        if(GetComponent<Collider>()) {
+            SphereCollider sphr = GetComponent<Collider>() as SphereCollider;
             if(sphr) {
                 mRadius = sphr.radius;
             }
             else {
-                mRadius = collider.bounds.extents.y;
+                mRadius = GetComponent<Collider>().bounds.extents.y;
             }
         }
 
@@ -323,7 +323,7 @@ public class ItemPickup : EntityBase {
             Vector3 pos = transform.position;
 
             RaycastHit hit;
-            if(Physics.SphereCast(collider.bounds.center, mRadius, Vector3.down, out hit, moveY, dropLayerMask)) {
+            if(Physics.SphereCast(GetComponent<Collider>().bounds.center, mRadius, Vector3.down, out hit, moveY, dropLayerMask)) {
                 pos = hit.point + hit.normal * mRadius;
                 mDropActive = false;
 

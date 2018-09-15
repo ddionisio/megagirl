@@ -121,7 +121,7 @@ public class EnemyBossCatGirl : Enemy {
 
             case Phase.Attack:
                 if(bodyCtrl.isGrounded)
-                    bodyCtrl.rigidbody.velocity = Vector3.zero;
+                    bodyCtrl.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
                 Jump(0);
 
@@ -193,8 +193,8 @@ public class EnemyBossCatGirl : Enemy {
         if(mCurPhase == Phase.None)
             return;
 
-        Vector3 playerPos = mPlayer.collider.bounds.center;
-        Vector3 pos = collider.bounds.center;
+        Vector3 playerPos = mPlayer.GetComponent<Collider>().bounds.center;
+        Vector3 pos = GetComponent<Collider>().bounds.center;
         float deltaPlayerX = playerPos.x - pos.x;
         float playerDistX = Mathf.Abs(deltaPlayerX);
         float toPlayerDirX = mPlayer.state == (int)EntityState.Dead ? 0.0f : Mathf.Sign(deltaPlayerX);
@@ -204,7 +204,7 @@ public class EnemyBossCatGirl : Enemy {
             case Phase.Move:
                 if(bodyCtrl.moveSide != toPlayerDirX) {
                     if(bodyCtrl.isGrounded)
-                        bodyCtrl.rigidbody.velocity = Vector3.zero;
+                        bodyCtrl.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
                     bodyCtrl.moveSide = toPlayerDirX;
                 }
@@ -258,19 +258,19 @@ public class EnemyBossCatGirl : Enemy {
 
             case Phase.AirStrike:
                 if(mAttackActive) {
-                    rigidbody.AddForce(mStrikeDir * airStrikeForce, ForceMode.Force);
+                    GetComponent<Rigidbody>().AddForce(mStrikeDir * airStrikeForce, ForceMode.Force);
 
-                    Vector3 vel = rigidbody.velocity;
+                    Vector3 vel = GetComponent<Rigidbody>().velocity;
                     float spdSqr = vel.sqrMagnitude;
                     if(spdSqr > 900.0f) {
-                        rigidbody.velocity = (vel / Mathf.Sqrt(spdSqr)) * 30.0f;
+                        GetComponent<Rigidbody>().velocity = (vel / Mathf.Sqrt(spdSqr)) * 30.0f;
                     }
 
                     bodySpriteCtrl.isLeft = vel.x < 0.0f;
 
                     Vector3 atkPt = airStrikeAttach.position; atkPt.z = 0.0f;
                     Collider[] cols = Physics.OverlapSphere(atkPt, airStrikeRadius, attackMask);
-                    if(cols.Length > 0 && cols[0] == mPlayer.collider)
+                    if(cols.Length > 0 && cols[0] == mPlayer.GetComponent<Collider>())
                         contactDamage.CallDamageTo(mPlayer.gameObject, playerPos, (playerPos - pos).normalized);
                 }
                 else {
@@ -284,7 +284,7 @@ public class EnemyBossCatGirl : Enemy {
                 if(mJumpToWallWait) {
                     if(bodyCtrl.isWallStick) {
                         //strike or grenade
-                        if(mPlayer.controller.isGrounded || mPlayer.collider.bounds.max.y < collider.bounds.center.y) {
+                        if(mPlayer.controller.isGrounded || mPlayer.GetComponent<Collider>().bounds.max.y < GetComponent<Collider>().bounds.center.y) {
                             if(Random.Range(0, 6) == 0)
                                 ToPhase(Phase.AirStrike);
                             else
@@ -346,15 +346,15 @@ public class EnemyBossCatGirl : Enemy {
                     bodyCtrl.enabled = false;
                     bodyCtrl.gravityController.enabled = false;
 
-                    rigidbody.velocity = Vector3.zero;
-                    rigidbody.drag = 0.0f;
+                    GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    GetComponent<Rigidbody>().drag = 0.0f;
 
                     //fly towards player's current pos
-                    Vector3 playerPos = mPlayer.collider.bounds.center;
-                    Vector3 pos = collider.bounds.center;
+                    Vector3 playerPos = mPlayer.GetComponent<Collider>().bounds.center;
+                    Vector3 pos = GetComponent<Collider>().bounds.center;
 
                     if(!mPlayer.controller.isGrounded) {
-                        pos += mPlayer.rigidbody.velocity.normalized * airStrikeOfs;
+                        pos += mPlayer.GetComponent<Rigidbody>().velocity.normalized * airStrikeOfs;
                     }
                     else {
                         pos.x += mPlayer.controller.moveSide * airStrikeOfs;
@@ -369,8 +369,8 @@ public class EnemyBossCatGirl : Enemy {
 
             case Phase.ThrowGrenades:
                 if(clip.name == attackProjClip) {
-                    Vector3 playerPos = mPlayer.collider.bounds.center;
-                    Vector3 pos = collider.bounds.center;
+                    Vector3 playerPos = mPlayer.GetComponent<Collider>().bounds.center;
+                    Vector3 pos = GetComponent<Collider>().bounds.center;
                     Vector3 posLaunch = projAttach.position; posLaunch.z = 0.0f;
                     Projectile.Create(projGroup, projType, posLaunch, (playerPos - pos).normalized, mPlayer.transform);
                     mProjCounter++;

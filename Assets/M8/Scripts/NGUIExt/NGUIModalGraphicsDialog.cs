@@ -46,7 +46,7 @@ public class NGUIModalGraphicsDialog : UIController {
     }
 
     void Awake() {
-        mRes = Screen.GetResolution;
+        mRes = Screen.resolutions;
         mResLabels = new string[mRes.Length];
         for(int i = 0; i < mRes.Length; i++)
             mResLabels[i] = string.Format("{0}x{1}x{2}", mRes[i].width, mRes[i].height, mRes[i].refreshRate);

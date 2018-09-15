@@ -118,7 +118,7 @@ public class tk2dCamera : MonoBehaviour
 	private Camera UnityCamera {
 		get {
 			if (_unityCamera == null) {
-				_unityCamera = camera;
+				_unityCamera = GetComponent<Camera>();
 				if (_unityCamera == null) {
 					Debug.LogError("A unity camera must be attached to the tk2dCamera script");
 				}
@@ -275,7 +275,7 @@ public class tk2dCamera : MonoBehaviour
 			UpdateCameraMatrix();
 		}
 		else {
-			this.camera.enabled = false;
+			this.GetComponent<Camera>().enabled = false;
 		}
 		
 		if (!viewportClippingEnabled) // the main camera can't display rect
@@ -654,7 +654,7 @@ public class tk2dCamera : MonoBehaviour
 
 		// Only need the half texel offset on PC/D3D
 		bool needHalfTexelOffset = (Application.platform == RuntimePlatform.WindowsPlayer ||
-						   			Application.platform == RuntimePlatform.WindowsWebPlayer ||
+						   			Application.platform == RuntimePlatform.WebGLPlayer ||
 						   			Application.platform == RuntimePlatform.WindowsEditor);
 		float halfTexel = (halfTexelOffset && needHalfTexelOffset) ? 0.5f : 0.0f;
 
@@ -737,10 +737,10 @@ public class tk2dCamera : MonoBehaviour
 				}
 
 				// Mirror camera settings
-				Camera unityCamera = camera;
+				Camera unityCamera = GetComponent<Camera>();
 				if (unityCamera != null) {
 					cameraSettings.rect = unityCamera.rect;
-					if (!unityCamera.isOrthoGraphic) {
+					if (!unityCamera.orthographic) {
 						cameraSettings.projection = tk2dCameraSettings.ProjectionType.Perspective;
 						cameraSettings.fieldOfView = unityCamera.fieldOfView * ZoomFactor;
 					}

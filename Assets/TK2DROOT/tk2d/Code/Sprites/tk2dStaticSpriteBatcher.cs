@@ -189,9 +189,9 @@ public class tk2dStaticSpriteBatcher : MonoBehaviour, tk2dRuntime.ISpriteCollect
 	
 #if UNITY_EDITOR
 	private void OnEnable() {
-		if (renderer != null && batchedSprites != null) {
+		if (GetComponent<Renderer>() != null && batchedSprites != null) {
 			bool needBuild = false;
-			foreach (Material m in renderer.sharedMaterials) {
+			foreach (Material m in GetComponent<Renderer>().sharedMaterials) {
 				if (m == null) {
 					needBuild = true;
 					break;
@@ -660,7 +660,7 @@ public class tk2dStaticSpriteBatcher : MonoBehaviour, tk2dRuntime.ISpriteCollect
 			mesh.RecalculateBounds();
 		}
 		
-		renderer.sharedMaterials = materials.ToArray();
+		GetComponent<Renderer>().sharedMaterials = materials.ToArray();
 	}
 
 	void BuildPhysicsMesh()
@@ -670,7 +670,7 @@ public class tk2dStaticSpriteBatcher : MonoBehaviour, tk2dRuntime.ISpriteCollect
 		MeshCollider meshCollider = GetComponent<MeshCollider>();
 		if (meshCollider != null)
 		{
-			if (collider != meshCollider) {
+			if (GetComponent<Collider>() != meshCollider) {
 				// Already has a collider
 				return;
 			}

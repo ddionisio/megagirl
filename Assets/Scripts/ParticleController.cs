@@ -11,24 +11,24 @@ public class ParticleController : MonoBehaviour {
     private bool mStarted;
 
     public void Play(bool withChildren) {
-        particleSystem.Play(withChildren);
+        GetComponent<ParticleSystem>().Play(withChildren);
     }
 
     public void Stop() {
-        particleSystem.Stop();
+        GetComponent<ParticleSystem>().Stop();
     }
 
     public void Pause() {
-        particleSystem.Pause();
+        GetComponent<ParticleSystem>().Pause();
     }
 
     public void SetLoop(bool loop) {
-        particleSystem.loop = loop;
+        GetComponent<ParticleSystem>().loop = loop;
     }
 
     void OnEnable() {
-        if(mStarted && playOnEnable && !particleSystem.isPlaying) {
-            particleSystem.Clear();
+        if(mStarted && playOnEnable && !GetComponent<ParticleSystem>().isPlaying) {
+            GetComponent<ParticleSystem>().Clear();
 
             if(playOnEnableDelay > 0.0f)
                 Invoke("DoPlay", playOnEnableDelay);
@@ -39,17 +39,17 @@ public class ParticleController : MonoBehaviour {
     }
 
     void DoPlay() {
-        particleSystem.Play();
+        GetComponent<ParticleSystem>().Play();
     }
 
     void OnDisable() {
         CancelInvoke();
 
         if(mStarted && stopOnDisable) {
-            particleSystem.Stop();
+            GetComponent<ParticleSystem>().Stop();
 
             if(clearOnStop)
-                particleSystem.Clear();
+                GetComponent<ParticleSystem>().Clear();
         }
     }
 

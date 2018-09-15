@@ -147,7 +147,7 @@ public class EntityDamageBlinker : MonoBehaviour {
 
     void OnSpriteChanged(tk2dBaseSprite spr) {
         for(int i = 0, max = mRenderers.Length; i < max; i++) {
-            if(spr.renderer == mRenderers[i]) {
+            if(spr.GetComponent<Renderer>() == mRenderers[i]) {
                 mRenderers[i].sharedMaterial = mBlinkMats[i];
                 break;
             }

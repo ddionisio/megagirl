@@ -41,7 +41,7 @@ public class EntityControllerCurvePath : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate() {
         if(mActive) {
-            Vector3 pos = rigidbody.position;
+            Vector3 pos = GetComponent<Rigidbody>().position;
 
             float dir = sprite.FlipX ? -1.0f : 1.0f;
 
@@ -68,8 +68,8 @@ public class EntityControllerCurvePath : MonoBehaviour {
                     break;
             }
 
-            if(rigidbody) {
-                rigidbody.MovePosition(rigidbody.position + deltaPos);
+            if(GetComponent<Rigidbody>()) {
+                GetComponent<Rigidbody>().MovePosition(GetComponent<Rigidbody>().position + deltaPos);
             }
         }
     }

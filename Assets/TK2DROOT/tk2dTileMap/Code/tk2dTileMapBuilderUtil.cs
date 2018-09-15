@@ -119,7 +119,7 @@ namespace tk2dRuntime.TileMap
 
 					#if UNITY_EDITOR
 						if (instance != null) {
-							if (UnityEditor.PrefabUtility.GetPrefabParent(instance) != prefab) {
+							if (UnityEditor.PrefabUtility.GetCorrespondingObjectFromSource(instance) != prefab) {
 								instance = null;
 							}
 						}

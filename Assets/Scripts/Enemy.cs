@@ -245,8 +245,8 @@ public class Enemy : EntityBase {
                 if(mBodySpriteCtrl)
                     mBodySpriteCtrl.ResetAnimation();
 
-                if(rigidbody && !rigidbody.isKinematic)
-                    rigidbody.velocity = Vector3.zero;
+                if(GetComponent<Rigidbody>() && !GetComponent<Rigidbody>().isKinematic)
+                    GetComponent<Rigidbody>().velocity = Vector3.zero;
                 break;
         }
     }
@@ -321,8 +321,8 @@ public class Enemy : EntityBase {
         mSpawnPos = transform.position;
         mSpawnRot = transform.rotation;
 
-        if(rigidbody)
-            mSpawnRigidBodyKinematic = rigidbody.isKinematic;
+        if(GetComponent<Rigidbody>())
+            mSpawnRigidBodyKinematic = GetComponent<Rigidbody>().isKinematic;
     }
 
     protected override void Awake() {
@@ -371,17 +371,17 @@ public class Enemy : EntityBase {
     }
 
     protected void SetPhysicsActive(bool aActive, bool excludeCollision) {
-        if(rigidbody) {
+        if(GetComponent<Rigidbody>()) {
             if(!mSpawnRigidBodyKinematic) {
-                rigidbody.isKinematic = !aActive;
+                GetComponent<Rigidbody>().isKinematic = !aActive;
             }
 
             if(aActive || !excludeCollision)
-                rigidbody.detectCollisions = aActive;
+                GetComponent<Rigidbody>().detectCollisions = aActive;
         }
 
-        if(collider && (aActive || !excludeCollision)) {
-            collider.enabled = aActive;
+        if(GetComponent<Collider>() && (aActive || !excludeCollision)) {
+            GetComponent<Collider>().enabled = aActive;
         }
 
         if(mGravCtrl) {

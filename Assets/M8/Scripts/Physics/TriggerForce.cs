@@ -76,7 +76,7 @@ public class TriggerForce : MonoBehaviour {
     void OnTriggerStay(Collider col) {
 
         if(!mColliders.Contains(col)) {
-            Rigidbody body = col.rigidbody;
+            Rigidbody body = col.GetComponent<Rigidbody>();
 
             if(body != null && !body.isKinematic && (_tags.Length == 0 || CheckTag(col.gameObject.tag))) {
                 //check tags
@@ -154,7 +154,7 @@ public class TriggerForce : MonoBehaviour {
                         body.AddForce(dir * force, mode);
                 }
 
-                if(collider.enabled && forceLingerDelay > 0 && col.enabled && col.gameObject.activeSelf) {
+                if(GetComponent<Collider>().enabled && forceLingerDelay > 0 && col.enabled && col.gameObject.activeSelf) {
                     StartCoroutine(DoForceLinger(col, dir));
                 }
             }
@@ -175,7 +175,7 @@ public class TriggerForce : MonoBehaviour {
                 break;
 
             if(lingerDragOverride)
-                col.rigidbody.drag = lingerDrag;
+                col.GetComponent<Rigidbody>().drag = lingerDrag;
 
             if(lingerUpdateDir) {
                 Vector3 bodyPos = col.bounds.center;
@@ -191,7 +191,7 @@ public class TriggerForce : MonoBehaviour {
                 }
             }
 
-            col.rigidbody.AddForce(dir * forceLinger);
+            col.GetComponent<Rigidbody>().AddForce(dir * forceLinger);
 
             t += Time.fixedDeltaTime;
         }

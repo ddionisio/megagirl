@@ -44,7 +44,7 @@ public class ForceField : MonoBehaviour {
     private HashSet<Rigidbody> mBodies = new HashSet<Rigidbody>();
 
     void OnTriggerEnter(Collider t) {
-        Rigidbody body = t.rigidbody;
+        Rigidbody body = t.GetComponent<Rigidbody>();
         if(body != null && !mBodies.Contains(body)) {
             if(impulse != 0.0f || setVelocity) {
                 Vector3 dir = Vector3.zero;
@@ -84,7 +84,7 @@ public class ForceField : MonoBehaviour {
     }
 
     void OnTriggerExit(Collider t) {
-        Rigidbody body = t.rigidbody;
+        Rigidbody body = t.GetComponent<Rigidbody>();
         if(body != null) {
             mBodies.Remove(body);
         }
@@ -162,7 +162,7 @@ public class ForceField : MonoBehaviour {
                 if(setDrag)
                     body.drag = drag;
 
-                Vector3 vel = body.rigidbody.velocity;
+                Vector3 vel = body.GetComponent<Rigidbody>().velocity;
                 
                 if(vel.sqrMagnitude < _maxSpeed * _maxSpeed || Vector3.Angle(dir, vel) >= 90.0f) {
                     body.AddForce(dir * force, ForceMode.Force);

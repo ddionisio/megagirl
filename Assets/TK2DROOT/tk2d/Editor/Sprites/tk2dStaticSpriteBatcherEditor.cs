@@ -24,7 +24,7 @@ class tk2dStaticSpriteBatcherEditor : Editor
 			
 #if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
 			Renderer[] allRenderers = batcher.transform.GetComponentsInChildren<Renderer>();
-			allRenderers = (from r in allRenderers where r != batcher.renderer select r).ToArray();
+			allRenderers = (from r in allRenderers where r != batcher.GetComponent<Renderer>() select r).ToArray();
 			if (allRenderers.Length > 0) {
 				string sortingLayerName = allRenderers[0].sortingLayerName;
 				int sortingOrder = allRenderers[0].sortingOrder;
@@ -42,11 +42,11 @@ class tk2dStaticSpriteBatcherEditor : Editor
 			// sort sprites, smaller to larger z
 			if (batcher.CheckFlag(tk2dStaticSpriteBatcher.Flags.SortToCamera)) {
 				tk2dCamera tk2dCam = tk2dCamera.CameraForLayer( batcher.gameObject.layer );
-				Camera cam = tk2dCam ? tk2dCam.camera : Camera.main;
-				allTransforms = (from t in allTransforms orderby cam.WorldToScreenPoint((t.renderer != null) ? t.renderer.bounds.center : t.position).z descending select t).ToArray();
+				Camera cam = tk2dCam ? tk2dCam.GetComponent<Camera>() : Camera.main;
+				allTransforms = (from t in allTransforms orderby cam.WorldToScreenPoint((t.GetComponent<Renderer>() != null) ? t.GetComponent<Renderer>().bounds.center : t.position).z descending select t).ToArray();
 			}
 			else {
-				allTransforms = (from t in allTransforms orderby ((t.renderer != null) ? t.renderer.bounds.center : t.position).z descending select t).ToArray();
+				allTransforms = (from t in allTransforms orderby ((t.GetComponent<Renderer>() != null) ? t.GetComponent<Renderer>().bounds.center : t.position).z descending select t).ToArray();
 			}
 			
 			// and within the z sort by material
@@ -328,10 +328,10 @@ class tk2dStaticSpriteBatcherEditor : Editor
 			int overridenSortingOrder = 0;
 #if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
 			string overridenSortingLayerName = "";
-			if (batcher.renderer) {
+			if (batcher.GetComponent<Renderer>()) {
 				overrideSortingOrder = true;
-				overridenSortingOrder = batcher.renderer.sortingOrder;
-				overridenSortingLayerName = batcher.renderer.sortingLayerName;
+				overridenSortingOrder = batcher.GetComponent<Renderer>().sortingOrder;
+				overridenSortingLayerName = batcher.GetComponent<Renderer>().sortingLayerName;
 			}
 #endif
 			foreach (var bs in batcher.batchedSprites)
@@ -383,8 +383,8 @@ class tk2dStaticSpriteBatcherEditor : Editor
 				}
 
 #if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
-				if (go.renderer != null && overrideSortingOrder) {
-					go.renderer.sortingLayerName = overridenSortingLayerName;
+				if (go.GetComponent<Renderer>() != null && overrideSortingOrder) {
+					go.GetComponent<Renderer>().sortingLayerName = overridenSortingLayerName;
 				}
 #endif
 

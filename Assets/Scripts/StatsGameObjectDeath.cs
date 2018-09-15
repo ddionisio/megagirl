@@ -26,11 +26,11 @@ public class StatsGameObjectDeath : MonoBehaviour {
 
     IEnumerator DoRelease() {
         bool kinematic = false;
-        if(rigidbody) {
-            kinematic = rigidbody.isKinematic;
-            rigidbody.velocity = Vector3.zero;
-            rigidbody.angularVelocity = Vector3.zero;
-            rigidbody.isKinematic = true;
+        if(GetComponent<Rigidbody>()) {
+            kinematic = GetComponent<Rigidbody>().isKinematic;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            GetComponent<Rigidbody>().isKinematic = true;
         }
 
         if(releaseDelay > 0)
@@ -41,8 +41,8 @@ public class StatsGameObjectDeath : MonoBehaviour {
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
 
-        if(rigidbody) {
-            rigidbody.isKinematic = kinematic;
+        if(GetComponent<Rigidbody>()) {
+            GetComponent<Rigidbody>().isKinematic = kinematic;
         }
                         
         PoolController.ReleaseAuto(transform);

@@ -37,7 +37,7 @@ public class FollowObject : MonoBehaviour {
         if(target) {
             Vector3 dest = target.position;
 
-            Rigidbody body = target.rigidbody;
+            Rigidbody body = target.GetComponent<Rigidbody>();
             if(body && velOfs != 0.0f) {
                 float mag = body.velocity.magnitude;
                 if(mag > minVel) {

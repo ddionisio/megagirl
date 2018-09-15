@@ -128,7 +128,7 @@ public class OuyaShowGuitar : MonoBehaviour,
         note.EndTime = DateTime.Now + TimeSpan.FromMilliseconds(NoteTimeToLive);
         note.Parent = item;
         note.Instance = (GameObject)Instantiate(item.StartPosition);
-        (note.Instance.renderer as MeshRenderer).material.color = item.LaneColor;
+        (note.Instance.GetComponent<Renderer>() as MeshRenderer).material.color = item.LaneColor;
         if (0 == Random.Range(0, 10))
         {
             note.UseLower = true;
@@ -182,11 +182,11 @@ public class OuyaShowGuitar : MonoBehaviour,
             bool afterRange = (note.Instance.transform.position.z - 8) < TrackEnd.position.z;
             if (inRange)
             {
-                (note.Instance.renderer as MeshRenderer).material.color = Color.white;
+                (note.Instance.GetComponent<Renderer>() as MeshRenderer).material.color = Color.white;
             }
             else if (afterRange)
             {
-                (note.Instance.renderer as MeshRenderer).material.color = new Color(0, 0, 0, 0.75f);
+                (note.Instance.GetComponent<Renderer>() as MeshRenderer).material.color = new Color(0, 0, 0, 0.75f);
             }
 
             // use available press of the lane button
@@ -225,7 +225,7 @@ public class OuyaShowGuitar : MonoBehaviour,
                     continue;
                 }
                 elapsed = (float)(note.FadeTime - DateTime.Now).TotalMilliseconds;
-                (note.Instance.renderer as MeshRenderer).material.color = Color.Lerp(note.Parent.LaneColor, Color.clear, 1f - elapsed / (float)NoteTimeToFade);
+                (note.Instance.GetComponent<Renderer>() as MeshRenderer).material.color = Color.Lerp(note.Parent.LaneColor, Color.clear, 1f - elapsed / (float)NoteTimeToFade);
                 note.Instance.transform.localScale = Vector3.Lerp(note.Instance.transform.localScale, note.Parent.StartPosition.transform.localScale * 2, elapsed / (float)NoteTimeToFade);
 
             }

@@ -78,13 +78,13 @@ public class CameraController : MonoBehaviour {
     }
 
     public void SnapPosition() {
-        Vector3 dest = mAttach ? mAttach.collider ? mAttach.collider.bounds.center : mAttach.position : transform.position;
+        Vector3 dest = mAttach ? mAttach.GetComponent<Collider>() ? mAttach.GetComponent<Collider>().bounds.center : mAttach.position : transform.position;
 
         //apply bounds
         ApplyBounds(ref dest);
 
-        if(rigidbody)
-            rigidbody.MovePosition(dest);
+        if(GetComponent<Rigidbody>())
+            GetComponent<Rigidbody>().MovePosition(dest);
         else
             transform.position = dest;
 
@@ -129,14 +129,14 @@ public class CameraController : MonoBehaviour {
         }
 
         Vector3 curPos = transform.position;
-        Vector3 dest = mAttach ? mAttach.collider ? mAttach.collider.bounds.center : mAttach.position : curPos;
+        Vector3 dest = mAttach ? mAttach.GetComponent<Collider>() ? mAttach.GetComponent<Collider>().bounds.center : mAttach.position : curPos;
 
         //apply bounds
         ApplyBounds(ref dest);
 
         if(curPos != dest) {
-            if(rigidbody) {
-                rigidbody.MovePosition(Vector3.SmoothDamp(curPos, dest, ref mCurVel, mCurDelay, Mathf.Infinity, Time.fixedDeltaTime));
+            if(GetComponent<Rigidbody>()) {
+                GetComponent<Rigidbody>().MovePosition(Vector3.SmoothDamp(curPos, dest, ref mCurVel, mCurDelay, Mathf.Infinity, Time.fixedDeltaTime));
             }
             else {
                 transform.position = Vector3.SmoothDamp(curPos, dest, ref mCurVel, mCurDelay, Mathf.Infinity, Time.fixedDeltaTime);

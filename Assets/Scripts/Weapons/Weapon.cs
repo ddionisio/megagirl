@@ -389,7 +389,7 @@ public class Weapon : MonoBehaviour {
 
                             //charge sound
                             if(chargeSfx && charges[mCurChargeLevel].chargeSfxOn) {
-                                chargeSfx.audio.pitch = charges[mCurChargeLevel].chargeSfxPitch;
+                                chargeSfx.GetComponent<AudioSource>().pitch = charges[mCurChargeLevel].chargeSfxPitch;
 
                                 if(!chargeSfx.isPlaying)
                                     chargeSfx.Play();

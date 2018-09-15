@@ -258,12 +258,12 @@ public class EnemyBossJuses : Enemy {
                     Mathf.Clamp(playerPos.x, followRange.min.x, followRange.max.x),
                     Mathf.Clamp(playerPos.y, followRange.min.y, followRange.max.y));
 
-                rigidbody.MovePosition(Vector3.SmoothDamp(rigidbody.position, followDestPos, ref mCurMoveVel, followDelay, followSpeedMax, Time.deltaTime));
+                GetComponent<Rigidbody>().MovePosition(Vector3.SmoothDamp(GetComponent<Rigidbody>().position, followDestPos, ref mCurMoveVel, followDelay, followSpeedMax, Time.deltaTime));
                 break;
 
             case Phase.Panic:
                 if(mPanicMoveActive) {
-                    rigidbody.MovePosition(Vector3.SmoothDamp(rigidbody.position, panicMover.position, ref mCurMoveVel, panicMoveDelay, panicSpeedMax, Time.deltaTime));
+                    GetComponent<Rigidbody>().MovePosition(Vector3.SmoothDamp(GetComponent<Rigidbody>().position, panicMover.position, ref mCurMoveVel, panicMoveDelay, panicSpeedMax, Time.deltaTime));
                 }
                 break;
         }

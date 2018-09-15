@@ -150,8 +150,8 @@ public class tk2dTileMap : MonoBehaviour, tk2dRuntime.ISpriteCollectionForceBuil
 				foreach (tk2dRuntime.TileMap.Layer layer in layers) {
 					if (layer.spriteChannel != null && layer.spriteChannel.chunks != null) {
 						foreach (tk2dRuntime.TileMap.SpriteChunk chunk in layer.spriteChannel.chunks) {
-							if (chunk.gameObject != null && chunk.gameObject.renderer != null) {
-								if (chunk.gameObject.renderer.sharedMaterial == null) {
+							if (chunk.gameObject != null && chunk.gameObject.GetComponent<Renderer>() != null) {
+								if (chunk.gameObject.GetComponent<Renderer>().sharedMaterial == null) {
 									needBuild = true;
 									break;
 								}

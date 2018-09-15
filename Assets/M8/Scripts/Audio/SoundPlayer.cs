@@ -19,21 +19,21 @@ public class SoundPlayer : MonoBehaviour {
     private bool mStarted = false;
     private float mDefaultVolume = 1.0f;
 
-    public bool isPlaying { get { return audio.isPlaying; } }
+    public bool isPlaying { get { return GetComponent<AudioSource>().isPlaying; } }
     public float defaultVolume { get { return mDefaultVolume; } set { mDefaultVolume = value; } }
 
     public virtual void Play() {
         UserSettings us = Main.instance.userSettings;
-        audio.volume = mDefaultVolume * us.soundVolume;
+        GetComponent<AudioSource>().volume = mDefaultVolume * us.soundVolume;
 
         if(playDelay > 0.0f)
-            audio.PlayDelayed(playDelay);
+            GetComponent<AudioSource>().PlayDelayed(playDelay);
         else
-            audio.Play();
+            GetComponent<AudioSource>().Play();
     }
 
     public virtual void Stop() {
-        audio.Stop();
+        GetComponent<AudioSource>().Stop();
     }
 
     protected virtual void OnEnable() {
@@ -42,9 +42,9 @@ public class SoundPlayer : MonoBehaviour {
     }
 
     protected virtual void Awake() {
-        audio.playOnAwake = false;
+        GetComponent<AudioSource>().playOnAwake = false;
 
-        mDefaultVolume = audio.volume;
+        mDefaultVolume = GetComponent<AudioSource>().volume;
     }
 
     // Use this for initialization
@@ -57,6 +57,6 @@ public class SoundPlayer : MonoBehaviour {
 
     void UserSettingsChanged(UserSettings us) {
         //if(audio.isPlaying)
-        audio.volume = mDefaultVolume * us.soundVolume;    
+        GetComponent<AudioSource>().volume = mDefaultVolume * us.soundVolume;    
     }
 }

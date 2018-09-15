@@ -39,7 +39,7 @@ public class EnemyCharger : Enemy {
     protected override void StateChanged() {
         switch((EntityState)prevState) {
             case EntityState.Normal:
-                rigidbody.isKinematic = false;
+                GetComponent<Rigidbody>().isKinematic = false;
 
                 angerParticles.Stop();
                 angerParticles.Clear();
@@ -107,7 +107,7 @@ public class EnemyCharger : Enemy {
     }
 
     bool isPlayerInRange() {
-        mLastPlayerPos = Player.instance.collider.bounds.center;
+        mLastPlayerPos = Player.instance.GetComponent<Collider>().bounds.center;
 
         mLastPlayerDir = mLastPlayerPos - transform.position; mLastPlayerDir.z = 0;
         float dist = mLastPlayerDir.magnitude;
@@ -124,7 +124,7 @@ public class EnemyCharger : Enemy {
         WaitForFixedUpdate wait = new WaitForFixedUpdate();
         WaitForSeconds waitEnd = new WaitForSeconds(angerEndDelay);
 
-        rigidbody.isKinematic = true;
+        GetComponent<Rigidbody>().isKinematic = true;
 
         //get angry
         angerParticles.Play();
@@ -152,12 +152,12 @@ public class EnemyCharger : Enemy {
                 while(true) {
                     curTime += Time.fixedDeltaTime;
                     if(curTime >= delay) {
-                        rigidbody.MovePosition(ePos);
+                        GetComponent<Rigidbody>().MovePosition(ePos);
                         break;
                     }
                     else {
                         float t = Holoville.HOTween.Core.Easing.Sine.EaseInOut(curTime, 0.0f, 1.0f, delay, 0, 0);
-                        rigidbody.MovePosition(Vector3.Lerp(sPos, ePos, t));
+                        GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(sPos, ePos, t));
                     }
 
                     yield return wait;
@@ -182,7 +182,7 @@ public class EnemyCharger : Enemy {
         bool standby = false;
         float standbyTime = 0.0f;
 
-        rigidbody.isKinematic = false;
+        GetComponent<Rigidbody>().isKinematic = false;
 
         //get calm
         calmParticles.Play();
@@ -195,7 +195,7 @@ public class EnemyCharger : Enemy {
             //check for player
             if(isPlayerInRange()) {
                 //check obstruction
-                Vector3 playerPos = Player.instance.collider.bounds.center;
+                Vector3 playerPos = Player.instance.GetComponent<Collider>().bounds.center;
                 Vector3 dir = playerPos - pos;
                 float mag = dir.magnitude;
                 if(mag == 0.0f || !Physics.Raycast(pos, dir/mag, mag, angerObstructionMask)) {
@@ -229,8 +229,8 @@ public class EnemyCharger : Enemy {
                 }
 
                 //speed cap, make sure to add some drag in rigidbody
-                if(rigidbody.velocity.sqrMagnitude < calmMaxSpeed*calmMaxSpeed || Vector3.Angle(rigidbody.velocity, dir) > 30)
-                    rigidbody.AddForce(dir*calmForce);
+                if(GetComponent<Rigidbody>().velocity.sqrMagnitude < calmMaxSpeed*calmMaxSpeed || Vector3.Angle(GetComponent<Rigidbody>().velocity, dir) > 30)
+                    GetComponent<Rigidbody>().AddForce(dir*calmForce);
             }
 
             yield return wait;

@@ -23,7 +23,7 @@ public class OuyaExampleGroundRaycast : MonoBehaviour
     {
         Vector3 mousePos = Input.mousePosition;
 
-        Ray ray = Camera.mainCamera.ScreenPointToRay(mousePos);
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
 
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))

@@ -265,8 +265,8 @@ public class EnemyBossHipster : Enemy {
                 if(!bodyCtrl.isGrounded && !bodyCtrl.isJump && bodyCtrl.localVelocity.y < jumpMinYVel)
                     break;
 
-                Vector3 playerPos = mPlayer.collider.bounds.center;
-                Bounds bounds = collider.bounds;
+                Vector3 playerPos = mPlayer.GetComponent<Collider>().bounds.center;
+                Bounds bounds = GetComponent<Collider>().bounds;
 
                 if(playerPos.y >= bounds.min.y && playerPos.y <= bounds.max.y)
                     break;
@@ -285,7 +285,7 @@ public class EnemyBossHipster : Enemy {
         bodySpriteCtrl.PlayOverrideClip(jumpAttackClip);
         bodySpriteCtrl.isLeft = Mathf.Sign(mPlayer.transform.position.x - transform.position.x) < 0.0f;
 
-        bodyCtrl.rigidbody.velocity = Vector3.zero;
+        bodyCtrl.GetComponent<Rigidbody>().velocity = Vector3.zero;
         bodyCtrl.gravityController.enabled = false;
 
         bodyCtrl.moveScale = jumpMoveScale;
@@ -321,10 +321,10 @@ public class EnemyBossHipster : Enemy {
             yield return wait;
         } while(!bodyCtrl.isGrounded);
         
-        Vector3 pos = collider.bounds.center;
+        Vector3 pos = GetComponent<Collider>().bounds.center;
 
         //face player
-        Vector3 playerPos = mPlayer.collider.bounds.center;
+        Vector3 playerPos = mPlayer.GetComponent<Collider>().bounds.center;
 
         bodySpriteCtrl.PlayOverrideClip(attackClip);
 
@@ -336,7 +336,7 @@ public class EnemyBossHipster : Enemy {
 
         float startTime = Time.fixedTime;
         while(Time.fixedTime - startTime < attackStartDelay) {
-            playerPos = mPlayer.collider.bounds.center;
+            playerPos = mPlayer.GetComponent<Collider>().bounds.center;
             bodySpriteCtrl.isLeft = Mathf.Sign(playerPos.x - pos.x) < 0.0f;
             yield return wait;
         }
@@ -380,7 +380,7 @@ public class EnemyBossHipster : Enemy {
             yield return wait;
         } while(!bodyCtrl.isGrounded);
 
-        Vector3 pos = collider.bounds.center;
+        Vector3 pos = GetComponent<Collider>().bounds.center;
 
         //Debug.Log("fuck : "+pos.x);
 
@@ -415,13 +415,13 @@ public class EnemyBossHipster : Enemy {
         dashSfx.Play();
 
         while(farSignX == bodyCtrl.moveSide) {
-            pos = collider.bounds.center;
+            pos = GetComponent<Collider>().bounds.center;
             farSignX = Mathf.Sign(farX - pos.x);
 
             if(!mFiring) {
                 if(Time.fixedTime - mLastFireTime > moveGunFireDelay) {
                     //check if player is towards where we are moving
-                    Vector3 playerPos = mPlayer.collider.bounds.center;
+                    Vector3 playerPos = mPlayer.GetComponent<Collider>().bounds.center;
                     Vector3 dpos = playerPos - pos;
 
                     if(Mathf.Sign(dpos.x) == bodyCtrl.moveSide) {
@@ -498,7 +498,7 @@ public class EnemyBossHipster : Enemy {
                     //cast time warp
 
                     //get nearest spawn pt to player
-                    Vector3 playerPos = mPlayer.collider.bounds.center;
+                    Vector3 playerPos = mPlayer.GetComponent<Collider>().bounds.center;
                     Vector3 nearestPt = Vector3.zero;
                     float nearestDistSqr = Mathf.Infinity;
                     for(int i = 0; i < timeWarpSpawnPts.Length; i++) {

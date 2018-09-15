@@ -9,12 +9,12 @@ public class RigidBodyStartVelocity : MonoBehaviour {
 
     void OnEnable() {
         if(mStarted && onEnable)
-            rigidbody.AddForce(velocity, ForceMode.VelocityChange);
+            GetComponent<Rigidbody>().AddForce(velocity, ForceMode.VelocityChange);
     }
 
 	// Use this for initialization
 	void Start () {
         mStarted = true;
-        rigidbody.AddForce(velocity, ForceMode.VelocityChange);
+        GetComponent<Rigidbody>().AddForce(velocity, ForceMode.VelocityChange);
 	}
 }

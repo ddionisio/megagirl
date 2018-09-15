@@ -30,7 +30,7 @@ public class ProjectileSpawnOnDeath : MonoBehaviour {
 
         switch((Projectile.State)proj.state) {
             case Projectile.State.Dying:
-                Vector3 pos = spawnAtContactPoint ? proj.lastHit.point : collider ? collider.bounds.center : transform.position;
+                Vector3 pos = spawnAtContactPoint ? proj.lastHit.point : GetComponent<Collider>() ? GetComponent<Collider>().bounds.center : transform.position;
                 pos.z = 0.0f;
                 
                 Vector3 dir = proj.lastHit.normal;

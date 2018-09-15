@@ -112,7 +112,17 @@ namespace M8 {
 
         //-------------- 3D --------------
 
-        public static bool CompareApprox(Vector3 v1, Vector3 v2, float approx = Mathf.Epsilon) {
+        public static bool CompareApprox(Vector3 v1, Vector3 v2) {
+            if(Mathf.Abs(v2.x - v1.x) > Mathf.Epsilon) return false;
+
+            if(Mathf.Abs(v2.y - v1.y) > Mathf.Epsilon) return false;
+
+            if(Mathf.Abs(v2.z - v1.z) > Mathf.Epsilon) return false;
+
+            return true;
+        }
+
+        public static bool CompareApprox(Vector3 v1, Vector3 v2, float approx) {
             if(Mathf.Abs(v2.x - v1.x) > approx) return false;
 
             if(Mathf.Abs(v2.y - v1.y) > approx) return false;

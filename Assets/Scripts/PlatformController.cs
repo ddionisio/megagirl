@@ -70,7 +70,7 @@ public class PlatformController : MonoBehaviour {
             //look for platformers no longer in the list
             int removeInd = -1;
             for(int i = 0, max = mPlatformers.Count; i < max; i++) {
-                if(mPlatformers[i].collider == col) {
+                if(mPlatformers[i].GetComponent<Collider>() == col) {
                     mPlatformers[i]._PlatformSweep(false, gameObject.layer);
                     removeInd = i;
                     break;
@@ -106,7 +106,7 @@ public class PlatformController : MonoBehaviour {
 
     void ApplyPhysics(Vector3 wDir, Collider col, Vector3 vel) {
         GameObject go = col.gameObject;
-        Rigidbody body = go.rigidbody;
+        Rigidbody body = go.GetComponent<Rigidbody>();
         //Vector3 up = go.transform.up;
         
         if(((1 << go.layer) & layerMask) != 0 && CheckTags(go) && (!upDirLimitEnabled || Vector3.Angle(wDir, col.transform.up) <= upDirLimit)) {// && Vector3.Angle(up, hit.normal) >= normalAngleDiff) {
@@ -152,14 +152,14 @@ public class PlatformController : MonoBehaviour {
 #if UNITY_EDITOR
         SetDir();
 #endif
-        Vector3 vel = rigidbody.velocity;// GetPointVelocity(hit.point);
+        Vector3 vel = GetComponent<Rigidbody>().velocity;// GetPointVelocity(hit.point);
 
-        if(vel != Vector3.zero || rigidbody.angularVelocity != Vector3.zero) {
+        if(vel != Vector3.zero || GetComponent<Rigidbody>().angularVelocity != Vector3.zero) {
             Vector3 wDir = transform.rotation * mDir;
 
             if(!useTrigger) {
                 mColls.Clear();
-                RaycastHit[] hits = rigidbody.SweepTestAll(wDir, ofs);
+                RaycastHit[] hits = GetComponent<Rigidbody>().SweepTestAll(wDir, ofs);
                 for(int i = 0, max = hits.Length; i < max; i++) {
                     mColls.Add(hits[i].collider);
                 }

@@ -8,7 +8,7 @@ public class TransRotZByVelocity : MonoBehaviour {
 
     void Awake() {
         if(target == null)
-            target = rigidbody;
+            target = GetComponent<Rigidbody>();
     }
     	
 	// Update is called once per frame

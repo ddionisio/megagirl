@@ -50,14 +50,14 @@ public class EnemyFollowNShoot : Enemy {
         switch((EntityState)state) {
             case EntityState.Normal:
                 if(!mFiring) {
-                    Vector3 pos = collider.bounds.center;
+                    Vector3 pos = GetComponent<Collider>().bounds.center;
                     Vector3 dest = Player.instance.transform.localToWorldMatrix.MultiplyPoint(mCurFollowLocalPt); dest.z = pos.z;
                     Vector3 dpos = dest - pos;
                     float distSqr = dpos.sqrMagnitude;
                     if(distSqr > followStopRange*followStopRange 
-                       && (rigidbody.velocity.sqrMagnitude < followMaxSpeed*followMaxSpeed || Vector3.Angle(rigidbody.velocity, dpos) > 30.0f)) {
+                       && (GetComponent<Rigidbody>().velocity.sqrMagnitude < followMaxSpeed*followMaxSpeed || Vector3.Angle(GetComponent<Rigidbody>().velocity, dpos) > 30.0f)) {
                         Vector3 dir = dpos/distSqr;
-                        rigidbody.AddForce(dir*followForce);
+                        GetComponent<Rigidbody>().AddForce(dir*followForce);
                     }
                 }
                 break;
@@ -73,14 +73,14 @@ public class EnemyFollowNShoot : Enemy {
 
             mFiring = true;
 
-            rigidbody.velocity = Vector3.zero;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
 
             fireSignalGO.SetActive(true);
             yield return fireD;
             fireSignalGO.SetActive(false);
 
             Vector3 pos = fireSignalGO.transform.position; pos.z = 0;
-            Vector3 dir = Player.instance.collider.bounds.center - pos; dir.z = 0;
+            Vector3 dir = Player.instance.GetComponent<Collider>().bounds.center - pos; dir.z = 0;
             dir.Normalize();
 
             Projectile proj = Projectile.Create(projGroup, fireProjType, pos, dir, null);

@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "M8/ProBuilder/Unlit Solid Vertex Color" {
   Properties {
     _Color ("Color", Color) = (1,1,1,1)
@@ -32,7 +34,7 @@ Shader "M8/ProBuilder/Unlit Solid Vertex Color" {
 		v2f_vct vert_vct(vin_vct v)
 		{
 			v2f_vct o;
-			o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+			o.vertex = UnityObjectToClipPos(v.vertex);
 			o.color = v.color;
 			return o;
 		}

@@ -100,11 +100,11 @@ public class WeaponHappyStar : Weapon {
                     Vector3 attachPos = mLastLargeStar.attachWorldPos;
                     if(!player.controller.CheckPenetrate(attachPos, 0.1f, playerSweepSolid)) {
                         player.controller.moveSnap = false;
-                        mLastLargeStar.attachBody = player.rigidbody;
+                        mLastLargeStar.attachBody = player.GetComponent<Rigidbody>();
                     }
 
                     if(player.controller.isGrounded) {
-                        mLastLargeStar.rigidbody.AddForce(Vector3.up*groundImpulse, ForceMode.Impulse);
+                        mLastLargeStar.GetComponent<Rigidbody>().AddForce(Vector3.up*groundImpulse, ForceMode.Impulse);
                     }
                 }
             }

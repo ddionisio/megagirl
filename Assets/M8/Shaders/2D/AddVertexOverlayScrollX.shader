@@ -1,4 +1,6 @@
-﻿// unlit, vertex colour, premultiplied alpha blend
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// unlit, vertex colour, premultiplied alpha blend
 
 Shader "M8/2D/AddVertexOverlayScrollX" 
 {
@@ -46,7 +48,7 @@ Shader "M8/2D/AddVertexOverlayScrollX"
 			v2f_vct vert_vct(vin_vct v)
 			{
 				v2f_vct o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.color = v.color;
 				o.texcoord = v.texcoord;
 				o.texcoord2 = float2(_Time.y * _Speed, 0);

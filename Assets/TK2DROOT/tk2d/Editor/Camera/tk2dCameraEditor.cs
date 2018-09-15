@@ -306,7 +306,7 @@ public class tk2dCameraEditor : Editor
 		bool oldGuiEnabled = GUI.enabled;
 
 		SerializedObject so = this.serializedObject;
-		SerializedObject cam = new SerializedObject( target.camera );
+		SerializedObject cam = new SerializedObject( target.GetComponent<Camera>() );
 
 		SerializedProperty m_ClearFlags = cam.FindProperty("m_ClearFlags");
 		SerializedProperty m_BackGroundColor = cam.FindProperty("m_BackGroundColor");
@@ -375,9 +375,9 @@ public class tk2dCameraEditor : Editor
 
 		if (transparencySortMode != inheritedSettings.transparencySortMode) {
 			inheritedSettings.transparencySortMode = transparencySortMode;
-			target.camera.transparencySortMode = transparencySortMode; // Change immediately in the editor
+			target.GetComponent<Camera>().transparencySortMode = transparencySortMode; // Change immediately in the editor
 			EditorUtility.SetDirty(target);
-			EditorUtility.SetDirty(target.camera);
+			EditorUtility.SetDirty(target.GetComponent<Camera>());
 		}
 	}
 
@@ -391,7 +391,7 @@ public class tk2dCameraEditor : Editor
 			GameObject go = new GameObject("Anchor");
 			go.transform.parent = cam.transform;
 			tk2dCameraAnchor cameraAnchor = go.AddComponent<tk2dCameraAnchor>();
-			cameraAnchor.AnchorCamera = cam.camera;
+			cameraAnchor.AnchorCamera = cam.GetComponent<Camera>();
 			tk2dCameraAnchorEditor.UpdateAnchorName( cameraAnchor );
 			
 			EditorGUIUtility.PingObject(go);
@@ -594,9 +594,9 @@ public class tk2dCameraEditor : Editor
 	{
 		tk2dCamera target = this.target as tk2dCamera;
 		Handles.color = new Color32(255,255,255,255);
-		DrawCameraBounds( target.camera.worldToCameraMatrix, target.Editor__GetFinalProjectionMatrix() );
+		DrawCameraBounds( target.GetComponent<Camera>().worldToCameraMatrix, target.Editor__GetFinalProjectionMatrix() );
 		Handles.color = new Color32(55,203,105,102);
-		DrawCameraBounds( target.camera.worldToCameraMatrix, target.Editor__GetNativeProjectionMatrix() );
+		DrawCameraBounds( target.GetComponent<Camera>().worldToCameraMatrix, target.Editor__GetNativeProjectionMatrix() );
 
 
 		Handles.color = Color.white;
@@ -648,8 +648,8 @@ public class tk2dCameraEditor : Editor
 		camera.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 		tk2dCamera newCamera = go.AddComponent<tk2dCamera>();
 		newCamera.version = 1;
-		go.AddComponent("FlareLayer");
-		go.AddComponent("GUILayer");
+		go.AddComponent<FlareLayer>();
+		go.AddComponent<GUILayer>();
 		if (Object.FindObjectsOfType(typeof(AudioListener)).Length == 0) {
 			go.AddComponent<AudioListener>();
 		}
@@ -700,7 +700,7 @@ namespace tk2dEditor
 					int heightTweak = 19;
 					Rect r = new Rect(previewWindowRect.x + rs.x, Camera.current.pixelHeight - (previewWindowRect.y + rs.y), rs.width, rs.height);
 					Vector2 v = new Vector2(previewWindowRect.x + rs.x, (Camera.current.pixelHeight - previewWindowRect.y - rs.height - heightTweak) + rs.y);
-					previewCamera.CopyFrom(target.camera);
+					previewCamera.CopyFrom(target.GetComponent<Camera>());
 					previewCamera.projectionMatrix = target.Editor__GetFinalProjectionMatrix(); // Work around a Unity bug
 					previewCamera.pixelRect = new Rect(v.x, v.y, r.width, r.height);
 					previewCamera.Render();
@@ -718,7 +718,7 @@ namespace tk2dEditor
 			if (previewCamera == null)
 			{
 				GameObject go = EditorUtility.CreateGameObjectWithHideFlags("@tk2dCamera_ScenePreview", UnityEngine.HideFlags.HideAndDontSave, new System.Type[] { typeof(Camera) } );
-				previewCamera = go.camera;
+				previewCamera = go.GetComponent<Camera>();
 				previewCamera.enabled = false;
 			}
 

@@ -66,9 +66,9 @@ public class SoundPlayerMulti : MonoBehaviour {
             plyr.src.loop = dat.loop;
 
             if(dat.delay > 0.0f)
-                audio.PlayDelayed(dat.delay);
+                GetComponent<AudioSource>().PlayDelayed(dat.delay);
             else
-                audio.Play();
+                GetComponent<AudioSource>().Play();
 
             if(!mSoundActive)
                 StartCoroutine(DoSounds());

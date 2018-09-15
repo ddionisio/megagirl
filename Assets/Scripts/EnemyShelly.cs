@@ -156,7 +156,7 @@ public class EnemyShelly : Enemy {
                     Vector3 nearestDPos = Vector3.up;
                     for(int i = 0, max = gos.Length; i < max; i++) {
                         if(gos[i].activeSelf) {
-                            Vector3 colPos = gos[i].collider ? gos[i].collider.bounds.center : gos[i].transform.position;
+                            Vector3 colPos = gos[i].GetComponent<Collider>() ? gos[i].GetComponent<Collider>().bounds.center : gos[i].transform.position;
                             Vector3 dpos = colPos - pos;
                             float distSqr = dpos.sqrMagnitude;
                             if(distSqr > 0.0f && distSqr < nearestDistSqr) {

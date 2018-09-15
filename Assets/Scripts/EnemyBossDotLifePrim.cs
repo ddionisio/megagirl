@@ -216,12 +216,12 @@ public class EnemyBossDotLifePrim : Enemy {
         while(true) {
             curT += Time.fixedDeltaTime; 
             if(curT >= delay) {
-                rigidbody.MovePosition(chargePos);
+                GetComponent<Rigidbody>().MovePosition(chargePos);
                 break;
             }
             else {
                 float t = Holoville.HOTween.Core.Easing.Sine.EaseInOut(curT, 0.0f, 1.0f, delay, 0, 0);
-                rigidbody.MovePosition(Vector3.Lerp(pos, chargePos, t));
+                GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(pos, chargePos, t));
             }
 
             yield return wait;
@@ -242,12 +242,12 @@ public class EnemyBossDotLifePrim : Enemy {
         while(true) {
             curT += Time.fixedDeltaTime; 
             if(curT >= delay) {
-                rigidbody.MovePosition(chargeDest);
+                GetComponent<Rigidbody>().MovePosition(chargeDest);
                 break;
             }
             else {
                 float t = Holoville.HOTween.Core.Easing.Cubic.EaseOut(curT, 0.0f, 1.0f, delay, 0, 0);
-                rigidbody.MovePosition(Vector3.Lerp(chargePos, chargeDest, t));
+                GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(chargePos, chargeDest, t));
             }
             
             yield return wait;
@@ -274,12 +274,12 @@ public class EnemyBossDotLifePrim : Enemy {
         while(true) {
             curT += Time.fixedDeltaTime; 
             if(curT >= delay) {
-                rigidbody.MovePosition(dropDest);
+                GetComponent<Rigidbody>().MovePosition(dropDest);
                 break;
             }
             else {
                 float t = Holoville.HOTween.Core.Easing.Cubic.EaseIn(curT, 0.0f, 1.0f, delay, 0, 0);
-                rigidbody.MovePosition(Vector3.Lerp(pos, dropDest, t));
+                GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(pos, dropDest, t));
             }
             
             yield return wait;
@@ -304,12 +304,12 @@ public class EnemyBossDotLifePrim : Enemy {
         while(true) {
             curT += Time.fixedDeltaTime; 
             if(curT >= delay) {
-                rigidbody.MovePosition(moveBackDest);
+                GetComponent<Rigidbody>().MovePosition(moveBackDest);
                 break;
             }
             else {
                 float t = Holoville.HOTween.Core.Easing.Sine.EaseInOut(curT, 0.0f, 1.0f, delay, 0, 0);
-                rigidbody.MovePosition(Vector3.Lerp(pos, moveBackDest, t));
+                GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(pos, moveBackDest, t));
             }
             
             yield return wait;
@@ -356,12 +356,12 @@ public class EnemyBossDotLifePrim : Enemy {
                 //move
                 curMoveTime += Time.fixedDeltaTime; 
                 if(curMoveTime >= delay) {
-                    rigidbody.MovePosition(ePos);
+                    GetComponent<Rigidbody>().MovePosition(ePos);
                     break;
                 }
                 else {
                     float t = Holoville.HOTween.Core.Easing.Sine.EaseInOut(curMoveTime, 0.0f, 1.0f, delay, 0, 0);
-                    rigidbody.MovePosition(Vector3.Lerp(sPos, ePos, t));
+                    GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(sPos, ePos, t));
                 }
 
                 yield return wait;

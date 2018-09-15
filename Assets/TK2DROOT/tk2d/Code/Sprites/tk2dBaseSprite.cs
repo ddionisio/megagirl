@@ -145,7 +145,7 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 	Renderer CachedRenderer {
 		get {
 			if (_cachedRenderer == null) {
-				_cachedRenderer = renderer;
+				_cachedRenderer = GetComponent<Renderer>();
 			}
 			return _cachedRenderer;
 		}
@@ -317,7 +317,7 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 		}
 		else if (Camera.main)
 		{
-			if (Camera.main.isOrthoGraphic)
+			if (Camera.main.orthographic)
 			{
 				s = Camera.main.orthographicSize;
 			}
@@ -591,7 +591,7 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 					if (!boxCollider2D.enabled) {
 						boxCollider2D.enabled = true;
 					}
-					boxCollider2D.center = new Vector2(sprite.colliderVertices[0].x * _scale.x, sprite.colliderVertices[0].y * _scale.y);
+					boxCollider2D.offset = new Vector2(sprite.colliderVertices[0].x * _scale.x, sprite.colliderVertices[0].y * _scale.y);
 					boxCollider2D.size = new Vector2(Mathf.Abs(2 * sprite.colliderVertices[1].x * _scale.x), Mathf.Abs(2 * sprite.colliderVertices[1].y * _scale.y));
 				}
 				else if (sprite.colliderType == tk2dSpriteDefinition.ColliderType.Mesh)
@@ -705,7 +705,7 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 
 		if (sprite.physicsEngine == tk2dSpriteDefinition.PhysicsEngine.Physics3D) {
 			// User has created a collider
-			if (collider != null)
+			if (GetComponent<Collider>() != null)
 			{
 				boxCollider = GetComponent<BoxCollider>();
 				meshCollider = GetComponent<MeshCollider>();
@@ -741,7 +741,7 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 				meshCollider.smoothSphereCollisions = sprite.colliderSmoothSphereCollisions;
 				
 				// this is required so our mesh pivot is at the right point
-				if (rigidbody) rigidbody.centerOfMass = Vector3.zero;
+				if (GetComponent<Rigidbody>()) GetComponent<Rigidbody>().centerOfMass = Vector3.zero;
 			}
 			else if (sprite.colliderType != tk2dSpriteDefinition.ColliderType.None)
 			{
@@ -775,13 +775,13 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 		if (sprite.colliderType == tk2dSpriteDefinition.ColliderType.Unset)
 			return;
 		
-		PhysicMaterial physicsMaterial = collider?collider.sharedMaterial:null;
-		bool isTrigger = collider?collider.isTrigger:false;
+		PhysicMaterial physicsMaterial = GetComponent<Collider>()?GetComponent<Collider>().sharedMaterial:null;
+		bool isTrigger = GetComponent<Collider>()?GetComponent<Collider>().isTrigger:false;
 
 #if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
-		PhysicsMaterial2D physicsMaterial2D = collider2D?collider2D.sharedMaterial:null;
-		if (collider2D != null) {
-			isTrigger = collider2D.isTrigger;
+		PhysicsMaterial2D physicsMaterial2D = GetComponent<Collider2D>()?GetComponent<Collider2D>().sharedMaterial:null;
+		if (GetComponent<Collider2D>() != null) {
+			isTrigger = GetComponent<Collider2D>().isTrigger;
 		}
 #endif
 
@@ -868,10 +868,10 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 
 		CreateCollider();
 		
-		if (collider)
+		if (GetComponent<Collider>())
 		{
-			collider.isTrigger = isTrigger;
-			collider.material = physicsMaterial;
+			GetComponent<Collider>().isTrigger = isTrigger;
+			GetComponent<Collider>().material = physicsMaterial;
 		}
 
 #if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
@@ -908,7 +908,7 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 
 #if UNITY_EDITOR
 	private void OnEnable() {
-		if (renderer != null && Collection != null && renderer.sharedMaterial == null && Collection.inst.needMaterialInstance) {
+		if (GetComponent<Renderer>() != null && Collection != null && GetComponent<Renderer>().sharedMaterial == null && Collection.inst.needMaterialInstance) {
 			ForceBuild();
 		}
 	}

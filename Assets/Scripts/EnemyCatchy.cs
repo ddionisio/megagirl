@@ -135,7 +135,7 @@ public class EnemyCatchy : Enemy {
 
         if(deadInd != -1) {
             buddies[deadInd].SetActive(false);
-            Vector3 pt = buddies[deadInd].collider.bounds.center;
+            Vector3 pt = buddies[deadInd].GetComponent<Collider>().bounds.center;
             pt.z = 0.0f;
             PoolController.Spawn(deathSpawnGroup, mDeathSpawnType, mDeathSpawnType, null, pt, Quaternion.identity);
         }
@@ -175,7 +175,7 @@ public class EnemyCatchy : Enemy {
 
                     for(int i = 0; i < buddies.Length; i++) {
                         Vector3 r = buddies[i].transform.right;
-                        Vector3 pos = buddies[i].collider.bounds.center; pos.z = 0.0f;
+                        Vector3 pos = buddies[i].GetComponent<Collider>().bounds.center; pos.z = 0.0f;
                         if(Physics.Raycast(pos, r, out hit, chaseCheckLength, chaseCheckMask)) {
                             if(hit.collider.CompareTag("Player")) {
                                 animTimeScale = chaseTimeScale;

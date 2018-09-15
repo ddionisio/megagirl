@@ -21,7 +21,7 @@ public class ProjectileStarBounce : Projectile {
                     mAttachBody = value;
                     mAttachBody.transform.position = transform.localToWorldMatrix.MultiplyPoint(attachOfs);
                     mAttachBodyJoint = mAttachBody.gameObject.AddComponent<FixedJoint>();
-                    mAttachBodyJoint.connectedBody = rigidbody;
+                    mAttachBodyJoint.connectedBody = GetComponent<Rigidbody>();
                 }
                 else
                     mAttachBody = null;

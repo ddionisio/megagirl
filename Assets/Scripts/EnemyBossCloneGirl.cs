@@ -224,13 +224,13 @@ public class EnemyBossCloneGirl : Enemy {
                     else {
                         //check if player is within y range
                         RaycastHit hit;
-                        if(Physics.SphereCast(collider.bounds.center, fearCheckRadius, Vector3.left, out hit, fearCheckDist, fearCheckMask)
-                           || Physics.SphereCast(collider.bounds.center, fearCheckRadius, Vector3.right, out hit, fearCheckDist, fearCheckMask)) {
+                        if(Physics.SphereCast(GetComponent<Collider>().bounds.center, fearCheckRadius, Vector3.left, out hit, fearCheckDist, fearCheckMask)
+                           || Physics.SphereCast(GetComponent<Collider>().bounds.center, fearCheckRadius, Vector3.right, out hit, fearCheckDist, fearCheckMask)) {
                             if(Time.fixedTime - mLastMoveTime > moveWaitDelay) {
                                 mLastMoveTime = Time.fixedTime;
 
                                 shaker.enabled = false;
-                                mLastMoveSide = bodyCtrl.moveSide = -Mathf.Sign(hit.point.x - collider.bounds.center.x);
+                                mLastMoveSide = bodyCtrl.moveSide = -Mathf.Sign(hit.point.x - GetComponent<Collider>().bounds.center.x);
                             }
                         }
                         else {
@@ -295,7 +295,7 @@ public class EnemyBossCloneGirl : Enemy {
 
     void OnBodySpriteAnimEnd(PlatformerSpriteController ctrl, tk2dSpriteAnimationClip clip) {
         if(clip.name == castClip) {
-            Vector3 pos = collider.bounds.center; pos.z = 0.0f;
+            Vector3 pos = GetComponent<Collider>().bounds.center; pos.z = 0.0f;
             Quaternion rot = Quaternion.AngleAxis(360.0f/((float)castProjCount), Vector3.forward);
             Vector3 dir = Quaternion.AngleAxis(360.0f*Random.value, Vector3.forward)*Vector3.up;
 
@@ -419,7 +419,7 @@ public class EnemyBossCloneGirl : Enemy {
 
         if(fearCheckRadius > 0.0f) {
             Gizmos.color = Color.cyan*0.5f;
-            Gizmos.DrawWireSphere(collider.bounds.center, fearCheckRadius);
+            Gizmos.DrawWireSphere(GetComponent<Collider>().bounds.center, fearCheckRadius);
         }
     }
 }

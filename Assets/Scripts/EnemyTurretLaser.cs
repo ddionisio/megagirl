@@ -206,7 +206,7 @@ public class EnemyTurretLaser : Enemy {
         while((EntityState)state == EntityState.Normal) {
             yield return updateWait;
 
-            Vector3 playerPos = Player.instance.collider.bounds.center;
+            Vector3 playerPos = Player.instance.GetComponent<Collider>().bounds.center;
             Vector3 delt = playerPos - transform.position; delt.z = 0;
             delt.Normalize();
 

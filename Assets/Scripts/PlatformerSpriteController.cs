@@ -294,7 +294,7 @@ public class PlatformerSpriteController : MonoBehaviour {
             return;
 
         if(mAnimVelocitySpeedEnabled) {
-            float spd = controller.rigidbody.velocity.magnitude;
+            float spd = controller.GetComponent<Rigidbody>().velocity.magnitude;
             anim.ClipFps = spd > minSpeed ? spd * framePerMeter : 0.0f;
         }
 

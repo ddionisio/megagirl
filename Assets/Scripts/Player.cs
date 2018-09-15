@@ -246,9 +246,9 @@ public class Player : EntityBase {
                     SetSlide(false);
 
                     mCtrl.enabled = false;
-                    rigidbody.isKinematic = true;
-                    rigidbody.detectCollisions = false;
-                    collider.enabled = false;
+                    GetComponent<Rigidbody>().isKinematic = true;
+                    GetComponent<Rigidbody>().detectCollisions = false;
+                    GetComponent<Collider>().enabled = false;
 
                     //disable all input
                     inputEnabled = false;
@@ -454,7 +454,7 @@ public class Player : EntityBase {
 
         mCtrlSpr.clipFinishCallback += OnSpriteCtrlOneTimeClipEnd;
 
-        mCapsuleColl = collider as CapsuleCollider;
+        mCapsuleColl = GetComponent<Collider>() as CapsuleCollider;
         mDefaultColliderCenter = mCapsuleColl.center;
         mDefaultColliderHeight = mCapsuleColl.height;
 
@@ -523,7 +523,7 @@ public class Player : EntityBase {
     }
 
     void OnTriggerExit(Collider col) {
-        if(mFireFSM && col == mFireFSM.collider) {
+        if(mFireFSM && col == mFireFSM.GetComponent<Collider>()) {
             mFireFSM = null;
         }
     }
@@ -796,17 +796,17 @@ public class Player : EntityBase {
                     if(clearVelocity) {
                         mCtrl.moveSide = 0.0f;
 
-                        if(!rigidbody.isKinematic) {
-                            Vector3 v = rigidbody.velocity; v.x = 0.0f; v.z = 0.0f;
-                            rigidbody.velocity = v;
+                        if(!GetComponent<Rigidbody>().isKinematic) {
+                            Vector3 v = GetComponent<Rigidbody>().velocity; v.x = 0.0f; v.z = 0.0f;
+                            GetComponent<Rigidbody>().velocity = v;
                         }
                     }
                     else {
                         //limit x velocity
-                        Vector3 v = rigidbody.velocity;
+                        Vector3 v = GetComponent<Rigidbody>().velocity;
                         if(Mathf.Abs(v.x) > 12.0f) {
                             v.x = Mathf.Sign(v.x) * 12.0f;
-                            rigidbody.velocity = v;
+                            GetComponent<Rigidbody>().velocity = v;
                         }
                     }
 

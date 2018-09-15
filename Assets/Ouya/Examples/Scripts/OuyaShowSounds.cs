@@ -72,7 +72,7 @@ public class OuyaShowSounds : MonoBehaviour,
         GUILayout.Space(400);
         if (GUILayout.Button("Play MP3", GUILayout.MinHeight(40)))
         {
-            audio.PlayOneShot(m_soundMP3, 100);
+            GetComponent<AudioSource>().PlayOneShot(m_soundMP3, 100);
         }
         GUILayout.EndHorizontal();
         GUILayout.Label(string.Empty);
@@ -81,7 +81,7 @@ public class OuyaShowSounds : MonoBehaviour,
         GUILayout.Space(400);
         if (GUILayout.Button("Play OGG", GUILayout.MinHeight(40)))
         {
-            audio.PlayOneShot(m_soundOGG, 100);
+            GetComponent<AudioSource>().PlayOneShot(m_soundOGG, 100);
         }
         GUILayout.EndHorizontal();
         GUILayout.Label(string.Empty);
@@ -90,7 +90,7 @@ public class OuyaShowSounds : MonoBehaviour,
         GUILayout.Space(400);
         if (GUILayout.Button("Play Wave", GUILayout.MinHeight(40)))
         {
-            audio.PlayOneShot(m_soundWAV, 100);
+            GetComponent<AudioSource>().PlayOneShot(m_soundWAV, 100);
         }
         GUILayout.EndHorizontal();
         GUILayout.Label(string.Empty);

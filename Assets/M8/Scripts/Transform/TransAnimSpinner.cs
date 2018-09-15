@@ -29,7 +29,7 @@ public class TransAnimSpinner : MonoBehaviour {
 
     // Use this for initialization
     void Awake() {
-        mBody = rigidbody;
+        mBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame

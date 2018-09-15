@@ -52,7 +52,7 @@ public class EnemyJumpNShootSimple : Enemy {
         nearDistSqr = Mathf.Infinity;
         Transform nearT = null;
 
-        Vector3 p = collider.bounds.center;
+        Vector3 p = GetComponent<Collider>().bounds.center;
         for(int i = 0, max = mPlayers.Length; i < max; i++) {
             if(mPlayers[i] && mPlayers[i].activeSelf) {
                 Transform t = mPlayers[i].transform;
@@ -134,9 +134,9 @@ public class EnemyJumpNShootSimple : Enemy {
     protected override void OnDrawGizmosSelected() {
         base.OnDrawGizmosSelected();
 
-        if(shootRange > 0 && collider != null) {
+        if(shootRange > 0 && GetComponent<Collider>() != null) {
             Gizmos.color = Color.blue*0.5f;
-            Gizmos.DrawWireSphere(collider.bounds.center, shootRange);
+            Gizmos.DrawWireSphere(GetComponent<Collider>().bounds.center, shootRange);
         }
     }
 }

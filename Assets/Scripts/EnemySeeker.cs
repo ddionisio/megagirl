@@ -32,8 +32,8 @@ public class EnemySeeker : Enemy {
                     InvokeRepeating("UpdateDelay", updateDelay, updateDelay);
 
                 //set starting dir
-                Vector3 playerPos = Player.instance.collider.bounds.center;
-                Vector3 dPos = playerPos - collider.bounds.center; dPos.z = 0;
+                Vector3 playerPos = Player.instance.GetComponent<Collider>().bounds.center;
+                Vector3 dPos = playerPos - GetComponent<Collider>().bounds.center; dPos.z = 0;
                 mDirCur = dPos.normalized;
                 mDirAngle = mDirAngleDest = 0.0f;
                 mDirAngleVel = 0.0f;
@@ -57,13 +57,13 @@ public class EnemySeeker : Enemy {
                     }
                 }
 
-                float spdSqr = rigidbody.velocity.sqrMagnitude;
+                float spdSqr = GetComponent<Rigidbody>().velocity.sqrMagnitude;
                 if(spdSqr < speedMax * speedMax) {
-                    rigidbody.AddForce(dir * force);
+                    GetComponent<Rigidbody>().AddForce(dir * force);
                 }
-                else if(Vector3.Angle(rigidbody.velocity, dir) > 30.0f) {
-                    rigidbody.velocity = rigidbody.velocity.normalized * speedMax;
-                    rigidbody.AddForce(dir * force);
+                else if(Vector3.Angle(GetComponent<Rigidbody>().velocity, dir) > 30.0f) {
+                    GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * speedMax;
+                    GetComponent<Rigidbody>().AddForce(dir * force);
                 }
                 break;
         }
@@ -72,7 +72,7 @@ public class EnemySeeker : Enemy {
     void UpdateDelay() {
         switch((EntityState)state) {
             case EntityState.Normal:
-                Vector3 pos = collider.bounds.center;
+                Vector3 pos = GetComponent<Collider>().bounds.center;
                 Collider[] cols = Physics.OverlapSphere(pos, seekRadius, seekMask);
                 if(cols.Length > 0) {
                     float nearestDistSqr = Mathf.Infinity;
@@ -100,7 +100,7 @@ public class EnemySeeker : Enemy {
 
         if(seekRadius > 0) {
             Gizmos.color = Color.cyan * 0.5f;
-            Gizmos.DrawWireSphere(transform.collider.bounds.center, seekRadius);
+            Gizmos.DrawWireSphere(transform.GetComponent<Collider>().bounds.center, seekRadius);
         }
     }
 }

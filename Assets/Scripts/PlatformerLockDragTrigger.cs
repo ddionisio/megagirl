@@ -24,7 +24,7 @@ public class PlatformerLockDragTrigger : MonoBehaviour {
         if(ctrl) {
             if(mCurColCount < maxCols) {
                 ctrl.lockDragOverrideCount++;
-                ctrl.rigidbody.drag = drag;
+                ctrl.GetComponent<Rigidbody>().drag = drag;
                 mCtrls[mCurColCount] = ctrl;
                 mCurColCount++;
             }
@@ -53,7 +53,7 @@ public class PlatformerLockDragTrigger : MonoBehaviour {
 
     void OnTriggerExit(Collider col) {
         for(int i = 0; i < mCurColCount; i++) {
-            if(mCtrls[i].collider == col) {
+            if(mCtrls[i].GetComponent<Collider>() == col) {
                 mCtrls[i].lockDragOverrideCount--;
 
                 if(mCurColCount > 1) {

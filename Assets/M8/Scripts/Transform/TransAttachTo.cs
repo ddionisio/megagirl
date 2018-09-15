@@ -23,8 +23,8 @@ public class TransAttachTo : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if(target != null) {
-            if(collider != null) {
-                Vector3 ofs = transform.worldToLocalMatrix.MultiplyPoint(collider.bounds.center);
+            if(GetComponent<Collider>() != null) {
+                Vector3 ofs = transform.worldToLocalMatrix.MultiplyPoint(GetComponent<Collider>().bounds.center);
 
                 transform.position = target.localToWorldMatrix.MultiplyPoint(offset - ofs);
             }

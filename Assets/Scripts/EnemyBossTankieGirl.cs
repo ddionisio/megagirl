@@ -163,7 +163,7 @@ public class EnemyBossTankieGirl : Enemy {
 
                 mMoveToTarget.enabled = false;
 
-                bodyCtrl.rigidbody.isKinematic = false;
+                bodyCtrl.GetComponent<Rigidbody>().isKinematic = false;
                 bodyCtrl.enabled = true;
                 bodyCtrl.moveEnabled = true;
                 gravityCtrl.enabled = true;
@@ -185,7 +185,7 @@ public class EnemyBossTankieGirl : Enemy {
             case Phase.Dead:
                 mMoveToTarget.enabled = false;
 
-                bodyCtrl.rigidbody.isKinematic = false;
+                bodyCtrl.GetComponent<Rigidbody>().isKinematic = false;
                 bodyCtrl.enabled = true;
                 gravityCtrl.enabled = true;
                 bodySpriteCtrl.controller = bodyCtrl;
@@ -209,7 +209,7 @@ public class EnemyBossTankieGirl : Enemy {
 
         tank.setStateCallback += OnTankStateChanged;
 
-        bodyCtrl.rigidbody.isKinematic = true;
+        bodyCtrl.GetComponent<Rigidbody>().isKinematic = true;
         bodyCtrl.enabled = false;
         gravityCtrl.enabled = false;
     }
@@ -227,7 +227,7 @@ public class EnemyBossTankieGirl : Enemy {
     void Update() {
         switch(mCurPhase) {
             case Phase.MoveNoTank:
-                Vector3 pt = bodyCtrl.collider.bounds.center;
+                Vector3 pt = bodyCtrl.GetComponent<Collider>().bounds.center;
                 Vector3 curMPt = movePts[mCurMovePtInd].position;
                 float dX = curMPt.x - pt.x;
                 if(Mathf.Abs(dX) <= 0.1f) {
@@ -331,7 +331,7 @@ public class EnemyBossTankieGirl : Enemy {
         } while(seekerAnimDat.isPlaying);
 
         //move to a far spot away from player
-        Vector3 playerPos = mPlayer.collider.bounds.center;
+        Vector3 playerPos = mPlayer.GetComponent<Collider>().bounds.center;
         
         float farthestX = 0;
         float farthestDistSq = 0;
@@ -345,19 +345,19 @@ public class EnemyBossTankieGirl : Enemy {
         }
         
         //move till we are close
-        while(Mathf.Abs(farthestX - collider.bounds.center.x) > 0.1f) {
-            if(tank.bodyCtrl.moveSide == 0.0f || Mathf.Abs(tank.bodyCtrl.rigidbody.velocity.x) > 2.0f)
-                tank.bodyCtrl.moveSide = Mathf.Sign(farthestX - collider.bounds.center.x);
+        while(Mathf.Abs(farthestX - GetComponent<Collider>().bounds.center.x) > 0.1f) {
+            if(tank.bodyCtrl.moveSide == 0.0f || Mathf.Abs(tank.bodyCtrl.GetComponent<Rigidbody>().velocity.x) > 2.0f)
+                tank.bodyCtrl.moveSide = Mathf.Sign(farthestX - GetComponent<Collider>().bounds.center.x);
             yield return waitUpdate;
         }
 
         tank.bodyCtrl.moveSide = 0.0f;
-        tank.bodyCtrl.rigidbody.velocity = Vector3.zero;
+        tank.bodyCtrl.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         //fire stuff
         for(int i = 0; i < seekerCount; i++) {
             //face player
-            float sign = Mathf.Sign(mPlayer.collider.bounds.center.x - collider.bounds.center.x);
+            float sign = Mathf.Sign(mPlayer.GetComponent<Collider>().bounds.center.x - GetComponent<Collider>().bounds.center.x);
             tankSpriteFlip.SetFlip(sign < 0.0f);
             bodySpriteCtrl.isLeft = sign < 0.0f;
 
@@ -385,17 +385,17 @@ public class EnemyBossTankieGirl : Enemy {
         WaitForSeconds waitFireDelay = new WaitForSeconds(seekerFireDelay);
 
         tank.bodyCtrl.moveSide = 0.0f;
-        tank.bodyCtrl.rigidbody.velocity = Vector3.zero;
+        tank.bodyCtrl.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         //face player
-        float sign = Mathf.Sign(mPlayer.collider.bounds.center.x - collider.bounds.center.x);
+        float sign = Mathf.Sign(mPlayer.GetComponent<Collider>().bounds.center.x - GetComponent<Collider>().bounds.center.x);
         tankSpriteFlip.SetFlip(sign < 0.0f);
         bodySpriteCtrl.isLeft = sign < 0.0f;
 
         //play particle ready and wait
         cannonParticleReady.Play();
         while(cannonParticleReady.isPlaying || !tank.bodyCtrl.isGrounded) {
-            sign = Mathf.Sign(mPlayer.collider.bounds.center.x - collider.bounds.center.x);
+            sign = Mathf.Sign(mPlayer.GetComponent<Collider>().bounds.center.x - GetComponent<Collider>().bounds.center.x);
             tankSpriteFlip.SetFlip(sign < 0.0f);
             bodySpriteCtrl.isLeft = sign < 0.0f;
 

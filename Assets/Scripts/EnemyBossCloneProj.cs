@@ -57,8 +57,8 @@ public class EnemyBossCloneProj : Projectile {
 
         shaker.enabled = false;
 
-        rigidbody.detectCollisions = true;
-        collider.enabled = true;
+        GetComponent<Rigidbody>().detectCollisions = true;
+        GetComponent<Collider>().enabled = true;
     }
 
     protected override void Awake() {
@@ -82,8 +82,8 @@ public class EnemyBossCloneProj : Projectile {
 
         mPlayer = Player.instance;
 
-        rigidbody.detectCollisions = true;
-        collider.enabled = true;
+        GetComponent<Rigidbody>().detectCollisions = true;
+        GetComponent<Collider>().enabled = true;
     }
 
     protected override void FixedUpdate() {
@@ -102,8 +102,8 @@ public class EnemyBossCloneProj : Projectile {
 
                 if(mCtrl.isWallStick) {
                     if(Time.fixedTime - mCtrl.wallStickLastTime > 0.15f) {
-                        Vector3 playerMin = mPlayer.collider.bounds.min;
-                        Vector3 bMax = collider.bounds.max;
+                        Vector3 playerMin = mPlayer.GetComponent<Collider>().bounds.min;
+                        Vector3 bMax = GetComponent<Collider>().bounds.max;
 
                         if(playerMin.y > bMax.y) {
                             mCtrl.Jump(false);
@@ -118,8 +118,8 @@ public class EnemyBossCloneProj : Projectile {
                 else {
                     if(mCtrl.isGrounded && !mCtrl.isJump && Time.fixedTime - mLastJumpTime > 1.0f) {
                         //if higher, jump
-                        Vector3 playerMin = mPlayer.collider.bounds.min;
-                        Vector3 bMax = collider.bounds.max;
+                        Vector3 playerMin = mPlayer.GetComponent<Collider>().bounds.min;
+                        Vector3 bMax = GetComponent<Collider>().bounds.max;
                         if(playerMin.y > bMax.y) {
                             mCtrl.Jump(false);
                             mCtrl.Jump(true);

@@ -127,7 +127,7 @@ public class OuyaShowDrumkit : MonoBehaviour,
         note.EndTime = DateTime.Now + TimeSpan.FromMilliseconds(NoteTimeToLive);
         note.Parent = item;
         note.Instance = (GameObject)Instantiate(item.StartPosition);
-        (note.Instance.renderer as MeshRenderer).material.color = item.LaneColor;
+        (note.Instance.GetComponent<Renderer>() as MeshRenderer).material.color = item.LaneColor;
         Notes.Add(note);
     }
 
@@ -222,11 +222,11 @@ public class OuyaShowDrumkit : MonoBehaviour,
             }
             else if (inRange)
             {
-                (note.Instance.renderer as MeshRenderer).material.color = Color.white;
+                (note.Instance.GetComponent<Renderer>() as MeshRenderer).material.color = Color.white;
             }
             else if (afterRange)
             {
-                (note.Instance.renderer as MeshRenderer).material.color = new Color(0, 0, 0, 0.75f);
+                (note.Instance.GetComponent<Renderer>() as MeshRenderer).material.color = new Color(0, 0, 0, 0.75f);
                 if (!note.NoteHit)
                 {
                     note.Parent.FadeDelay = DateTime.Now;
@@ -241,7 +241,7 @@ public class OuyaShowDrumkit : MonoBehaviour,
                     continue;
                 }
                 elapsed = (float)(note.FadeTime - DateTime.Now).TotalMilliseconds;
-                (note.Instance.renderer as MeshRenderer).material.color = Color.Lerp(note.Parent.LaneColor, Color.clear, 1f - elapsed / (float)NoteTimeToFade);
+                (note.Instance.GetComponent<Renderer>() as MeshRenderer).material.color = Color.Lerp(note.Parent.LaneColor, Color.clear, 1f - elapsed / (float)NoteTimeToFade);
                 note.Instance.transform.localScale = Vector3.Lerp(note.Instance.transform.localScale, note.Parent.StartPosition.transform.localScale * 2, elapsed / (float)NoteTimeToFade);
 
             }

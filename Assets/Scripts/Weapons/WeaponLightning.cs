@@ -212,7 +212,7 @@ public class WeaponLightning : Weapon {
                 }
                 else {
                     reticle.SetActive(true);
-                    reticle.transform.position = Player.instance.collider.bounds.center;
+                    reticle.transform.position = Player.instance.GetComponent<Collider>().bounds.center;
 
                     targetSfx.Play();
                 }

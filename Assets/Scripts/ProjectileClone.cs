@@ -42,10 +42,10 @@ public class ProjectileClone : Projectile {
         if(Time.fixedTime - mLastDirChangeTime > dirChangeDelay) {
             Vector3 destPos;
 
-            Collider[] seekCols = Physics.OverlapSphere(collider.bounds.center, seekRadius, seekContactMask);
+            Collider[] seekCols = Physics.OverlapSphere(GetComponent<Collider>().bounds.center, seekRadius, seekContactMask);
 
             if(seekCols.Length > 0) {
-                Bounds b = collider.bounds;
+                Bounds b = GetComponent<Collider>().bounds;
 
                 //get nearest
                 Collider nearestCol = null;
@@ -66,16 +66,16 @@ public class ProjectileClone : Projectile {
             }
             else {
                 Player player = Player.instance;
-                Vector3 playerVel = player.rigidbody.velocity;
-                destPos = player.collider.bounds.center + playerVel.normalized*playerVelocityDist;
+                Vector3 playerVel = player.GetComponent<Rigidbody>().velocity;
+                destPos = player.GetComponent<Collider>().bounds.center + playerVel.normalized*playerVelocityDist;
             }
 
-            mActiveForce = (destPos - collider.bounds.center).normalized*force;
+            mActiveForce = (destPos - GetComponent<Collider>().bounds.center).normalized*force;
 
             mLastDirChangeTime = Time.fixedTime;
         }
 
-        rigidbody.AddForce(mActiveForce * mMoveScale);
+        GetComponent<Rigidbody>().AddForce(mActiveForce * mMoveScale);
     }
 
     void DoBlink() {

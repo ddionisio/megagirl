@@ -27,7 +27,7 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
         private float mLastFallSnapSpeed;
 
         public PlatformerController ctrl { get { return mCtrl; } }
-        public Collider collider { get { return mCtrl ? mCtrl.collider : null; } }
+        public Collider collider { get { return mCtrl ? mCtrl.GetComponent<Collider>() : null; } }
         public float lastJumpDelay { get { return mLastJumpDelay; } }
 
         public float lastFallSnapSpeedMin { get { return mLastFallSnapSpeedMin; } }
@@ -44,7 +44,7 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
                 PlatformerJumpSettingTrigger pt = col.GetComponent<PlatformerJumpSettingTrigger>();
                 if(pt) {
                     foreach(PlatformerJumpSettingTrigger.Data dat in pt.mCtrls) {
-                        if(dat.collider == aCtrl.collider) {
+                        if(dat.collider == aCtrl.GetComponent<Collider>()) {
                             mLastJumpDelay = dat.mLastJumpDelay;
                             mLastFallSnapSpeedMin = dat.mLastFallSnapSpeedMin;
                             mLastFallSnapSpeed = dat.mLastFallSnapSpeed;
@@ -95,7 +95,7 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
     
     void OnDisable() {
         for(int i = 0; i < mCurColCount; i++) {
-            mCtrls[i].Revert(collider, info);
+            mCtrls[i].Revert(GetComponent<Collider>(), info);
         }
         
         mCurColCount = 0;
@@ -105,7 +105,7 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
         PlatformerController ctrl = col.GetComponent<PlatformerController>();
         if(ctrl && M8.ArrayUtil.Contains(tags, col.tag)) {
             if(mCurColCount < maxCols) {
-                mCtrls[mCurColCount].Apply(collider, info, ctrl);
+                mCtrls[mCurColCount].Apply(GetComponent<Collider>(), info, ctrl);
 
                 if(mCurColCount == 0 && !string.IsNullOrEmpty(spawnGrp) && !string.IsNullOrEmpty(spawnType)) {
                     PoolController.Spawn(spawnGrp, spawnType, spawnType, null, col.transform.position, Quaternion.identity);
@@ -123,7 +123,7 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
         int ind = -1;
         for(int i = 0; i < mCurColCount; i++) {
             if(mCtrls[i].collider == col) {
-                mCtrls[i].Refresh(collider, info);
+                mCtrls[i].Refresh(GetComponent<Collider>(), info);
                 ind = i;
                 break;
             }
@@ -137,7 +137,7 @@ public class PlatformerJumpSettingTrigger : MonoBehaviour {
     void OnTriggerExit(Collider col) {
         for(int i = 0; i < mCurColCount; i++) {
             if(mCtrls[i].collider == col) {
-                mCtrls[i].Revert(collider, info);
+                mCtrls[i].Revert(GetComponent<Collider>(), info);
                 
                 if(mCurColCount > 1) {
                     mCtrls[i] = mCtrls[mCurColCount - 1];

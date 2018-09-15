@@ -160,7 +160,7 @@ public class EnemyPathChasey : Enemy {
                     
                     RaycastHit hit;
                     Vector3 r = transform.right;
-                    Vector3 pos = collider.bounds.center; pos.z = 0.0f;
+                    Vector3 pos = GetComponent<Collider>().bounds.center; pos.z = 0.0f;
                     if((Physics.Raycast(pos, r, out hit, chaseCheckLength, chaseCheckMask) && hit.collider.CompareTag("Player"))
                        || (Physics.Raycast(pos, -r, out hit, chaseCheckLength, chaseCheckMask) && hit.collider.CompareTag("Player"))) {
                         animTimeScale = chaseTimeScale;

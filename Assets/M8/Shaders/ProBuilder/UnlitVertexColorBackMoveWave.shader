@@ -1,4 +1,6 @@
-﻿Shader "M8/ProBuilder/Unlit Vertex Color BackMoveWave" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "M8/ProBuilder/Unlit Vertex Color BackMoveWave" {
   Properties {
     _MainTex ("Texture", 2D) = "white" {}
 	_Mod ("Mod", Color) = (1,1,1,1)
@@ -60,7 +62,7 @@
 		v2f_vct vert_vct(vin_vct v)
 		{
 			v2f_vct o;
-			o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+			o.vertex = UnityObjectToClipPos(v.vertex);
 			o.color = v.color;
 			o.texcoord = float2(
 			v.texcoord.x + sin(v.texcoord.y*rangeY + speedX*_Time.y)*amplitudeX,
@@ -104,7 +106,7 @@
 		v2f_vct vert_vct(vin_vct v)
 		{
 			v2f_vct o;
-			o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+			o.vertex = UnityObjectToClipPos(v.vertex);
 			o.color = v.color;
 			o.texcoord = v.texcoord;
 			return o;

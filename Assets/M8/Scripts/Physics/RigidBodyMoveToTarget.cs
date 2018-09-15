@@ -23,7 +23,7 @@ public class RigidBodyMoveToTarget : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if(!Application.isPlaying && target != null) {
-            Collider col = thisCollider != null ? thisCollider : collider;
+            Collider col = thisCollider != null ? thisCollider : GetComponent<Collider>();
             if(col != null) {
                 Vector3 ofs = transform.worldToLocalMatrix.MultiplyPoint(col.bounds.center);
 
@@ -59,9 +59,9 @@ public class RigidBodyMoveToTarget : MonoBehaviour {
 
     void Awake() {
         if(thisCollider == null)
-            thisCollider = collider;
+            thisCollider = GetComponent<Collider>();
 
-        mBody = rigidbody;
+        mBody = GetComponent<Rigidbody>();
 
         mRotQ = Quaternion.Euler(rotOfs);
         mCenter = transform.worldToLocalMatrix.MultiplyPoint3x4(thisCollider.bounds.center);

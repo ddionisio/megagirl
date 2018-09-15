@@ -12,11 +12,11 @@ public class MaterialProperty : MonoBehaviour {
         set {
             mMod = value;
             if(Application.isPlaying)
-                renderer.material.SetFloat("_Mod", value); 
+                GetComponent<Renderer>().material.SetFloat("_Mod", value); 
         }
     }
 
     void Awake() {
-        mMod = renderer.sharedMaterial.GetFloat("_Mod");
+        mMod = GetComponent<Renderer>().sharedMaterial.GetFloat("_Mod");
     }
 }

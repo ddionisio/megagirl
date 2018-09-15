@@ -130,7 +130,7 @@ namespace tk2dRuntime.TileMap
 			if (subMeshCount > 0)
 			{
 				chunk.mesh.subMeshCount = subMeshCount;
-				chunk.gameObject.renderer.materials = materials.ToArray();
+				chunk.gameObject.GetComponent<Renderer>().materials = materials.ToArray();
 				int subMeshId = 0;
 				foreach (var indices in meshIndices)
 				{
@@ -195,7 +195,7 @@ namespace tk2dRuntime.TileMap
 
 #if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
 							if (chunk.gameObject != null && useSortingLayer) {
-								Renderer r = chunk.gameObject.renderer;
+								Renderer r = chunk.gameObject.GetComponent<Renderer>();
 								if (r != null) {
 									r.sortingLayerName = layerData.sortingLayerName;
 									r.sortingOrder = layerData.sortingOrder;

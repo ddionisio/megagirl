@@ -263,7 +263,7 @@ public class PlatformerController : RigidBodyController {
         if(mJumpInputDown != down) {
             mJumpInputDown = down;
 
-            if(!rigidbody.isKinematic) {
+            if(!GetComponent<Rigidbody>().isKinematic) {
                 if(mJumpInputDown) {
                     if(isUnderWater) {
                         mJumpingWall = false;
@@ -272,15 +272,15 @@ public class PlatformerController : RigidBodyController {
                     }
                     else if(canWallJump) {
 
-                        rigidbody.velocity = Vector3.zero;
+                        GetComponent<Rigidbody>().velocity = Vector3.zero;
                         mLockDrag = true;
-                        rigidbody.drag = airDrag;
+                        GetComponent<Rigidbody>().drag = airDrag;
 
                         Vector3 impulse = mWallStickCollInfo.normal * jumpWallImpulse;
                         impulse += dirHolder.up * jumpWallUpImpulse;
 
                         PrepJumpVel();
-                        rigidbody.AddForce(impulse, ForceMode.Impulse);
+                        GetComponent<Rigidbody>().AddForce(impulse, ForceMode.Impulse);
 
                         mJumpingWall = true;
                         mJump = true;
@@ -298,11 +298,11 @@ public class PlatformerController : RigidBodyController {
                     else if(forceJump || !isSlopSlide || slideAllowJump) {
                         if(forceJump || isGrounded || isSlopSlide || (mJumpCounter < jumpCounter && (Time.fixedTime - mLastGroundTime < jumpAirDelay || jumpDropAllow || mJumpCounter > 0))) {
                             mLockDrag = true;
-                            rigidbody.drag = airDrag;
+                            GetComponent<Rigidbody>().drag = airDrag;
 
                             PrepJumpVel();
 
-                            rigidbody.AddForce(dirHolder.up * jumpImpulse, ForceMode.Impulse);
+                            GetComponent<Rigidbody>().AddForce(dirHolder.up * jumpImpulse, ForceMode.Impulse);
 
                             mJumpCounter++;
                             mJumpingWall = false;
@@ -346,7 +346,7 @@ public class PlatformerController : RigidBodyController {
 
         //see if we are trying to move the opposite dir
         if(!ret) { //see if we are trying to move the opposite dir
-            Vector3 velDir = rigidbody.velocity.normalized;
+            Vector3 velDir = GetComponent<Rigidbody>().velocity.normalized;
             ret = Vector3.Dot(dir, velDir) < moveCosCheck;
         }
 
@@ -454,7 +454,7 @@ public class PlatformerController : RigidBodyController {
                             float yCap = WallStickCurrentDownCap();
                             if(newVel.y < -yCap) newVel.y = -yCap;
 
-                            rigidbody.velocity = dirHolder.rotation * newVel;
+                            GetComponent<Rigidbody>().velocity = dirHolder.rotation * newVel;
 
                             mWallStickWaitInput = true;
                         }
@@ -491,7 +491,7 @@ public class PlatformerController : RigidBodyController {
                         float yCap = WallStickCurrentDownCap();
                         if(newVel.y < -yCap) newVel.y = -yCap;
 
-                        rigidbody.velocity = dirHolder.rotation * newVel;
+                        GetComponent<Rigidbody>().velocity = dirHolder.rotation * newVel;
                     }
                 }
             }
@@ -566,7 +566,7 @@ public class PlatformerController : RigidBodyController {
 
     // Update is called once per frame
     protected override void FixedUpdate() {
-        Rigidbody body = rigidbody;
+        Rigidbody body = GetComponent<Rigidbody>();
         Quaternion dirRot = dirHolder.rotation;
 
         if(mMoveEnabled) {
@@ -735,7 +735,7 @@ public class PlatformerController : RigidBodyController {
             newVel.y = 0.0f; //cancel 'falling down'
 
         newVel = dirHolder.rotation * newVel;
-        rigidbody.velocity = newVel;
+        GetComponent<Rigidbody>().velocity = newVel;
     }
 
     void OnInputJump(InputManager.Info dat) {

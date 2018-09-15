@@ -229,7 +229,7 @@ public class EnemyBossBunnyShip : Enemy {
 
             default:
                 if(!mEyeFollowLocked) {
-                    Vector3 playerPos = mPlayer.collider.bounds.center;
+                    Vector3 playerPos = mPlayer.GetComponent<Collider>().bounds.center;
                     Vector3 pos = eye.position;
                     Vector3 dir = playerPos - pos; dir.z = 0; dir.Normalize();
                     eye.up = Vector3.SmoothDamp(eye.up, dir, ref mEyeCurVel, eyeFollowDelay, Mathf.Infinity, Time.deltaTime);

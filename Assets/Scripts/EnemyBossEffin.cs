@@ -212,7 +212,7 @@ public class EnemyBossEffin : Enemy {
             case Phase.FollowPath:
             case Phase.FollowPlayer:
             case Phase.MoveToWP:
-                rigidbody.MovePosition(mover.position);
+                GetComponent<Rigidbody>().MovePosition(mover.position);
                 break;
         }
     }
@@ -231,9 +231,9 @@ public class EnemyBossEffin : Enemy {
             anim.Play(clipAttack);
             yield return waitDelay;
 
-            Vector3 pos = collider.bounds.center; pos.z = 0;
+            Vector3 pos = GetComponent<Collider>().bounds.center; pos.z = 0;
 
-            Vector3 dir = mPlayer.collider.bounds.center - pos; 
+            Vector3 dir = mPlayer.GetComponent<Collider>().bounds.center - pos; 
             dir.z = 0;
             dir.Normalize();
 

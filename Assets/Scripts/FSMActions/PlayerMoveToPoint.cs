@@ -31,7 +31,7 @@ public class PlayerMoveToPoint : FsmStateAction {
             player.controller.moveSide = 0.0f;
 
             if(checkYDrop.Value) {
-                if(player.collider.bounds.center.y > t.position.y)
+                if(player.GetComponent<Collider>().bounds.center.y > t.position.y)
                     return;
             }
 
