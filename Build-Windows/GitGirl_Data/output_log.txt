@@ -1,0 +1,45 @@
+Initialize engine version: 4.5.5f1 (7684ad0c5a44)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 9.0c [nvd3dum.dll 10.18.13.5330]
+    Renderer: NVIDIA GeForce GTX 780 Ti 
+    Vendor:   NVIDIA
+    VRAM:     2981 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=0 INTZ=1 RAWZ=0 NULL=1 RESZ=0 SlowINTZ=0
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\ProBuilderCore.dll (this message is harmless)
+Loading C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\ProBuilderCore.dll into Unity Child Domain
+Platform assembly: C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\SixBySeven.dll (this message is harmless)
+Loading C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\SixBySeven.dll into Unity Child Domain
+Platform assembly: C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\HOTween.dll (this message is harmless)
+Loading C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\HOTween.dll into Unity Child Domain
+Platform assembly: C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\PlayMaker.dll (this message is harmless)
+Loading C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\PlayMaker.dll into Unity Child Domain
+- Completed reload, in  0.094 seconds
+<RI> Initializing input.
+<RI> Input initialized.
+desktop: 1920x1080 144Hz; virtual: 3600x1080 at 0,0
+Platform assembly: C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Lab\megagirl\Build-Windows\GitGirl_Data\Managed\System.dll (this message is harmless)
+UnloadTime: 0.164607 ms
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 1824.
+Total: 0.903679 ms (FindLiveObjects: 0.044287 ms CreateObjectMapping: 0.016127 ms MarkObjects: 0.592639 ms  DeleteObjects: 0.006911 ms)
+
+UnloadTime: 3.064831 ms
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 18 unused Assets to reduce memory usage. Loaded Objects now: 3722.
+Total: 1.893887 ms (FindLiveObjects: 0.068095 ms CreateObjectMapping: 0.025855 ms MarkObjects: 1.468927 ms  DeleteObjects: 0.102911 ms)
+
