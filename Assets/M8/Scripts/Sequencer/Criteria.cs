@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using fastJSON;
+using SimpleJSON;
 
 //general purpose criteria
 public abstract class Criteria {
@@ -65,11 +65,10 @@ public abstract class Criteria {
 	private Eval mEval = Eval.True;
 	
 	public static Criteria[] LoadCriterias(string data) {
-		JSON.Instance.Parameters.UseExtensions = true;
+        throw new System.NotImplementedException("Need JSON");
+		//List<Criteria> criterias = JSON.ToObject<List<Criteria>>(data);
 		
-		List<Criteria> criterias = JSON.Instance.ToObject<List<Criteria>>(data);
-		
-		return criterias.ToArray();
+		//return criterias.ToArray();
 	}
 	
 	public static bool EvaluateCriterias(Criteria[] criterias, Object param) {

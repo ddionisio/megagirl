@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 
 public class Achievement : MonoBehaviour {
     public enum Status {
@@ -164,8 +165,22 @@ public class Achievement : MonoBehaviour {
 
     void Awake() {
         if(mInstance == null) {
-            fastJSON.JSON.Instance.Parameters.UseExtensions = false;
-            mData = (fastJSON.JSON.Instance.ToObject<List<Data>>(config.text)).ToArray();
+            var dataList = new List<Data>();
+            var json = JSON.Parse(config.text).AsArray;
+            foreach(var node in json) {
+                var entryNode = node.Value;
+
+                int id = entryNode["id"].AsInt;
+                string title = entryNode["title"].Value;
+                string description = entryNode["description"].Value;
+                string imageRef = entryNode["imageRef"].Value;
+                int points = entryNode["points"].AsInt;
+                int progress = entryNode["progress"].AsInt;
+                bool hidden = entryNode["hidden"].AsBool;
+
+                dataList.Add(new Data() { id=id, title=title, description=description, imageRef=imageRef, points=points, progress=progress, hidden=hidden });
+            }
+            mData = dataList.ToArray();
 
             mProcessUpdates = new Queue<Achievement.DataProcess>(mData.Length);
             mProcessPopUps = new Queue<DataProcess>(mData.Length);

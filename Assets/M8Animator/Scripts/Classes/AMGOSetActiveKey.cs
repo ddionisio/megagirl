@@ -12,6 +12,10 @@ public class AMPlugGOActive : ABSTweenPlugin {
 
     private bool eVal;
 
+    protected override void SetIncrementalRestart() {
+        
+    }
+
     protected override object startVal { get { return _startVal; } set { _startVal = value; } }
 
     protected override object endVal { get { return _endVal; } set { _endVal = value; } }

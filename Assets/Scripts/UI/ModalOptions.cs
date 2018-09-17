@@ -33,8 +33,13 @@ public class ModalOptions : UIController {
                 UICamera.selectedObject = music.gameObject;
             }
 
-            if(graphics)
+            if(graphics) {
+#if UNITY_WEBGL
+                UILabel a = graphics.GetComponentInChildren<UILabel>(true);
+                if(a) a.text = "FULLSCREEN";
+#endif
                 graphics.onClick = OnGraphicsClick;
+            }
 
             //music.onClick = OnMusicClick;
             //sound.onClick = OnSoundClick;
@@ -81,7 +86,11 @@ public class ModalOptions : UIController {
     }
 
     void OnGraphicsClick(GameObject go) {
+#if UNITY_WEBGL
+        Screen.fullScreen = !Screen.fullScreen;
+#else
         UIModalManager.instance.ModalOpen("graphics");
+#endif
     }
 
     void OnSoundClick(GameObject go) {

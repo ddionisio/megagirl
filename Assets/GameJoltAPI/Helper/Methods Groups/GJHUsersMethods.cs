@@ -41,7 +41,7 @@ public class GJHUsersMethods
 	/// </param>
 	public void GetFromWeb (Action<string,string> onComplete)
 	{
-		#if UNITY_WEBPLAYER
+		#if UNITY_WEBGL
 		getFromWebCallback = onComplete;
 		Application.ExternalCall ("GJAPI_AuthUser", GJAPIHelper.Instance.gameObject.name, "OnGetUserFromWeb");
 		#else
